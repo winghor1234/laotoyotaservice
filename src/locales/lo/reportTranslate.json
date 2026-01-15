@@ -1,0 +1,14 @@
+{
+  "report_title": "ລາຍງານລະບົບ",
+  "users": "ຜູ້ໃຊ້",
+  "booking": "ການນັດໝາຍ",
+  "fix_service": "ບໍລິການສ້ອມແປງ",
+  "cars": "ຂໍ້ມູນລົດ",
+  "booking_by_month": "ລາຍງານການນັດໝາຍຕາມເດືອນ",
+  "fix_revenue": "ລາຍງານລາຍຮັບການສ້ອມແປງ",
+  "export": "ດາວໂຫລດ",
+  "total_income": "ລາຍຮັບທັງຫມົດ",
+  "currency": "ກີບ",
+  "booking_count": "ການນັດໝາຍທັງຫມົດ",
+  "times_count": "ຄັ້ງ"
+}

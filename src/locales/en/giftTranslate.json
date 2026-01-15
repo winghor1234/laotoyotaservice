@@ -1,0 +1,23 @@
+{
+  "add_gift": "Add Gift Data",
+  "gift_name": "Gift Name",
+  "point": "Point",
+  "no_image": "No Image",
+  "cancel": "Cancel",
+  "submit": "Submit",
+  "upload_image": "Upload Image",
+  "cancel_add_alert": "Cancelled adding data",
+  "edit_gift": "Edit Gift",
+  "cancel_edit_alert": "Cancelled editing gift",
+  "search_placeholder": "Search gift...",
+  "add_reward_button": "Add",
+  "serial": "No.",
+  "customer_name": "Customer Name",
+  "image": "Image",
+  "amount": "Amount",
+  "actions": "Actions",
+  "delete_confirm_title": "Are you sure to delete this gift?",
+  "delete_success_title": "Gift deleted successfully",
+  "gift_data": "Gift",
+  "gift_history": "History"
+}

@@ -1,0 +1,23 @@
+{
+  "add_promotion": "Add Promotion",
+  "promotion_title": "Promotion Name...",
+  "promotion_detail": "Detail...",
+  "no_image": "No Image",
+  "cancel_add": "Cancel Add",
+  "cancel": "Cancel",
+  "submit": "Submit",
+  "no_data": "No promotion data found",
+  "loading_data": "Loading data...",
+  "edit_promotion": "Edit Promotion",
+  "cancel_edit_alert": "Promotion edit cancelled",
+  "add": "Add",
+  "delete_confirm": "Do you want to delete this promotion?",
+  "delete_success": "Promotion deleted successfully",
+  "delete_error": "Failed to delete promotion",
+  "search_placeholder": "Search...",
+  "index": "No.",
+  "image": "Image",
+  "title": "Title",
+  "detail": "Detail",
+  "action": "Action"
+}

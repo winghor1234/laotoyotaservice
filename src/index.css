@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+* {
+    font-family: 'Noto Sans Lao', sans-serif;
+}
+
+@theme {
+    --black: #000000;
+    --white: #FFFFFF;
+    --red: #E52020;
+    --bgColor: #F1F1F1;
+    --green: #0FDC05;
+    --yellow: #FECE0C;
+    --blue: #0006BE;
+    --gray: #D9D9D9;
+
+}
+
+

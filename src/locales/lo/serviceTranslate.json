@@ -1,0 +1,34 @@
+{
+  "add_service_title": "ເພີ່ມການສ້ອມແປງ",
+  "service_description": "ລາຍລະອຽດ",
+  "no_image": "ບໍ່ມີຮູບພາບ",
+  "cancel_add_service": "ຍົກເລີກການເພີ່ມບໍລິການ",
+  "cancel": "ຍົກເລີກ",
+  "submit": "ຕົກລົງ",
+  "loading_service": "ກຳລັງໂຫຼດຂໍ້ມູນບໍລິການ...",
+  "service_not_found": "ບໍ່ພົບຂໍ້ມູນບໍລິການ",
+  "back": "ກັບໄປຫນ້າກ່ອນ",
+  "service_detail": "ລາຍລະອຽດບໍລິການ",
+  "service_info": "ຂໍ້ມູນບໍລິການ",
+  "name": "ຊື່",
+  "description": "ລາຍລະອຽດ",
+  "edit_service": "ແກ້ໄຂການບໍລິການ",
+  "service_name": "ຊື່ສ້ອມແປງ",
+  "cancel_edit": "ຍົກເລີກການແກ້ໄຂ",
+  "search_placeholder": "ຄົ້ນຫາບໍລິການ...",
+  "reset": "ຢືນຢັນຄືນ",
+  "add": "ເພີ່ມ",
+  "confirm_delete_service": "ທ່ານຕ້ອງການລົບຂໍ້ມູນນີ້ບໍ?",
+  "deleted_success": "ລົບຂໍ້ມູນສຳເລັດ",
+  "table": {
+    "index": "ລຳດັບ",
+    "image": "ຮູບພາບ",
+    "name": "ຊື່ສ້ອມແປງ",
+    "detail": "ລາຍລະອຽດ",
+    "action": "ດຳເນີນການ"
+  },
+  "buttons": {
+    "service_info": "ຂໍ້ມູນບໍລິການ",
+    "history": "ປະຫວັດ"
+  }
+}

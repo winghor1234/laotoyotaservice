@@ -1,0 +1,26 @@
+{
+    "employee_code": "Employee Code",
+    "employee_name": "Employee Name",
+    "employee_position": "Employee Position",
+    "employee_detail": "Employee Detail",
+    "position": "Position",
+    "department": "Department",
+    "email": "Email",
+    "phone": "Phone Number",
+    "search_placeholder": "Search employee...",
+    "index": "No.",
+    "image": "Image",
+    "name": "Name",
+    "detail": "Detail",
+    "action": "Action",
+    "edit_employee": "Edit Employee",
+    "delete_employee": "Delete Employee",
+    "delete_confirm_title": "Are you sure to delete this employee?",
+    "delete_success_title": "Employee deleted successfully",
+    "add_employee": "Add Employee",
+    "cancel_add_alert": "Cancelled adding data",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "min_length_2": "Must be at least 2 characters"
+
+}

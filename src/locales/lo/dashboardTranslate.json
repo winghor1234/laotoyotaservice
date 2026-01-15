@@ -1,0 +1,23 @@
+{
+  "customer_info": "ຂໍ້ມູນລູກຄ້າ",
+  "service_total": "ຍອດບໍລິການ",
+  "promotion_info": "ຂໍ້ມູນໂປໂມຊັນ",
+  "gift": "ລາງວັນ",
+  "car_info": "ຂໍ້ມູນລົດ",
+  "servicing_info": "ຂໍ້ມູນບໍລິການ",
+  "zone_time": "ຈັດການໂຊນ/ເວລາ",
+  "user_permission": "ສິດເຂົ້າໃຊ້",
+  "all_users": "ຜູ້ໃຊ້ທັງໝົດ",
+  "monthly_user": "ຜູ້ໃຊ້ງານເດືອນນີ້ {{count}} ຄົນ, ສູງກວ່າເດືອນກ່ອນ ",
+  "income": "ລາຍໄດ້ຈາກການສ້ອມແປງ",
+  "view_history": "ເບິ່ງຍ້ອນຫຼັງ",
+  "latest_booking": "ການນັດໝາຍລ້າສຸດ",
+  "approve_status": "ລໍອະນຸມັດ",
+  "user": "ຜູ້ໃຊ້",
+  "phone": "ເບີໂທ",
+  "plate": "ປ້າຍທະບຽນ",
+  "date": "ວັນທີ",
+  "time": "ເວລາ",
+  "total_income": "ລາຍຮັບທັງຫມົດ",
+  "currency": "ກີບ"
+}

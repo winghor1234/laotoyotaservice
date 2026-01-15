@@ -1,0 +1,23 @@
+{
+  "add_promotion": "ເພີ່ມການສ້ອມແປງ",
+  "promotion_title": "ຊື່ໂປຣໂມຊັ່ນ...",
+  "promotion_detail": "ລາຍລະອຽດ...",
+  "no_image": "ບໍ່ມີຮູບພາບ",
+  "cancel_add": "ຍົກເລີກການເພີ່ມ",
+  "cancel": "ຍົກເລີກ",
+  "submit": "ຕົກລົງ",
+  "loading_data": "ກຳລັງໂຫຼດຂໍ້ມູນ...",
+  "edit_promotion": "ແກ້ໄຂໂປຣໂມຊັ່ນ",
+  "cancel_edit_alert": "ຍົກເລີກການແກ້ໄຂຂໍ້ມູນ",
+  "add": "ເພີ່ມ",
+  "no_data": "ບໍ່ພົບຂໍ້ມູນ",
+  "delete_confirm": "ທ່ານຕ້ອງການລົບຂໍໍ້ມູນນີ້ບໍ?",
+  "delete_success": "ລົບຂໍໍ້ມູນສຳເລັດ",
+  "delete_error": "ລົບຂໍໍ້ມູນບໍ່ສຳເລັດ",
+  "search_placeholder": "ຄົ້ນຫາ...",
+  "index": "ລຳດັບ",
+  "image": "ຮູບພາບ",
+  "title": "ຊື່",
+  "detail": "ລາຍລະອຽດ",
+  "action": "ດຳເນີນການ"
+}

@@ -1,0 +1,23 @@
+{
+  "add_gift": "ເພີ່ມຂໍ້ມູນລາງວັນ",
+  "gift_name": "ຊື່ລັງວັນ",
+  "point": "ຄະແນນ",
+  "no_image": "ບໍ່ມີຮູບພາບ",
+  "cancel": "ຍົກເລີກ",
+  "submit": "ຕົກລົງ",
+  "upload_image": "ເລືອກຮູບພາບ",
+  "cancel_add_alert": "ຍົກເລີກການເພີ່ມຂໍ້ມູນ",
+  "edit_gift": "ແກ້ໄຂຂໍ້ມູນລາງວັນ",
+  "cancel_edit_alert": "ຍົກເລີກການແກ້ໄຂ",
+  "search_placeholder": "ຄົ້ນຫາລາງວັນ...",
+  "add_reward_button": "ເພີ່ມ",
+  "customer_name": "ຊື່ລູກຄ້າ",
+  "serial": "ລຳດັບ",
+  "image": "ຮູບພາບ",
+  "amount": "ຈໍານວນ",
+  "actions": "ດຳເນີນການ",
+  "delete_confirm_title": "ວ່າຈະລົບຂໍ້ມູນລາງວັນນີ້ບໍ່?",
+  "delete_success_title": "ລົບຂໍ້ມູນລາງວັນສຳເລັດ",
+  "gift_data": "ຂໍ້ມູນລາງວັນ",
+  "gift_history": "ປະຫວັດ"
+}

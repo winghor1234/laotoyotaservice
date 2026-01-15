@@ -1,0 +1,23 @@
+{
+  "customer_info": "Customer Info",
+  "service_total": "Total Services",
+  "promotion_info": "Promotion Info",
+  "gift": "Gifts",
+  "car_info": "Car Info",
+  "servicing_info": "Servicing Info",
+  "zone_time": "Zone/Time Management",
+  "user_permission": "User Permission",
+  "all_users": "All Users",
+  "monthly_user": "Users this month {{count}}, higher than last month 0%",
+  "income": "Income from Repairs",
+  "view_history": "View History",
+  "latest_booking": "Latest Bookings",
+  "approve_status": "Awaiting Approval",
+  "user": "User",
+  "phone": "Phone",
+  "plate": "Plate",
+  "date": "Date",
+  "time": "Time",
+  "total_income": "Total Income",
+  "currency": "KIP"
+}
