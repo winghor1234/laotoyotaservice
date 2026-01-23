@@ -132,8 +132,8 @@ const ServiceList = () => {
                                     />
                                 )}
                             </div>
-                            <div className="text-center">{item.serviceName}</div>
-                            <div className="text-center">{item.description}</div>
+                            <div className="text-center line-clamp-1">{item.serviceName}</div>
+                            <div className="text-center line-clamp-2 ">{item.description}</div>
                             <div className="flex justify-center gap-4">
                                 <Eye />
                                 <Edit
@@ -167,10 +167,10 @@ const ServiceList = () => {
                                     <Car className="text-gray-600 w-6 h-6" />
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className="font-semibold text-base text-gray-900">
+                                    <h3 className="font-semibold text-base text-gray-900 line-clamp-1">
                                         {item.serviceName}
                                     </h3>
-                                    <p className="text-gray-600 text-sm">{item.description}</p>
+                                    <p className="text-gray-600 line-clamp-2 text-sm">{item.description}</p>
                                 </div>
                             </div>
                             <div className="flex justify-end gap-4 text-gray-600">

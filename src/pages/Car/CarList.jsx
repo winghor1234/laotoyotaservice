@@ -124,13 +124,12 @@ const CarList = () => {
           {filteredCar?.map((item, index) => (
             <div key={index} className="grid grid-cols-8 gap-1 px-3 py-3 items-center hover:bg-gray-50">
               <div className="flex justify-center">{index + 1}</div>
-              <div className="flex justify-center">{item.model}</div>
-              <div className="flex justify-center">{item.plateNumber}</div>
-                <div className="flex justify-center">{item.color}</div>
-              <div className="flex justify-center">{item.engineNumber}</div>
-              <div className="flex justify-center">{item.frameNumber}</div>
-              <div className="flex justify-center">{item.province}</div>
-            
+              <div className="text-center line-clamp-1 ">{item.model}</div>
+              <div className="text-center line-clamp-1">{item.plateNumber}</div>
+                <div className="text-center line-clamp-1">{item.color}</div>
+              <div className="text-center line-clamp-1">{item.engineNumber}</div>
+              <div className="text-center line-clamp-1">{item.frameNumber}</div>
+              <div className="text-center line-clamp-1">{item.province}</div>
               <div className="flex justify-center gap-6">
                 <Edit className="cursor-pointer" onClick={() => { setShowEditCarForm(true); setCarId(item.car_id); }} />
                 <Trash onClick={() => handleDelete(item.car_id)} className="cursor-pointer" />
@@ -148,8 +147,8 @@ const CarList = () => {
                   <Car className="text-gray-600 w-6 h-6" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-lg text-gray-900">{item.model}</h3>
-                  <p className="text-gray-600 text-base">{item.plateNumber}</p>
+                  <h3 className="font-semibold text-lg text-gray-900 line-clamp-1">{item.model}</h3>
+                  <p className="text-gray-600 text-base line-clamp-1">{item.plateNumber}</p>
                 </div>
               </div>
               <div className="grid gap-2 text-base">

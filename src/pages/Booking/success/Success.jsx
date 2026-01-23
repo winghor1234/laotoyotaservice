@@ -111,13 +111,13 @@ const Success = () => {
                                 <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-gray-200 rounded-full flex items-center justify-center">
                                     <img src={logo} alt="success" className="h-full w-full object-contain" />
                                 </div>
-                                <span>{item?.car?.model}</span>
+                                <span className="line-clamp-1">{item?.car?.model}</span>
                             </div>
-                            <div className="text-center">{item?.user?.username}</div>
-                            <div className="text-center">{item?.user?.phoneNumber}</div>
-                            <div className="text-center">{item?.car?.plateNumber}</div>
-                            <div className="text-center">{item?.time?.date}</div>
-                            <div className="text-center">{item?.time?.time}</div>
+                            <div className="text-center line-clamp-1">{item?.user?.username}</div>
+                            <div className="text-center line-clamp-1">{item?.user?.phoneNumber}</div>
+                            <div className="text-center line-clamp-1">{item?.car?.plateNumber}</div>
+                            <div className="text-center line-clamp-1">{item?.time?.date}</div>
+                            <div className="text-center line-clamp-1">{item?.time?.time}</div>
                         </div>
                     ))}
                 </div>
@@ -141,20 +141,20 @@ const Success = () => {
                             </div>
                             <div className="grid grid-cols-1 gap-2 text-sm">
                                 <div className="flex justify-between">
-                                    <span className="text-gray-500">{t("phone")}:</span>
-                                    <span className="text-gray-900">{item?.user?.phoneNumber}</span>
+                                    <span className="text-gray-500 line-clamp-1">{t("phone")}:</span>
+                                    <span className="text-gray-900 line-clamp-1">{item?.user?.phoneNumber}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-500">{t("plate")}:</span>
-                                    <span className="text-gray-900">{item?.car?.plateNumber}</span>
+                                    <span className="text-gray-500 line-clamp-1">{t("plate")}:</span>
+                                    <span className="text-gray-900 line-clamp-1">{item?.car?.plateNumber}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-500">{t("date_label")}:</span>
-                                    <span className="text-gray-900">{item?.time?.date}</span>
+                                    <span className="text-gray-500 line-clamp-1">{t("date_label")}:</span>
+                                    <span className="text-gray-900 line-clamp-1">{item?.time?.date}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-500">{t("time_label")}:</span>
-                                    <span className="text-gray-900">{item?.time?.time}</span>
+                                    <span className="text-gray-500 line-clamp-1">{t("time_label")}:</span>
+                                    <span className="text-gray-900 line-clamp-1">{item?.time?.time}</span>
                                 </div>
                             </div>
                         </div>

@@ -22,8 +22,7 @@ export const useAddPromotionForm = ({onClose, handleFetchPromotion}) => {
     resolver: zodResolver(promoSchema(t))
   });
 
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = form;
-  const imageFile = watch("image"); // watch image for preview
+  const { register, handleSubmit, setValue, control, formState: { errors } } = form;
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -52,5 +51,6 @@ export const useAddPromotionForm = ({onClose, handleFetchPromotion}) => {
     }
   };
 
-  return {register,handleSubmit,setValue,errors,imageFile,loading,onSubmit};
+  return {register,handleSubmit,control,loading,onSubmit, formState: { errors }};
 };
+  

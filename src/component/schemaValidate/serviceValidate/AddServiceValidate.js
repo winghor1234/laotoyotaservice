@@ -20,10 +20,9 @@ const serviceSchema = (t) => z.object({
 
 export const useAddServiceForm = ({ onClose, handleFetch }) => {
     const { t } = useTranslation("auth");
-    const { register, handleSubmit, setValue, watch, formState: { errors }, } = useForm({ resolver: zodResolver(serviceSchema(t)), });
+    const { register, handleSubmit, setValue, formState: { errors }, control } = useForm({ resolver: zodResolver(serviceSchema(t)), });
     const [loading, setLoading] = useState(false);
-    // watch image
-    const imageFile = watch("image");
+
 
     const submitForm = async (data) => {
         setLoading(true);
@@ -31,8 +30,10 @@ export const useAddServiceForm = ({ onClose, handleFetch }) => {
             const dataForm = new FormData();
             dataForm.append("serviceName", data.nameService);
             dataForm.append("description", data.description);
-            if (data.image instanceof File) dataForm.append("files", data.image);
-
+            // if (data.image instanceof File) dataForm.append("files", data.image);
+             if (data.image && data.image[0] instanceof File) {
+                dataForm.append("files", data.image[0]);
+            }
             await axiosInstance.post(APIPath.CREATE_SERVICE, dataForm);
             SuccessAlert(t("add_success"));
             handleFetch();
@@ -50,5 +51,5 @@ export const useAddServiceForm = ({ onClose, handleFetch }) => {
     };
 
 
-    return { register, handleSubmit, submitForm, imageFile, formState: { errors }, loading, setValue };
+    return { register, handleSubmit, submitForm,  formState: { errors }, loading, control  };
 }

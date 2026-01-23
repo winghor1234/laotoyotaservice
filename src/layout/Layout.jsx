@@ -21,18 +21,22 @@ const Layout = () => {
 
 
   return (
-    <div className=" flex  bg-[#E2E8F0] relative overflow-auto ">
+    <div className="flex h-screen bg-[#E2E8F0] overflow-hidden">
+      {/* Sidebar */}
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-      <div className="flex-1 flex flex-col lg:ml-0">
+      {/* Right side */}
+      <div className="flex flex-col flex-1 min-w-0">
+        {/* Header (ไม่ scroll) */}
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-        {/* Main Content Area */}
-        <main className="flex-1 p-2 lg:p-4 overflow-auto scroll-hide">
-          <Outlet/>
+        {/* Content ที่ scroll ได้ */}
+        <main className="flex-1 overflow-y-auto p-2 lg:p-4 scroll-hide">
+          <Outlet />
         </main>
       </div>
     </div>
+
   );
 };
 

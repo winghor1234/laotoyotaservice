@@ -1,12 +1,13 @@
-import { Wrench, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import Spinner from "../../../utils/Loading";
 import { useEditForm } from "../../../component/schemaValidate/giftValidate.js/EditGiftValidate";
+import { Controller } from "react-hook-form";
+import ImageUpload from "../../../utils/imageUpload";
 
 const EditGift = ({ show, onClose, giftId, handleFetch }) => {
   const { t } = useTranslation('gift');
-  const { register, handleSubmit, errors, submitForm, loading, setValue, previewImage, setPreviewImage } = useEditForm({ onClose, handleFetch, giftId });
+  const { register, handleSubmit, errors, submitForm, loading,  control } = useEditForm({ onClose, handleFetch, giftId });
 
   if (!show) return null;
 
@@ -42,46 +43,17 @@ const EditGift = ({ show, onClose, giftId, handleFetch }) => {
           </div>
 
           {/* Image preview */}
-          <div className="mb-2">
-            {previewImage ? (
-              <div className="relative shadow-2xl h-56 w-72 flex items-center justify-center">
-                <img
-                  src={previewImage instanceof File ? URL.createObjectURL(previewImage) : previewImage}
-                  alt="gift"
-                  className="w-full h-full object-contain rounded-lg"
-                />
-                <button
-                  type="button"
-                  onClick={() => setPreviewImage(null)}
-                  className="bg-red-500 text-white absolute top-1 right-1 px-2 py-1 rounded-lg text-sm hover:bg-red-600"
-                >
-                  <X />
-                </button>
-              </div>
-            ) : (
-              <div className="h-56 w-72 flex items-center justify-center shadow-2xl">
-                <h1 className="text-gray-500 font-extrabold text-2xl">{t("no_image")}</h1>
-              </div>
+          <Controller
+            name="image"
+            control={control}
+            render={({ field }) => (
+              <ImageUpload
+                value={field.value}
+                onChange={field.onChange}
+                error={errors.image?.message}
+              />
             )}
-          </div>
-          <div className="h-6">{errors.image && <p className="text-red-500">{errors.image.message}</p>}</div>
-
-          {/* File upload */}
-          <div className="border border-gray-300 rounded-lg flex items-center gap-2 px-2 py-1">
-            <Wrench className="text-gray-400 w-5 h-5" />
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (file) {
-                  setValue("image", file);
-                  setPreviewImage(file);
-                }
-              }}
-              className="w-full py-1 px-2 text-sm outline-none"
-            />
-          </div>
+          />
 
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row justify-center gap-3 pt-3">

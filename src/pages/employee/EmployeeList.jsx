@@ -119,8 +119,8 @@ const EmployeeList = () => {
                             </div>
                             <div className="flex gap-3">
                                 <div className="flex-1 min-w-0">
-                                    <h3 className="font-medium text-gray-900 truncate mb-1">{item.employee_name}</h3>
-                                    <p className="text-sm text-gray-600 mt-1">{item.position}</p>
+                                    <h3 className="font-medium text-gray-900 line-clamp-2 mb-1">{item.employee_name}</h3>
+                                    <p className="text-sm text-gray-600 mt-1 line-clamp-2">{item.position}</p>
                                 </div>
                             </div>
                         </div>
@@ -151,16 +151,16 @@ const EmployeeList = () => {
                                     key={item.employee_id || index}
                                     className="grid grid-cols-6 gap-3 md:gap-4 px-2 md:px-3 lg:px-4 py-2 md:py-3 lg:py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors"
                                 >
-                                    <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                    <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2">
                                         {index + 1}
                                     </div>
-                                    <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                    <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2">
                                         {item.employee_code}
                                     </div>
-                                    <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                    <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2">
                                         {item.employee_name}
                                     </div>
-                                    <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                    <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2">
                                         {item.position}
                                     </div>
                                     <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-3 md:gap-6">

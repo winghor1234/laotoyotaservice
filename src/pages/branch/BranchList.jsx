@@ -126,9 +126,9 @@ const BranchList = () => {
                                     />
                                 )} */}
                                 <div className="flex-1 min-w-0">
-                                    <h3 className="font-medium text-gray-900 truncate mb-1">{item.branch_name}</h3>
+                                    <h3 className="font-medium text-gray-900 line-clamp-1 mb-1">{item.branch_name}</h3>
                                     <p className="text-sm text-gray-600 line-clamp-2">{item.location}</p>
-                                    <p className="text-sm text-gray-600 mt-1">{item.phone}</p>
+                                    <p className="text-sm text-gray-600 mt-1 line-clamp-1">{item.phone}</p>
                                 </div>
                             </div>
                         </div>
@@ -140,12 +140,12 @@ const BranchList = () => {
             <div className="hidden md:block bg-white rounded-lg shadow-sm overflow-hidden w-full">
                 <div className="w-full h-10 md:h-12 lg:h-14 bg-[#E52020] text-white">
                     <div className="grid grid-cols-6 gap-3 md:gap-8 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-sm md:text-sm lg:text-base">
-                        <div className="flex justify-center items-center">{t("index")}</div>
-                        <div className="flex justify-center items-center">{t("branch_code")}</div>
-                        <div className="flex justify-center items-center">{t("branch_name")}</div>
-                        <div className="flex justify-center items-center">{t("location")}</div>
-                        <div className="flex justify-center items-center">{t("phone")}</div>
-                        <div className="flex justify-center items-center">{t("action")}</div>
+                        <div className="text-center line-clamp-1">{t("index")}</div>
+                        <div className="text-center line-clamp-1">{t("branch_code")}</div>
+                        <div className="text-center line-clamp-1">{t("branch_name")}</div>
+                        <div className="text-center line-clamp-2">{t("location")}</div>
+                        <div className="text-center line-clamp-1">{t("phone")}</div>
+                        <div className="text-center line-clamp-1">{t("action")}</div>
                     </div>
                 </div>
                 <div className="divide-y divide-gray-200 max-h-[400px] overflow-y-auto">
@@ -173,13 +173,13 @@ const BranchList = () => {
                                             />
                                         )} */}
                                     </div>
-                                    <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                    <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-1">
                                         {item.branch_name}
                                     </div>
-                                    <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                    <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2">
                                         {item.location}
                                     </div>
-                                    <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                    <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-1">
                                         {item.phone}
                                     </div>
                                     <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-3 md:gap-6">

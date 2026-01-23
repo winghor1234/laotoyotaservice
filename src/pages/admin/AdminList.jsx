@@ -104,11 +104,7 @@ const AdminList = () => {
       <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
         <div className="grid grid-cols-6 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
           <div className="text-center">{t("table.index")}</div>
-          {/* <div className="text-center">{t("table.code")}</div> */}
           <div className="text-center">{t("table.admin_name")}</div>
-          {/* <div className="text-center">{t("table.village")}</div> */}
-          {/* <div className="text-center">{t("table.district")}</div> */}
-          {/* <div className="text-center">{t("table.province")}</div> */}
           <div className="text-center">{t("table.status")}</div>
           <div className="text-center">{t("table.email")}</div>
           <div className="text-center">{t("table.phone")}</div>
@@ -123,18 +119,14 @@ const AdminList = () => {
             key={index}
             className="grid grid-cols-6 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors text-xs md:text-sm lg:text-base"
           >
-            <div className="text-center">{index + 1}</div>
-            {/* <div className="text-center">{item.customer_number}</div> */}
-            <div className="text-center">{item.username}</div>
-            {/* <div className="text-center">{item.village}</div> */}
-            {/* <div className="text-center">{item.district}</div> */}
-            {/* <div className="text-center">{item.province}</div> */}
-            <div className="text-center">{item.role}</div>
-            <div className="wrap-anywhere text-center">
+            <div className="text-center line-clamp-1">{index + 1}</div>
+            <div className="text-center line-clamp-1">{item.username}</div>
+            <div className="text-center line-clamp-1">{item.role}</div>
+            <div className="wrap-anywhere text-center line-clamp-1">
               {item.email ? (
                 <a
                   href={`mailto:${item.email}`}
-                  className="text-blue-500 hover:underline"
+                  className="text-blue-500 hover:underline line-clamp-1"
                 >
                   {item.email}
                 </a>
@@ -142,7 +134,7 @@ const AdminList = () => {
                 "-"
               )}
             </div>
-            <div className="text-center">{item.phoneNumber}</div>
+            <div className="text-center line-clamp-1">{item.phoneNumber}</div>
             <div className="text-center flex justify-center items-center gap-4">
               <Edit
                 className={`cursor-pointer `}
@@ -178,10 +170,10 @@ const AdminList = () => {
                 <Car className="text-gray-600 w-6 h-6" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-base text-gray-900">
+                <h3 className="font-semibold text-base text-gray-900 line-clamp-1">
                   {item.username}
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p className="text-gray-600 text-sm line-clamp-1">
                   {item.customer_number}
                 </p>
               </div>
@@ -189,23 +181,23 @@ const AdminList = () => {
             <div className="grid grid-cols-1 gap-2 text-sm">
               <div className="flex justify-between py-1">
                 <span className="text-gray-500 font-medium">{t("table.phone")}:</span>
-                <span className="text-gray-900">{item.phoneNumber}</span>
+                <span className="text-gray-900 line-clamp-1">{item.phoneNumber}</span>
               </div>
               <div className="flex justify-between py-1">
                 <span className="text-gray-500 font-medium">{t("table.village")}:</span>
-                <span className="text-gray-900">{item.village}</span>
+                <span className="text-gray-900 line-clamp-1">{item.village}</span>
               </div>
               <div className="flex justify-between py-1">
                 <span className="text-gray-500 font-medium">{t("table.district")}:</span>
-                <span className="text-gray-900">{item.district}</span>
+                <span className="text-gray-900 line-clamp-1">{item.district}</span>
               </div>
               <div className="flex justify-between py-1">
                 <span className="text-gray-500 font-medium">{t("table.province")}:</span>
-                <span className="text-gray-900">{item.province}</span>
+                <span className="text-gray-900 line-clamp-1">{item.province}</span>
               </div>
               <div className="flex justify-between py-1">
-                <span className="text-gray-500 font-medium">{t("table.email")}:</span>
-                <span className="text-blue-500">
+                <span className="text-gray-500 font-medium line-clamp-1">{t("table.email")}:</span>
+                <span className="text-blue-500 line-clamp-1">
                   {item.email || "-"}
                 </span>
               </div>

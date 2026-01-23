@@ -52,7 +52,8 @@
   "add_success": "Add successfully",
   "add_failed": "Add failed",
   "update_failed": "Update failed",
-  "login_failed": "Only admin can login"
+  "login_failed": "Only admin can login",
+  "logging_in": "Logging in..."
 
 
 }

@@ -1,12 +1,13 @@
-import { Wrench, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import Spinner from "../../../utils/Loading";
 import { useAddGiftForm } from "../../../component/schemaValidate/giftValidate.js/AddGiftValidate";
+import { Controller } from "react-hook-form";
+import ImageUpload from "../../../utils/imageUpload";
 
 const AddGift = ({ show, onClose, handleFetch }) => {
   const { t } = useTranslation("gift");
-  const { register, handleSubmit, formState: { errors }, submitForm, loading, imageFile, setValue } = useAddGiftForm({ onClose, handleFetch });
+  const { register, handleSubmit, formState: { errors }, submitForm, loading, control } = useAddGiftForm({ onClose, handleFetch });
 
   if (!show) return null;
 
@@ -50,7 +51,7 @@ const AddGift = ({ show, onClose, handleFetch }) => {
           </div>
 
           {/* Image preview */}
-          <div className="mb-2">
+          {/* <div className="mb-2">
             {imageFile && imageFile[0] instanceof File ? (
               <div className="relative shadow-2xl h-56 w-72 mb-2 flex items-center justify-center gap-2">
                 <img
@@ -60,7 +61,8 @@ const AddGift = ({ show, onClose, handleFetch }) => {
                 />
                 <button
                   type="button"
-                  onClick={() => setValue({ image: null })}
+                  // onClick={() => setValue({ image: null })}
+                  onClick={() => setValue("image", null)}
                   className="bg-red-500 text-white cursor-pointer absolute top-1 right-1 px-2 py-1 rounded-lg text-sm hover:bg-red-600"
                 >
                   <X />
@@ -72,10 +74,10 @@ const AddGift = ({ show, onClose, handleFetch }) => {
               </div>
             )}
             <div className="h-8 flex items-center">{errors.image && <p className="text-red-500">{errors.image.message}</p>}</div>
-          </div>
+          </div> */}
 
           {/* File upload */}
-          <div className="border border-gray-300 rounded-lg flex items-center gap-2 px-2 py-1">
+          {/* <div className="border border-gray-300 rounded-lg flex items-center gap-2 px-2 py-1">
             <Wrench className="text-gray-400 w-5 h-5 sm:w-6 sm:h-6" />
             <input
               type="file"
@@ -83,7 +85,47 @@ const AddGift = ({ show, onClose, handleFetch }) => {
               onChange={(e) => setValue("image", e.target.files)}
               className="w-full py-1 sm:py-2 px-2 sm:px-3 text-sm sm:text-base outline-none"
             />
-          </div>
+          </div> */}
+          {/* <div
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            className={`border-2 border-dashed rounded-lg flex flex-col items-center justify-center gap-2 px-4 py-6 cursor-pointer transition ${isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300"}`}
+          >
+            <Wrench className="text-gray-400 w-6 h-6" />
+            <p className="text-sm text-gray-500">
+              ลากรูปมาวางที่นี่ หรือคลิกเพื่อเลือกไฟล์
+            </p>
+
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setValue("image", e.target.files)}
+              className="hidden"
+              id="fileUpload"
+            />
+
+            <label
+              htmlFor="fileUpload"
+              className="text-blue-600 text-sm underline cursor-pointer"
+            >
+              เลือกรูปภาพ
+            </label>
+          </div> */}
+
+          <Controller
+            name="image"
+            control={control}
+            render={({ field }) => (
+              <ImageUpload
+                value={field.value}
+                onChange={field.onChange}
+                error={errors.image?.message}
+              />
+            )}
+          />
+
+
 
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-3">

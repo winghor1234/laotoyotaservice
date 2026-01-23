@@ -70,7 +70,7 @@ const TimeList = () => {
     return (
         <div>
             {/* Top Controls */}
-            <div className="flex flex-col sm:flex-row lg:flex-row lg:items-center gap-4 lg:gap-6 mb-6">
+            <div className=" flex flex-col sm:flex-row md:flex-row lg:flex-row justify-center items-center gap-4 sm:gap-5 md:gap-6 mb-4 sm:mb-5 md:mb-6 p-3 sm:p-4 md:p-5 lg:p-6 rounded-lg">
                 <SelectDate
                     onSearch={setSearch}
                     placeholder={t("timeSearchPlaceholder")}
@@ -95,36 +95,69 @@ const TimeList = () => {
                 </div>
             </div>
             {/* Time Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 overflow-y-auto lg:items-center gap-2 lg:gap-4 mb-6">
-                {filteredTime.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item) => (
-                    <div key={item.time_id} className="flex justify-center hover:shadow-xl">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 
+                overflow-y-auto gap-2 sm:gap-3 lg:gap-4 mb-6">
+                {filteredTime
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                    .map((item) => (
                         <div
-                            onClick={() => navigate(`/user/timeDetail/${item.time_id}`)}
-                            className={`${item.timeStatus? item.zoneId === null? "bg-yellow-500 text-white": "bg-green-600 text-white": "bg-[#E52020] text-white"} text-white cursor-pointer w-full px-4 py-2 rounded-l shadow-2xl`}
+                            key={item.time_id}
+                            className="flex justify-center hover:shadow-xl"
                         >
-                            <div className="ml-4 flex items-center justify-start gap-3 text-md">
-                                <TimerIcon />
-                                {item.time}
+                            <div
+                                onClick={() => navigate(`/user/timeDetail/${item.time_id}`)}
+                                className={`${item.timeStatus
+                                    ? item.zoneId === null
+                                        ? "bg-yellow-500"
+                                        : "bg-green-600"
+                                    : "bg-[#E52020]"
+                                    }  text-white cursor-pointer w-full px-3 sm:px-4 py-2 sm:py-3 rounded-l shadow-2xl`}
+                            >
+                                <div className="ml-2 sm:ml-4 flex items-center gap-2 sm:gap-3 text-sm sm:text-md">
+                                    <TimerIcon />
+                                    {item.time}
+                                </div>
+
+                                <div className="mt-2 ml-2 sm:ml-4 flex items-center gap-2 sm:gap-3 text-sm sm:text-md">
+                                    <Calendar />
+                                    {item.date}
+                                </div>
+
+                                <div className="mt-2 ml-2 sm:ml-4 flex items-center gap-2 sm:gap-3  text-base sm:text-lg lg:text-xl font-semibold">
+                                    <MapPinned />
+                                    {item?.zone?.zoneName}
+                                </div>
+
+                                <div className="mt-2 ml-2 sm:ml-4 font-semibold">
+                                    <p className="text-base sm:text-lg lg:text-xl">
+                                        {item.timeStatus ? t("statusFree") : t("statusFull")}
+                                    </p>
+                                </div>
                             </div>
-                            <div className="mt-2 ml-4 flex items-center justify-start gap-3 text-md">
-                                <Calendar />
-                                {item.date}
-                            </div>
-                            <div className="mt-2 ml-4 flex items-center justify-start gap-3 text-xl font-semibold">
-                                <MapPinned />
-                                {item?.zone?.zoneName}
-                            </div>
-                            <div className="mt-2 ml-4 flex items-center justify-start font-semibold">
-                                <p className="text-xl">{item.timeStatus ? t("statusFree") : t("statusFull")}</p>
+
+                            <div className={`flex flex-col items-center justify-start py-2 gap-2 px-2 sm:px-3 rounded-r cursor-pointer ${item.timeStatus
+                                ? item.zoneId === null
+                                    ? "bg-yellow-500"
+                                    : "bg-green-600"
+                                : "bg-[#E52020]"
+                                } text-white`}
+                            >
+                                <Edit
+                                    className="h-4 w-4 sm:h-5 sm:w-5 cursor-pointer"
+                                    onClick={() => {
+                                        setShowEditTime(true);
+                                        setTimeId(item.time_id);
+                                    }}
+                                />
+                                <Trash
+                                    className="h-4 w-4 sm:h-5 sm:w-5 cursor-pointer"
+                                    onClick={() => handleDelete(item.time_id)}
+                                />
                             </div>
                         </div>
-                        <div className={`flex flex-col items-center justify-start py-2 gap-2 ${item.timeStatus? item.zoneId === null? "bg-yellow-500 text-white": "bg-green-600 text-white": "bg-[#E52020] text-white"} px-2 rounded-r cursor-pointer`}>
-                            <Edit className="text-white h-5 w-5 cursor-pointer" onClick={() => { setShowEditTime(true); setTimeId(item.time_id); }} />
-                            <Trash className="text-white h-5 w-5 cursor-pointer" onClick={() => handleDelete(item.time_id)} />
-                        </div>
-                    </div>
-                ))}
+                    ))}
             </div>
+
             {/* Popups */}
             <EditTime show={showEditTime} onClose={() => setShowEditTime(false)} timeId={timeId} fetchTime={fetchTime} />
             <AddTime show={showAddTime} onClose={() => setShowAddTime(false)} fetchTime={fetchTime} addToExport={(newData) => setExportData((prev) => [...prev, { ...newData, status: t("statusFree") }])} />

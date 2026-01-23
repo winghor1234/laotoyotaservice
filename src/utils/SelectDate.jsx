@@ -42,7 +42,7 @@ export default function SelectDate({ onSearch, placeholder = "ຄົ້ນຫາ
 
 
   return (
-    <div className="flex flex-col sm:flex-row sm:justify-center lg:justify-start flex-wrap gap-2 sm:gap-3 lg:gap-5 flex-1">
+    <div className="flex flex-col sm:flex-row sm:justify-start lg:justify-start flex-wrap gap-2 sm:gap-3 lg:gap-5 flex-1">
       {/* Start Date */}
       <div className="flex items-center justify-between min-w-[200px] sm:w-auto lg:w-64 h-12 sm:h-14 border border-gray-300 px-3 py-2 bg-white shadow-sm rounded">
         <div className="flex items-center gap-2 flex-1">

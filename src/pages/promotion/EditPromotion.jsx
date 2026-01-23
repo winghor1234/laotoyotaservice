@@ -3,10 +3,12 @@ import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
 import Spinner from "../../utils/Loading";
 import { useEditPromotionForm } from "../../component/schemaValidate/promotionValidate/EditPromotionValidate";
 import { useTranslation } from "react-i18next";
+import { Controller } from "react-hook-form";
+import ImageUpload from "../../utils/imageUpload";
 
 const EditPromotion = ({ show, onClose, promotionId, handleFetchPromotion }) => {
   const { t } = useTranslation("promotion");
-  const { register, handleSubmit, setValue, imageFile, submitForm, loading, formState: { errors } } = useEditPromotionForm({ onClose, handleFetchPromotion, promotionId });
+  const { register, handleSubmit, control, submitForm, loading, formState: { errors } } = useEditPromotionForm({ onClose, handleFetchPromotion, promotionId });
 
   if (!show) return null;
 
@@ -47,42 +49,18 @@ const EditPromotion = ({ show, onClose, promotionId, handleFetchPromotion }) => 
           </div>
 
           {/* Image preview */}
-          <div className="mb-2">
-            {(imageFile && imageFile[0] instanceof File) || (imageFile && typeof imageFile === "string") ? (
-              <div className="relative shadow-2xl h-56 w-72 mb-2 flex items-center justify-center gap-2">
-                <img
-                  src={
-                    (imageFile && imageFile[0] instanceof File)
-                      ? URL.createObjectURL(imageFile[0])
-                      : imageFile
-                  }
-                  alt="service"
-                  className="w-full h-full object-contain rounded-lg"
-                />
-                <button
-                  type="button"
-                  onClick={() => setValue("image", null)}
-                  className="bg-red-500 text-white cursor-pointer absolute top-1 right-1 px-2 py-1 rounded-lg text-sm hover:bg-red-600"
-                >
-                  <X />
-                </button>
-              </div>
-            ) : (
-              <div className="h-56 w-72 mb-2 flex items-center justify-center shadow-2xl">
-                <h1 className="text-gray-500 font-extrabold text-2xl">{t("no_image")}</h1>
-              </div>
+          <Controller
+            name="image"
+            control={control}
+            render={({ field }) => (
+              <ImageUpload
+                value={field.value}
+                onChange={field.onChange}
+                error={errors.image?.message}
+              />
             )}
-          </div>
+          />
 
-          {/* Upload file */}
-          <div className="border border-gray-300 rounded-lg flex items-center gap-2 px-2 py-1">
-            <Wrench className="text-gray-400 w-5 h-5 sm:w-6 sm:h-6" />
-            <input
-              type="file"
-              onChange={(e) => setValue("image", e.target.files)}
-              className="w-full py-1 sm:py-2 px-2 sm:px-3 text-sm sm:text-base outline-none"
-            />
-          </div>
 
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-3">
             <button

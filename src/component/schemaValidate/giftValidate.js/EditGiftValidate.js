@@ -15,10 +15,8 @@ const editGiftSchema = (t) => z.object({
 
 export const useEditForm = ({ onClose, handleFetch, giftId }) => {
   const { t } = useTranslation("auth");
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm({ resolver: zodResolver(editGiftSchema(t)), });
-
+  const { register, handleSubmit, formState: { errors }, setValue, control } = useForm({ resolver: zodResolver(editGiftSchema(t)), });
   const [loading, setLoading] = useState(false);
-  const [previewImage, setPreviewImage] = useState(null); // ใช้สำหรับแสดงรูป (string หรือ File)
 
   // ✅ ดึงข้อมูล gift ตาม id
   useEffect(() => {
@@ -29,7 +27,7 @@ export const useEditForm = ({ onClose, handleFetch, giftId }) => {
 
       setValue("name", resData.name);
       setValue("point", resData.point);
-      setPreviewImage(resData.image); // เก็บ url รูปปัจจุบัน
+      setValue("image", resData.image); // string URL
     };
     handleFetchGiftId();
   }, [giftId]);
@@ -41,14 +39,11 @@ export const useEditForm = ({ onClose, handleFetch, giftId }) => {
       formData.append("name", data.name);
       formData.append("point", data.point);
 
-      // ถ้ามีการเลือกไฟล์ใหม่ → ใช้ไฟล์ใหม่
-      if (data.image instanceof File) {
-        formData.append("image", data.image);
+      if (data.image && data.image[0] instanceof File) {
+        formData.append("image", data.image[0]);
       }
 
-      await axiosInstance.put(APIPath.UPDATE_GIFT(giftId), formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axiosInstance.put(APIPath.UPDATE_GIFT(giftId), formData);
 
       handleFetch();
       SuccessAlert(t("update_success"));
@@ -61,5 +56,5 @@ export const useEditForm = ({ onClose, handleFetch, giftId }) => {
     }
   };
 
-  return { register, handleSubmit, errors, setValue, loading, submitForm, previewImage, setPreviewImage,};
+  return { register, handleSubmit, errors, loading, submitForm, control };
 };

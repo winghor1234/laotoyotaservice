@@ -64,7 +64,7 @@ const PromotionList = () => {
     return (
         <div>
             <div className="flex flex-col sm:flex-row lg:flex-row lg:items-center gap-4 lg:gap-6 mb-4 flex-1">
-                <SelectDate  onSearch={setSearch}  placeholder={t("search_placeholder")}  onDateChange={({ startDate, endDate }) => {      setStartDate(startDate); setEndDate(endDate);  }} />
+                <SelectDate  onSearch={setSearch}  placeholder={t("search_placeholder")}  onDateChange={({ startDate, endDate }) => {setStartDate(startDate); setEndDate(endDate);  }} />
                 <div onClick={() => setShowAddPromotion(true)} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
                         {t("add")}
@@ -106,7 +106,7 @@ const PromotionList = () => {
                                 />
                             )}
                             <div className="flex-1 min-w-0">
-                                <h3 className="font-medium text-gray-900 truncate mb-1">{item.title}</h3>
+                                <h3 className="font-medium text-gray-900 line-clamp-2 mb-1">{item.title}</h3>
                                 <p className="text-sm text-gray-600 line-clamp-2">{item.detail}</p>
                             </div>
                         </div>
@@ -136,8 +136,8 @@ const PromotionList = () => {
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                                 {item.image && <img src={item.image} className="w-12 h-12 md:w-16 md:h-16 object-cover rounded-lg" />}
                             </div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.title}</div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.detail}</div>
+                            <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2 ">{item.title}</div>
+                            <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2 ">{item.detail}</div>
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-3 md:gap-6">
                                 <Eye className="w-4 h-4 md:w-5 md:h-5" />
                                 <Edit className="w-4 h-4 md:w-5 md:h-5" onClick={(e) => {

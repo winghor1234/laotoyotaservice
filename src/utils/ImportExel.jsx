@@ -55,7 +55,7 @@ const ImportExcel = ({onUploadSuccess,transformData,apiPath,requiredFields = [],
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className=" flex items-center gap-2">
       <input
         type="file"
         accept=".xlsx, .xls, .csv"
@@ -64,7 +64,7 @@ const ImportExcel = ({onUploadSuccess,transformData,apiPath,requiredFields = [],
         className="hidden"
       />
       <button
-        className="bg-green-500 hover:bg-green-600 text-white px-4 py-3.5 rounded-lg text-sm flex items-center justify-center gap-2 cursor-pointer shadow w-full sm:w-auto min-w-[120px]"
+        className="bg-green-500 hover:bg-green-600 text-white px-4 py-3.5 rounded text-sm flex items-center justify-center gap-2 cursor-pointer shadow w-full sm:w-auto min-w-[120px]"
         onClick={() => fileInputRef.current.click()}
         disabled={loading}
       >

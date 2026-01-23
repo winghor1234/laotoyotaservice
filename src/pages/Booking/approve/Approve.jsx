@@ -100,13 +100,13 @@ const Approve = () => {
                   <span className="bg-yellow-500 px-4 py-2 text-black rounded-xl text-xs font-semibold">
                     {t("approve_status")}
                   </span>
-                  <span className="font-medium text-sm">{item?.car?.model}</span>
+                  <span className="font-medium text-sm line-clamp-1">{item?.car?.model}</span>
                 </div>
-                <div className="text-sm font-medium text-center">{item?.user?.username}</div>
-                <div className="text-sm font-medium text-center">{item?.user?.phoneNumber}</div>
-                <div className="text-sm font-medium text-center">{item?.car?.plateNumber}</div>
-                <div className="text-sm font-medium text-center">{item?.time?.date_label}</div>
-                <div className="text-sm font-medium text-center">{item?.time?.time}</div>
+                <div className="text-sm font-medium line-clamp-1 text-center">{item?.user?.username}</div>
+                <div className="text-sm font-medium line-clamp-1 text-center">{item?.user?.phoneNumber}</div>
+                <div className="text-sm font-medium line-clamp-1 text-center">{item?.car?.plateNumber}</div>
+                <div className="text-sm font-medium line-clamp-1 text-center">{item?.time?.date_label}</div>
+                <div className="text-sm font-medium line-clamp-1 text-center">{item?.time?.time}</div>
               </div>
             ))}
         </div>
@@ -125,28 +125,28 @@ const Approve = () => {
                   <span className="bg-yellow-500 px-3 py-1 text-black rounded-xl text-xs font-semibold">
                     {t("approve_status")}
                   </span>
-                  <span className="text-sm font-medium">{item?.car?.model}</span>
+                  <span className="text-sm font-medium line-clamp-1">{item?.car?.model}</span>
                 </div>
                 <div className="grid gap-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-500">{t("username")}:</span>
-                    <span>{item?.user?.username}</span>
+                    <span className="line-clamp-1">{item?.user?.username}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500">{t("phone")}:</span>
-                    <span>{item?.user?.phoneNumber}</span>
+                    <span className="line-clamp-1">{item?.user?.phoneNumber}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500">{t("plate_number")}:</span>
-                    <span>{item?.car?.plateNumber}</span>
+                    <span className="line-clamp-1">{item?.car?.plateNumber}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500">{t("date_label")}:</span>
-                    <span>{item?.time?.date}</span>
+                    <span className="line-clamp-1">{item?.time?.date}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500">{t("time_label")}:</span>
-                    <span>{item?.time?.time}</span>
+                    <span className="line-clamp-1">{item?.time?.time}</span>
                   </div>
                 </div>
               </div>

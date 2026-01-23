@@ -123,7 +123,7 @@ const FixList = () => {
                 <span className="bg-green-500 px-3 py-1 text-black rounded-xl text-xs font-semibold">
                   {t("approved")}
                 </span>
-                <span>{item?.car?.model}</span>
+                <span className="line-clamp-1">{item?.car?.model}</span>
               </div>
               <div className="text-center">{item?.user?.username}</div>
               <div className="text-center">{item?.user?.phoneNumber}</div>
@@ -146,28 +146,28 @@ const FixList = () => {
                 <span className="bg-green-500 px-3 py-1 text-black rounded-xl text-xs font-semibold">
                   {t("approved")}
                 </span>
-                <span className="text-sm font-medium text-gray-800">{item?.car?.model}</span>
+                <span className="text-sm font-medium text-gray-800 line-clamp-1">{item?.car?.model}</span>
               </div>
               <div className="grid grid-cols-1 gap-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-500">{t("customer_name")}:</span>
-                  <span className="text-gray-900">{item?.user?.username}</span>
+                  <span className="text-gray-900 line-clamp-1">{item?.user?.username}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-500">{t("customer_phone")}:</span>
-                  <span className="text-gray-900">{item?.user?.phoneNumber}</span>
+                  <span className="text-gray-900 line-clamp-1">{item?.user?.phoneNumber}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-500">{t("plate_number")}:</span>
-                  <span className="text-gray-900">{item?.car?.plateNumber}</span>
+                  <span className="text-gray-900 line-clamp-1">{item?.car?.plateNumber}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-500">{t("date_label")}:</span>
-                  <span className="text-gray-900">{item?.time?.date}</span>
+                  <span className="text-gray-900 line-clamp-1">{item?.time?.date}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-500">{t("time_label")}:</span>
-                  <span className="text-gray-900">{item?.time?.time}</span>
+                  <span className="text-gray-900 line-clamp-1">{item?.time?.time}</span>
                 </div>
               </div>
             </div>

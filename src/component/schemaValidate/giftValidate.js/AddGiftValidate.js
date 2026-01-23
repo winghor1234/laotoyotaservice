@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -14,25 +14,10 @@ const addGiftSchema = (t) => z.object({
     image: z.any().optional(),
 });
 
-export const useAddGiftForm = ({ onClose, handleFetch, giftId }) => {
+export const useAddGiftForm = ({ onClose, handleFetch,  }) => {
     const { t } = useTranslation("auth");
-    const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm({ resolver: zodResolver(addGiftSchema(t)), });
+    const { register, handleSubmit, formState: { errors }, setValue, control} = useForm({ resolver: zodResolver(addGiftSchema(t)), });
     const [loading, setLoading] = useState(false);
-    const imageFile = watch("image");
-
-
-    useEffect(() => {
-        const handleFetchGiftId = async () => {
-            if (!giftId) return;
-            const res = await axiosInstance.get(APIPath.SELECT_ONE_GIFT(giftId));
-            const resData = res?.data?.data;
-            setValue("name", resData.name);
-            setValue("point", resData.point);
-            setValue("amount", resData.amount);
-            setValue("image", resData.image);
-        };
-        handleFetchGiftId();
-    }, [giftId]);
 
     const submitForm = async (data) => {
         setLoading(true);
@@ -59,6 +44,6 @@ export const useAddGiftForm = ({ onClose, handleFetch, giftId }) => {
             setLoading(false);
         }
     };
-    return { register, handleSubmit, formState: { errors }, setValue, loading, submitForm, imageFile, };
+    return { register, handleSubmit, loading,formState: { errors }, submitForm, control};
 };
 

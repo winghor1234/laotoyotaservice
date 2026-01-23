@@ -118,12 +118,12 @@ const UserList = () => {
                         className="grid grid-cols-10 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors text-xs md:text-sm lg:text-base"
                     >
                         <div className="text-center">{index + 1}</div>
-                        <div className="text-center">{item.customer_number}</div>
-                        <div className="text-center">{item.username}</div>
-                        <div className="text-center">{item.village}</div>
-                        <div className="text-center">{item.district}</div>
-                        <div className="text-center">{item.province}</div>
-                        <div className="text-center">{item.phoneNumber}</div>
+                        <div className="text-center line-clamp-1">{item.customer_number}</div>
+                        <div className="text-center line-clamp-1">{item.username}</div>
+                        <div className="text-center line-clamp-1">{item.village}</div>
+                        <div className="text-center line-clamp-1">{item.district}</div>
+                        <div className="text-center line-clamp-1">{item.province}</div>
+                        <div className="text-center line-clamp-1">{item.phoneNumber}</div>
                         <div className="wrap-anywhere text-center">
                             {item.email ? (
                                 <a
@@ -169,10 +169,10 @@ const UserList = () => {
                                 <Car className="text-gray-600 w-6 h-6" />
                             </div>
                             <div className="flex-1">
-                                <h3 className="font-semibold text-base text-gray-900">
+                                <h3 className="font-semibold text-base text-gray-900 line-clamp-1">
                                     {item.username}
                                 </h3>
-                                <p className="text-gray-600 text-sm">
+                                <p className="text-gray-600 text-sm line-clamp-1">
                                     {item.customer_number}
                                 </p>
                             </div>
@@ -180,19 +180,19 @@ const UserList = () => {
                         <div className="grid grid-cols-1 gap-2 text-sm">
                             <div className="flex justify-between py-1">
                                 <span className="text-gray-500 font-medium">{t("table.phone")}:</span>
-                                <span className="text-gray-900">{item.phoneNumber}</span>
+                                <span className="text-gray-900 line-clamp-1">{item.phoneNumber}</span>
                             </div>
                             <div className="flex justify-between py-1">
                                 <span className="text-gray-500 font-medium">{t("table.village")}:</span>
-                                <span className="text-gray-900">{item.village}</span>
+                                <span className="text-gray-900 line-clamp-1">{item.village}</span>
                             </div>
                             <div className="flex justify-between py-1">
                                 <span className="text-gray-500 font-medium">{t("table.district")}:</span>
-                                <span className="text-gray-900">{item.district}</span>
+                                <span className="text-gray-900 line-clamp-1">{item.district}</span>
                             </div>
                             <div className="flex justify-between py-1">
                                 <span className="text-gray-500 font-medium">{t("table.province")}:</span>
-                                <span className="text-gray-900">{item.province}</span>
+                                <span className="text-gray-900 line-clamp-1">{item.province}</span>
                             </div>
                             <div className="flex justify-between py-1">
                                 <span className="text-gray-500 font-medium">{t("table.email")}:</span>
@@ -202,7 +202,7 @@ const UserList = () => {
                             </div>
                             <div className="flex justify-between py-1">
                                 <span className="text-gray-500 font-medium">{t("table.status")}:</span>
-                                <span className="text-gray-900">{item.role}</span>
+                                <span className="text-gray-900 line-clamp-1">{item.role}</span>
                             </div>
                         </div>
                     </div>

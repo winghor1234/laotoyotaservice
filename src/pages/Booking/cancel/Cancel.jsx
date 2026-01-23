@@ -87,23 +87,23 @@ const Cancel = () => {
                                     <span className="bg-red-500 px-4 py-2 text-black rounded-xl text-xs font-semibold text-center min-w-[60px]">
                                         {t("cancelled")}
                                     </span>
-                                    <span className="font-medium text-xs md:text-sm lg:text-base">
+                                    <span className="font-medium text-xs md:text-sm lg:text-base line-clamp-1">
                                         {item?.car?.model}
                                     </span>
                                 </div>
-                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center line-clamp-1">
                                     {item?.user?.username}
                                 </div>
-                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center line-clamp-1">
                                     {item?.user?.phoneNumber}
                                 </div>
-                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center line-clamp-1">
                                     {item?.car?.plateNumber}
                                 </div>
-                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center line-clamp-1">
                                     {item?.time?.date}
                                 </div>
-                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
+                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center line-clamp-1">
                                     {item?.time?.time}
                                 </div>
                             </div>
@@ -120,24 +120,24 @@ const Cancel = () => {
                                     <span className="bg-red-500 px-3 py-1 text-black rounded-xl text-xs font-semibold">
                                         {t("cancelled")}
                                     </span>
-                                    <span className="text-sm font-medium text-gray-800">{item.car.model}</span>
+                                    <span className="text-sm font-medium text-gray-800 line-clamp-1">{item.car.model}</span>
                                 </div>
                                 <div className="grid grid-cols-1 gap-2 text-sm">
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">{t("customer_name")}:</span>
-                                        <span className="text-gray-900">{item.user.username}</span>
+                                        <span className="text-gray-900 line-clamp-1">{item.user.username}</span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">{t("customer_phone")}:</span>
-                                        <span className="text-gray-900">{item.user.phoneNumber}</span>
+                                        <span className="text-gray-900 line-clamp-1">{item.user.phoneNumber}</span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">{t("plate_number")}:</span>
-                                        <span className="text-gray-900">{item.car.plateNumber}</span>
+                                        <span className="text-gray-900 line-clamp-1">{item.car.plateNumber}</span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">{t("date_label")}:</span>
-                                        <span className="text-gray-900">{item.time.date}</span>
+                                        <span className="text-gray-900 line-clamp-1">{item.time.date}</span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">{t("time_label")}:</span>

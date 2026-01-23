@@ -24,5 +24,7 @@
     "Nov": "November",
     "Dec": "December",
     "default_alert": "This operation!!!",
-    "alert_check_admin": "You do not have permission in"
+    "alert_check_admin": "You do not have permission in",
+    "drag_drop_click": "Drag and drop image here or click to select image or file",
+    "remove_image": "Remove Image"
 }

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import * as XLSX from "xlsx";
 
 const ExportExcelButton = ({ data, fileName = "ExportData.xlsx" }) => {
-  const { t } =useTranslation("util")
+  const { t } = useTranslation("util")
   const handleExport = () => {
     if (!data || data.length === 0) {
       return;
@@ -41,12 +41,15 @@ const ExportExcelButton = ({ data, fileName = "ExportData.xlsx" }) => {
   };
 
   return (
-    <button
-      onClick={handleExport}
-      className="border text-black px-2 mt-1 sm:px-3 lg:px-4 py-2 sm:py-2.5 lg:py-3 rounded-lg hover:bg-gray-100 text-xs sm:text-sm lg:text-base transition-colors cursor-pointer shadow-4xl w-full sm:w-auto min-w-[100px] sm:min-w-[120px] lg:min-w-auto"
-    >
-      <span className="whitespace-nowrap">{t("export")}</span>
-    </button>
+
+    <div className=" flex items-center gap-2">
+      <button
+        onClick={handleExport}
+        className=" flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 "
+      >
+        <span className="whitespace-nowrap p-3 ">{t("export")}</span>
+      </button>
+    </div>
   );
 };
 

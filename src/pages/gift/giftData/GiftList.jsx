@@ -86,14 +86,14 @@ const GiftList = () => {
 
                         <div className="flex gap-3">
                             {item.image ? (
-                                <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-lg flex-shrink-0" />
+                                <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-lg flex-shrink-0 line-clamp-2" />
                             ) : (
                                 <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
                                     <GiftIcon className="text-gray-600 w-8 h-8" />
                                 </div>
                             )}
                             <div className="flex-1 min-w-0">
-                                <h3 className="font-medium text-gray-900 truncate mb-1">{item.name}</h3>
+                                <h3 className="font-medium text-gray-900 line-clamp-2 mb-1">{item.name}</h3>
                                 <div className="flex items-center gap-2">
                                     <span className="text-sm text-gray-600">{t("point")}:</span>
                                     <span className="text-sm font-medium text-blue-600">{item.point}</span>
@@ -131,7 +131,7 @@ const GiftList = () => {
                                     </div>
                                 )}
                             </div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.name}</div>
+                            <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2 ">{item.name}</div>
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.point}</div>
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-3 md:gap-6">
                                 <Eye className="w-4 h-4 md:w-5 md:h-5" />

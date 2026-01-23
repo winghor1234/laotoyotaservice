@@ -19,8 +19,7 @@ export const promotionSchema = (t) => z.object({
 export const useEditPromotionForm = ({ onClose, promotionId, handleFetchPromotion }) => {
     const { t } = useTranslation("auth");
     const [loading, setLoading] = useState(false);
-    const { register, handleSubmit, setValue, reset, watch, formState: { errors } } = useForm({ resolver: zodResolver(promotionSchema(t)) });
-    const imageFile = watch("image");
+    const { register, handleSubmit, setValue, reset, control, formState: { errors } } = useForm({ resolver: zodResolver(promotionSchema(t)) });
 
     useEffect(() => {
         const fetchDataById = async () => {
@@ -65,5 +64,5 @@ export const useEditPromotionForm = ({ onClose, promotionId, handleFetchPromotio
         }
     };
 
-    return {register,handleSubmit,setValue,formState: { errors },imageFile,loading,submitForm}
+    return { register, handleSubmit, setValue, formState: { errors }, loading, submitForm, control };
 }
