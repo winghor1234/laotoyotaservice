@@ -28,27 +28,22 @@
   "confirm": "ຕົກລົງ",
   "search_user": "ຄົ້ນຫາຜູ້ໃຊ້...",
   "add_user": "ເພີ່ມ",
-  "table": {
-    "index": "ລຳດັບ",
-    "code": "ລະຫັດຜູ້ໃຊ້",
-    "username": "ຊື່",
-    "admin_name": "ຊື່ຜູ້ດູແລ",
-    "village": "ບ້ານ",
-    "district": "ເມືອງ",
-    "province": "ແຂວງ",
-    "phone": "ເບີໂທ",
-    "email": "ອີເມວ",
-    "status": "ສະຖານະ",
-    "action": "ດຳເນີນການ"
-  },
-  "mobile": {
-    "phone": "ໂທ:",
-    "village": "ບ້ານ:",
-    "district": "ເມືອງ:",
-    "province": "ແຂວງ:",
-    "email": "ອີເມວ:",
-    "status": "ສະຖານະ:"
-  },
+  "index": "ລຳດັບ",
+  "code": "ລະຫັດຜູ້ໃຊ້",
+  "status": "ສະຖານະ:",
   "delete_confirm": "ທ່ານຕ້ອງການລົບຂໍໍ້ມູນນີ້ບໍ?",
-  "delete_success": "ການລົບຂໍ້ມູນສຳເລັດ"
+  "delete_success": "ການລົບຂໍ້ມູນສຳເລັດ",
+  "admin_detail": "ລາຍລະອຽດຜູ້ດູແລ",
+  "admin_name": "ຊື່ຜູ້ດູແລ",
+  "admin_email": "ອີເມວ",
+  "admin_phone_number": "ເບີໂທ",
+  "admin_village": "ບ້ານ",
+  "admin_province": "ແຂວງ",
+  "user_detail": "ລາຍລະອຽດຜູ້ໃຊ້",
+  "user_name": "ຊື່ຜູ້ໃຊ້",
+  "user_email": "ອີເມວ",
+  "user_phone_number": "ເບີໂທ",
+  "user_village": "ບ້ານ",
+  "user_province": "ແຂວງ"
+
 }

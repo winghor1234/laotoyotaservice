@@ -57,6 +57,5 @@
   "cancel": "Cancel",
   "submit": "Submit",
   "fix_success": "Fix car successfully",
-  "color_placeholder": "Color...",
-  "color": "Color"
+  "car_detail": "Car Details"
 }

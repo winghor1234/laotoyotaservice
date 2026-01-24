@@ -1,25 +1,26 @@
 import { FaTools } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Spinner from "../../utils/Loading";
-import { BackButton } from "../../utils/BackButton";
-import axiosInstance from "../../utils/AxiosInstance";
-import APIPath from "../../api/APIPath";
 import { useTranslation } from "react-i18next";
+import Spinner from "../../../utils/Loading";
+import axiosInstance from "../../../utils/AxiosInstance";
+import { BackButton } from "../../../utils/BackButton";
+import APIPath from "../../../api/APIPath";
+import { Gift } from "lucide-react";
 
-const DetailPromotion = () => {
-    const { t } = useTranslation("promotion");
+const DetailGift = () => {
+    const { t } = useTranslation("gift");
     const { id } = useParams();
-    const [promotionData, setPromotionData] = useState(null);
+    const [giftData, setGiftData] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axiosInstance.get(APIPath.SELECT_ONE_PROMOTION(id));
-                setPromotionData(res?.data?.data);
+                const res = await axiosInstance.get(APIPath.SELECT_ONE_GIFT(id));
+                setGiftData(res?.data?.data);
             } catch (error) {
-                console.error("Error loading promotion details:", error);
+                console.error("Error loading gift details:", error);
             } finally {
                 setLoading(false);
             }
@@ -35,7 +36,7 @@ const DetailPromotion = () => {
         );
     }
 
-    if (!promotionData) {
+    if (!giftData) {
         return (
             <div className="flex items-center justify-center min-h-screen text-gray-500">
                 {t("no_data")}
@@ -50,9 +51,9 @@ const DetailPromotion = () => {
                     <BackButton />
                     <hr className="border-gray-200 my-4" />
                     <div className="flex flex-col items-center mb-6">
-                        <FaTools className="text-2xl text-gray-600" />
+                        <Gift className="text-2xl text-gray-600" />
                         <h2 className="text-center text-lg sm:text-xl font-semibold text-gray-800 mb-6">
-                            {t("promotion_detail")}
+                            {t("detail_title")}
                         </h2>
                     </div>
 
@@ -61,22 +62,26 @@ const DetailPromotion = () => {
                         <div className="flex gap-6 items-center justify-start p-4 rounded-lg shadow-sm">
                             <div className="flex flex-col gap-2 text-left">
                                 <div>
-                                    <p className="text-base text-gray-500">{t("promotion_title")} :</p>
+                                    <p className="text-base text-gray-500">{t("gift_title")} :</p>
                                     <p className="text-base text-gray-900 font-semibold">
-                                        {promotionData.title}
+                                        {giftData.name}
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-base text-gray-500">{t("promotion_detail")} :</p>
-                                    <p className="text-base text-gray-800">{promotionData.detail}</p>
+                                    <p className="text-base text-gray-500">{t("gift_amount")} :</p>
+                                    <p className="text-base text-gray-800">{giftData.amount}</p>
+                                </div>
+                                <div>
+                                    <p className="text-base text-gray-500">{t("gift_point")} :</p>
+                                    <p className="text-base text-gray-800">{giftData.point}</p>
                                 </div>
                             </div>
                         </div>
-                        {promotionData.image && (
+                        {giftData.image && (
                             <div className="mt-6 flex justify-center">
                                 <img
-                                    src={promotionData.image}
-                                    alt="Promotion"
+                                    src={giftData.image}
+                                    alt="Gift"
                                     className="w-[200px] h-[200px] object-cover rounded-lg shadow"
                                 />
                             </div>
@@ -85,21 +90,26 @@ const DetailPromotion = () => {
 
                     {/* Mobile View */}
                     <div className="md:hidden space-y-4">
+                       
                         <div className="bg-gray-50 p-4 rounded-md shadow-inner space-y-3">
                             <div>
-                                <span className="text-base text-gray-500 block">{t("promotion_title")} :</span>
-                                <span className="text-base font-medium text-gray-900">{promotionData.title}</span>
+                                <span className="text-base text-gray-500 block">{t("gift_title")}:</span>
+                                <span className="text-base font-medium text-gray-900">{giftData.name}</span>
                             </div>
                             <div>
-                                <span className="text-base text-gray-500 block">{t("promotion_detail")} :</span>
-                                <span className="text-base font-medium text-gray-800">{promotionData.detail}</span>
+                                <span className="text-base text-gray-500 block">{t("gift_amount")}:</span>
+                                <span className="text-base font-medium text-gray-800">{giftData.amount}</span>
+                            </div>
+                            <div>
+                                <span className="text-base text-gray-500 block">{t("gift_detail")}:</span>
+                                <span className="text-base font-medium text-gray-800">{giftData.point}</span>
                             </div>
                         </div>
-                        {promotionData.image && (
+                        {giftData.image && (
                             <div className="flex justify-center">
                                 <img
-                                    src={promotionData.image}
-                                    alt="Promotion"
+                                    src={giftData.image}
+                                    alt="Gift"
                                     className="w-[180px] h-[180px] object-cover rounded-md shadow"
                                 />
                             </div>
@@ -111,4 +121,4 @@ const DetailPromotion = () => {
     );
 };
 
-export default DetailPromotion;
+export default DetailGift;

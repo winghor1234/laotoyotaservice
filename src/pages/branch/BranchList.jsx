@@ -54,7 +54,7 @@ const BranchList = () => {
     }, []);
 
     const handleToDetailBranch = (id) => {
-        navigate(`/user/BranchDetail/${id}`);
+        navigate(`/user/branch-detail/${id}`);
     };
 
     // ເພີ່ມການກວດສອບວ່າ Branchs ເປັນ array ກ່ອນ filter

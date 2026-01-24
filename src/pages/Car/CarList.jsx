@@ -11,6 +11,7 @@ import APIPath from "../../api/APIPath";
 import ExportExcelButton from "../../utils/ExcelExportButton";
 import { useTranslation } from "react-i18next";
 import ImportExcel from "../../utils/ImportExel";
+import { useNavigate } from "react-router-dom";
 
 const CarList = () => {
   const { t } = useTranslation("car");
@@ -23,6 +24,8 @@ const CarList = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [exportedData, setExportedData] = useState([]);
+  const navigate = useNavigate();
+
 
   const handleFetchCar = async () => {
     try {
@@ -66,6 +69,10 @@ const CarList = () => {
       console.error("Failed to delete car:", error);
     }
   };
+
+      const handleToDetailCar = (id) => {
+        navigate(`/user/car-detail/${id}`);
+    };
 
   useEffect(() => {
     handleFetchCar();
@@ -122,7 +129,7 @@ const CarList = () => {
         </div>
         <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
           {filteredCar?.map((item, index) => (
-            <div key={index} className="grid grid-cols-8 gap-1 px-3 py-3 items-center hover:bg-gray-50">
+            <div key={index} onClick={() => handleToDetailCar(item.car_id)} className="grid grid-cols-8 gap-1 px-3 py-3 items-center hover:bg-gray-50">
               <div className="flex justify-center">{index + 1}</div>
               <div className="text-center line-clamp-1 ">{item.model}</div>
               <div className="text-center line-clamp-1">{item.plateNumber}</div>
@@ -141,7 +148,7 @@ const CarList = () => {
         {/* Mobile */}
         <div className="md:hidden divide-y divide-gray-200">
           {car?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
-            <div key={index} className="p-4 hover:bg-gray-50">
+            <div key={index} onClick={() => handleToDetailCar(item.car_id)} className="p-4 hover:bg-gray-50">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
                   <Car className="text-gray-600 w-6 h-6" />

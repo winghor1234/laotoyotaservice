@@ -41,6 +41,11 @@ import BranchList from "../pages/branch/BranchList";
 import DetailBranch from "../pages/branch/DetailBranch";
 import EmployeeList from "../pages/employee/EmployeeList";
 import DetailEmployee from "../pages/employee/DetailEmployee";
+import DetailGift from "../pages/gift/giftData/DetailGift";
+import DetailAdmin from "../pages/admin/DetailAdmin";
+import DetailCar from "../pages/Car/DetailCar";
+import DetailGiftHistory from "../pages/gift/giftHistory/DetailGiftHistory";
+import DetailUser from "../pages/user/DetailUser";
 
 
 const router = createBrowserRouter([
@@ -211,25 +216,45 @@ const router = createBrowserRouter([
         element: <DetailService />,
       },
       {
-        path: "promotionDetail/:id",
+        path: "promotion-detail/:id",
         element: <DetailPromotion />,
       },
       {
-        path: "timeDetail/:id",
+        path: "time-detail/:id",
         element: <TimeDetail />,
       },
       {
-        path: "zoneDetail/:id",
+        path: "zone-detail/:id",
         element: <ZoneDetail />,
       },
       {
-        path: "BranchDetail/:id",
+        path: "branch-detail/:id",
         element: <DetailBranch/>,
       },
       {
-        path: "EmployeeDetail/:id",
+        path: "employee-detail/:id",
         element: <DetailEmployee/>,
       },
+      {
+        path: "gift-detail/:id",
+        element: <DetailGift/>,
+      },
+      {
+        path: "admin-detail/:id",
+        element: <DetailAdmin/>,
+      },
+      {
+        path: "car-detail/:id",
+        element: <DetailCar/>,
+      },
+      {
+        path: "gift-history-detail/:id",
+        element: <DetailGiftHistory/>,
+      },
+      {
+        path: "user-detail/:id",
+        element: <DetailUser/>,
+      }
     ],
   },
 ]);

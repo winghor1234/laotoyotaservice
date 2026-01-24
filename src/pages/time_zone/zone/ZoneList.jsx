@@ -2,14 +2,12 @@ import { useEffect, useState } from "react";
 import { Clock3, Edit, MapPinned, Trash } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
 import { DeleteAlert } from "../../../utils/handleAlert/DeleteAlert";
 import { filterByDateRange } from "../../../utils/FilterDate";
 import { filterSearch } from "../../../utils/FilterSearch";
 import SelectDate from "../../../utils/SelectDate";
 import ExportExcelButton from "../../../utils/ExcelExportButton";
 import ImportExcel from "../../../utils/ImportExel";
-
 import AddZone from "./AddZone";
 import EditZone from "./EditZone";
 import axiosInstance from "../../../utils/AxiosInstance";
@@ -60,6 +58,10 @@ const ZoneList = () => {
         }
     };
 
+    const handleToDetailZone = (id) => {
+        navigate(`/user/zone-detail/${id}`);
+    };
+
     const filteredZone = filterByDateRange(
         filterSearch(zone, "zoneName", search),
         startDate,
@@ -106,14 +108,11 @@ const ZoneList = () => {
                 {filteredZone
                     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                     .map((item) => (
-                        <div key={item.zone_id} className="flex justify-center hover:shadow-xl">
+                        <div
+                            key={item.zone_id}
+                            className="flex justify-center hover:shadow-xl">
                             {/* Card */}
-                            <div
-                                onClick={() =>
-                                    navigate(`/user/zoneDetail/${item.zone_id}`)
-                                }
-                                className={`${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"}  text-white cursor-pointer w-full px-3 sm:px-4 py-2 sm:py-3  rounded-l shadow-2xl`}
-                            >
+                            <div onClick={() => handleToDetailZone(item.zone_id)} className={`${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"}  text-white cursor-pointer w-full px-3 sm:px-4 py-2 sm:py-3  rounded-l shadow-2xl`}>
                                 <div className="ml-2 sm:ml-4 flex items-center gap-2 sm:gap-3  text-base sm:text-lg font-semibold">
                                     <MapPinned />
                                     {item.zoneName}
@@ -132,18 +131,16 @@ const ZoneList = () => {
                             </div>
 
                             {/* Action */}
-                            <div
-                                className={`flex flex-col items-center justify-start py-2 gap-2 px-2 sm:px-3 rounded-r cursor-pointer  ${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"} text-white`}
-                            >
+                            <div className={`flex flex-col items-center justify-start py-2 gap-2 px-2 sm:px-3 rounded-r cursor-pointer  ${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"} text-white`}>
                                 <Edit
-                                    className="h-4 w-4 sm:h-5 sm:w-5 cursor-pointer"
+                                    className="text-white h-4 w-4 sm:h-5 sm:w-5 cursor-pointer hover:text-gray-400"
                                     onClick={() => {
                                         setShowEditZone(true);
                                         setZoneId(item.zone_id);
                                     }}
                                 />
                                 <Trash
-                                    className="h-4 w-4 sm:h-5 sm:w-5 cursor-pointer"
+                                    className="text-white hover:text-gray-400 h-4 w-4 sm:h-5 sm:w-5 cursor-pointer"
                                     onClick={() => handleDelete(item.zone_id)}
                                 />
                             </div>

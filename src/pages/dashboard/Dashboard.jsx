@@ -129,7 +129,7 @@ const Dashboard = () => {
                         className="bg-white rounded-lg shadow-xl flex flex-col items-center justify-center p-4 hover:shadow-2xl transition cursor-pointer"
                     >
                         {item.icon}
-                        <p className="mt-2 text-md font-medium text-center">{item.title}</p>
+                        <p className="mt-2 text-lg font-medium text-center">{item.title}</p>
                         <h1 className="text-xl font-bold mt-1">{item.value}</h1>
                     </Link>
                 ))}

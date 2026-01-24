@@ -30,12 +30,11 @@ export default class APIPath {
     static DELETE_GIFT(id) { return `${this.BASE_URL}/giftcard/delete/${id}` }
 
     // Gift History API
-    static SELECT_ALL_GIFTHISTORY = `${this.BASE_URL}/gifthistory/selAll`;
-    static SELECT_ONE_GIFTHISTORY(id) { return `${this.BASE_URL}/gifthistory/selOne/${id}` }
-    static CREATE_GIFTHISTORY = `${this.BASE_URL}/gifthistory/insert`;
-    static UPDATE_GIFTHISTORY(id) { return `${this.BASE_URL}/gifthistory/update/${id}` }
-    static DELETE_GIFTHISTORY(id) { return `${this.BASE_URL}/gifthistory/delete/${id}` }
-
+    static SELECT_ALL_GIFT_HISTORY = `${this.BASE_URL}/gifthistory/selAll`;
+    static SELECT_ONE_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/selOne/${id}` }
+    static CREATE_GIFT_HISTORY = `${this.BASE_URL}/gifthistory/insert`;
+    static UPDATE_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/update/${id}` }
+    static DELETE_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/delete/${id}` }
     // Fix API
     static SELECT_ALL_FIX = `${this.BASE_URL}/fix/selAll`;
     static SEARCH_FIX = `${this.BASE_URL}/fix/search`;

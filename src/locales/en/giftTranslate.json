@@ -19,5 +19,18 @@
   "delete_confirm_title": "Are you sure to delete this gift?",
   "delete_success_title": "Gift deleted successfully",
   "gift_data": "Gift",
-  "gift_history": "History"
+  "gift_history": "History",
+  "gift_title": "Gift Title",
+  "gift_amount": "Gift Amount",
+  "gift_point": "Gift Point",
+  "detail_title": "Gift Detail",
+  "detail_history_title": "Gift History Detail",
+  "no_data": "No gift data available",
+  "gift_one_point": "Point/amount",
+  "gift_user_name": "User Name",
+  "gift_user_phone": "User Phone",
+  "gift_user_village": "Village",
+  "gift_user_district": "District",
+  "gift_user_province": "Province",
+  "gift_user_date": "Date"
 }

@@ -27,6 +27,7 @@ const DetailService = () => {
         };
         fetchData();
     }, [id]);
+    console.log("Service Data:", serviceData);
 
     if (loading) {
         return (
@@ -61,30 +62,26 @@ const DetailService = () => {
                     </div>
 
                     <hr className="border-gray-200 my-4" />
-                    <h2 className="text-center text-lg sm:text-xl font-semibold text-gray-800 mb-6">
-                        {t("service_detail")}
-                    </h2>
+                    <div className="flex flex-col items-center mb-6">
+                        <FaTools className="text-2xl text-gray-600" />
+                        <h2 className="text-center text-lg sm:text-xl font-semibold text-gray-800 mb-6">
+                            {t("service_detail")}
+                        </h2>
+                    </div>
 
                     {/* Desktop / Tablet */}
-                    <div className="hidden md:block">
-                        <div className="flex gap-6 items-center justify-around p-4 rounded-lg shadow-sm">
-                            <div className="flex flex-col items-center gap-2">
-                                <div className="bg-gray-100 w-14 h-14 flex items-center justify-center rounded-full shadow">
-                                    <FaTools className="text-2xl text-gray-600" />
-                                </div>
-                                <p className="text-base text-gray-500">{t("service_info")}</p>
-                            </div>
-
+                    <div className="hidden md:block px-16">
+                        <div className="flex gap-6 items-center justify-start p-4 rounded-lg shadow-sm">
                             <div className="flex flex-col gap-2 text-left">
                                 <div>
-                                    <p className="text-base text-gray-500">{t("service_name")}</p>
+                                    <p className="text-base text-gray-500">{t("service_name")} :</p>
                                     <p className="text-base text-gray-900 font-semibold">
-                                        {serviceData.title}
+                                        {serviceData.serviceName}
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-base text-gray-500">{t("service_description")}</p>
-                                    <p className="text-base text-gray-800">{serviceData.detail}</p>
+                                    <p className="text-base text-gray-500">{t("service_description")} :</p>
+                                    <p className="text-base text-gray-800">{serviceData.description}</p>
                                 </div>
                             </div>
                         </div>
@@ -102,24 +99,17 @@ const DetailService = () => {
 
                     {/* Mobile */}
                     <div className="md:hidden space-y-4">
-                        <div className="flex flex-col items-center gap-3">
-                            <div className="bg-gray-100 w-12 h-12 flex items-center justify-center rounded-full shadow">
-                                <FaTools className="text-xl text-gray-600" />
-                            </div>
-                            <p className="text-base text-gray-500">{t("service_info")}</p>
-                        </div>
-
                         <div className="bg-gray-50 p-4 rounded-md shadow-inner space-y-3">
                             <div>
-                                <span className="text-base text-gray-500 block">{t("name")}:</span>
+                                <span className="text-base text-gray-500 block">{t("name")} :</span>
                                 <span className="text-base font-medium text-gray-900">
-                                    {serviceData.title}
+                                    {serviceData.serviceName}
                                 </span>
                             </div>
                             <div>
-                                <span className="text-base text-gray-500 block">{t("description")}:</span>
+                                <span className="text-base text-gray-500 block">{t("description")} :</span>
                                 <span className="text-base font-medium text-gray-800">
-                                    {serviceData.detail}
+                                    {serviceData.description}
                                 </span>
                             </div>
                         </div>

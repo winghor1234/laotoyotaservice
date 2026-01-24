@@ -45,6 +45,10 @@ const TimeList = () => {
         }
     };
 
+    const handleToDetailTime = (id) => {
+        navigate(`/user/time-detail/${id}`);
+    };
+
     useEffect(() => {
         fetchTime();
     }, []);
@@ -105,13 +109,13 @@ const TimeList = () => {
                             className="flex justify-center hover:shadow-xl"
                         >
                             <div
-                                onClick={() => navigate(`/user/timeDetail/${item.time_id}`)}
+                                onClick={() => handleToDetailTime(item.time_id)}
                                 className={`${item.timeStatus
                                     ? item.zoneId === null
                                         ? "bg-yellow-500"
                                         : "bg-green-600"
                                     : "bg-[#E52020]"
-                                    }  text-white cursor-pointer w-full px-3 sm:px-4 py-2 sm:py-3 rounded-l shadow-2xl`}
+                                    } text-white cursor-pointer w-full px-3 sm:px-4 py-2 sm:py-3 rounded-l shadow-2xl`}
                             >
                                 <div className="ml-2 sm:ml-4 flex items-center gap-2 sm:gap-3 text-sm sm:text-md">
                                     <TimerIcon />
@@ -143,14 +147,14 @@ const TimeList = () => {
                                 } text-white`}
                             >
                                 <Edit
-                                    className="h-4 w-4 sm:h-5 sm:w-5 cursor-pointer"
+                                    className="h-4 w-4 sm:h-5 sm:w-5 cursor-pointer tex-white hover:text-gray-400"
                                     onClick={() => {
                                         setShowEditTime(true);
                                         setTimeId(item.time_id);
                                     }}
                                 />
                                 <Trash
-                                    className="h-4 w-4 sm:h-5 sm:w-5 cursor-pointer"
+                                    className="h-4 w-4 sm:h-5 sm:w-5 cursor-pointer tex-white hover:text-gray-400"
                                     onClick={() => handleDelete(item.time_id)}
                                 />
                             </div>

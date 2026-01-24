@@ -50,30 +50,27 @@ const DetailBranch = () => {
                 <div className="p-4 sm:p-6">
                     <BackButton />
                     <hr className="border-gray-200 my-4" />
-                    <h2 className="text-center text-lg sm:text-xl font-semibold text-gray-800 mb-6">
-                        {t("branch_detail")}
-                    </h2>
+                    <div className="flex flex-col items-center mb-6">
+                        <FaBuilding className="text-2xl text-gray-600" />
+                        <h2 className="text-center text-lg sm:text-xl font-semibold text-gray-800 mb-6">
+                            {t("branch_detail")}
+                        </h2>
+                    </div>
 
                     {/* Desktop / Tablet View */}
-                    <div className="hidden md:block">
-                        <div className="flex gap-6 items-center justify-around p-4 rounded-lg shadow-sm">
-                            <div className="flex flex-col items-center gap-2">
-                                <div className="bg-gray-100 w-14 h-14 flex items-center justify-center rounded-full shadow">
-                                    <FaBuilding className="text-2xl text-gray-600" />
-                                </div>
-                                <p className="text-base text-gray-500">{t("branch_detail")}</p>
-                            </div>
+                    <div className="hidden md:block px-16">
+                        <div className="flex gap-6 items-start justify-start p-4 rounded-lg shadow-sm">
                             <div className="flex flex-col gap-2 text-left">
                                 <div>
-                                    <p className="text-base text-gray-500">{t("branch_title")}</p>
+                                    <p className="text-base text-gray-500">{t("branch_title")} :</p>
                                     <p className="text-base text-gray-900 font-semibold">{branchData.branch_name}</p>
                                 </div>
                                 <div>
-                                    <p className="text-base text-gray-500">{t("branch_location")}</p>
+                                    <p className="text-base text-gray-500">{t("branch_location")} :</p>
                                     <p className="text-base text-gray-800">{branchData.location}</p>
                                 </div>
                                 <div>
-                                    <p className="text-base text-gray-500">{t("branch_phone")}</p>
+                                    <p className="text-base text-gray-500">{t("branch_phone")} :</p>
                                     <p className="text-base text-gray-800">{branchData.phone}</p>
                                 </div>
                             </div>
@@ -82,12 +79,12 @@ const DetailBranch = () => {
 
                     {/* Mobile View */}
                     <div className="md:hidden space-y-4">
-                        <div className="flex flex-col items-center gap-3">
+                        {/* <div className="flex flex-col items-center gap-3">
                             <div className="bg-gray-100 w-12 h-12 flex items-center justify-center rounded-full shadow">
                                 <FaBuilding className="text-xl text-gray-600" />
                             </div>
                             <p className="text-base text-gray-500">{t("branch_details")}</p>
-                        </div>
+                        </div> */}
                         <div className="bg-gray-50 p-4 rounded-md shadow-inner space-y-3">
                             <div>
                                 <span className="text-base text-gray-500 block">{t("branch_title")}:</span>

@@ -33,10 +33,9 @@ const TimeDetail = () => {
                     {/* Back Button */}
                     <BackButton />
                     <hr className="border-gray-300 w-full mb-4 sm:mb-6" />
-
                     {/* Title */}
                     <h2 className="text-center text-lg sm:text-xl lg:text-2xl font-medium mb-6 sm:mb-8">
-                        {t("detail_time_title")}
+                        {t("detail_title")}
                     </h2>
 
                     {/* Desktop/Tablet View */}

@@ -18,10 +18,7 @@ const EditUser = ({ show, onClose, customerId, handleFetch }) => {
 
             {/* Popup */}
             <div
-                className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
-        z-50 w-full max-w-2xl bg-gray-50 rounded-2xl shadow-lg p-4 sm:p-6 transition-all text-base 
-        ${show ? 'scale-100 opacity-100' : 'scale-90 opacity-0 pointer-events-none'}`}
-            >
+                className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2   z-50 w-full max-w-2xl bg-gray-50 rounded-2xl shadow-lg p-4 sm:p-6 transition-all text-base   ${show ? 'scale-100 opacity-100' : 'scale-90 opacity-0 pointer-events-none'}`}  >
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <div

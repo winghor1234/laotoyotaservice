@@ -19,5 +19,17 @@
   "delete_confirm_title": "ວ່າຈະລົບຂໍ້ມູນລາງວັນນີ້ບໍ່?",
   "delete_success_title": "ລົບຂໍ້ມູນລາງວັນສຳເລັດ",
   "gift_data": "ຂໍ້ມູນລາງວັນ",
-  "gift_history": "ປະຫວັດ"
+  "gift_history": "ປະຫວັດ",
+  "gift_title": "ຊື່ລາງວັນ",
+  "gift_amount": "ຈໍານວນລາງວັນ",
+  "gift_point": "ຄະແນນລາງວັນ",
+  "detail_title": "ລາຍລະອຽດຂໍ້ມູນລາງວັນ",
+  "detail_history_title": "ລາຍລະອຽດປະຫວັດລາງວັນ",
+  "no_data": "ບໍ່ມີຂໍ້ມູນປະຫວັດລາງວັນ",
+  "gift_one_point": "ຄະແນນ/ຈໍານວນ",
+  "gift_user_name": "ຊື່ລູກຄ້າ",
+  "gift_user_phone": "ເບີໂທລູກຄ້າ",
+  "gift_user_village": "ບ້ານ",
+  "gift_user_province": "ແຂວງ",
+  "gift_user_date": "ວັນທີ"
 }

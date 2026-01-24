@@ -4,18 +4,24 @@ import SelectDate from "../../../utils/SelectDate";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const GiftHistoryList = () => {
     const [gifts, setGifts] = useState([]);
-    const { t } = useTranslation("gift"); // Namespace 'gift'
+    const { t } = useTranslation("gift");
+    const navigate = useNavigate();
 
     const fetchGifts = async () => {
         try {
-            const res = await axiosInstance.get(APIPath.SELECT_ALL_GIFTHISTORY);
+            const res = await axiosInstance.get(APIPath.SELECT_ALL_GIFT_HISTORY);
             setGifts(res?.data?.data || []);
         } catch (error) {
             console.error("Error fetching gifts:", error);
         }
+    };
+
+    const handleToDetailGiftHistory = (id) => {
+        navigate(`/user/gift-history-detail/${id}`);
     };
 
     useEffect(() => {
@@ -32,7 +38,7 @@ const GiftHistoryList = () => {
             {/* Mobile Card Layout */}
             <div className="md:hidden space-y-4 mb-6">
                 {gifts?.map((item, index) => (
-                    <div key={index} className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
+                    <div key={index} onClick={() => handleToDetailGiftHistory(item.gifthistory_id)} className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
                         {/* Mobile Card Header */}
                         <div className="flex items-center justify-between mb-3">
                             <div className="text-sm font-medium text-gray-600">#{index + 1}</div>
@@ -74,7 +80,7 @@ const GiftHistoryList = () => {
                 {/* Table Body */}
                 <div className="divide-y divide-gray-200 overflow-auto max-h-[400px]">
                     {gifts?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
-                        <div key={index} className="grid grid-cols-4 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
+                        <div key={index} onClick={() => handleToDetailGiftHistory(item.gifthistory_id)} className="grid grid-cols-4 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                                 {index + 1}
                             </div>

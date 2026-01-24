@@ -51,7 +51,7 @@ const PromotionList = () => {
     }, []);
 
     const handleToDetailPromotion = (id) => {
-        navigate(`/user/promotionDetail/${id}`);
+        navigate(`/user/promotion-detail/${id}`);
     };
 
     const filteredPromotions = filterByDateRange(
@@ -113,7 +113,6 @@ const PromotionList = () => {
                     </div>
                 ))}
             </div>
-
             {/* Desktop/Tablet Table */}
             <div className="hidden md:block bg-white rounded-lg shadow-sm overflow-hidden w-full flex flex-col flex-1">
                 <div className="w-full h-10 md:h-12 lg:h-14 bg-[#E52020] text-white">

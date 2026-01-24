@@ -55,7 +55,7 @@ const EmployeeList = () => {
     }, []);
 
     const handleToDetailEmployee = (id) => {
-        navigate(`/user/EmployeeDetail/${id}`);
+        navigate(`/user/employee-detail/${id}`);
     };
 
     const filteredEmployees = Array.isArray(employees)

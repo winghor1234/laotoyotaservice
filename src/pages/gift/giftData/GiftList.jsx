@@ -9,10 +9,11 @@ import { filterSearch } from "../../../utils/FilterSearch";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { useTranslation } from "react-i18next"; // import i18n hook
+import { useNavigate } from "react-router-dom";
 
 const GiftList = () => {
     const { t } = useTranslation("gift"); // ใช้ hook สำหรับแปลข้อความ
-
+    const navigate = useNavigate();
     const [showEditReward, setShowEditReward] = useState(false);
     const [showAddReward, setShowAddReward] = useState(false);
     const [gifts, setGifts] = useState([]);
@@ -45,6 +46,10 @@ const GiftList = () => {
         }
     };
 
+    const handleToDetailGift = (id) => {
+        navigate(`/user/gift-detail/${id}`);
+    };
+
     const filteredGifts = filterByDateRange(
         filterSearch(gifts, "name", search),
         startDate,
@@ -74,7 +79,7 @@ const GiftList = () => {
             {/* Mobile Card Layout */}
             <div className="md:hidden space-y-4 mb-6">
                 {filteredGifts?.map((item, index) => (
-                    <div key={index} className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
+                    <div key={index} onClick={() => handleToDetailGift(item.giftcard_id)} className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
                         <div className="flex items-center justify-between mb-3">
                             <div className="text-sm font-medium text-gray-600">#{index + 1}</div>
                             <div className="flex items-center gap-3">
@@ -118,7 +123,7 @@ const GiftList = () => {
 
                 <div className="divide-y divide-gray-200 overflow-auto max-h-[400px]">
                     {filteredGifts?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
-                        <div key={index} className="grid grid-cols-5 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
+                        <div key={index}  onClick={() => handleToDetailGift(item.giftcard_id)} className="grid grid-cols-5 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                                 {index + 1}
                             </div>

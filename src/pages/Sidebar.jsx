@@ -28,17 +28,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     currentPath.startsWith("/user/fixDetail") ||
     currentPath.startsWith("/user/cancelDetail") ||
     currentPath.startsWith("/user/successDetail");
-  const isGiftPath = currentPath.startsWith("/user/gift");
+  const isGiftPath = currentPath.startsWith("/user/gift") || currentPath.startsWith("/user/gift-detail");
   const isServicePath = currentPath.startsWith("/user/servicing") || currentPath.startsWith("/user/service-detail/");
   const isDashboardPath = currentPath.startsWith("/user/dashboard");
   const isPromotionPath = currentPath.startsWith("/user/promotion");
-  const isBranchPath = currentPath.startsWith("/user/branch");
+  const isBranchPath = currentPath.startsWith("/user/branch") || currentPath.startsWith("/user/branch-detail");
   const isCar = currentPath.startsWith("/user/car");
-  const isTimePath = currentPath.startsWith("/user/time-zone");
+  const isTimePath = currentPath.startsWith("/user/time-zone") || currentPath.startsWith("/user/time-detail") || currentPath.startsWith("/user/zone-detail");
   const isReportPath = currentPath.startsWith("/user/report");
   const isUserPath = currentPath.startsWith("/user/user");
   const isAdminPath = currentPath.startsWith("/user/admin");
-  const isEmployeePath = currentPath.startsWith("/user/employee");
+  const isEmployeePath = currentPath.startsWith("/user/employee") || currentPath.startsWith("/user/employee-detail");
 
   const handleLogout = () => {
     removeToken();
@@ -72,15 +72,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       )}
 
       <div
-        className={`
-    fixed lg:relative
-    top-0 left-0
-    z-50
-    w-[243px]
-    h-screen
-    bg-[#E52020] text-white
-    flex flex-col
-    transition-transform duration-300
+        className={` fixed lg:relative top-0 left-0 z-50 w-[243px] h-screen bg-[#E52020] text-white flex flex-col transition-transform duration-300
     ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
   `}
       >
@@ -106,11 +98,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               key={index}
               to={item.path}
               onClick={() => setSidebarOpen(false)}
-              className={`
-          w-full h-10 mb-2
-          flex items-center gap-3
-          px-3 rounded-lg
-          transition
+              className={` w-full h-10 mb-2 flex items-center gap-3 px-3 rounded-lg transition
           ${item.isActive
                   ? "bg-white text-[#E52020]"
                   : "hover:bg-white hover:text-[#E52020]"
@@ -118,7 +106,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         `}
             >
               {item.icon}
-              <span className="text-sm">{item.label}</span>
+              <span className="text-lg">{item.label}</span>
             </Link>
           ))}
         </nav>
@@ -130,7 +118,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             className="w-full h-10 flex items-center gap-3 px-3 rounded-lg hover:bg-white hover:text-[#E52020]"
           >
             <LogOutIcon className="w-5 h-5" />
-            <span className="text-sm">{t("logout")}</span>
+            <span className="text-lg">{t("logout")}</span>
           </button>
         </div>
       </div>
