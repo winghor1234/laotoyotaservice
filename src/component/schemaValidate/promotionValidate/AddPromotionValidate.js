@@ -32,7 +32,7 @@ export const useAddPromotionForm = ({onClose, handleFetchPromotion}) => {
     if (data.image && data.image[0] instanceof File) {
       dataForm.append("files", data.image[0]);
     }
-    console.log(dataForm);
+    // console.log(dataForm);
 
     try {
       await axiosInstance.post(APIPath.CREATE_PROMOTION, dataForm);

@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "../layout/Layout";
-import Cancel from "../pages/Booking/Cancel/Cancel";
 import Success from "../pages/Booking/success/Success";
 import ReceiverCarDetail from "../pages/Booking/approve/ReceiverCarDetail";
 import SuccessDetail from "../pages/Booking/success/SuccessDetail";
@@ -46,6 +45,8 @@ import DetailAdmin from "../pages/admin/DetailAdmin";
 import DetailCar from "../pages/Car/DetailCar";
 import DetailGiftHistory from "../pages/gift/giftHistory/DetailGiftHistory";
 import DetailUser from "../pages/user/DetailUser";
+import CancelDetail from "../pages/Booking/cancel/CancelDetail";
+import Cancel from "../pages/Booking/cancel/Cancel";
 
 
 const router = createBrowserRouter([
@@ -132,6 +133,10 @@ const router = createBrowserRouter([
       {
         path: "billDetail/:id",
         element: <BillDetail />,
+      },
+          {
+        path: "cancel-detail/:id",
+        element: <CancelDetail/>,
       },
       {
         path: "car",
@@ -254,7 +259,7 @@ const router = createBrowserRouter([
       {
         path: "user-detail/:id",
         element: <DetailUser/>,
-      }
+      },
     ],
   },
 ]);

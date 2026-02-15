@@ -40,7 +40,6 @@ const ImportExcel = ({onUploadSuccess,transformData,apiPath,requiredFields = [],
         for (const key in payload) {
           formData.append(key, payload[key]);
         }
-
         await axiosInstance.post(apiPath, formData);
       }
 

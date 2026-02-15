@@ -56,6 +56,8 @@ const GiftList = () => {
         endDate,
         "createdAt"
     );
+    console.log("gift: " , gifts);
+
 
     return (
         <div>
@@ -79,13 +81,13 @@ const GiftList = () => {
             {/* Mobile Card Layout */}
             <div className="md:hidden space-y-4 mb-6">
                 {filteredGifts?.map((item, index) => (
-                    <div key={index} onClick={() => handleToDetailGift(item.giftcard_id)} className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
-                        <div className="flex items-center justify-between mb-3">
+                    <div key={index} className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
+                        <div onClick={() => handleToDetailGift(item.giftcard_id)} className="flex items-center justify-between mb-3">
                             <div className="text-sm font-medium text-gray-600">#{index + 1}</div>
                             <div className="flex items-center gap-3">
                                 <Eye className="w-4 h-4" />
-                                <Edit className="w-4 h-4" onClick={() => { setShowEditReward(true); setGiftId(item.giftcard_id); }} />
-                                <Trash className="w-4 h-4" onClick={() => handleDelete(item.giftcard_id)} />
+                                <Edit className="w-4 h-4" onClick={(e) => {e.stopPropagation(); setShowEditReward(true); setGiftId(item.giftcard_id); }} />
+                                <Trash className="w-4 h-4" onClick={(e) => {e.stopPropagation(); handleDelete(item.giftcard_id);}} />
                             </div>
                         </div>
 
@@ -140,8 +142,8 @@ const GiftList = () => {
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.point}</div>
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-3 md:gap-6">
                                 <Eye className="w-4 h-4 md:w-5 md:h-5" />
-                                <Edit className="w-4 h-4 md:w-5 md:h-5" onClick={() => { setShowEditReward(true); setGiftId(item.giftcard_id); }} />
-                                <Trash className="w-4 h-4 md:w-5 md:h-5" onClick={() => handleDelete(item.giftcard_id)} />
+                                <Edit className="w-4 h-4 md:w-5 md:h-5" onClick={(e) => {e.stopPropagation(); setShowEditReward(true); setGiftId(item.giftcard_id);  }} />
+                                <Trash className="w-4 h-4 md:w-5 md:h-5" onClick={(e) => {e.stopPropagation(); handleDelete(item.giftcard_id);}} />
                             </div>
                         </div>
                     ))}

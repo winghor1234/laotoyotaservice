@@ -72,7 +72,15 @@
   "back_button": "ກັບໄປຫນ້າກ່ອນ",
   "branch_name": "ຊື່ສາຂາ",
   "branch_label": "ສາຂາ",
-  "service_name": "ຊື່ບໍລິການ"
+  "service_name": "ຊື່ບໍລິການ",
+  "car_color": "ສີລົດ",
+  "edit": "ແກ້ໄຂ",
+  "edit_booking_title": "ແກ້ໄຂການນັດໝາຍ",
+  "save_button": "ບັນທຶກການເເກ້ໄຂ",
+  "bill": "ບິນ",
+  "name": "ຊື່",
+  "remark": "ອາການເບື້້ອງຕົ້ນ",
+  "cancelTitle": "ຍົກເລີກການນັດໝາຍ"
   
 
   

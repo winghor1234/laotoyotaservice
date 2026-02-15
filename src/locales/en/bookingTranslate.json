@@ -71,7 +71,16 @@
   "back_button": "Back",
   "branch_name": "Branch Name",
   "branch_label": "Branch",
-  "service_name": "Service Name"
+  "service_name": "Service Name",
+  "car_color": "Car Color",
+  "edit": "Edit",
+  "edit_booking_title": "Edit Booking",
+  "save_button": "Save Changes",
+  "bill": "Bill",
+  "name": "Name",
+  "remark": "Initial Symptoms",
+  "cancelTitle": "Cancel Booking"
+
 
   
 

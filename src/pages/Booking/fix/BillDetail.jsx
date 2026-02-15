@@ -6,19 +6,31 @@ import APIPath from "../../../api/APIPath";
 import { useTranslation } from "react-i18next";
 import html2pdf from "html2pdf.js";
 
+// ฟังก์ชัน generate Bill ID แบบมาตรฐาน
+const generateBillId = (bookingId) => {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    const random = Math.floor(1000 + Math.random() * 9000);
+    return `TMC-${bookingId}-${yyyy}${mm}${dd}-${random}`;
+};
+
 const BillDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { t } = useTranslation("booking");
     const billRef = useRef();
 
-    const [data, setData] = useState([]);
-    const [booking, setBooking] = useState([]);
-    const [zone, setZone] = useState([]);
+    const [data, setData] = useState({});
+    const [booking, setBooking] = useState({});
+    const [zone, setZone] = useState({});
+    const [billId, setBillId] = useState("");
 
     useEffect(() => {
         const fetchBillData = async () => {
             try {
+                // ดึงข้อมูล fix
                 const fixRes = await axiosInstance.get(APIPath.SELECT_ONE_FIX(id));
                 const fixData = fixRes?.data?.data;
                 setData(fixData);
@@ -26,6 +38,7 @@ const BillDetail = () => {
                 const bookingId = fixData?.bookingId;
                 const zoneId = fixData?.zoneId;
 
+                // ดึงข้อมูล booking และ zone
                 if (bookingId || zoneId) {
                     const [bookingRes, zoneRes] = await Promise.all([
                         bookingId ? axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingId)) : Promise.resolve(null),
@@ -34,19 +47,38 @@ const BillDetail = () => {
                     if (bookingRes) setBooking(bookingRes?.data?.data);
                     if (zoneRes) setZone(zoneRes?.data?.data);
                 }
+
+                // ตรวจสอบ localStorage ก่อน ถ้ามีใช้เลย ถ้าไม่มีก็ generate ใหม่
+                const storageKey = `billId-${bookingId}`;
+                const storedBillId = localStorage.getItem(storageKey);
+                if (storedBillId) {
+                    setBillId(storedBillId);
+                } else {
+                    const newBillId = generateBillId(bookingId);
+                    localStorage.setItem(storageKey, newBillId);
+                    setBillId(newBillId);
+                }
+
+                // auto export PDF หลังโหลดเสร็จ
+                setTimeout(() => {
+                    handleExportPDF();
+                }, 500);
+
             } catch (error) {
                 console.error("Error fetching bill data:", error);
             }
         };
+
         fetchBillData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
-    // ฟังก์ชัน Export PDF
     const handleExportPDF = () => {
         const element = billRef.current;
+        const filename = `Bill_${booking?.user?.username || "Customer"}_${billId}.pdf`;
         const opt = {
             margin: 0.5,
-            filename: `Bill_${booking?.user?.username || "Customer"}.pdf`,
+            filename,
             image: { type: "jpeg", quality: 0.98 },
             html2canvas: { scale: 2 },
             jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
@@ -74,7 +106,7 @@ const BillDetail = () => {
                 <button
                     onClick={handleExportPDF}
                     className="flex items-center gap-2 text-white px-4 py-2 rounded-xl transition-colors"
-                    style={{ backgroundColor: "#16a34a" }} // แทน bg-green-600
+                    style={{ backgroundColor: "#16a34a" }}
                     onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#15803d")}
                     onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#16a34a")}
                 >
@@ -93,7 +125,7 @@ const BillDetail = () => {
 
                 <div className="mb-4 text-sm" style={{ color: "#4b5563" }}>
                     <p>{t("date_bill")}: {new Date().toLocaleDateString("lo-LA")}</p>
-                    <p>{t("billId")}: {data?.id}</p>
+                    <p>{t("billId")}: {billId}</p>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm" style={{ color: "#374151" }}>

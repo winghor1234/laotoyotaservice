@@ -27,7 +27,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     currentPath.startsWith("/user/receiverCarDetail") ||
     currentPath.startsWith("/user/fixDetail") ||
     currentPath.startsWith("/user/cancelDetail") ||
-    currentPath.startsWith("/user/successDetail");
+    currentPath.startsWith("/user/successDetail") ||
+    currentPath.startsWith("/user/cancel-detail");
   const isGiftPath = currentPath.startsWith("/user/gift") || currentPath.startsWith("/user/gift-detail");
   const isServicePath = currentPath.startsWith("/user/servicing") || currentPath.startsWith("/user/service-detail/");
   const isDashboardPath = currentPath.startsWith("/user/dashboard");

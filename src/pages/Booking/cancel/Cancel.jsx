@@ -5,6 +5,7 @@ import BookingSearch from "../../../utils/BookingSearch";
 import { useTranslation } from "react-i18next";
 import { useCheckRole } from "../../../utils/checkRole";
 import { useEmployeeBranchId } from "../../../utils/useEmployeeBranchId";
+import { useNavigate } from "react-router-dom";
 
 const Cancel = () => {
     const { t } = useTranslation("booking"); // ใช้ namespace "booking"
@@ -12,6 +13,7 @@ const Cancel = () => {
     const [exportData, setExportData] = useState([]);
     const role = useCheckRole();
     const branch_id = useEmployeeBranchId();
+    const navigate = useNavigate();
 
     const fetchData = async () => {
         try {
@@ -48,6 +50,11 @@ const Cancel = () => {
         }
     };
 
+    const CancelDetail = (id) => {
+        // console.log("id cancel  ",id);
+        navigate(`/user/cancel-detail/${id}`);
+    }
+
     useEffect(() => {
         fetchData();
     }, [ role, branch_id ]);
@@ -81,6 +88,7 @@ const Cancel = () => {
                         .map((item, index) => (
                             <div
                                 key={index}
+                                onClick={() => CancelDetail(item.booking_id)}
                                 className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 transition-colors"
                             >
                                 <div className="flex items-center gap-2 md:gap-3">

@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
-import { Clock3, Edit, MapPinned, Trash } from "lucide-react";
+import { Clock3, Edit, MapPinned, Search, Trash } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { DeleteAlert } from "../../../utils/handleAlert/DeleteAlert";
-import { filterByDateRange } from "../../../utils/FilterDate";
-import { filterSearch } from "../../../utils/FilterSearch";
-import SelectDate from "../../../utils/SelectDate";
 import ExportExcelButton from "../../../utils/ExcelExportButton";
 import ImportExcel from "../../../utils/ImportExel";
 import AddZone from "./AddZone";
@@ -23,8 +20,8 @@ const ZoneList = () => {
     const [showEditZone, setShowEditZone] = useState(false);
 
     const [search, setSearch] = useState("");
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    // const [startDate, setStartDate] = useState(null);
+    // const [endDate, setEndDate] = useState(null);
     const [exportData, setExportData] = useState([]);
 
     const fetchZone = async () => {
@@ -58,54 +55,104 @@ const ZoneList = () => {
         }
     };
 
+    const handleBackendSearch = async (searchText) => {
+        if (!searchText) {
+            fetchZone(); // ถ้า search ว่าง โหลดข้อมูลทั้งหมด
+            return;
+        }
+
+        try {
+            const res = await axiosInstance.get(APIPath.SEARCH_ZONE, {
+                params: { search: searchText }, // ส่ง query ?search=...
+            });
+            const data = res?.data?.data || [];
+            setZone(data);
+
+            // อัปเดต exportData ด้วย
+            setExportData(
+                data.map((item) => ({
+                    [t("zoneNameLabel")]: item.zoneName,
+                    [t("timeFixLabel")]: item.timeFix,
+                    [t("statusLabel")]: item.zoneStatus
+                        ? t("statusFree")
+                        : t("statusFull"),
+                }))
+            );
+        } catch (error) {
+            console.error("Error searching zone:", error);
+        }
+    };
+
+    const handleToggleStatus = async (item) => {
+        try {
+            const newStatus = !item.zoneStatus;
+
+            await axiosInstance.put(
+                APIPath.UPDATE_ZONE_STATUS(item.zone_id),
+                { zoneStatus: String(newStatus) }
+            );
+
+            // อัปเดต state ทันทีโดยไม่ต้องโหลดใหม่ทั้งหมด
+            setZone(prev =>
+                prev.map(t =>
+                    t.zone_id === item.zone_id
+                        ? { ...t, zoneStatus: newStatus }
+                        : t
+                )
+            );
+
+        } catch (error) {
+            console.error("Error updating status:", error.response?.data || error);
+        }
+    };
+
     const handleToDetailZone = (id) => {
         navigate(`/user/zone-detail/${id}`);
     };
 
-    const filteredZone = filterByDateRange(
-        filterSearch(zone, "zoneName", search),
-        startDate,
-        endDate,
-        "createdAt"
-    );
 
     return (
         <div>
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-5 md:gap-6 mb-4 sm:mb-6 p-3 sm:p-4 md:p-5 lg:p-6">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-5 md:gap-6 mb-4 sm:mb-6 p-3 sm:p-4 md:p-5 lg:p-6">
+                <div className="flex items-center min-w-[200px] sm:w-auto lg:w-64 h-12 sm:h-14 border border-gray-300 focus-within:border-blue-600 px-3 py-2 bg-white shadow-sm rounded">
+                    <Search className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 mr-2" />
+                    <input
+                        type="text"
+                        onChange={async (e) => {
+                            const value = e.target.value;
+                            setSearch(value);
+                            handleBackendSearch(value);
+                        }}
+                        placeholder={t("zoneSearchPlaceholder")}
+                        className="outline-none text-sm sm:text-base flex-1"
+                    />
+                </div>
 
-                <SelectDate
-                    onSearch={setSearch}
-                    placeholder={t("zoneSearchPlaceholder")}
-                    onDateChange={({ startDate, endDate }) => {
-                        setStartDate(startDate);
-                        setEndDate(endDate);
-                    }}
-                />
+                <div className="flex gap-3 sm:gap-4">
+                    <ExportExcelButton data={exportData} fileName="ZoneData.xlsx" />
+                    <ImportExcel
+                        apiPath={APIPath.CREATE_ZONE}
+                        requiredFields={[t("zoneNameLabel"), t("timeFixLabel")]}
+                        transformData={(item) => ({
+                            zoneName: item[t("zoneNameLabel")],
+                            timeFix: item[t("timeFixLabel")],
+                            zoneStatus: true,
+                        })}
+                        onUploadSuccess={fetchZone}
+                    />
 
-                <ExportExcelButton data={exportData} fileName="ZoneData.xlsx" />
-
-                <ImportExcel
-                    apiPath={APIPath.CREATE_ZONE}
-                    requiredFields={[t("zoneNameLabel"), t("timeFixLabel")]}
-                    transformData={(item) => ({
-                        zoneName: item[t("zoneNameLabel")],
-                        timeFix: item[t("timeFixLabel")],
-                        zoneStatus: true,
-                    })}
-                    onUploadSuccess={fetchZone}
-                />
-
-                <button
-                    onClick={() => setShowAddZone(true)}
-                    className="bg-blue-600 hover:bg-blue-700 transition-colors  w-full sm:w-auto px-10 py-2 sm:py-3  text-white rounded-xl font-medium text-sm sm:text-base"
-                >
-                    {t("addButton")}
-                </button>
+                    <button
+                        onClick={() => setShowAddZone(true)}
+                        className="bg-blue-600 hover:bg-blue-700 transition-colors  w-full sm:w-auto px-10 py-2 sm:py-3  text-white rounded-xl font-medium text-sm sm:text-base"
+                    >
+                        {t("addButton")}
+                    </button>
+                </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 mb-6">
 
-                {filteredZone
+                {zone
                     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                     .map((item) => (
                         <div
@@ -131,9 +178,9 @@ const ZoneList = () => {
                             </div>
 
                             {/* Action */}
-                            <div className={`flex flex-col items-center justify-start py-2 gap-2 px-2 sm:px-3 rounded-r cursor-pointer  ${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"} text-white`}>
+                            <div className={`flex flex-col items-center justify-start w-28 gap-2 px-2 sm:px-3 rounded-r cursor-pointer  ${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"} text-white`}>
                                 <Edit
-                                    className="text-white h-4 w-4 sm:h-5 sm:w-5 cursor-pointer hover:text-gray-400"
+                                    className="text-white h-4 w-4 mt-2 sm:h-5 sm:w-5 cursor-pointer hover:text-gray-400"
                                     onClick={() => {
                                         setShowEditZone(true);
                                         setZoneId(item.zone_id);
@@ -143,6 +190,15 @@ const ZoneList = () => {
                                     className="text-white hover:text-gray-400 h-4 w-4 sm:h-5 sm:w-5 cursor-pointer"
                                     onClick={() => handleDelete(item.zone_id)}
                                 />
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // ป้องกัน navigate
+                                        handleToggleStatus(item);
+                                    }}
+                                    className="cursor-pointer mt-2 px-3 py-1 bg-white text-black rounded-md text-sm hover:bg-gray-200 transition"
+                                >
+                                    {item.zoneStatus ? t("statusFree") : t("statusFull")}
+                                </button>
                             </div>
                         </div>
                     ))}

@@ -1,26 +1,25 @@
-
-
 import { FaArrowLeft, FaFileInvoiceDollar } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
-import { useTranslation } from "react-i18next";
 import html2pdf from "html2pdf.js";
+import { useTranslation } from "react-i18next";
+import { generateBillId } from "../../../utils/BillGenerate";
 
 const BookingSuccess = () => {
-    const { t } = useTranslation("booking");
     const navigate = useNavigate();
     const { id } = useParams();
-    const [booking, setBooking] = useState({});
+    const [booking, setBooking] = useState(null);
     const printRef = useRef();
-
+    const { t } = useTranslation("booking");
+    const [billId, setBillId] = useState("");
     const handleBack = () => navigate("/user/booking");
 
     const fetchData = async () => {
         try {
             const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(id));
-            setBooking(res?.data?.data || {});
+            setBooking(res?.data?.data || null);
         } catch (error) {
             console.log(error);
         }
@@ -28,87 +27,154 @@ const BookingSuccess = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+        const storedBillId = localStorage.getItem(`billId-${id}`);
+
+        if (storedBillId) {
+            setBillId(storedBillId);
+        } else {
+            const newBillId = generateBillId();
+            localStorage.setItem(`billId-${id}`, newBillId);
+            setBillId(newBillId);
+        }
+    }, [id]);
+
+    // Auto Export after render
+    useEffect(() => {
+        if (booking) {
+            const timer = setTimeout(() => {
+                handleExportPDF();
+            }, 500);
+            return () => clearTimeout(timer);
+        }
+    }, [booking]);
 
     const handleExportPDF = () => {
-        const element = printRef.current;
+        if (!printRef.current) return;
+
         const opt = {
-            margin: 0.5,
-            filename: `Invoice_${booking?.invoiceNumber || "Booking"}.pdf`,
-            image: { type: "jpeg", quality: 0.98 },
+            margin: [0.5, 0.5, 0.5, 0.5],
+            filename: `Invoice_${booking?.invoiceNumber || id}.pdf`,
+            image: { type: "jpeg", quality: 1 },
             html2canvas: { scale: 2 },
             jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
         };
-        html2pdf().from(element).set(opt).save();
+
+        html2pdf().set(opt).from(printRef.current).save();
     };
 
+    if (!booking) return null;
+
     return (
-        <div
-            className="relative max-w-4xl mx-auto rounded-2xl shadow-md p-6"
-            style={{ backgroundColor: "#f9fafb" }}
-        >
-            {/* ปุ่มย้อนกลับ + Export PDF */}
-            <div className="flex justify-between items-center mb-4">
-                <button
-                    onClick={handleBack}
-                    style={{ backgroundColor: "#e5e7eb", padding: "8px 16px", borderRadius: "12px", display: "flex", alignItems: "center", gap: "8px", color: "#374151" }}
-                    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#d1d5db")}
-                    onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#e5e7eb")}
-                >
-                    <FaArrowLeft />
-                    {t("back_button")}
+        <div style={{ background: "#f3f4f6", padding: "40px 0" }}>
+            {/* Top Action Buttons (not in PDF) */}
+            <div style={{ maxWidth: "850px", margin: "0 auto 20px", display: "flex", justifyContent: "space-between" }}>
+                <button onClick={handleBack} style={btnGray}>
+                    <FaArrowLeft /> {t("back")}
                 </button>
-                <button
-                    onClick={handleExportPDF}
-                    style={{ backgroundColor: "#16a34a", padding: "8px 16px", borderRadius: "12px", display: "flex", alignItems: "center", gap: "8px", color: "#ffffff" }}
-                    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#15803d")}
-                    onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#16a34a")}
-                >
-                    <FaFileInvoiceDollar />
-                    {t("exportPDF")}
+                <button onClick={handleExportPDF} style={btnGreen}>
+                    <FaFileInvoiceDollar /> Export PDF
                 </button>
             </div>
 
-            <hr style={{ border: "1px solid #d1d5db", marginBottom: "16px" }} />
-
-            {/* เนื้อหา Booking */}
+            {/* Invoice Paper */}
             <div
                 ref={printRef}
-                style={{ backgroundColor: "#ffffff", padding: "24px", borderRadius: "16px", boxShadow: "0 1px 2px rgba(0,0,0,0.1)" }}
+                style={{
+                    maxWidth: "850px",
+                    margin: "auto",
+                    background: "#ffffff",
+                    padding: "40px",
+                    fontFamily: "Arial, sans-serif",
+                    fontSize: "12pt",
+                    lineHeight: "1.6",
+                    color: "#111827",
+                }}
             >
-                <h2 style={{ textAlign: "center", fontSize: "24px", fontWeight: 600, color: "#16a34a", marginBottom: "16px" }}>
-                    🔧 {t("booking_success") || "Booking Success"}
-                </h2>
-
-                <div style={{ marginBottom: "16px", color: "#4b5563", textAlign: "center" }}>
-                    <p>{t("invoice_number")}: {booking?.invoiceNumber || "125532525"}</p>
-                    <p>{t("points_earned", { points: 50 })}</p>
+                {/* Invoice Header */}
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "30px" }}>
+                    <div>
+                        <h2 style={{ margin: 0, fontSize: "larger", fontWeight: "bold" }}>{t("bill")}</h2>
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                        <p><strong>{t("billId")}:</strong>{billId}</p>
+                        <p><strong>{t("date_bill")}:</strong> {booking?.time?.date}</p>
+                        <p><strong>{t("time_label")}:</strong> {booking?.time?.time}</p>
+                    </div>
                 </div>
 
-                {/* Car & Time Info */}
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))", gap: "12px", color: "#374151", marginBottom: "16px" }}>
-                    <div><strong>{t("customerName")}</strong>: {booking?.user?.username}</div>
-                    <div><strong>{t("phone")}</strong>: {booking?.user?.phoneNumber}</div>
-                    <div><strong>{t("plateNumber")}</strong>: {booking?.car?.plateNumber}</div>
-                    <div><strong>{t("carModel")}</strong>: {booking?.car?.model}</div>
-                    <div><strong>{t("date_label")}</strong>: {booking?.time?.date}</div>
-                    <div><strong>{t("time_label")}</strong>: {booking?.time?.time}</div>
+                <hr />
+
+                {/* Customer Section */}
+                <div style={{ marginTop: "25px", marginBottom: "25px" }}>
+                    <h3 style={{ marginBottom: "10px" }}>Customer Information</h3>
+                    <p><strong>{t("name")}</strong> {booking?.user?.username}</p>
+                    <p><strong>{t("phone")}</strong> {booking?.user?.phoneNumber}</p>
                 </div>
 
-                {/* Initial Symptoms */}
-                <div style={{ backgroundColor: "#FEF3C7", padding: "16px", borderRadius: "8px", marginBottom: "16px" }}>
-                    <h3 style={{ fontWeight: 600, marginBottom: "8px", color: "#374151" }}>{t("initial_symptoms")}</h3>
-                    <p style={{ color: "#374151", lineHeight: 1.5 }}>
-                        {booking?.remark}
-                    </p>
+                {/* Vehicle Section */}
+                <div style={{ marginBottom: "25px" }}>
+                    <h3 style={{ marginBottom: "10px" }}>{t("fixDetail")}</h3>
+                    <p><strong>{t("plate_number")}:</strong> {booking?.car?.plateNumber}</p>
+                    <p><strong>{t("car_model")}:</strong> {booking?.car?.model}</p>
                 </div>
 
-                <p style={{ textAlign: "center", color: "#6b7280", marginTop: "16px" }}>
-                    {t("thanks_message")} 🙏
+                {/* Service Detail */}
+                <table style={{ width: "100%", borderCollapse: "collapse", marginBottom: "40px" }}>
+                    <thead>
+                        <tr style={{ background: "#f9fafb" }}>
+                            <th style={th}>#</th>
+                            <th style={th}>{t("remark")}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style={td}>1</td>
+                            <td style={td}>{booking?.remark || "-"}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <hr />
+
+                {/* Footer */}
+                <p style={{ textAlign: "center", fontSize: "10pt", color: "#6b7280", marginTop: "20px" }}>
+                    {t("thanks_message")}
                 </p>
             </div>
         </div>
     );
+};
+
+const btnGray = {
+    background: "#e5e7eb",
+    padding: "8px 16px",
+    borderRadius: "8px",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    cursor: "pointer",
+};
+
+const btnGreen = {
+    background: "#16a34a",
+    color: "#fff",
+    padding: "8px 16px",
+    borderRadius: "8px",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    cursor: "pointer",
+};
+
+const th = {
+    border: "1px solid #d1d5db",
+    padding: "10px",
+    textAlign: "left",
+};
+
+const td = {
+    border: "1px solid #d1d5db",
+    padding: "10px",
 };
 
 export default BookingSuccess;

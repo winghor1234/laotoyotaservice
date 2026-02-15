@@ -5,7 +5,7 @@ export default class APIPath {
     static REGISTER = `${this.BASE_URL}/user/register`;
     static LOGIN = `${this.BASE_URL}/user/login`;
     static LOGIN_ADMIN = `${this.BASE_URL}/user/loginAdmin`;
-    static INSERT_ADMIN = `${this.BASE_URL}/user/insertAdmin`; //add new
+    static INSERT_ADMIN = `${this.BASE_URL}/user/registerAdmin`; //add new
     static SELECT_ALL_USER = `${this.BASE_URL}/user/selAll`;
     static SELECT_ONE_USER(id) { return `${this.BASE_URL}/user/selOne/${id}`}
     static SEARCH = `${this.BASE_URL}/user/search`;
@@ -98,6 +98,7 @@ export default class APIPath {
     static UPDATE_TIME(id) { return `${this.BASE_URL}/time/update/${id}`}
     static UPDATE_TIME_STATUS(id) { return `${this.BASE_URL}/time/updateStatus/${id}`}
     static DELETE_TIME(id) { return `${this.BASE_URL}/time/delete/${id}`}
+
 
 
 

@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 
 
 const addCarSchema = (t) => z.object({
-  userId: z.string().min(2, t("min_length_2")),
+//   userId: z.string().min(2, t("min_length_2")),
   model: z.string().min(2, t("min_length_2")),
   engineNumber: z.string().min(2, t("min_length_2")),
   frameNumber: z.string().min(2, t("min_length_2")),

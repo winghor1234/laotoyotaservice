@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 
 
 const editCarSchema = (t) =>z.object({
-    userId: z.string().min(2, t("min_length_2")),
+    // userId: z.string().min(2, t("min_length_2")),
     model: z.string().min(2, t("min_length_2")),
     engineNumber: z.string().min(2, t("min_length_2")),
     frameNumber: z.string().min(2, t("min_length_2")),
@@ -23,6 +23,7 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
     const { t } = useTranslation("auth");
     const [users, setUsers] = useState([]);
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({
+         
         resolver: zodResolver(editCarSchema(t))
     });
 
@@ -41,7 +42,7 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
                 const carData = carResponse?.data?.data;
                 if (carData) {
                     reset({
-                        userId: carData.user_id || "",
+                        userId: String(carData.userId) || "",
                         model: carData.model || "",
                         engineNumber: carData.engineNumber || "",
                         frameNumber: carData.frameNumber || "",

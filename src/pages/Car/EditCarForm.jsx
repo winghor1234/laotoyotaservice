@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
   const { t } = useTranslation("car");
-  const { register, handleSubmit, formState: { errors }, submitForm, users,} = useEditCarForm({ carId, handleFetchCar, onClose });
+  const { register, handleSubmit, submitForm, users,} = useEditCarForm({ carId, handleFetchCar, onClose });
 
   return (
     <>
@@ -83,18 +83,18 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
                 {...register("userId")}
                 className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500 transition-colors"
               >
-                <option value="">{t("select_customer")}</option>
+                {/* <option value="">{t("select_customer")}</option> */}
                 {users.map((user) => (
-                  <option key={user.user_id} value={user.user_id}>
-                    {user.customer_number}
+                  <option key={user.user_id} value={String(user.user_id)}>
+                    {user.customer_number} - {user.username}
                   </option>
                 ))}
               </select>
-              {errors.userId && (
+              {/* {errors.userId && (
                 <span className="text-red-500 text-xs mt-1">
                   {errors.userId.message}
                 </span>
-              )}
+              )} */}
             </div>
             <div className="flex flex-col">
               <label className="text-sm font-medium mb-1">{t("car_model")}</label>

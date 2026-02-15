@@ -70,15 +70,15 @@ const CarList = () => {
     }
   };
 
-      const handleToDetailCar = (id) => {
-        navigate(`/user/car-detail/${id}`);
-    };
+  const handleToDetailCar = (id) => {
+    navigate(`/user/car-detail/${id}`);
+  };
 
   useEffect(() => {
     handleFetchCar();
   }, []);
 
-  const filteredCar = filterByDateRange( filterSearch(car, "plateNumber", search), startDate, endDate, "createdAt" );
+  const filteredCar = filterByDateRange(filterSearch(car, "plateNumber", search), startDate, endDate, "createdAt");
 
   return (
     <div>
@@ -86,22 +86,31 @@ const CarList = () => {
       <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6 mb-6">
         <SelectDate onSearch={setSearch} placeholder={t("search_placeholder")} onDateChange={({ startDate, endDate }) => { setStartDate(startDate); setEndDate(endDate); }} />
         <div className="flex flex-col sm:flex-row sm:justify-center gap-2 sm:gap-3">
-          <button className="bg-red-600 hover:bg-red-700 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium">
+          {/* <button className="bg-red-600 hover:bg-red-700 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium">
             {t("search")}
-          </button>
+          </button> */}
           <ExportExcelButton data={exportedData} />
           {/*  ImportExcel */}
           <ImportExcel
             apiPath={APIPath.CREATE_CAR}
-            requiredFields={[ "ລະຫັດ", "ຊື່ລົດ", "ປ້າຍທະບຽນ", "ເລກຖັງ", "ເລກຈັກ", "ແຂວງ",'ສີ' ]}
+            requiredFields={["ຊື່ລົດ", "ປ້າຍທະບຽນ", "ເລກຖັງ", "ເລກຈັກ", "ແຂວງ", 'ສີ']}
+            // transformData={(item) => ({
+            //   userId: item["ລະຫັດ"],
+            //   model: item["ຊື່ລົດ"],
+            //   plateNumber: item["ປ້າຍທະບຽນ"],
+            //   frameNumber: item["ເລກຖັງ"],
+            //   engineNumber: item["ເລກຈັກ"],
+            //   province: item["ແຂວງ"],
+            //   color: item['ສີ']
+            // })}
             transformData={(item) => ({
-              userId: item["ລະຫັດ"],
-              model: item["ຊື່ລົດ"],
-              plateNumber: item["ປ້າຍທະບຽນ"],
-              frameNumber: item["ເລກຖັງ"],
-              engineNumber: item["ເລກຈັກ"],
-              province: item["ແຂວງ"],
-              color: item['ສີ']
+              userId:  null, 
+              model: item["ຊື່ລົດ"]?.trim(),
+              plateNumber: item["ປ້າຍທະບຽນ"]?.trim(),
+              frameNumber: item["ເລກຖັງ"]?.trim(),
+              engineNumber: item["ເລກຈັກ"]?.trim(),
+              province: item["ແຂວງ"]?.trim(),
+              color: item["ສີ"]?.trim(),
             })}
             onUploadSuccess={handleFetchCar}
           />
@@ -133,13 +142,13 @@ const CarList = () => {
               <div className="flex justify-center">{index + 1}</div>
               <div className="text-center line-clamp-1 ">{item.model}</div>
               <div className="text-center line-clamp-1">{item.plateNumber}</div>
-                <div className="text-center line-clamp-1">{item.color}</div>
+              <div className="text-center line-clamp-1">{item.color}</div>
               <div className="text-center line-clamp-1">{item.engineNumber}</div>
               <div className="text-center line-clamp-1">{item.frameNumber}</div>
               <div className="text-center line-clamp-1">{item.province}</div>
               <div className="flex justify-center gap-6">
-                <Edit className="cursor-pointer" onClick={() => { setShowEditCarForm(true); setCarId(item.car_id); }} />
-                <Trash onClick={() => handleDelete(item.car_id)} className="cursor-pointer" />
+                <Edit className="cursor-pointer" onClick={(e) => { e.stopPropagation(); setShowEditCarForm(true); setCarId(item.car_id); }} />
+                <Trash onClick={(e) => { e.stopPropagation(); handleDelete(item.car_id); }} className="cursor-pointer" />
               </div>
             </div>
           ))}
@@ -181,8 +190,8 @@ const CarList = () => {
         </div>
       </div>
       {/* Popups */}
-      <AddCarFormPopup show={showAddCarForm}  onClose={() => setShowAddCarForm(false)}  handleFetchCar={handleFetchCar}/>
-      <EditCarFormPopup  show={showEditCarForm}  onClose={() => setShowEditCarForm(false)}  userId={userId}  carId={carId}  handleFetchCar={handleFetchCar}  />
+      <AddCarFormPopup show={showAddCarForm} onClose={() => setShowAddCarForm(false)} handleFetchCar={handleFetchCar} />
+      <EditCarFormPopup show={showEditCarForm} onClose={() => setShowEditCarForm(false)} userId={userId} carId={carId} handleFetchCar={handleFetchCar} />
     </div>
   );
 };
