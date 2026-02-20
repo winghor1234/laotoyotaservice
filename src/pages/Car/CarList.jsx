@@ -4,8 +4,6 @@ import SelectDate from "../../utils/SelectDate";
 import { useEffect, useState } from "react";
 import EditCarFormPopup from "./EditCarForm";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
-import { filterByDateRange } from "../../utils/FilterDate";
-import { filterSearch } from "../../utils/FilterSearch";
 import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
 import ExportExcelButton from "../../utils/ExcelExportButton";
@@ -15,35 +13,56 @@ import { useNavigate } from "react-router-dom";
 
 const CarList = () => {
   const { t } = useTranslation("car");
+  const navigate = useNavigate();
+
+  // Popup
   const [showAddCarForm, setShowAddCarForm] = useState(false);
   const [showEditCarForm, setShowEditCarForm] = useState(false);
   const [carId, setCarId] = useState(null);
+
+  // Data
   const [car, setCar] = useState([]);
-  const [userId, setUserId] = useState(null);
+  const [exportedData, setExportedData] = useState([]);
+
+  // Filter
   const [search, setSearch] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [exportedData, setExportedData] = useState([]);
-  const navigate = useNavigate();
 
+  // Pagination (Server-side)
+  const [page, setPage] = useState(1);
+  const limit = 2;
+  const [totalPage, setTotalPage] = useState(1);
 
-  const handleFetchCar = async () => {
+  // ===============================
+  // Fetch Data (Server-side)
+  // ===============================
+  const handleFetchCar = async (
+    pageNumber = 1,
+    searchValue = search,
+    start = startDate,
+    end = endDate
+  ) => {
     try {
-      const [resAllCar, resGetUserId] = await Promise.all([
-        axiosInstance.get(APIPath.SELECT_ALL_CAR),
-        axiosInstance.get(APIPath.GET_PROFILE),
-      ]);
-      setCar(resAllCar?.data?.data);
-      // console.log(resAllCar?.data?.data);
-      setUserId(resGetUserId?.data?.data?.user_id);
+      const res = await axiosInstance.get(APIPath.GET_ALL_CAR, {
+        params: {
+          page: pageNumber,
+          limit: limit,
+          search: searchValue || undefined,
+          startDate: start ? start.toISOString() : undefined,
+          endDate: end ? end.toISOString() : undefined,
+        },
+      });
+
+      const data = res?.data?.data;
+
+      setCar(data?.car || []);
+      setTotalPage(data?.totalPage || 1);
+      setPage(data?.currentPage || 1);
+
+      // export data (เฉพาะข้อมูลหน้านี้ตาม backend)
       setExportedData(
-        resAllCar?.data?.data?.map((item) => ({
-          // [t("userId")]: item.userId,
-          // [t("model")]: item.model,
-          // [t("plate")]: item.plateNumber,
-          // [t("frame")]: item.frameNumber,
-          // [t("engine")]: item.engineNumber,
-          // [t("province")]: item.province,
+        (data?.car || []).map((item) => ({
           "ລະຫັດ": item.userId,
           "ຊື່ລົດ": item.model,
           "ປ້າຍທະບຽນ": item.plateNumber,
@@ -58,15 +77,42 @@ const CarList = () => {
     }
   };
 
-  const handleDelete = async (carId) => {
-    try {
-      const confirmDelete = await DeleteAlert(t("delete_confirm"), t("delete_success"));
-      if (confirmDelete) {
-        await axiosInstance.delete(APIPath.DELETE_CAR(carId));
-        handleFetchCar();
-      }
-    } catch (error) {
-      console.error("Failed to delete car:", error);
+  // โหลดครั้งแรก + ทุกครั้งที่ page เปลี่ยน
+  useEffect(() => {
+    handleFetchCar(page);
+  }, [page]);
+
+  // ===============================
+  // Handlers
+  // ===============================
+
+  const handleSearch = (value) => {
+    setSearch(value);
+    setPage(1);
+    handleFetchCar(1, value, startDate, endDate);
+  };
+
+  const handleDateChange = ({ startDate: s, endDate: e }) => {
+    setStartDate(s);
+    setEndDate(e);
+    setPage(1);
+    handleFetchCar(1, search, s, e);
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage < 1 || newPage > totalPage) return;
+    setPage(newPage);
+  };
+
+  const handleDelete = async (id) => {
+    const confirmDelete = await DeleteAlert(
+      t("delete_confirm"),
+      t("delete_success")
+    );
+
+    if (confirmDelete) {
+      await axiosInstance.delete(APIPath.DELETE_CAR(id));
+      handleFetchCar(page);
     }
   };
 
@@ -74,37 +120,31 @@ const CarList = () => {
     navigate(`/user/car-detail/${id}`);
   };
 
-  useEffect(() => {
-    handleFetchCar();
-  }, []);
-
-  const filteredCar = filterByDateRange(filterSearch(car, "plateNumber", search), startDate, endDate, "createdAt");
-
   return (
     <div>
-      {/* Top Controls */}
-      <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6 mb-6">
-        <SelectDate onSearch={setSearch} placeholder={t("search_placeholder")} onDateChange={({ startDate, endDate }) => { setStartDate(startDate); setEndDate(endDate); }} />
-        <div className="flex flex-col sm:flex-row sm:justify-center gap-2 sm:gap-3">
-          {/* <button className="bg-red-600 hover:bg-red-700 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium">
-            {t("search")}
-          </button> */}
+      {/* Controls */}
+      <div className="flex flex-col lg:flex-row gap-4 mb-6">
+        <SelectDate
+          onSearch={handleSearch}
+          placeholder={t("search_placeholder")}
+          onDateChange={handleDateChange}
+        />
+
+        <div className="flex gap-3">
           <ExportExcelButton data={exportedData} />
-          {/*  ImportExcel */}
+
           <ImportExcel
             apiPath={APIPath.CREATE_CAR}
-            requiredFields={["ຊື່ລົດ", "ປ້າຍທະບຽນ", "ເລກຖັງ", "ເລກຈັກ", "ແຂວງ", 'ສີ']}
-            // transformData={(item) => ({
-            //   userId: item["ລະຫັດ"],
-            //   model: item["ຊື່ລົດ"],
-            //   plateNumber: item["ປ້າຍທະບຽນ"],
-            //   frameNumber: item["ເລກຖັງ"],
-            //   engineNumber: item["ເລກຈັກ"],
-            //   province: item["ແຂວງ"],
-            //   color: item['ສີ']
-            // })}
+            requiredFields={[
+              "ຊື່ລົດ",
+              "ປ້າຍທະບຽນ",
+              "ເລກຖັງ",
+              "ເລກຈັກ",
+              "ແຂວງ",
+              "ສີ",
+            ]}
             transformData={(item) => ({
-              userId:  null, 
+              userId: null,
               model: item["ຊື່ລົດ"]?.trim(),
               plateNumber: item["ປ້າຍທະບຽນ"]?.trim(),
               frameNumber: item["ເລກຖັງ"]?.trim(),
@@ -112,86 +152,165 @@ const CarList = () => {
               province: item["ແຂວງ"]?.trim(),
               color: item["ສີ"]?.trim(),
             })}
-            onUploadSuccess={handleFetchCar}
+            onUploadSuccess={() =>
+              handleFetchCar(page)
+            }
           />
+
           <button
             onClick={() => setShowAddCarForm(true)}
-            className="bg-blue-500 hover:bg-blue-600 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium"
+            className="bg-blue-500 hover:bg-blue-600 px-6 py-2 text-white rounded-xl"
           >
             {t("add")}
           </button>
         </div>
       </div>
-      {/* Desktop Table */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full">
-        <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
-          <div className="grid grid-cols-8 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 font-medium text-sm md:text-base lg:text-lg">
-            <div className="flex justify-center items-center">{t("index")}</div>
-            <div className="flex justify-center items-center">{t("model")}</div>
-            <div className="flex justify-center items-center">{t("plate")}</div>
-            <div className="flex justify-center items-center">{t("color")}</div>
-            <div className="flex justify-center items-center">{t("engine")}</div>
-            <div className="flex justify-center items-center">{t("frame")}</div>
-            <div className="flex justify-center items-center">{t("province")}</div>
-            <div className="flex justify-center items-center">{t("action")}</div>
-          </div>
-        </div>
-        <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
-          {filteredCar?.map((item, index) => (
-            <div key={index} onClick={() => handleToDetailCar(item.car_id)} className="grid grid-cols-8 gap-1 px-3 py-3 items-center hover:bg-gray-50">
-              <div className="flex justify-center">{index + 1}</div>
-              <div className="text-center line-clamp-1 ">{item.model}</div>
+
+      {/* Desktop Card Layout */}
+      <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="divide-y divide-gray-200">
+          {car.map((item, index) => (
+            <div
+              key={index}
+              onClick={() => handleToDetailCar(item.car_id)}
+              className="hidden md:grid md:grid-cols-8 md:gap-2 text-center items-center w-full px-4 py-3 hover:bg-gray-50 cursor-pointer"
+            >
+              <div className="text-center">
+                {(page - 1) * limit + index + 1}
+              </div>
+              <div className="text-center line-clamp-1">{item.model}</div>
               <div className="text-center line-clamp-1">{item.plateNumber}</div>
               <div className="text-center line-clamp-1">{item.color}</div>
               <div className="text-center line-clamp-1">{item.engineNumber}</div>
               <div className="text-center line-clamp-1">{item.frameNumber}</div>
               <div className="text-center line-clamp-1">{item.province}</div>
-              <div className="flex justify-center gap-6">
-                <Edit className="cursor-pointer" onClick={(e) => { e.stopPropagation(); setShowEditCarForm(true); setCarId(item.car_id); }} />
-                <Trash onClick={(e) => { e.stopPropagation(); handleDelete(item.car_id); }} className="cursor-pointer" />
+              <div className="flex justify-center gap-4">
+                <Edit
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCarId(item.car_id);
+                    setShowEditCarForm(true);
+                  }}
+                />
+                <Trash
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(item.car_id);
+                  }}
+                />
               </div>
+            </div>
+          ))}
+        </div>
+        {/* Mobile Card Layout */}
+        <div>
+          {car.map((item, index) => (
+            <div
+              key={index}
+              onClick={() => handleToDetailCar(item.car_id)}
+              className="md:hidden flex flex-col gap-1">
+              <div className="flex justify-between">
+                <span className="font-semibold">{t("no")}:</span>
+                <span>{(page - 1) * limit + index + 1}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-semibold">{t("model")}:</span>
+                <span>{item.model}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-semibold">{t("plate")}:</span>
+                <span>{item.plateNumber}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-semibold">{t("color")}:</span>
+                <span>{item.color}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-semibold">{t("engine")}:</span>
+                <span>{item.engineNumber}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-semibold">{t("frame")}:</span>
+                <span>{item.frameNumber}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-semibold">{t("province")}:</span>
+                <span>{item.province}</span>
+              </div>
+              <div className="flex gap-4 mt-2">
+                <Edit
+                  className="text-blue-500 hover:text-blue-700"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCarId(item.car_id);
+                    setShowEditCarForm(true);
+                  }}
+                />
+                <Trash
+                  className="text-red-500 hover:text-red-700"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(item.car_id);
+                  }}
+                />
+              </div>
+              <hr />
             </div>
           ))}
         </div>
 
-        {/* Mobile */}
-        <div className="md:hidden divide-y divide-gray-200">
-          {car?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
-            <div key={index} onClick={() => handleToDetailCar(item.car_id)} className="p-4 hover:bg-gray-50">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                  <Car className="text-gray-600 w-6 h-6" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-lg text-gray-900 line-clamp-1">{item.model}</h3>
-                  <p className="text-gray-600 text-base line-clamp-1">{item.plateNumber}</p>
-                </div>
-              </div>
-              <div className="grid gap-2 text-base">
-                <div className="flex justify-between py-1">
-                  <span className="text-gray-500 font-medium">{t("engine")}:</span>
-                  <span>{item.engineNumber}</span>
-                </div>
-                <div className="flex justify-between py-1">
-                  <span className="text-gray-500 font-medium">{t("frame")}:</span>
-                  <span>{item.frameNumber}</span>
-                </div>
-                <div className="flex justify-between py-1">
-                  <span className="text-gray-500 font-medium">{t("plate")}:</span>
-                  <span>{item.plateNumber}</span>
-                </div>
-                <div className="flex justify-between py-1">
-                  <span className="text-gray-500 font-medium">{t("province")}:</span>
-                  <span>{item.province}</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
-      {/* Popups */}
-      <AddCarFormPopup show={showAddCarForm} onClose={() => setShowAddCarForm(false)} handleFetchCar={handleFetchCar} />
-      <EditCarFormPopup show={showEditCarForm} onClose={() => setShowEditCarForm(false)} userId={userId} carId={carId} handleFetchCar={handleFetchCar} />
+
+      {/* Pagination (style เดิม ไม่แตะ) */}
+      <div className="flex justify-end mt-4 gap-2 items-center">
+        <button
+          onClick={() => handlePageChange(page - 1)}
+          disabled={page === 1}
+          className={`px-3 py-1 rounded ${page === 1
+            ? "bg-gray-100 text-gray-400"
+            : "bg-gray-200 hover:bg-gray-300"
+            }`}
+        >
+          ‹
+        </button>
+
+        {Array.from({ length: totalPage }, (_, i) => (
+          <button
+            key={i}
+            onClick={() => handlePageChange(i + 1)}
+            className={`px-3 py-1 rounded ${page === i + 1
+              ? "bg-blue-500 text-white"
+              : "bg-gray-200 hover:bg-gray-300"
+              }`}
+          >
+            {i + 1}
+          </button>
+        ))}
+
+        <button
+          onClick={() => handlePageChange(page + 1)}
+          disabled={page === totalPage}
+          className={`px-3 py-1 rounded ${page === totalPage
+            ? "bg-gray-100 text-gray-400"
+            : "bg-gray-200 hover:bg-gray-300"
+            }`}
+        >
+          ›
+        </button>
+      </div>
+
+      <AddCarFormPopup
+        show={showAddCarForm}
+        onClose={() => setShowAddCarForm(false)}
+        handleFetchCar={() => handleFetchCar(page)}
+      />
+
+      <EditCarFormPopup
+        show={showEditCarForm}
+        onClose={() => setShowEditCarForm(false)}
+        carId={carId}
+        handleFetchCar={() => handleFetchCar(page)}
+      />
     </div>
   );
 };
