@@ -35,7 +35,7 @@
   "appointment_time": "Appointment Time",
   "complete_fix": "Complete Fix",
   "appointment_info": "Appointment Info",
-  "approved": "Approved",
+  "approved": "Fixing",
   "kmLast": "Previous KM",
   "kmNext": "Latest KM",
   "detailFix": "Fix Details",
@@ -79,7 +79,20 @@
   "bill": "Bill",
   "name": "Name",
   "remark": "Initial Symptoms",
-  "cancelTitle": "Cancel Booking"
+  "cancelTitle": "Cancel Booking",
+  "company_name": "LAO TOYOTA",
+  "see_history": "See History",
+  "export": "Download",
+  "choose_date": "Choose Date",
+  "custom_date": "Custom Date",
+  "to_day": "Today",
+  "yesterday": "Yesterday",
+  "this_month": "This Month",
+  "last_month": "Last Month",
+  "this_year": "This Year",
+  "last_year": "Last Year"
+
+
 
 
   

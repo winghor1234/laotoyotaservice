@@ -1,7 +1,7 @@
-import { Car, Edit, Trash } from "lucide-react";
+import { Edit, Trash } from "lucide-react";
 import AddCarFormPopup from "./AddCarForm";
 import SelectDate from "../../utils/SelectDate";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import EditCarFormPopup from "./EditCarForm";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
 import axiosInstance from "../../utils/AxiosInstance";
@@ -10,6 +10,7 @@ import ExportExcelButton from "../../utils/ExcelExportButton";
 import { useTranslation } from "react-i18next";
 import ImportExcel from "../../utils/ImportExel";
 import { useNavigate } from "react-router-dom";
+import useServerFilterPagination from "../../utils/useServerFilterPagination";
 
 const CarList = () => {
   const { t } = useTranslation("car");
@@ -20,89 +21,51 @@ const CarList = () => {
   const [showEditCarForm, setShowEditCarForm] = useState(false);
   const [carId, setCarId] = useState(null);
 
-  // Data
-  const [car, setCar] = useState([]);
-  const [exportedData, setExportedData] = useState([]);
-
-  // Filter
-  const [search, setSearch] = useState("");
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-
-  // Pagination (Server-side)
-  const [page, setPage] = useState(1);
-  const limit = 2;
-  const [totalPage, setTotalPage] = useState(1);
-
   // ===============================
-  // Fetch Data (Server-side)
+  // useServerFilterPagination
   // ===============================
-  const handleFetchCar = async (
-    pageNumber = 1,
-    searchValue = search,
-    start = startDate,
-    end = endDate
-  ) => {
-    try {
-      const res = await axiosInstance.get(APIPath.GET_ALL_CAR, {
+  const {
+    data: car,
+    page,
+    totalPage,
+    search,
+    limit,
+    handleSearch,
+    handleDateChange,
+    handlePageChange,
+    fetchData,
+  } = useServerFilterPagination({
+    apiCall: ({ page, limit, search, startDate, endDate }) =>
+      axiosInstance.get(APIPath.GET_ALL_CAR, {
         params: {
-          page: pageNumber,
-          limit: limit,
-          search: searchValue || undefined,
-          startDate: start ? start.toISOString() : undefined,
-          endDate: end ? end.toISOString() : undefined,
+          page,
+          limit,
+          search: search || undefined,
+          startDate: startDate?.toISOString(),
+          endDate: endDate?.toISOString(),
         },
-      });
+      }),
+  });
 
-      const data = res?.data?.data;
-
-      setCar(data?.car || []);
-      setTotalPage(data?.totalPage || 1);
-      setPage(data?.currentPage || 1);
-
-      // export data (เฉพาะข้อมูลหน้านี้ตาม backend)
-      setExportedData(
-        (data?.car || []).map((item) => ({
-          "ລະຫັດ": item.userId,
-          "ຊື່ລົດ": item.model,
-          "ປ້າຍທະບຽນ": item.plateNumber,
-          "ເລກຖັງ": item.frameNumber,
-          "ເລກຈັກ": item.engineNumber,
-          "ແຂວງ": item.province,
-          "ສີ": item.color,
-        }))
-      );
-    } catch (error) {
-      console.error("Error fetching car data:", error);
-    }
-  };
-
-  // โหลดครั้งแรก + ทุกครั้งที่ page เปลี่ยน
-  useEffect(() => {
-    handleFetchCar(page);
-  }, [page]);
 
   // ===============================
-  // Handlers
+  // Export (ถ้ายังต้องใช้)
   // ===============================
+  const exportedData = car.map((item) => ({
+    "ລະຫັດ": item.userId,
+    "ຊື່ລົດ": item.model,
+    "ປ້າຍທະບຽນ": item.plateNumber,
+    "ເລກຖັງ": item.frameNumber,
+    "ເລກຈັກ": item.engineNumber,
+    "ແຂວງ": item.province,
+    "ສີ": item.color,
+  }));
+  // console.log("car :",  totalPage);
 
-  const handleSearch = (value) => {
-    setSearch(value);
-    setPage(1);
-    handleFetchCar(1, value, startDate, endDate);
-  };
 
-  const handleDateChange = ({ startDate: s, endDate: e }) => {
-    setStartDate(s);
-    setEndDate(e);
-    setPage(1);
-    handleFetchCar(1, search, s, e);
-  };
-
-  const handlePageChange = (newPage) => {
-    if (newPage < 1 || newPage > totalPage) return;
-    setPage(newPage);
-  };
+  // ===============================
+  // Delete
+  // ===============================
 
   const handleDelete = async (id) => {
     const confirmDelete = await DeleteAlert(
@@ -110,23 +73,24 @@ const CarList = () => {
       t("delete_success")
     );
 
-    if (confirmDelete) {
-      await axiosInstance.delete(APIPath.DELETE_CAR(id));
-      handleFetchCar(page);
-    }
+    if (!confirmDelete) return;
+
+    await axiosInstance.delete(APIPath.DELETE_CAR(id));
+    fetchData(); // refresh list
   };
 
-  const handleToDetailCar = (id) => {
+  const handleToDetailCar = (id) =>
     navigate(`/user/car-detail/${id}`);
-  };
+
+
 
   return (
     <div>
       {/* Controls */}
       <div className="flex flex-col lg:flex-row gap-4 mb-6">
         <SelectDate
-          onSearch={handleSearch}
-          placeholder={t("search_placeholder")}
+          searchValue={search}
+          onSearchChange={handleSearch}
           onDateChange={handleDateChange}
         />
 
@@ -153,7 +117,7 @@ const CarList = () => {
               color: item["ສີ"]?.trim(),
             })}
             onUploadSuccess={() =>
-              handleFetchCar(page)
+              fetchData()
             }
           />
 
@@ -302,14 +266,14 @@ const CarList = () => {
       <AddCarFormPopup
         show={showAddCarForm}
         onClose={() => setShowAddCarForm(false)}
-        handleFetchCar={() => handleFetchCar(page)}
+        handleFetchCar={() => fetchData(page)}
       />
 
       <EditCarFormPopup
         show={showEditCarForm}
         onClose={() => setShowEditCarForm(false)}
         carId={carId}
-        handleFetchCar={() => handleFetchCar(page)}
+        handleFetchCar={() => fetchData(page)}
       />
     </div>
   );

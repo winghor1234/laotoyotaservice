@@ -2,11 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
-import BookingSearch from "../../../utils/BookingSearch";
+// import BookingSearch from "../../../utils/BookingSearch";
 import logo from "../../../assets/corrects.png";
 import { useTranslation } from "react-i18next";
 import { useCheckRole } from "../../../utils/checkRole";
 import { useEmployeeBranchId } from "../../../utils/useEmployeeBranchId";
+import ExportExcelPopup from "../../../utils/exportExelPopup";
 
 const Success = () => {
     const navigate = useNavigate();
@@ -14,9 +15,10 @@ const Success = () => {
 
     const [bookings, setBookings] = useState([]);
     const [fixes, setFixes] = useState([]);
-    const [exportData, setExportData] = useState([]);
+    // const [exportData, setExportData] = useState([]);
     const role = useCheckRole();
     const branch_id = useEmployeeBranchId();
+    const [open, setOpen] = useState(false);
 
 
     const fetchData = async () => {
@@ -36,22 +38,22 @@ const Success = () => {
             setBookings(bookingsData);
             setFixes(fixesData);
 
-            setExportData(
-                bookingsData
-                    ?.filter((booking) =>
-                        fixesData?.some(
-                            (f) => f.bookingId === booking.booking_id && f.fixStatus === "success"
-                        )
-                    )
-                    ?.map((item) => ({
-                        [t("car")]: item?.car?.model,
-                        [t("customerName")]: item?.user?.username,
-                        [t("phone")]: item?.user?.phoneNumber,
-                        [t("plate")]: item?.car?.plateNumber,
-                        [t("date_label")]: item?.time?.date,
-                        [t("time_label")]: item?.time?.time,
-                    }))
-            );
+            // setExportData(
+            //     bookingsData
+            //         ?.filter((booking) =>
+            //             fixesData?.some(
+            //                 (f) => f.bookingId === booking.booking_id && f.fixStatus === "success"
+            //             )
+            //         )
+            //         ?.map((item) => ({
+            //             [t("car")]: item?.car?.model,
+            //             [t("customerName")]: item?.user?.username,
+            //             [t("phone")]: item?.user?.phoneNumber,
+            //             [t("plate")]: item?.car?.plateNumber,
+            //             [t("date_label")]: item?.time?.date,
+            //             [t("time_label")]: item?.time?.time,
+            //         }))
+            // );
         } catch (error) {
             console.log(error);
         }
@@ -69,14 +71,14 @@ const Success = () => {
         );
     }, [bookings, fixes]);
 
-    const handleSearch = async ({ searchText }) => {
-        try {
-            const res = await axiosInstance.get(`${APIPath.SEARCH_BOOKING}?search=${searchText}`);
-            setBookings(res?.data?.data || []);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    // const handleSearch = async ({ searchText }) => {
+    //     try {
+    //         const res = await axiosInstance.get(`${APIPath.SEARCH_BOOKING}?search=${searchText}`);
+    //         setBookings(res?.data?.data || []);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
 
     useEffect(() => {
         if (role !== "super_admin" && !branch_id) return;
@@ -85,7 +87,20 @@ const Success = () => {
 
     return (
         <div className="p-4">
-            <BookingSearch onSearch={handleSearch} exportData={exportData} setExportData={setExportData} fetchBooking={fetchData} />
+            {/* <BookingSearch onSearch={handleSearch} exportData={exportData} setExportData={setExportData} fetchBooking={fetchData} /> */}
+            <div className="flex justify-end items-center">
+                <button onClick={() => setOpen(true)} className="bg-green-500 text-white p-2 rounded">
+                    {t("export")}
+                </button>
+                {open && (
+                    <ExportExcelPopup
+                        apiUrl={APIPath.EXPORT_BOOKING}
+                        fileName="booking-report.xlsx"
+                        onClose={() => setOpen(false)}
+                    />
+                )}
+            </div>
+
             <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mt-4">
                 {/* Desktop/Tablet Header */}
                 <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">

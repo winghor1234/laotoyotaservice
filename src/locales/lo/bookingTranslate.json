@@ -35,7 +35,7 @@
   "appointment_time": "ເວລານັດໝາຍ",
   "complete_fix": "ສຳເລັດການສ້ອມແປງ",
   "appointment_info": "ຂໍ້ມູນຜູ້ນັດໝາຍ",
-  "approved": "ອະນຸມັດແລ້ວ",
+  "approved": "ກຳລັງສ້ອມແປງ",
   "title": "ລາຍລະອຽດການສ້ອມແປງ",
   "kmLast": "ໄລຍະທາງກ່ອນ",
   "kmNext": "ໄລຍະທາງລ້າສຸດ",
@@ -80,7 +80,19 @@
   "bill": "ບິນ",
   "name": "ຊື່",
   "remark": "ອາການເບື້້ອງຕົ້ນ",
-  "cancelTitle": "ຍົກເລີກການນັດໝາຍ"
+  "cancelTitle": "ຍົກເລີກການນັດໝາຍ",
+  "company_name": "ລາວ ໂຕໂຢຕ້າ",
+  "see_history": "ເບິ່ງປະຫວັດ",
+  "export": "ດາວໂຫລດ",
+  "choose_date": "ເລືອກວັນທີ",
+  "custom_date": "ກຳນົດເອງ",
+  "to_day": "ມື້ນີ້",
+  "yesterday": "ມື້ວານ",
+  "this_month": "ເດືອນນີ້",
+  "last_month": "ເດືອນກ່ອນ",
+  "this_year": "ປີນີ້",
+  "last_year": "ປີກ່ອນ"
+
   
 
   

@@ -5,6 +5,9 @@ import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { useTranslation } from "react-i18next";
 import html2pdf from "html2pdf.js";
+import logo from "../../../assets/logo.jpg";
+import { formatNewDate } from "../../../utils/formatNewDate";
+
 
 // ฟังก์ชัน generate Bill ID แบบมาตรฐาน
 const generateBillId = (bookingId) => {
@@ -60,9 +63,13 @@ const BillDetail = () => {
                 }
 
                 // auto export PDF หลังโหลดเสร็จ
-                setTimeout(() => {
-                    handleExportPDF();
-                }, 500);
+                const exported = localStorage.getItem(`exported-${bookingId}`);
+                if (!exported) {
+                    setTimeout(() => {
+                        handleExportPDF();
+                        localStorage.setItem(`exported-${bookingId}`, "true");
+                    }, 500);
+                }
 
             } catch (error) {
                 console.error("Error fetching bill data:", error);
@@ -119,12 +126,16 @@ const BillDetail = () => {
 
             {/* เนื้อหาบิล */}
             <div ref={billRef} className="p-6 rounded-xl" style={{ backgroundColor: "#ffffff", boxShadow: "0 1px 2px rgba(0,0,0,0.1)" }}>
-                <h2 className="text-center text-2xl font-semibold mb-4" style={{ color: "#374151" }}>
+                <div className="flex justify-center mb-2">
+                    <img src={logo} alt="logo" style={{ width: "80px" }} />
+                </div>
+
+                <h2 className="text-center text-2xl font-semibold mb-4">
                     🧾 {t("billTitle")}
                 </h2>
 
                 <div className="mb-4 text-sm" style={{ color: "#4b5563" }}>
-                    <p>{t("date_bill")}: {new Date().toLocaleDateString("lo-LA")}</p>
+                    <p>{t("date_bill")}: {formatNewDate}</p>
                     <p>{t("billId")}: {billId}</p>
                 </div>
 

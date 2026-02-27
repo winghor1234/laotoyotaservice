@@ -14,7 +14,7 @@ const EditForm = ({ setShowEdit, bookingId, reload }) => {
   const [selectedTime, setSelectedTime] = useState(null);
   const [booking, setBooking] = useState(null);
 
-  const { register,handleSubmit,reset,watch,formState: { errors, isSubmitting },} = useForm({
+  const { register, handleSubmit, reset, watch, formState: { errors, isSubmitting }, } = useForm({
     defaultValues: {
       timeId: "",
     },
@@ -92,16 +92,31 @@ const EditForm = ({ setShowEdit, bookingId, reload }) => {
         remark: booking?.remark,
       };
 
-      await axiosInstance.put(
-        APIPath.UPDATE_BOOKING(bookingId),
-        payload
-      );
+      const requests = [
+        axiosInstance.put(
+          APIPath.UPDATE_BOOKING(bookingId),
+          payload
+        ),
+        axiosInstance.put(
+          APIPath.UPDATE_TIME_STATUS(selectedTime.time_id),
+          { timeStatus: "false" }
+        )
+      ];
 
+      const currentTimeId = booking?.timeId;
+      if (currentTimeId) {
+        requests.push(
+          axiosInstance.put(
+            APIPath.UPDATE_TIME_STATUS(currentTimeId),
+            { timeStatus: "true" }
+          )
+        );
+      }
+
+      await Promise.all(requests);
       SuccessAlert(t("edit_success"));
-
       // reload parent data (zone will refresh correctly)
       await reload();
-
       setShowEdit(false);
 
     } catch (error) {
@@ -179,3 +194,4 @@ const EditForm = ({ setShowEdit, bookingId, reload }) => {
 };
 
 export default EditForm;
+

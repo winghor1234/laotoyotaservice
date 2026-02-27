@@ -68,7 +68,9 @@ export default class APIPath {
     static SELECT_BOOKING_BY_STATUS = `${this.BASE_URL}/booking/selByStatus`;
     static SELECT_BOOKING_BY_BRANCH(branch_id) { return `${this.BASE_URL}/booking/selByBranch/${branch_id}` };
     static GET_ALL_BOOKING = `${this.BASE_URL}/booking/getAll`;
+    static GET_ALL_BOOKING_BY_BRANCH(branch_id) { return `${this.BASE_URL}/booking/getAllByBranch/${branch_id}` };
     static CREATE_BOOKING = `${this.BASE_URL}/booking/insert`;
+    static EXPORT_BOOKING = `${this.BASE_URL}/booking/export`;
     static UPDATE_BOOKING(id) { return `${this.BASE_URL}/booking/update/${id}` }
     static UPDATE_BOOKING_STATUS(id) { return `${this.BASE_URL}/booking/updateStatus/${id}` }
     static DELETE_BOOKING(id) { return `${this.BASE_URL}/booking/delete/${id}` }

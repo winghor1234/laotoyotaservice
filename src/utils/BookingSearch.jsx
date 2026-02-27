@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { CalendarDays, ChevronDown, Search } from "lucide-react";
 import ExportExcelButton from "./ExcelExportButton";
 import { useTranslation } from "react-i18next";
+// import ExportDatePopup from "./exportDataPopup";
 
 
 
@@ -81,6 +82,7 @@ const BookingSearch = ({ onSearch , exportData, }) => {
                 </button>
                 <ExportExcelButton data={exportData} />
                 {/* <ImportExcel fetchTime={fetchBooking} addToExport={setExportData} /> */}
+                {/* <ExportDatePopup onExport={exportData} /> */}
 
             </div>
         </form>

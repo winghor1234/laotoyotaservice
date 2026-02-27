@@ -6,6 +6,7 @@ import APIPath from "../../../api/APIPath";
 import html2pdf from "html2pdf.js";
 import { useTranslation } from "react-i18next";
 import { generateBillId } from "../../../utils/BillGenerate";
+import logo from "../../../assets/logo.jpg";
 
 const BookingSuccess = () => {
     const navigate = useNavigate();
@@ -14,39 +15,45 @@ const BookingSuccess = () => {
     const printRef = useRef();
     const { t } = useTranslation("booking");
     const [billId, setBillId] = useState("");
+    const [bookingDetail, setBookingDetail] = useState([]);
     const handleBack = () => navigate("/user/booking");
 
-    const fetchData = async () => {
-        try {
-            const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(id));
-            setBooking(res?.data?.data || null);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     useEffect(() => {
-        fetchData();
-        const storedBillId = localStorage.getItem(`billId-${id}`);
+        const init = async () => {
+            try {
+                const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(id));
+                const bookingData = res?.data?.data || null;
+                setBooking(bookingData);
 
-        if (storedBillId) {
-            setBillId(storedBillId);
-        } else {
-            const newBillId = generateBillId();
-            localStorage.setItem(`billId-${id}`, newBillId);
-            setBillId(newBillId);
-        }
+                const bookingDetailRes = await axiosInstance.get(APIPath.SELECT_BOOKING_DETAIL_BY(id));
+                setBookingDetail(bookingDetailRes?.data?.data || []);
+
+                // Generate Bill ID
+                const storedBillId = localStorage.getItem(`billId-${id}`);
+                if (storedBillId) {
+                    setBillId(storedBillId);
+                } else {
+                    const newBillId = generateBillId();
+                    localStorage.setItem(`billId-${id}`, newBillId);
+                    setBillId(newBillId);
+                }
+
+                // ✅ Export only first time
+                const exported = sessionStorage.getItem(`exported-${id}`);
+                if (!exported) {
+                    setTimeout(() => {
+                        handleExportPDF();
+                        sessionStorage.setItem(`exported-${id}`, "true");
+                    }, 500);
+                }
+
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        init();
     }, [id]);
-
-    // Auto Export after render
-    useEffect(() => {
-        if (booking) {
-            const timer = setTimeout(() => {
-                handleExportPDF();
-            }, 500);
-            return () => clearTimeout(timer);
-        }
-    }, [booking]);
 
     const handleExportPDF = () => {
         if (!printRef.current) return;
@@ -90,54 +97,73 @@ const BookingSuccess = () => {
                     color: "#111827",
                 }}
             >
-                {/* Invoice Header */}
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "30px" }}>
-                    <div>
-                        <h2 style={{ margin: 0, fontSize: "larger", fontWeight: "bold" }}>{t("bill")}</h2>
+                {/* HEADER */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    {/* LEFT: Logo + Shop */}
+                    <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+                        <img src={logo} alt="logo" style={{ width: "90px" }} />
+                        <div>
+                            <h2 style={{ margin: 0 }}>{t("company_name")}</h2>
+                        </div>
                     </div>
+
+                    {/* RIGHT: Invoice Info */}
                     <div style={{ textAlign: "right" }}>
-                        <p><strong>{t("billId")}:</strong>{billId}</p>
+                        {/* <h2 style={{ margin: 0 }}>{t("bill")}</h2> */}
+                        <p><strong>{t("billId")}:</strong> {billId}</p>
                         <p><strong>{t("date_bill")}:</strong> {booking?.time?.date}</p>
                         <p><strong>{t("time_label")}:</strong> {booking?.time?.time}</p>
                     </div>
                 </div>
 
-                <hr />
+                <hr style={{ margin: "30px 0" }} />
 
-                {/* Customer Section */}
-                <div style={{ marginTop: "25px", marginBottom: "25px" }}>
-                    <h3 style={{ marginBottom: "10px" }}>Customer Information</h3>
-                    <p><strong>{t("name")}</strong> {booking?.user?.username}</p>
-                    <p><strong>{t("phone")}</strong> {booking?.user?.phoneNumber}</p>
+                {/* CUSTOMER + VEHICLE SECTION */}
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "30px" }}>
+                    <div style={{ width: "48%" }}>
+                        <h3 style={{ marginBottom: "10px" }}>Customer Information</h3>
+                        <p><strong>{t("name")}:</strong> {booking?.user?.username}</p>
+                        <p><strong>{t("phone")}:</strong> {booking?.user?.phoneNumber}</p>
+                    </div>
+
+                    <div style={{ width: "48%" }}>
+                        <h3 style={{ marginBottom: "10px" }}>{t("fixDetail")}</h3>
+                        <p><strong>{t("plate_number")}:</strong> {booking?.car?.plateNumber}</p>
+                        <p><strong>{t("car_model")}:</strong> {booking?.car?.model}</p>
+                    </div>
                 </div>
 
-                {/* Vehicle Section */}
-                <div style={{ marginBottom: "25px" }}>
-                    <h3 style={{ marginBottom: "10px" }}>{t("fixDetail")}</h3>
-                    <p><strong>{t("plate_number")}:</strong> {booking?.car?.plateNumber}</p>
-                    <p><strong>{t("car_model")}:</strong> {booking?.car?.model}</p>
-                </div>
-
-                {/* Service Detail */}
+                {/* SERVICE TABLE */}
                 <table style={{ width: "100%", borderCollapse: "collapse", marginBottom: "40px" }}>
                     <thead>
-                        <tr style={{ background: "#f9fafb" }}>
+                        <tr style={{ background: "#f3f4f6" }}>
                             <th style={th}>#</th>
+                            <th style={th}>{t("service_name")}</th>
                             <th style={th}>{t("remark")}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style={td}>1</td>
-                            <td style={td}>{booking?.remark || "-"}</td>
-                        </tr>
+                        {bookingDetail?.map((detail, index) => (
+                            <tr key={index}>
+                                <td style={td}>{index + 1}</td>
+                                <td style={td}>{detail?.service?.serviceName}</td>
+                                <td style={td}>{booking?.remark || "-"}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
 
                 <hr />
 
-                {/* Footer */}
-                <p style={{ textAlign: "center", fontSize: "10pt", color: "#6b7280", marginTop: "20px" }}>
+                {/* FOOTER */}
+                <p
+                    style={{
+                        textAlign: "center",
+                        fontSize: "10pt",
+                        color: "#6b7280",
+                        marginTop: "20px",
+                    }}
+                >
                     {t("thanks_message")}
                 </p>
             </div>

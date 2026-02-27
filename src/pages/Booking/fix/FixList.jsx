@@ -6,6 +6,7 @@ import BookingSearch from "../../../utils/BookingSearch";
 import { useTranslation } from "react-i18next";
 import { useCheckRole } from "../../../utils/checkRole";
 import { useEmployeeBranchId } from "../../../utils/useEmployeeBranchId";
+import { Eye } from "lucide-react";
 
 
 const FixList = () => {
@@ -72,7 +73,7 @@ const FixList = () => {
         fixes.some(
           (f) => f.bookingId === booking.booking_id && f.fixStatus === "padding"
         )
-      ),    [bookings, fixes]
+      ), [bookings, fixes]
   );
 
   const handleSearch = async ({ searchText }) => {
@@ -86,7 +87,7 @@ const FixList = () => {
 
   useEffect(() => {
     // if (role === "super_admin" || branch_id) {
-      fetchData();
+    fetchData();
     // }
   }, [role, branch_id]);
 
@@ -101,13 +102,14 @@ const FixList = () => {
       <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mt-4">
         {/* Desktop/Tablet Header */}
         <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
-          <div className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
+          <div className="grid grid-cols-7 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
             <div className="text-center">{t("appointment_info")}</div>
             <div className="text-center">{t("customer_name")}</div>
             <div className="text-center">{t("customer_phone")}</div>
             <div className="text-center">{t("plate_number")}</div>
             <div className="text-center">{t("date_label")}</div>
             <div className="text-center">{t("time_label")}</div>
+            <div className="text-center">{t("see_history")}</div>
           </div>
         </div>
 
@@ -117,7 +119,7 @@ const FixList = () => {
             <div
               key={index}
               onClick={() => fixDetail(item.booking_id)}
-              className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 transition-colors cursor-pointer text-xs md:text-sm lg:text-base"
+              className="grid grid-cols-7 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 transition-colors cursor-pointer text-xs md:text-sm lg:text-base"
             >
               <div className="flex items-center gap-2 md:gap-3">
                 <span className="bg-green-500 px-3 py-1 text-black rounded-xl text-xs font-semibold">
@@ -130,6 +132,9 @@ const FixList = () => {
               <div className="text-center">{item?.car?.plateNumber}</div>
               <div className="text-center">{item?.time?.date}</div>
               <div className="text-center">{item?.time?.time}</div>
+              <div className="flex justify-center items-center">
+                <Eye className="w-4 h-4 md:w-5 md:h-5" />
+              </div>
             </div>
           ))}
         </div>
@@ -168,6 +173,9 @@ const FixList = () => {
                 <div className="flex justify-between">
                   <span className="text-gray-500">{t("time_label")}:</span>
                   <span className="text-gray-900 line-clamp-1">{item?.time?.time}</span>
+                </div>
+                <div className="flex justify-between">
+                  <Eye className="w-4 h-4 md:w-5 md:h-5" />
                 </div>
               </div>
             </div>
