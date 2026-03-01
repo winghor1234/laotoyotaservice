@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import BookingSearch from "../../../utils/BookingSearch";
@@ -7,14 +7,18 @@ import { useTranslation } from "react-i18next";
 import { useCheckRole } from "../../../utils/checkRole";
 import { useEmployeeBranchId } from "../../../utils/useEmployeeBranchId";
 import { Eye } from "lucide-react";
+import useServerFilterPagination from "../../../utils/useServerFilterPagination";
+import ExportExcelPopup from "../../../utils/exportExelPopup";
+import SelectDate from "../../../utils/SelectDate";
 
 
 const FixList = () => {
   const { t } = useTranslation("booking");
   const navigate = useNavigate();
-  const [bookings, setBookings] = useState([]);
-  const [fixes, setFixes] = useState([]);
-  const [exportData, setExportData] = useState([]);
+  const [open, setOpen] = useState(false);
+  // const [bookings, setBookings] = useState([]);
+  // const [fixes, setFixes] = useState([]);
+  // const [exportData, setExportData] = useState([]);
   const role = useCheckRole();
   const branch_id = useEmployeeBranchId();
   // console.log("branch id:", branch_id);
@@ -22,68 +26,74 @@ const FixList = () => {
 
 
 
-  const fetchData = async () => {
-    try {
-      const apiPath = role === "super_admin"
-        ? APIPath.SELECT_ALL_BOOKING
-        : APIPath.SELECT_BOOKING_BY_BRANCH(branch_id);
+  const isReady = role === "super_admin" || (!!role && !!branch_id);
+  const {
+    data: booking,
+    page,
+    totalPage,
+    search,
+    handleSearch,
+    handleDateChange,
+    handlePageChange,
+    fetchData,
+    getPageNumbers,
+  } = useServerFilterPagination({
+    enabled: isReady,
+    apiCall: ({ page, limit, search, startDate, endDate }) => {
+      const apiPath =
+        role === "super_admin"
+          ? APIPath.GET_ALL_BOOKING
+          : APIPath.GET_ALL_BOOKING_BY_BRANCH(branch_id);
+      return axiosInstance.get(apiPath, {
+        params: {
+          page,
+          limit,
+          search: search || undefined,
+          startDate: startDate?.toISOString(),
+          endDate: endDate?.toISOString(),
+          status: "success",
+        },
+      });
+    },
+  });
 
-      const [bookingRes, fixRes] = await Promise.all([
-        axiosInstance.get(apiPath),
-        axiosInstance.get(APIPath.SELECT_ALL_FIX),
-      ]);
-
-      const bookingsData = bookingRes?.data?.data || [];
-      const fixesData = fixRes?.data?.data || [];
-
-      // console.log("bookingsData:", bookingsData);
-      // console.log("fixesData:", fixesData);
-
-      setBookings(bookingsData);
-      setFixes(fixesData);
-
-      setExportData(
-        bookingsData
-          ?.filter((booking) =>
-            fixesData?.some(
-              (f) => f.bookingId === booking.booking_id && f.fixStatus === "padding"
-            )
-          )
-          ?.map((item) => ({
-            [t("appointment_info")]: item?.car?.model,
-            [t("customer_name")]: item?.user?.username,
-            [t("customer_phone")]: item?.user?.phoneNumber,
-            [t("plate_number")]: item?.car?.plateNumber,
-            [t("date_label")]: item?.time?.date,
-            [t("time_label")]: item?.time?.time,
-          }))
-      );
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (role === "super_admin" || (role && branch_id)) {
+      fetchData();
     }
-  };
+  }, [role, branch_id]);
+
+  // console.log("booking :", booking);
+
+
+  // ===============================
+  // Export Data (ข้อมูลเดิม 100%)
+  // ===============================
+  // const exportData = booking
+  //   ?.filter((item) => item.bookingStatus === "await")
+  //   .map((item) => ({
+  //     [t("car_model")]: item?.car?.model,
+  //     [t("username")]: item?.user?.username,
+  //     [t("phone")]: item?.user?.phoneNumber,
+  //     [t("plate_number")]: item?.car?.plateNumber,
+  //     [t("date_label")]: item?.time?.date,
+  //     [t("time_label")]: item?.time?.time,
+  //   }));
+
 
   const fixDetail = (id) => {
     navigate(`/user/fixDetail/${id}`);
   };
 
-  const filteredBookings = useMemo(
-    () =>
-      bookings.filter((booking) =>
-        fixes.some(
-          (f) => f.bookingId === booking.booking_id && f.fixStatus === "padding"
-        )
-      ), [bookings, fixes]
-  );
 
-  const handleSearch = async ({ searchText }) => {
-    try {
-      const res = await axiosInstance.get(`${APIPath.SEARCH_BOOKING}?search=${searchText}`);
-      setBookings(res?.data?.data || []);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const handleSearch = async ({ searchText }) => {
+  //   try {
+  //     const res = await axiosInstance.get(`${APIPath.SEARCH_BOOKING}?search=${searchText}`);
+  //     setBookings(res?.data?.data || []);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   useEffect(() => {
     // if (role === "super_admin" || branch_id) {
@@ -93,12 +103,25 @@ const FixList = () => {
 
   return (
     <div className="p-4">
-      <BookingSearch
-        onSearch={handleSearch}
-        exportData={exportData}
-        setExportData={setExportData}
-        fetchBooking={fetchData}
-      />
+      {/* Search + Date + Export or download */}
+      <div className="p-4 flex justify-end items-center">
+        <SelectDate
+          searchValue={search}
+          onSearchChange={handleSearch}
+          onDateChange={handleDateChange}
+        />
+        {/* download button */}
+        <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5">
+          {t("export")}
+        </button>
+        {open && (
+          <ExportExcelPopup
+            apiUrl={APIPath.EXPORT_BOOKING}
+            fileName="booking-report.xlsx"
+            onClose={() => setOpen(false)}
+          />
+        )}
+      </div>
       <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mt-4">
         {/* Desktop/Tablet Header */}
         <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
@@ -115,7 +138,7 @@ const FixList = () => {
 
         {/* Desktop/Tablet Body */}
         <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
-          {filteredBookings.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
+          {booking?.filter((item) => item.bookingStatus === "success").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
             <div
               key={index}
               onClick={() => fixDetail(item.booking_id)}
@@ -141,7 +164,7 @@ const FixList = () => {
 
         {/* Mobile Card Layout */}
         <div className="md:hidden divide-y divide-gray-200">
-          {filteredBookings.map((item, index) => (
+          {booking?.filter((item) => item.bookingStatus === "success").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
             <div
               key={index}
               onClick={() => fixDetail(item.booking_id)}
@@ -182,6 +205,42 @@ const FixList = () => {
           ))}
         </div>
       </div>
+      {/* Pagination (แก้ไขให้โชว์แค่บางช่วงหน้า) */}
+      <div className="flex justify-end mt-4 gap-2 items-center">
+        {/* ปุ่มย้อนกลับ */}
+        <button
+          onClick={() => handlePageChange(page - 1)}
+          disabled={page === 1}
+          className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
+            }`}
+        >
+          ‹
+        </button>
+
+        {getPageNumbers().map((p) => (
+          <button
+            key={p}
+            onClick={() => handlePageChange(p)}
+            className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
+              }`}
+          >
+            {p}
+          </button>
+        ))}
+
+        {/* ปุ่มถัดไป */}
+        <button
+          onClick={() => handlePageChange(page + 1)}
+          disabled={page === totalPage || totalPage === 0}
+          className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
+            ? "bg-gray-100 text-gray-400"
+            : "bg-gray-200 hover:bg-gray-300"
+            }`}
+        >
+          ›
+        </button>
+      </div>
+
     </div>
   );
 };

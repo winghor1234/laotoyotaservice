@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { filterByDateRange } from "../../utils/FilterDate";
-import { filterSearch } from "../../utils/FilterSearch";
 import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
 import AddUser from "./AddUser";
@@ -9,49 +7,54 @@ import { Car, Edit, Trash } from "lucide-react";
 import EditUser from "./EditUser";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
 import { useTranslation } from "react-i18next";
-import ExportExcelButton from "../../utils/ExcelExportButton";
 import { useNavigate } from "react-router-dom";
+import useServerFilterPagination from "../../utils/useServerFilterPagination";
+import ExportExcelPopup from "../../utils/exportExelPopup";
 
 const UserList = () => {
     const { t } = useTranslation("user");
     const [showAdd, setShowAdd] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
     const [customerId, setCustomerId] = useState(null);
-    const [users, setUsers] = useState([]);
-    const [search, setSearch] = useState("");
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [exportedData, setExportedData] = useState([]);
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
 
+    // setExportedData(
+    //     res?.data?.data?.map((item) => ({
+    //         ຊື່: item.username,
+    //         ເບີໂທ: item.phoneNumber,
+    //         ອີເມວ: item.email,
+    //         ບ້ານ: item.village,
+    //         ເມືອງ: item.district,
+    //         ແຂວງ: item.province,
+    //         ສະຖານະ: item.role,
+    //     }))
 
-    const FilteredUser = filterByDateRange(
-        filterSearch(users, "username", search),
-        startDate,
-        endDate,
-        "createdAt"
-    );
-
-    const handleFetchUser = async () => {
-        try {
-            const res = await axiosInstance.get(APIPath.SELECT_ALL_USER);
-            setUsers(res?.data?.data);
-            setExportedData(
-                res?.data?.data?.map((item) => ({
-                    ຊື່: item.username,
-                    ເບີໂທ: item.phoneNumber,
-                    ອີເມວ: item.email,
-                    ບ້ານ: item.village,
-                    ເມືອງ: item.district,
-                    ແຂວງ: item.province,
-                    ສະຖານະ: item.role,
-                }))
-            );
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    const {
+        data: customer,
+        page,
+        totalPage,
+        search,
+        handleSearch,
+        handleDateChange,
+        handlePageChange,
+        fetchData,
+        getPageNumbers,
+    } = useServerFilterPagination({
+        apiCall: ({ page, limit, search, startDate, endDate }) => {
+            return axiosInstance.get(APIPath.GET_ALL_USER, {
+                params: {
+                    page,
+                    limit,
+                    search: search || undefined,
+                    startDate: startDate?.toISOString(),
+                    endDate: endDate?.toISOString(),
+                    status: "general",
+                },
+            });
+        },
+    });
 
     const handleDelete = async (customerId) => {
         try {
@@ -61,7 +64,7 @@ const UserList = () => {
             );
             if (confirmDelete) {
                 await axiosInstance.delete(APIPath.DELETE_CUSTOMER(customerId));
-                handleFetchUser();
+                fetchData();
             }
         } catch (error) {
             console.error("Failed to delete user:", error);
@@ -71,24 +74,7 @@ const UserList = () => {
     const handleToDetailUser = (id) => {
         navigate(`/user/user-detail/${id}`);
     };
-
-    useEffect(() => {
-        handleFetchUser();
-    }, []);
-
-    return (
-        <div className="p-4">
-            {/* Top Controls */}
-            <div className="sticky top-0 flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-5 mb-6">
-                <SelectDate onSearch={setSearch} placeholder={t("search_user")} onDateChange={({ startDate, endDate }) => { setStartDate(startDate); setEndDate(endDate); }} />
-                <div className="flex flex-col sm:flex-row sm:justify-center gap-2 sm:gap-3">
-                    <button onClick={() => setShowAdd(true)} className="bg-blue-500 hover:bg-blue-600 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
-                        {t("add_user")}
-                    </button>
-                    {/* Excel Export */}
-                    <ExportExcelButton data={exportedData} />
-                    {/* Excel import */}
-                    {/* <ImportExcel
+    {/* <ImportExcel
             apiPath={APIPath.REGISTER}
             requiredFields={["ຊື່", "ວັນທີເດືອນປີ", "ໂຊນ"]}
             transformData={(item) => ({
@@ -98,6 +84,34 @@ const UserList = () => {
             })}
             onUploadSuccess={handleFetchUser} 
             /> */}
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    return (
+        <div className="p-4">
+            <div className=" p-9 flex justify-end items-center">
+                <SelectDate
+                    searchValue={search}
+                    onSearchChange={handleSearch}
+                    onDateChange={handleDateChange}
+                />
+                {/* download button */}
+                <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5">
+                    {t("export")}
+                </button>
+                {open && (
+                    <ExportExcelPopup
+                        apiUrl={APIPath.EXPORT_CUSTOMER}
+                        fileName="customer-report.xlsx"
+                        onClose={() => setOpen(false)}
+                    />
+                )}
+                <div className="flex flex-col sm:flex-row sm:justify-center gap-2 sm:gap-3">
+                    <button onClick={() => setShowAdd(true)} className="bg-blue-500 hover:bg-blue-600 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
+                        {t("add_user")}
+                    </button>
                 </div>
             </div>
             {/* Table Header */}
@@ -118,7 +132,7 @@ const UserList = () => {
 
             {/* Table Body */}
             <div className="hidden md:block divide-y divide-gray-200 bg-gray-50 overflow-auto max-h-[400px]">
-                {FilteredUser.filter((item) => item.role === "general").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
+                {customer.filter((item) => item.role === "general").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
                     <div
                         onClick={() => handleToDetailUser(item.user_id)}
                         key={index}
@@ -166,7 +180,7 @@ const UserList = () => {
 
             {/* Mobile Card Layout */}
             <div className="md:hidden divide-y divide-gray-200">
-                {FilteredUser.map((item, index) => (
+                {customer.map((item, index) => (
                     <div
                         onClick={() => handleToDetailUser(item.user_id)}
                         key={index}
@@ -217,17 +231,53 @@ const UserList = () => {
                 ))}
             </div>
 
+            {/* Pagination (แก้ไขให้โชว์แค่บางช่วงหน้า) */}
+            <div className="flex justify-end mt-4 gap-2 items-center">
+                {/* ปุ่มย้อนกลับ */}
+                <button
+                    onClick={() => handlePageChange(page - 1)}
+                    disabled={page === 1}
+                    className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ‹
+                </button>
+
+                {getPageNumbers().map((p) => (
+                    <button
+                        key={p}
+                        onClick={() => handlePageChange(p)}
+                        className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
+                            }`}
+                    >
+                        {p}
+                    </button>
+                ))}
+
+                {/* ปุ่มถัดไป */}
+                <button
+                    onClick={() => handlePageChange(page + 1)}
+                    disabled={page === totalPage || totalPage === 0}
+                    className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
+                        ? "bg-gray-100 text-gray-400"
+                        : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ›
+                </button>
+            </div>
+
             {/* Popups */}
             <AddUser
                 show={showAdd}
                 onClose={() => setShowAdd(false)}
-                handleFetch={handleFetchUser}
+                handleFetch={fetchData}
             />
             <EditUser
                 show={showEdit}
                 onClose={() => setShowEdit(false)}
                 customerId={customerId}
-                handleFetch={handleFetchUser}
+                handleFetch={fetchData}
             />
         </div>
     );

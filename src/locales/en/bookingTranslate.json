@@ -90,7 +90,10 @@
   "this_month": "This Month",
   "last_month": "Last Month",
   "this_year": "This Year",
-  "last_year": "Last Year"
+  "last_year": "Last Year",
+  "date_start_placeholder": "Date Start...",
+  "date_end_placeholder": "Date End..."
+
 
 
 

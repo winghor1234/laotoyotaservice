@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
-import { filterSearch } from "../../utils/FilterSearch";
-import { filterByDateRange } from "../../utils/FilterDate";
 import { useNavigate } from "react-router-dom";
 import AddEmployee from "./AddEmployee";
 import SelectDate from "../../utils/SelectDate";
@@ -11,30 +9,39 @@ import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
 import { useTranslation } from "react-i18next";
 import EditEmployee from "./EditEmployee";
+import useServerFilterPagination from "../../utils/useServerFilterPagination";
+import ExportExcelPopup from "../../utils/exportExelPopup";
 
 const EmployeeList = () => {
     const { t } = useTranslation("employee");
-
     const [showEditEmployee, setShowEditEmployee] = useState(false);
     const [showAddEmployee, setShowAddEmployee] = useState(false);
-    const [employees, setEmployees] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
-    const [search, setSearch] = useState("");
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-
-    const handleFetchEmployee = async () => {
-        try {
-            // Assuming APIPath.SELECT_ALL_EMPLOYEE exists
-            const res = await axiosInstance.get(APIPath.SELECT_ALL_EMPLOYEE);
-            setEmployees(res?.data?.data || []);
-            console.log("Employee data:", res?.data?.data);
-        } catch (error) {
-            console.error("Failed to fetch Employees:", error);
-            setEmployees([]);
-        }
-    };
+    const {
+        data: employee,
+        page,
+        totalPage,
+        search,
+        handleSearch,
+        handleDateChange,
+        handlePageChange,
+        fetchData,
+        getPageNumbers,
+    } = useServerFilterPagination({
+        apiCall: ({ page, limit, search, startDate, endDate }) => {
+            return axiosInstance.get(APIPath.GET_ALL_EMPLOYEE, {
+                params: {
+                    page,
+                    limit,
+                    search: search || undefined,
+                    startDate: startDate?.toISOString(),
+                    endDate: endDate?.toISOString(),
+                },
+            });
+        },
+    });
 
     const handleDeleteEmployee = async (employee_id) => {
         try {
@@ -42,7 +49,7 @@ const EmployeeList = () => {
             if (confirmDelete) {
                 // Assuming APIPath.DELETE_EMPLOYEE exists
                 await axiosInstance.delete(APIPath.DELETE_EMPLOYEE(employee_id));
-                handleFetchEmployee();
+                fetchData();
             }
         } catch (error) {
             console.error("Failed to delete Employee:", error);
@@ -51,33 +58,33 @@ const EmployeeList = () => {
     };
 
     useEffect(() => {
-        handleFetchEmployee();
+        fetchData();
     }, []);
 
     const handleToDetailEmployee = (id) => {
         navigate(`/user/employee-detail/${id}`);
     };
 
-    const filteredEmployees = Array.isArray(employees)
-        ? filterByDateRange(
-            filterSearch(employees, "employee_name", search),
-            startDate,
-            endDate,
-            "createdAt"
-        )
-        : [];
 
     return (
         <div className="p-4">
-            <div className="flex flex-col sm:flex-row lg:flex-row lg:items-center gap-4 lg:gap-6 mb-4 flex-1">
+            <div className=" p-9 flex justify-end items-center">
                 <SelectDate
-                    onSearch={setSearch}
-                    placeholder={t("search_placeholder")}
-                    onDateChange={({ startDate, endDate }) => {
-                        setStartDate(startDate);
-                        setEndDate(endDate);
-                    }}
+                    searchValue={search}
+                    onSearchChange={handleSearch}
+                    onDateChange={handleDateChange}
                 />
+                {/* download button */}
+                <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5">
+                    {t("export")}
+                </button>
+                {open && (
+                    <ExportExcelPopup
+                        apiUrl={APIPath.EXPORT_EMPLOYEE}
+                        fileName="employee-report.xlsx"
+                        onClose={() => setOpen(false)}
+                    />
+                )}
                 <div onClick={() => setShowAddEmployee(true)} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
                         {t("add_employee")}
@@ -87,10 +94,10 @@ const EmployeeList = () => {
 
             {/* Mobile Card Layout */}
             <div className="md:hidden space-y-4 mb-6">
-                {filteredEmployees.length === 0 ? (
+                {employee.length === 0 ? (
                     <div className="text-gray-500 text-center py-10">{t("no_data")}</div>
                 ) : (
-                    filteredEmployees.map((item, index) => (
+                    employee.map((item, index) => (
                         <div
                             key={item.employee_id || index}
                             onClick={() => handleToDetailEmployee(item.employee_id)}
@@ -140,10 +147,10 @@ const EmployeeList = () => {
                     </div>
                 </div>
                 <div className="divide-y divide-gray-200 max-h-[400px] overflow-y-auto">
-                    {filteredEmployees.length === 0 ? (
+                    {employee.length === 0 ? (
                         <div className="text-gray-500 text-center py-10">{t("no_data")}</div>
                     ) : (
-                        filteredEmployees
+                        employee
                             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                             .map((item, index) => (
                                 <div
@@ -187,16 +194,51 @@ const EmployeeList = () => {
                 </div>
             </div>
 
+            {/* Pagination (แก้ไขให้โชว์แค่บางช่วงหน้า) */}
+            <div className="flex justify-end mt-4 gap-2 items-center">
+                {/* ปุ่มย้อนกลับ */}
+                <button
+                    onClick={() => handlePageChange(page - 1)}
+                    disabled={page === 1}
+                    className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ‹
+                </button>
+
+                {getPageNumbers().map((p) => (
+                    <button
+                        key={p}
+                        onClick={() => handlePageChange(p)}
+                        className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
+                            }`}
+                    >
+                        {p}
+                    </button>
+                ))}
+
+                {/* ปุ่มถัดไป */}
+                <button
+                    onClick={() => handlePageChange(page + 1)}
+                    disabled={page === totalPage || totalPage === 0}
+                    className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
+                        ? "bg-gray-100 text-gray-400"
+                        : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ›
+                </button>
+            </div>
             <EditEmployee
                 show={showEditEmployee}
                 onClose={() => setShowEditEmployee(false)}
                 employee_id={selectedEmployee}
-                handleFetchEmployee={handleFetchEmployee}
+                handleFetchEmployee={fetchData}
             />
             <AddEmployee
                 show={showAddEmployee}
                 onClose={() => setShowAddEmployee(false)}
-                handleFetchEmployee={handleFetchEmployee}
+                handleFetchEmployee={fetchData}
             />
         </div>
     );

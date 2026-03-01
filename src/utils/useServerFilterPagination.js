@@ -1,6 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 
-const useServerFilterPagination = ({ apiCall, limit = 2 }) => {
+const useServerFilterPagination = ({
+    apiCall,
+    limit = 2,
+    enabled = true,
+    status,
+}) => {
     // ===============================
     // State
     // ===============================
@@ -10,27 +15,32 @@ const useServerFilterPagination = ({ apiCall, limit = 2 }) => {
     const [search, setSearch] = useState("");
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     // ===============================
     // Fetch
     // ===============================
     const fetchData = useCallback(async () => {
+        if (enabled !== true) return;
         try {
-            const res = await apiCall({ page, limit, search, startDate, endDate, });
-            const result = res?.data?.data || [];
-            console.log("result :", result);
+            setLoading(true);
+            const res = await apiCall({ page, limit, search, startDate, endDate, status });
+            const result = res?.data?.data || {}; // API ต้อง return {data: [], totalPage: n}
+            console.log("result", result);
 
             setData(result?.data || []);
             setTotalPage(Number(result.totalPage) || 1);
         } catch (error) {
             console.error("Fetch error:", error);
+        } finally {
+            setLoading(false);
         }
-    }, [apiCall, page, limit, search, startDate, endDate]);
+    }, [apiCall, page, limit, search, startDate, endDate, enabled, status]);
+    // console.log("page", page);
 
     useEffect(() => {
         fetchData();
     }, [page, search, startDate, endDate]);
-    // console.log("data :", data);
 
     // ===============================
     // Handlers
@@ -45,13 +55,47 @@ const useServerFilterPagination = ({ apiCall, limit = 2 }) => {
         setStartDate(startDate);
         setEndDate(endDate);
     };
-
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= totalPage) {
             setPage(newPage);
         }
     };
-    return { data, limit, page, totalPage, search, startDate, endDate, handleSearch, handleDateChange, handlePageChange, fetchData, };
+
+    const getPageNumbers = () => {
+        const pages = [];
+        // กำหนดจำนวนปุ่มที่จะโชว์ (เช่น 3 ปุ่ม)
+        const showAmount = 3;
+
+        let startPage = Math.max(1, page - 1);
+        let endPage = Math.min(totalPage, startPage + showAmount - 1);
+
+        // ปรับจูนเพื่อให้แสดงครบจำนวนปุ่มที่ตั้งไว้เสมอ (ถ้าหน้าทั้งหมดพอ)
+        if (endPage - startPage < showAmount - 1) {
+            startPage = Math.max(1, endPage - showAmount + 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            pages.push(i);
+        }
+        return pages;
+    };
+
+    return {
+        data,
+        limit,
+        page,
+        totalPage,
+        search,
+        startDate,
+        endDate,
+        loading,
+        handleSearch,
+        handleDateChange,
+        handlePageChange,
+        fetchData,
+        getPageNumbers,
+    };
 };
 
 export default useServerFilterPagination;
+

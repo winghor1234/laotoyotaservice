@@ -91,7 +91,9 @@
   "this_month": "ເດືອນນີ້",
   "last_month": "ເດືອນກ່ອນ",
   "this_year": "ປີນີ້",
-  "last_year": "ປີກ່ອນ"
+  "last_year": "ປີກ່ອນ",
+  "date_start_placeholder": "ວັນທີເລີ່ມ ...",
+  "date_end_placeholder": "ວັນທີສຸດ ..."
 
   
 

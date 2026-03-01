@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
-import { filterSearch } from "../../utils/FilterSearch";
-import { filterByDateRange } from "../../utils/FilterDate";
+import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";;
 import { useNavigate } from "react-router-dom";
 import AddBranch from "./AddBranch";
 import SelectDate from "../../utils/SelectDate";
@@ -12,28 +10,56 @@ import APIPath from "../../api/APIPath";
 //import EditBranch from "./EditBranch";
 import { useTranslation } from "react-i18next";
 import EditBranch from "./EditBranch";
+import useServerFilterPagination from "../../utils/useServerFilterPagination";
+import ExportExcelPopup from "../../utils/exportExelPopup";
+
+
 
 const BranchList = () => {
     const { t } = useTranslation("branch");
 
     const [showEditBranch, setShowEditBranch] = useState(false);
     const [showAddBranch, setShowAddBranch] = useState(false);
-    const [Branchs, setBranchs] = useState([]);
     const [selectedBranch, setSelectedBranch] = useState(null);
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
-    const [search, setSearch] = useState("");
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
 
-    const handleFetchBranch = async () => {
-        try {
-            const res = await axiosInstance.get(APIPath.SELECT_ALL_BRANCH);
-            setBranchs(res?.data?.data || []);
-        } catch (error) {
-            console.error("Failed to fetch Branchs:", error);
-            setBranchs([]);
-        }
-    };
+
+
+    // const handleFetchBranch = async () => {
+    //     try {
+    //         const res = await axiosInstance.get(APIPath.SELECT_ALL_BRANCH);
+    //         setBranchs(res?.data?.data || []);
+    //     } catch (error) {
+    //         console.error("Failed to fetch Branchs:", error);
+    //         setBranchs([]);
+    //     }
+    // };
+
+    const {
+        data: branch,
+        page,
+        totalPage,
+        search,
+        handleSearch,
+        handleDateChange,
+        handlePageChange,
+        fetchData,
+        getPageNumbers,
+    } = useServerFilterPagination({
+        apiCall: ({ page, limit, search, startDate, endDate }) => {
+            return axiosInstance.get(APIPath.GET_ALL_BRANCH, {
+                params: {
+                    page,
+                    limit,
+                    search: search || undefined,
+                    startDate: startDate?.toISOString(),
+                    endDate: endDate?.toISOString(),
+                },
+            });
+        },
+    });
+
 
     const handleDeleteBranch = async (branch_id) => {
         // console.log("Delete Branch ID:", branch_id);
@@ -41,7 +67,7 @@ const BranchList = () => {
             const confirmDelete = await DeleteAlert(t("delete_confirm"), t("delete_success"));
             if (confirmDelete) {
                 await axiosInstance.delete(APIPath.DELETE_BRANCH(branch_id));
-                handleFetchBranch();
+                fetchData();
             }
         } catch (error) {
             console.error("Failed to delete Branch:", error);
@@ -50,34 +76,37 @@ const BranchList = () => {
     };
 
     useEffect(() => {
-        handleFetchBranch();
+        fetchData();
     }, []);
 
     const handleToDetailBranch = (id) => {
         navigate(`/user/branch-detail/${id}`);
     };
 
-    // ເພີ່ມການກວດສອບວ່າ Branchs ເປັນ array ກ່ອນ filter
-    const filteredBranchs = Array.isArray(Branchs)
-        ? filterByDateRange(
-            filterSearch(Branchs, "title", search),
-            startDate,
-            endDate,
-            "createdAt"
-        )
-        : [];
+
 
     return (
         <div className="p-4">
             <div className="flex flex-col sm:flex-row lg:flex-row lg:items-center gap-4 lg:gap-6 mb-4 flex-1">
-                <SelectDate
-                    onSearch={setSearch}
-                    placeholder={t("search_placeholder")}
-                    onDateChange={({ startDate, endDate }) => {
-                        setStartDate(startDate);
-                        setEndDate(endDate);
-                    }}
-                />
+                {/* Search + Date + Export or download */}
+                <div className="border-2 border-red-500 p-9 flex justify-end items-center">
+                    <SelectDate
+                        searchValue={search}
+                        onSearchChange={handleSearch}
+                        onDateChange={handleDateChange}
+                    />
+                    {/* download button */}
+                    <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5">
+                        {t("export")}
+                    </button>
+                    {open && (
+                        <ExportExcelPopup
+                            apiUrl={APIPath.EXPORT_BRANCH}
+                            fileName="branch-report.xlsx"
+                            onClose={() => setOpen(false)}
+                        />
+                    )}
+                </div>
                 <div onClick={() => setShowAddBranch(true)} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
                         {t("add_branch")}
@@ -87,10 +116,10 @@ const BranchList = () => {
 
             {/* Mobile Card Layout */}
             <div className="md:hidden space-y-4 mb-6">
-                {filteredBranchs.length === 0 ? (
+                {branch?.length === 0 ? (
                     <div className="text-gray-500 text-center py-10">{t("no_data")}</div>
                 ) : (
-                    filteredBranchs.map((item, index) => (
+                    branch?.map((item, index) => (
                         <div
                             key={item.branch_id || index}
                             onClick={() => handleToDetailBranch(item.branch_id)}
@@ -149,11 +178,11 @@ const BranchList = () => {
                     </div>
                 </div>
                 <div className="divide-y divide-gray-200 max-h-[400px] overflow-y-auto">
-                    {filteredBranchs.length === 0 ? (
+                    {branch?.length === 0 ? (
                         <div className="text-gray-500 text-center py-10">{t("no_data")}</div>
                     ) : (
-                        filteredBranchs
-                            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                        branch
+                            ?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                             .map((item, index) => (
                                 <div
                                     onClick={() => handleToDetailBranch(item.branch_id)}
@@ -206,16 +235,51 @@ const BranchList = () => {
                 </div>
             </div>
 
+            {/* Pagination (แก้ไขให้โชว์แค่บางช่วงหน้า) */}
+            <div className="flex justify-end mt-4 gap-2 items-center">
+                {/* ปุ่มย้อนกลับ */}
+                <button
+                    onClick={() => handlePageChange(page - 1)}
+                    disabled={page === 1}
+                    className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ‹
+                </button>
+                {getPageNumbers().map((p) => (
+                    <button
+                        key={p}
+                        onClick={() => handlePageChange(p)}
+                        className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
+                            }`}
+                    >
+                        {p}
+                    </button>
+                ))}
+
+                {/* ปุ่มถัดไป */}
+                <button
+                    onClick={() => handlePageChange(page + 1)}
+                    disabled={page === totalPage || totalPage === 0}
+                    className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
+                        ? "bg-gray-100 text-gray-400"
+                        : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ›
+                </button>
+            </div>
+
             <EditBranch
                 show={showEditBranch}
                 onClose={() => setShowEditBranch(false)}
                 branch_id={selectedBranch}
-                handleFetchBranch={handleFetchBranch}
+                handleFetchBranch={fetchData}
             />
             <AddBranch
                 show={showAddBranch}
                 onClose={() => setShowAddBranch(false)}
-                handleFetchBranch={handleFetchBranch}
+                handleFetchBranch={fetchData}
             />
         </div>
     );

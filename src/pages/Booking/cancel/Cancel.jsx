@@ -6,49 +6,57 @@ import { useTranslation } from "react-i18next";
 import { useCheckRole } from "../../../utils/checkRole";
 import { useEmployeeBranchId } from "../../../utils/useEmployeeBranchId";
 import { useNavigate } from "react-router-dom";
+import SelectDate from "../../../utils/SelectDate";
+import ExportExcelPopup from "../../../utils/exportExelPopup";
+import useServerFilterPagination from "../../../utils/useServerFilterPagination";
 
 const Cancel = () => {
     const { t } = useTranslation("booking"); // ใช้ namespace "booking"
-    const [booking, setBooking] = useState([]);
-    const [exportData, setExportData] = useState([]);
+    // const [booking, setBooking] = useState([]);
+    // const [exportData, setExportData] = useState([]);
     const role = useCheckRole();
     const branch_id = useEmployeeBranchId();
     const navigate = useNavigate();
+    const [open, setOpen] = useState(false);
 
-    const fetchData = async () => {
-        try {
-            const apiPath = role === "super_admin"
-                ? APIPath.SELECT_ALL_BOOKING
-                : APIPath.SELECT_BOOKING_BY_BRANCH(branch_id);
-            const res = await axiosInstance.get(apiPath);
-            const data = res?.data?.data || [];
-            setBooking(data);
-            setExportData(
-                data
-                    ?.filter((item) => item.bookingStatus === "cancel")
-                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                    .map((item) => ({
-                        [t("car_model")]: item?.car?.model,
-                        [t("customer_name")]: item?.user?.username,
-                        [t("customer_phone")]: item?.user?.phoneNumber,
-                        [t("plate_number")]: item?.car?.plateNumber,
-                        [t("date_label")]: item?.time?.date,
-                        [t("time_label")]: item?.time?.time,
-                    }))
-            );
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
-    const handleSearch = async ({ searchText }) => {
-        try {
-            const res = await axiosInstance.get(`${APIPath.SEARCH_BOOKING}?search=${searchText}`);
-            setBooking(res?.data?.data || []);
-        } catch (error) {
-            console.log(error);
+
+    const isReady = role === "super_admin" || (!!role && !!branch_id);
+    const {
+        data: booking,
+        page,
+        totalPage,
+        search,
+        handleSearch,
+        handleDateChange,
+        handlePageChange,
+        fetchData,
+        getPageNumbers,
+    } = useServerFilterPagination({
+        enabled: isReady,
+        apiCall: ({ page, limit, search, startDate, endDate }) => {
+            const apiPath =
+                role === "super_admin"
+                    ? APIPath.GET_ALL_BOOKING
+                    : APIPath.GET_ALL_BOOKING_BY_BRANCH(branch_id);
+            return axiosInstance.get(apiPath, {
+                params: {
+                    page,
+                    limit,
+                    search: search || undefined,
+                    startDate: startDate?.toISOString(),
+                    endDate: endDate?.toISOString(),
+                    status: "cancel",
+                },
+            });
+        },
+    });
+
+    useEffect(() => {
+        if (role === "super_admin" || (role && branch_id)) {
+            fetchData();
         }
-    };
+    }, [role, branch_id]);
 
     const CancelDetail = (id) => {
         // console.log("id cancel  ",id);
@@ -57,16 +65,29 @@ const Cancel = () => {
 
     useEffect(() => {
         fetchData();
-    }, [ role, branch_id ]);
+    }, [role, branch_id]);
 
     return (
         <div className="p-4">
-            <BookingSearch
-                onSearch={handleSearch}
-                exportData={exportData}
-                setExportData={setExportData}
-                fetchBooking={fetchData}
-            />
+            {/* Search + Date + Export or download */}
+            <div className=" p-4 flex justify-end items-center">
+                <SelectDate
+                    searchValue={search}
+                    onSearchChange={handleSearch}
+                    onDateChange={handleDateChange}
+                />
+                {/* download button */}
+                <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5">
+                    {t("export")}
+                </button>
+                {open && (
+                    <ExportExcelPopup
+                        apiUrl={APIPath.EXPORT_BOOKING}
+                        fileName="booking-report.xlsx"
+                        onClose={() => setOpen(false)}
+                    />
+                )}
+            </div>
 
             <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mt-4">
                 {/* Desktop/Tablet Header */}
@@ -155,6 +176,41 @@ const Cancel = () => {
                             </div>
                         ))}
                 </div>
+            </div>
+            {/* Pagination (แก้ไขให้โชว์แค่บางช่วงหน้า) */}
+            <div className="flex justify-end mt-4 gap-2 items-center">
+                {/* ปุ่มย้อนกลับ */}
+                <button
+                    onClick={() => handlePageChange(page - 1)}
+                    disabled={page === 1}
+                    className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ‹
+                </button>
+
+                {getPageNumbers().map((p) => (
+                    <button
+                        key={p}
+                        onClick={() => handlePageChange(p)}
+                        className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
+                            }`}
+                    >
+                        {p}
+                    </button>
+                ))}
+
+                {/* ปุ่มถัดไป */}
+                <button
+                    onClick={() => handlePageChange(page + 1)}
+                    disabled={page === totalPage || totalPage === 0}
+                    className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
+                        ? "bg-gray-100 text-gray-400"
+                        : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ›
+                </button>
             </div>
         </div>
     );

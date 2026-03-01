@@ -2,37 +2,49 @@ import { Car, Edit, Eye, Trash } from "lucide-react";
 import EditService from "./EditService";
 import AddService from "./AddService";
 import { DeleteAlert } from "../../../utils/handleAlert/DeleteAlert";
-import SelectDate from "../../../utils/SelectDate";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { filterSearch } from "../../../utils/FilterSearch";
-import { filterByDateRange } from "../../../utils/FilterDate";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { useTranslation } from "react-i18next";
+import useServerFilterPagination from "../../../utils/useServerFilterPagination";
+import ExportExcelPopup from "../../../utils/exportExelPopup";
+import SelectDate from "../../../utils/SelectDate";
 
 const ServiceList = () => {
     const { t } = useTranslation("service");
 
     const [showEditService, setShowEditService] = useState(false);
     const [showAddService, setShowAddService] = useState(false);
-    const [services, setServices] = useState([]);
     const [selectedService, setSelectedService] = useState(null);
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
-    const [search, setSearch] = useState("");
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+
 
     // Fetch services from the API
-    const handleFetchService = async () => {
-        try {
-            const res = await axiosInstance.get(APIPath.SELECT_ALL_SERVICE);
-            console.log("service length : ",res?.data?.data.length);
-            setServices(res?.data?.data);
-        } catch (error) {
-            console.error("Failed to fetch services:", error);
-        }
-    };
+    const {
+        data: service,
+        page,
+        totalPage,
+        search,
+        handleSearch,
+        handleDateChange,
+        handlePageChange,
+        fetchData,
+        getPageNumbers,
+    } = useServerFilterPagination({
+        apiCall: ({ page, limit, search, startDate, endDate }) => {
+            return axiosInstance.get(APIPath.GET_ALL_SERVICE, {
+                params: {
+                    page,
+                    limit,
+                    search: search || undefined,
+                    startDate: startDate?.toISOString(),
+                    endDate: endDate?.toISOString(),
+                },
+            });
+        },
+    });
 
     // Delete service
     const handleDeleteService = async (id) => {
@@ -43,7 +55,7 @@ const ServiceList = () => {
             );
             if (confirmDelete) {
                 await axiosInstance.delete(APIPath.DELETE_SERVICE(id));
-                handleFetchService();
+                fetchData();
             }
         } catch (error) {
             console.error("Failed to delete service:", error);
@@ -51,7 +63,7 @@ const ServiceList = () => {
     };
 
     useEffect(() => {
-        handleFetchService();
+        fetchData();
     }, []);
 
     // Navigate to detail
@@ -59,12 +71,6 @@ const ServiceList = () => {
         navigate(`/user/service-detail/${id}`);
     };
 
-    const filteredServices = filterByDateRange(
-        filterSearch(services, "serviceName", search),
-        startDate,
-        endDate,
-        "createdAt"
-    );
 
     // const handleRefresh = (e) => {
     //     e.preventDefault();
@@ -75,22 +81,23 @@ const ServiceList = () => {
 
     return (
         <div className="p-4">
-            {/* Top Controls */}
-            <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6 mb-4">
+            <div className=" p-9 flex justify-end items-center">
                 <SelectDate
-                    onSearch={setSearch}
-                    placeholder={t("search_placeholder")}
-                    onDateChange={({ startDate, endDate }) => {
-                        setStartDate(startDate);
-                        setEndDate(endDate);
-                    }}
+                    searchValue={search}
+                    onSearchChange={handleSearch}
+                    onDateChange={handleDateChange}
                 />
-                {/* <button
-                    onClick={handleRefresh}
-                    className="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded text-sm"
-                >
-                    {t("reset")}
-                </button> */}
+                {/* download button */}
+                <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5">
+                    {t("export")}
+                </button>
+                {open && (
+                    <ExportExcelPopup
+                        apiUrl={APIPath.EXPORT_SERVICE}
+                        fileName="service-report.xlsx"
+                        onClose={() => setOpen(false)}
+                    />
+                )}
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <button
                         onClick={() => setShowAddService(true)}
@@ -116,7 +123,7 @@ const ServiceList = () => {
 
                 {/* Table Body (Desktop/Tablet) */}
                 <div className="hidden md:block divide-y divide-gray-200 max-h-[400px] overflow-y-auto">
-                    {filteredServices.map((item, index) => (
+                    {service.map((item, index) => (
                         <div
                             key={index}
                             onClick={() => handleToDetailService(item.service_id)}
@@ -156,7 +163,7 @@ const ServiceList = () => {
 
                 {/* Mobile Card Layout */}
                 <div className="md:hidden divide-y divide-gray-200">
-                    {filteredServices.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
+                    {service.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
                         <div
                             key={index}
                             onClick={() => handleToDetailService(item.service_id)}
@@ -193,17 +200,53 @@ const ServiceList = () => {
                 </div>
             </div>
 
+            {/* Pagination (แก้ไขให้โชว์แค่บางช่วงหน้า) */}
+            <div className="flex justify-end mt-4 gap-2 items-center">
+                {/* ปุ่มย้อนกลับ */}
+                <button
+                    onClick={() => handlePageChange(page - 1)}
+                    disabled={page === 1}
+                    className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ‹
+                </button>
+
+                {getPageNumbers().map((p) => (
+                    <button
+                        key={p}
+                        onClick={() => handlePageChange(p)}
+                        className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
+                            }`}
+                    >
+                        {p}
+                    </button>
+                ))}
+
+                {/* ปุ่มถัดไป */}
+                <button
+                    onClick={() => handlePageChange(page + 1)}
+                    disabled={page === totalPage || totalPage === 0}
+                    className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
+                        ? "bg-gray-100 text-gray-400"
+                        : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ›
+                </button>
+            </div>
+
             {/* Popups */}
             <EditService
                 show={showEditService}
                 onClose={() => setShowEditService(false)}
                 serviceId={selectedService}
-                handleFetch={handleFetchService}
+                handleFetch={fetchData}
             />
             <AddService
                 show={showAddService}
                 onClose={() => setShowAddService(false)}
-                handleFetch={handleFetchService}
+                handleFetch={fetchData}
             />
         </div>
     );

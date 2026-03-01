@@ -11,6 +11,9 @@ export default class APIPath {
     static SEARCH = `${this.BASE_URL}/user/search`;
     static GET_PROFILE = `${this.BASE_URL}/user/profile`;
     static GET_ALL_USER = `${this.BASE_URL}/user/getAll`;
+    static EXPORT_CUSTOMER = `${this.BASE_URL}/user/exportCustomer`;
+    static EXPORT_EMPLOYEE = `${this.BASE_URL}/user/exportEmployee`;
+    static EXPORT_ADMIN = `${this.BASE_URL}/user/exportAdmin`;
     static FORGOT = `${this.BASE_URL}/user/forgot`;
     static CHANGE_PASSWORD = `${this.BASE_URL}/user/changePassword`;
     static REFRESH = `${this.BASE_URL}/user/refresh`;
@@ -26,6 +29,7 @@ export default class APIPath {
     static SELECT_ALL_GIFT = `${this.BASE_URL}/giftcard/selAll`;
     static SELECT_ONE_GIFT(id) { return `${this.BASE_URL}/giftcard/selOne/${id}` }
     static GET_ALL_GIFT_CARD = `${this.BASE_URL}/giftcard/getAll`;
+    static EXPORT_GIFT_CARD = `${this.BASE_URL}/giftcard/export`;
     static CREATE_GIFT = `${this.BASE_URL}/giftcard/insert`
     static UPDATE_GIFT(id) { return `${this.BASE_URL}/giftcard/update/${id}` }
     static UPDATE_GIFT_STATUS(id) { return `${this.BASE_URL}/giftcard/updateStatus/${id}` }
@@ -35,6 +39,7 @@ export default class APIPath {
     static SELECT_ALL_GIFT_HISTORY = `${this.BASE_URL}/gifthistory/selAll`;
     static SELECT_ONE_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/selOne/${id}` }
     static GET_ALL_GIFT_HISTORY = `${this.BASE_URL}/gifthistory/getAll`;
+    static EXPORT_GIFT_HISTORY = `${this.BASE_URL}/gifthistory/export`;
     static CREATE_GIFT_HISTORY = `${this.BASE_URL}/gifthistory/insert`;
     static UPDATE_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/update/${id}` }
     static DELETE_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/delete/${id}` }
@@ -46,6 +51,8 @@ export default class APIPath {
     static SELECT_ONE_FIX(id) { return `${this.BASE_URL}/fix/selOne/${id}` }
     static SELECT_FIX_BY_STATUS = `${this.BASE_URL}/fix/selByStatus`;
     static GET_ALL_FIX = `${this.BASE_URL}/fix/getAll`;
+    static GET_ALL_FIX_BY_BRANCH(branch_id) { return `${this.BASE_URL}/fix/getAllByBranch/${branch_id}` };
+    static EXPORT_FIX = `${this.BASE_URL}/fix/export`;
     static CREATE_FIX = `${this.BASE_URL}/fix/insert`;
     static UPDATE_FIX(id) { return `${this.BASE_URL}/fix/update/${id}` }
     static UPDATE_FIX_STATUS(id) { return `${this.BASE_URL}/fix/updateStatus/${id}` }
@@ -55,6 +62,7 @@ export default class APIPath {
     static SELECT_ALL_PROMOTION = `${this.BASE_URL}/promotion/selAll`;
     static SELECT_ONE_PROMOTION(id) { return `${this.BASE_URL}/promotion/selOne/${id}` }
     static GET_ALL_PROMOTION = `${this.BASE_URL}/promotion/getAll`;
+    static EXPORT_PROMOTION = `${this.BASE_URL}/promotion/export`;
     static CREATE_PROMOTION = `${this.BASE_URL}/promotion/insert`;
     static UPDATE_PROMOTION(id) { return `${this.BASE_URL}/promotion/update/${id}` }
     static DELETE_PROMOTION(id) { return `${this.BASE_URL}/promotion/delete/${id}` }
@@ -87,6 +95,7 @@ export default class APIPath {
     static SELECT_ONE_CAR(id) { return `${this.BASE_URL}/car/selOne/${id}` }
     static SELECT_CAR_BY(id) { return `${this.BASE_URL}/car/selBy/${id}` }
     static GET_ALL_CAR = `${this.BASE_URL}/car/getAll`;
+    static EXPORT_CAR = `${this.BASE_URL}/car/export`;
     static CREATE_CAR = `${this.BASE_URL}/car/insert`;
     static UPDATE_CAR(id) { return `${this.BASE_URL}/car/update/${id}` }
     static DELETE_CAR(id) { return `${this.BASE_URL}/car/delete/${id}` }
@@ -96,6 +105,7 @@ export default class APIPath {
     static SELECT_ALL_SERVICE = `${this.BASE_URL}/service/selAll`;
     static SELECT_ONE_SERVICE(id) { return `${this.BASE_URL}/service/selOne/${id}` }
     static GET_ALL_SERVICE = `${this.BASE_URL}/service/getAll`;
+    static EXPORT_SERVICE = `${this.BASE_URL}/service/export`;
     static CREATE_SERVICE = `${this.BASE_URL}/service/insert`;
     static UPDATE_SERVICE(id) { return `${this.BASE_URL}/service/update/${id}` }
     static DELETE_SERVICE(id) { return `${this.BASE_URL}/service/delete/${id}` }
@@ -107,6 +117,7 @@ export default class APIPath {
     static SELECT_ONE_TIME(id) { return `${this.BASE_URL}/time/selOne/${id}` }
     static SELECT_TIME_BY_BRANCH(id) { return `${this.BASE_URL}/time/selBy/:branchId/${id}` }
     static GET_ALL_TIME = `${this.BASE_URL}/time/getAll`;
+    static EXPORT_TIME = `${this.BASE_URL}/time/export`;
     static CREATE_TIME = `${this.BASE_URL}/time/insert`;
     static UPDATE_TIME(id) { return `${this.BASE_URL}/time/update/${id}` }
     static UPDATE_TIME_STATUS(id) { return `${this.BASE_URL}/time/updateStatus/${id}` }
@@ -121,6 +132,7 @@ export default class APIPath {
     static SELECT_ONE_ZONE(id) { return `${this.BASE_URL}/zone/selOne/${id}` }
     static SELECT_ZONE_BY(id) { return `${this.BASE_URL}/zone/selBy/${id}` }
     static GET_ALL_ZONE = `${this.BASE_URL}/zone/getAll`;
+    static EXPORT_ZONE = `${this.BASE_URL}/zone/export`;
     static CREATE_ZONE = `${this.BASE_URL}/zone/insert`;
     static UPDATE_ZONE(id) { return `${this.BASE_URL}/zone/update/${id}` }
     static UPDATE_ZONE_STATUS(id) { return `${this.BASE_URL}/zone/updateStatus/${id}` }
@@ -131,6 +143,7 @@ export default class APIPath {
     static SELECT_ALL_BRANCH = `${this.BASE_URL}/branch/selAll`
     static SELECT_ONE_BRANCH(id) { return `${this.BASE_URL}/branch/selOne/${id}` }
     static GET_ALL_BRANCH = `${this.BASE_URL}/branch/getAll`
+    static EXPORT_BRANCH = `${this.BASE_URL}/branch/export`
     static CREATE_BRANCH = `${this.BASE_URL}/branch/insert`
     static UPDATE_BRANCH(id) { return `${this.BASE_URL}/branch/update/${id}` }
     static DELETE_BRANCH(id) { return `${this.BASE_URL}/branch/delete/${id}` }

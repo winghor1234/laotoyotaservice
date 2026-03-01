@@ -34,9 +34,10 @@ const CarList = () => {
     handleDateChange,
     handlePageChange,
     fetchData,
+    getPageNumbers,
   } = useServerFilterPagination({
-    apiCall: ({ page, limit, search, startDate, endDate }) =>
-      axiosInstance.get(APIPath.GET_ALL_CAR, {
+    apiCall: ({ page, limit, search, startDate, endDate }) => {
+      return axiosInstance.get(APIPath.GET_ALL_CAR, {
         params: {
           page,
           limit,
@@ -44,14 +45,17 @@ const CarList = () => {
           startDate: startDate?.toISOString(),
           endDate: endDate?.toISOString(),
         },
-      }),
+      });
+    },
   });
 
+
+  console.log("car :", car);
 
   // ===============================
   // Export (ถ้ายังต้องใช้)
   // ===============================
-  const exportedData = car.map((item) => ({
+  const exportedData = car?.map((item) => ({
     "ລະຫັດ": item.userId,
     "ຊື່ລົດ": item.model,
     "ປ້າຍທະບຽນ": item.plateNumber,
@@ -72,9 +76,7 @@ const CarList = () => {
       t("delete_confirm"),
       t("delete_success")
     );
-
     if (!confirmDelete) return;
-
     await axiosInstance.delete(APIPath.DELETE_CAR(id));
     fetchData(); // refresh list
   };
@@ -133,7 +135,7 @@ const CarList = () => {
       {/* Desktop Card Layout */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="divide-y divide-gray-200">
-          {car.map((item, index) => (
+          {car?.map((item, index) => (
             <div
               key={index}
               onClick={() => handleToDetailCar(item.car_id)}
@@ -168,7 +170,7 @@ const CarList = () => {
         </div>
         {/* Mobile Card Layout */}
         <div>
-          {car.map((item, index) => (
+          {car?.map((item, index) => (
             <div
               key={index}
               onClick={() => handleToDetailCar(item.car_id)}
@@ -225,36 +227,34 @@ const CarList = () => {
 
       </div>
 
-      {/* Pagination (style เดิม ไม่แตะ) */}
+      {/* Pagination (แก้ไขให้โชว์แค่บางช่วงหน้า) */}
       <div className="flex justify-end mt-4 gap-2 items-center">
+        {/* ปุ่มย้อนกลับ */}
         <button
           onClick={() => handlePageChange(page - 1)}
           disabled={page === 1}
-          className={`px-3 py-1 rounded ${page === 1
-            ? "bg-gray-100 text-gray-400"
-            : "bg-gray-200 hover:bg-gray-300"
+          className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
             }`}
         >
           ‹
         </button>
 
-        {Array.from({ length: totalPage }, (_, i) => (
+        {getPageNumbers().map((p) => (
           <button
-            key={i}
-            onClick={() => handlePageChange(i + 1)}
-            className={`px-3 py-1 rounded ${page === i + 1
-              ? "bg-blue-500 text-white"
-              : "bg-gray-200 hover:bg-gray-300"
+            key={p}
+            onClick={() => handlePageChange(p)}
+            className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
               }`}
           >
-            {i + 1}
+            {p}
           </button>
         ))}
 
+        {/* ปุ่มถัดไป */}
         <button
           onClick={() => handlePageChange(page + 1)}
-          disabled={page === totalPage}
-          className={`px-3 py-1 rounded ${page === totalPage
+          disabled={page === totalPage || totalPage === 0}
+          className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
             ? "bg-gray-100 text-gray-400"
             : "bg-gray-200 hover:bg-gray-300"
             }`}
@@ -280,3 +280,4 @@ const CarList = () => {
 };
 
 export default CarList;
+

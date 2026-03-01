@@ -5,39 +5,81 @@ import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import useServerFilterPagination from "../../../utils/useServerFilterPagination";
+import ExportExcelPopup from "../../../utils/exportExelPopup";
 
 const GiftHistoryList = () => {
-    const [gifts, setGifts] = useState([]);
+    // const [gifts, setGifts] = useState([]);
+    const [open, setOpen] = useState(false);
     const { t } = useTranslation("gift");
     const navigate = useNavigate();
 
-    const fetchGifts = async () => {
-        try {
-            const res = await axiosInstance.get(APIPath.SELECT_ALL_GIFT_HISTORY);
-            setGifts(res?.data?.data || []);
-        } catch (error) {
-            console.error("Error fetching gifts:", error);
-        }
-    };
+    // const fetchGifts = async () => {
+    //     try {
+    //         const res = await axiosInstance.get(APIPath.SELECT_ALL_GIFT_HISTORY);
+    //         setGifts(res?.data?.data || []);
+    //     } catch (error) {
+    //         console.error("Error fetching gifts:", error);
+    //     }
+    // };
+
+    const {
+        data: giftCardHistory,
+        page,
+        totalPage,
+        search,
+        handleSearch,
+        handleDateChange,
+        handlePageChange,
+        fetchData,
+        getPageNumbers,
+    } = useServerFilterPagination({
+        apiCall: ({ page, limit, search, startDate, endDate }) => {
+            return axiosInstance.get(APIPath.GET_ALL_GIFT_HISTORY, {
+                params: {
+                    page,
+                    limit,
+                    search: search || undefined,
+                    startDate: startDate?.toISOString(),
+                    endDate: endDate?.toISOString(),
+                },
+            });
+        },
+    });
 
     const handleToDetailGiftHistory = (id) => {
         navigate(`/user/gift-history-detail/${id}`);
     };
 
     useEffect(() => {
-        fetchGifts();
+        fetchData();
     }, []);
 
     return (
         <div>
             {/* Top Controls */}
-            <div className="flex flex-col sm:flex-row lg:flex-row lg:items-center gap-4 lg:gap-6 mb-6">
-                <SelectDate placeholder={t("search_placeholder")} />
+            <div className=" p-9 flex justify-end items-center">
+                <SelectDate
+                    searchValue={search}
+                    onSearchChange={handleSearch}
+                    onDateChange={handleDateChange}
+                />
+                {/* download button */}
+                <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5">
+                    {t("export")}
+                </button>
+                {open && (
+                    <ExportExcelPopup
+                        apiUrl={APIPath.EXPORT_GIFT_HISTORY}
+                        fileName="giftHistory-report.xlsx"
+                        onClose={() => setOpen(false)}
+                    />
+                )}
             </div>
 
             {/* Mobile Card Layout */}
             <div className="md:hidden space-y-4 mb-6">
-                {gifts?.map((item, index) => (
+                {giftCardHistory?.map((item, index) => (
                     <div key={index} onClick={() => handleToDetailGiftHistory(item.gifthistory_id)} className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
                         {/* Mobile Card Header */}
                         <div className="flex items-center justify-between mb-3">
@@ -79,7 +121,7 @@ const GiftHistoryList = () => {
 
                 {/* Table Body */}
                 <div className="divide-y divide-gray-200 overflow-auto max-h-[400px]">
-                    {gifts?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
+                    {giftCardHistory?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
                         <div key={index} onClick={() => handleToDetailGiftHistory(item.gifthistory_id)} className="grid grid-cols-4 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                                 {index + 1}
@@ -103,6 +145,42 @@ const GiftHistoryList = () => {
                         </div>
                     ))}
                 </div>
+            </div>
+
+            {/* Pagination (แก้ไขให้โชว์แค่บางช่วงหน้า) */}
+            <div className="flex justify-end mt-4 gap-2 items-center">
+                {/* ปุ่มย้อนกลับ */}
+                <button
+                    onClick={() => handlePageChange(page - 1)}
+                    disabled={page === 1}
+                    className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ‹
+                </button>
+
+                {getPageNumbers().map((p) => (
+                    <button
+                        key={p}
+                        onClick={() => handlePageChange(p)}
+                        className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
+                            }`}
+                    >
+                        {p}
+                    </button>
+                ))}
+
+                {/* ปุ่มถัดไป */}
+                <button
+                    onClick={() => handlePageChange(page + 1)}
+                    disabled={page === totalPage || totalPage === 0}
+                    className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
+                        ? "bg-gray-100 text-gray-400"
+                        : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ›
+                </button>
             </div>
         </div>
     );

@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { exportExcel } from "./exportExel";
 import { useTranslation } from "react-i18next";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { CalendarDays, ChevronDown } from "lucide-react";
 
 const presets = [
     { value: "today", label: "ມື້ນີ້" },
@@ -127,29 +130,39 @@ const ExportExcelPopup = ({ apiUrl, fileName = "export.xlsx", onClose }) => {
                         />
                         {t("custom_date")}
                     </label>
-                    <input
-                        type="date"
-                        value={customStart}
-                        disabled={selectedType !== "custom"} // disable ถ้าไม่เลือก custom
-                        onChange={(e) => setCustomStart(e.target.value)}
-                        className="w-full border p-2 rounded mb-2"
-                    />
-                    <input
-                        type="date"
-                        value={customEnd}
-                        disabled={selectedType !== "custom"} // disable ถ้าไม่เลือก custom
-                        onChange={(e) => setCustomEnd(e.target.value)}
-                        className="w-full border p-2 rounded"
-                    />
+
+                    <div className="flex-1 relative mb-2">
+                        <CalendarDays className="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-red-600" />
+                        <DatePicker
+                            selected={customStart}
+                            onChange={(date) => setCustomStart(date)}
+                            disabled={selectedType !== "custom"}
+                            dateFormat="yyyy/MM/dd"
+                            placeholderText={t("date_start_placeholder")}
+                            className="w-full pl-8 pr-8 text-sm sm:text-base border border-gray-400 rounded bg-transparent outline-none cursor-pointer"
+                        />
+                    </div>
+
+                    <div className="flex-1 relative">
+                        <CalendarDays className="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-red-600" />
+                        <DatePicker
+                            selected={customEnd}
+                            onChange={(date) => setCustomEnd(date)}
+                            disabled={selectedType !== "custom"}
+                            dateFormat="yyyy/MM/dd"
+                            placeholderText={t("date_end_placeholder")}
+                            className="w-full pl-8 pr-8 text-sm sm:text-base border border-gray-400 rounded bg-transparent outline-none cursor-pointer"
+                        />
+                    </div>
                 </div>
 
                 <div className="flex justify-end gap-2">
-                    <button onClick={onClose} className="px-4 py-2 rounded border">Cancel</button>
+                    <button onClick={onClose} className="px-4 py-2 rounded border">{t("cancel")}</button>
                     <button
                         onClick={handleExport}
                         className="px-4 py-2 rounded bg-red-600 text-white"
                     >
-                        Export
+                        {t("export")}
                     </button>
                 </div>
             </div>

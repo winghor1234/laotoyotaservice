@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
-import { filterSearch } from "../../utils/FilterSearch";
-import { filterByDateRange } from "../../utils/FilterDate";
 import { useNavigate } from "react-router-dom";
 import AddPromotion from "./AddPromotion";
 import SelectDate from "../../utils/SelectDate";
@@ -11,34 +9,63 @@ import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
 import EditPromotion from "./EditPromotion";
 import { useTranslation } from "react-i18next";
+import useServerFilterPagination from "../../utils/useServerFilterPagination";
+import ExportExcelPopup from "../../utils/exportExelPopup";
+
 
 const PromotionList = () => {
     const { t } = useTranslation("promotion");
 
     const [showEditPromotion, setShowEditPromotion] = useState(false);
     const [showAddPromotion, setShowAddPromotion] = useState(false);
-    const [promotions, setPromotions] = useState([]);
+    // const [promotions, setPromotions] = useState([]);
     const [selectedPromotion, setSelectedPromotion] = useState(null);
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
-    const [search, setSearch] = useState("");
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    // const [search, setSearch] = useState("");
+    // const [startDate, setStartDate] = useState(null);
+    // const [endDate, setEndDate] = useState(null);
 
-    const handleFetchPromotion = async () => {
-        try {
-            const res = await axiosInstance.get(APIPath.SELECT_ALL_PROMOTION);
-            setPromotions(res?.data?.data);
-        } catch (error) {
-            console.error("Failed to fetch promotions:", error);
-        }
-    };
+    // const handleFetchPromotion = async () => {
+    //     try {
+    //         const res = await axiosInstance.get(APIPath.SELECT_ALL_PROMOTION);
+    //         setPromotions(res?.data?.data);
+    //     } catch (error) {
+    //         console.error("Failed to fetch promotions:", error);
+    //     }
+    // };
+
+
+    const {
+        data: promotion,
+        page,
+        totalPage,
+        search,
+        handleSearch,
+        handleDateChange,
+        handlePageChange,
+        fetchData,
+        getPageNumbers,
+    } = useServerFilterPagination({
+        apiCall: ({ page, limit, search, startDate, endDate }) => {
+            return axiosInstance.get(APIPath.GET_ALL_PROMOTION, {
+                params: {
+                    page,
+                    limit,
+                    search: search || undefined,
+                    startDate: startDate?.toISOString(),
+                    endDate: endDate?.toISOString(),
+                },
+            });
+        },
+    });
 
     const handleDeletePromotion = async (promotionId) => {
         try {
             const confirmDelete = await DeleteAlert(t("delete_confirm"), t("delete_success"));
             if (confirmDelete) {
                 await axiosInstance.delete(APIPath.DELETE_PROMOTION(promotionId));
-                handleFetchPromotion();
+                fetchData();
             }
         } catch (error) {
             console.error("Failed to delete promotion:", error);
@@ -47,36 +74,45 @@ const PromotionList = () => {
     };
 
     useEffect(() => {
-        handleFetchPromotion();
+        fetchData();
     }, []);
 
     const handleToDetailPromotion = (id) => {
         navigate(`/user/promotion-detail/${id}`);
     };
 
-    const filteredPromotions = filterByDateRange(
-        filterSearch(promotions, "title", search),
-        startDate,
-        endDate,
-        "createdAt"
-    );
-
     return (
         <div>
-            <div className="flex flex-col sm:flex-row lg:flex-row lg:items-center gap-4 lg:gap-6 mb-4 flex-1">
-                <SelectDate  onSearch={setSearch}  placeholder={t("search_placeholder")}  onDateChange={({ startDate, endDate }) => {setStartDate(startDate); setEndDate(endDate);  }} />
-                <div onClick={() => setShowAddPromotion(true)} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                    <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
-                        {t("add")}
-                    </button>
-                </div>
+            {/* Search + Date + Export or download */}
+            <div className=" p-9 flex justify-end items-center">
+                <SelectDate
+                    searchValue={search}
+                    onSearchChange={handleSearch}
+                    onDateChange={handleDateChange}
+                />
+                {/* download button */}
+                <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5">
+                    {t("export")}
+                </button>
+                {open && (
+                    <ExportExcelPopup
+                        apiUrl={APIPath.EXPORT_PROMOTION}
+                        fileName="promotion-report.xlsx"
+                        onClose={() => setOpen(false)}
+                    />
+                )}
+            </div>
+            <div onClick={() => setShowAddPromotion(true)} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
+                    {t("add")}
+                </button>
             </div>
 
             {/* Mobile Card Layout */}
             <div className="md:hidden space-y-4 mb-6">
-                {filteredPromotions.length === 0 ? (
+                {promotion?.length === 0 ? (
                     <div className="text-gray-500 text-center py-10">{t("no_data")}</div>
-                ) : filteredPromotions.map((item, index) => (
+                ) : promotion.map((item, index) => (
                     <div
                         key={index}
                         onClick={() => handleToDetailPromotion(item.promotion_id)}
@@ -125,7 +161,7 @@ const PromotionList = () => {
                     </div>
                 </div>
                 <div className="divide-y divide-gray-200 max-h-[400px] overflow-y-auto">
-                    {filteredPromotions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
+                    {promotion.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
                         <div
                             onClick={() => handleToDetailPromotion(item.promotion_id)}
                             key={index}
@@ -153,8 +189,43 @@ const PromotionList = () => {
                     ))}
                 </div>
             </div>
-            <EditPromotion show={showEditPromotion} onClose={() => setShowEditPromotion(false)} promotionId={selectedPromotion} handleFetchPromotion={handleFetchPromotion} />
-            <AddPromotion  show={showAddPromotion}  onClose={() => setShowAddPromotion(false)}  handleFetchPromotion={handleFetchPromotion} />
+            {/* Pagination (แก้ไขให้โชว์แค่บางช่วงหน้า) */}
+            <div className="flex justify-end mt-4 gap-2 items-center">
+                {/* ปุ่มย้อนกลับ */}
+                <button
+                    onClick={() => handlePageChange(page - 1)}
+                    disabled={page === 1}
+                    className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ‹
+                </button>
+
+                {getPageNumbers().map((p) => (
+                    <button
+                        key={p}
+                        onClick={() => handlePageChange(p)}
+                        className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
+                            }`}
+                    >
+                        {p}
+                    </button>
+                ))}
+
+                {/* ปุ่มถัดไป */}
+                <button
+                    onClick={() => handlePageChange(page + 1)}
+                    disabled={page === totalPage || totalPage === 0}
+                    className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
+                        ? "bg-gray-100 text-gray-400"
+                        : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ›
+                </button>
+            </div>
+            <EditPromotion show={showEditPromotion} onClose={() => setShowEditPromotion(false)} promotionId={selectedPromotion} handleFetchPromotion={fetchData} />
+            <AddPromotion show={showAddPromotion} onClose={() => setShowAddPromotion(false)} handleFetchPromotion={fetchData} />
         </div>
     );
 }
