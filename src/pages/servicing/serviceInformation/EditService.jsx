@@ -3,7 +3,7 @@ import Spinner from "../../../utils/Loading";
 import { useServiceEditForm } from "../../../component/schemaValidate/serviceValidate/EditServiceValidate";
 import { useTranslation } from "react-i18next";
 import { Controller } from "react-hook-form";
-import ImageUpload from "../../../utils/ImageUpload";
+import ImageUpload from "../../../../utils/ImageUpload";
 
 
 const EditService = ({ show, onClose, serviceId, handleFetch }) => {

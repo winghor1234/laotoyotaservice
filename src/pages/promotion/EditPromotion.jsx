@@ -4,7 +4,7 @@ import Spinner from "../../utils/Loading";
 import { useEditPromotionForm } from "../../component/schemaValidate/promotionValidate/EditPromotionValidate";
 import { useTranslation } from "react-i18next";
 import { Controller } from "react-hook-form";
-import ImageUpload from "../../utils/imageUpload";
+import ImageUpload from "../../../utils/ImageUpload";
 
 const EditPromotion = ({ show, onClose, promotionId, handleFetchPromotion }) => {
   const { t } = useTranslation("promotion");

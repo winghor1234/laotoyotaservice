@@ -3,7 +3,7 @@ import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import Spinner from "../../../utils/Loading";
 import { useEditForm } from "../../../component/schemaValidate/giftValidate.js/EditGiftValidate";
 import { Controller } from "react-hook-form";
-import ImageUpload from "../../../utils/ImageUpload";
+import ImageUpload from "../../../../utils/ImageUpload";
 
 const EditGift = ({ show, onClose, giftId, handleFetch }) => {
   const { t } = useTranslation('gift');

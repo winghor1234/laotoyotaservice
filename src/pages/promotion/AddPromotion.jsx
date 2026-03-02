@@ -3,7 +3,7 @@ import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
 import { useAddPromotionForm } from "../../component/schemaValidate/promotionValidate/AddPromotionValidate";
 import { useTranslation } from "react-i18next";
 import { Controller } from "react-hook-form";
-import ImageUpload from "../../utils/imageUpload";
+import ImageUpload from "../../../utils/ImageUpload";
 
 const AddPromotion = ({ show, onClose, handleFetchPromotion }) => {
   const { t } = useTranslation("promotion"); 

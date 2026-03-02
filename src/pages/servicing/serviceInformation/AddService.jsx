@@ -3,7 +3,7 @@ import Spinner from "../../../utils/Loading";
 import { useAddServiceForm } from "../../../component/schemaValidate/serviceValidate/AddServiceValidate";
 import { useTranslation } from "react-i18next";
 import { Controller } from "react-hook-form";
-import ImageUpload from "../../../utils/ImageUpload";
+import ImageUpload from "../../../../utils/ImageUpload";
 
 const AddService = ({ show, onClose, handleFetch }) => {
   const { t } = useTranslation("service");
