@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Clock3, Edit, MapPinned, Search, Trash } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -9,39 +9,46 @@ import AddZone from "./AddZone";
 import EditZone from "./EditZone";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
+import useServerFilterPagination from "../../../utils/useServerFilterPagination";
+import ExportExcelPopup from "../../../utils/exportExelPopup";
+import SelectDate from "../../../utils/SelectDate";
+import DownloadButton from "../../../utils/DownloadButton";
 
 const ZoneList = () => {
     const { t } = useTranslation("timeZone");
     const navigate = useNavigate();
 
-    const [zone, setZone] = useState([]);
     const [zoneId, setZoneId] = useState(null);
     const [showAddZone, setShowAddZone] = useState(false);
     const [showEditZone, setShowEditZone] = useState(false);
+    const [open, setOpen] = useState(false);
 
-    const [search, setSearch] = useState("");
-    // const [startDate, setStartDate] = useState(null);
-    // const [endDate, setEndDate] = useState(null);
-    const [exportData, setExportData] = useState([]);
 
-    const fetchZone = async () => {
-        const res = await axiosInstance.get(APIPath.SELECT_ALL_ZONE);
-        const data = res?.data?.data || [];
-        setZone(data);
-
-        setExportData(
-            data.map((item) => ({
-                [t("zoneNameLabel")]: item.zoneName,
-                [t("timeFixLabel")]: item.timeFix,
-                [t("statusLabel")]: item.zoneStatus
-                    ? t("statusFree")
-                    : t("statusFull"),
-            }))
-        );
-    };
+    // ✅ ใช้ Server Pagination
+    const {
+        data: zone,
+        page,
+        totalPage,
+        search,
+        handleSearch,
+        handlePageChange,
+        handleDateChange,
+        fetchData,
+        getPageNumbers,
+    } = useServerFilterPagination({
+        apiCall: ({ page, limit, search }) => {
+            return axiosInstance.get(APIPath.GET_ALL_ZONE, {
+                params: {
+                    page,
+                    limit,
+                    search: search || undefined,
+                },
+            });
+        },
+    });
 
     useEffect(() => {
-        fetchZone();
+        fetchData();
     }, []);
 
     const handleDelete = async (id) => {
@@ -51,35 +58,7 @@ const ZoneList = () => {
         );
         if (confirm) {
             await axiosInstance.delete(APIPath.DELETE_ZONE(id));
-            fetchZone();
-        }
-    };
-
-    const handleBackendSearch = async (searchText) => {
-        if (!searchText) {
-            fetchZone(); // ถ้า search ว่าง โหลดข้อมูลทั้งหมด
-            return;
-        }
-
-        try {
-            const res = await axiosInstance.get(APIPath.SEARCH_ZONE, {
-                params: { search: searchText }, // ส่ง query ?search=...
-            });
-            const data = res?.data?.data || [];
-            setZone(data);
-
-            // อัปเดต exportData ด้วย
-            setExportData(
-                data.map((item) => ({
-                    [t("zoneNameLabel")]: item.zoneName,
-                    [t("timeFixLabel")]: item.timeFix,
-                    [t("statusLabel")]: item.zoneStatus
-                        ? t("statusFree")
-                        : t("statusFull"),
-                }))
-            );
-        } catch (error) {
-            console.error("Error searching zone:", error);
+            fetchData();
         }
     };
 
@@ -92,17 +71,9 @@ const ZoneList = () => {
                 { zoneStatus: String(newStatus) }
             );
 
-            // อัปเดต state ทันทีโดยไม่ต้องโหลดใหม่ทั้งหมด
-            setZone(prev =>
-                prev.map(t =>
-                    t.zone_id === item.zone_id
-                        ? { ...t, zoneStatus: newStatus }
-                        : t
-                )
-            );
-
+            fetchData();
         } catch (error) {
-            console.error("Error updating status:", error.response?.data || error);
+            console.error("Error updating status:", error);
         }
     };
 
@@ -110,111 +81,136 @@ const ZoneList = () => {
         navigate(`/user/zone-detail/${id}`);
     };
 
-
     return (
         <div>
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-5 md:gap-6 mb-4 sm:mb-6 p-3 sm:p-4 md:p-5 lg:p-6">
-                <div className="flex items-center min-w-[200px] sm:w-auto lg:w-64 h-12 sm:h-14 border border-gray-300 focus-within:border-blue-600 px-3 py-2 bg-white shadow-sm rounded">
-                    <Search className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 mr-2" />
-                    <input
-                        type="text"
-                        onChange={async (e) => {
-                            const value = e.target.value;
-                            setSearch(value);
-                            handleBackendSearch(value);
-                        }}
-                        placeholder={t("zoneSearchPlaceholder")}
-                        className="outline-none text-sm sm:text-base flex-1"
+            <div className="border-1 border-rex-500 gap-9 mb-6 flex justify-end items-center">
+                <SelectDate
+                    searchValue={search}
+                    onSearchChange={handleSearch}
+                    onDateChange={handleDateChange}
+                    placeholder={t("timeSearchPlaceholder")}
+                    apiPath={APIPath.GET_ALL_TIME}
+                    fileName={"time-report.xlsx"}
+                />
+                {/* download button */}
+                <DownloadButton open={open} setOpen={setOpen} />
+                {open && (
+                    <ExportExcelPopup
+                        apiUrl={APIPath.EXPORT_TIME}
+                        fileName="time-report.xlsx"
+                        onClose={() => setOpen(false)}
                     />
-                </div>
-
-                <div className="flex gap-3 sm:gap-4">
-                    <ExportExcelButton data={exportData} fileName="ZoneData.xlsx" />
-                    <ImportExcel
-                        apiPath={APIPath.CREATE_ZONE}
-                        requiredFields={[t("zoneNameLabel"), t("timeFixLabel")]}
-                        transformData={(item) => ({
-                            zoneName: item[t("zoneNameLabel")],
-                            timeFix: item[t("timeFixLabel")],
-                            zoneStatus: true,
-                        })}
-                        onUploadSuccess={fetchZone}
-                    />
-
-                    <button
-                        onClick={() => setShowAddZone(true)}
-                        className="bg-blue-600 hover:bg-blue-700 transition-colors  w-full sm:w-auto px-10 py-2 sm:py-3  text-white rounded-xl font-medium text-sm sm:text-base"
-                    >
-                        {t("addButton")}
-                    </button>
-                </div>
+                )}
+                <button
+                    onClick={() => setShowAddZone(true)}
+                    className="bg-blue-600 hover:bg-blue-700 px-5 py-3.5 text-white rounded font-medium"
+                >
+                    {t("addButton")}
+                </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 mb-6">
 
-                {zone
-                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                    .map((item) => (
+            {/* 🔹 Grid เดิมทั้งหมด */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+                {zone?.map((item) => (
+                    <div key={item.zone_id} className="flex hover:shadow-xl">
                         <div
-                            key={item.zone_id}
-                            className="flex justify-center hover:shadow-xl">
-                            {/* Card */}
-                            <div onClick={() => handleToDetailZone(item.zone_id)} className={`${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"}  text-white cursor-pointer w-full px-3 sm:px-4 py-2 sm:py-3  rounded-l shadow-2xl`}>
-                                <div className="ml-2 sm:ml-4 flex items-center gap-2 sm:gap-3  text-base sm:text-lg font-semibold">
-                                    <MapPinned />
-                                    {item.zoneName}
-                                </div>
-
-                                <div className="mt-2 ml-2 sm:ml-4 flex items-center gap-2 sm:gap-3  text-sm sm:text-md">
-                                    <Clock3 className="w-4 h-4" />
-                                    {item.timeFix} {t("minuteLabel")}
-                                </div>
-
-                                <div className="mt-2 ml-2 sm:ml-4 font-semibold">
-                                    <p className="text-base sm:text-lg lg:text-xl">
-                                        {item.zoneStatus ? t("statusFree") : t("statusFull")}
-                                    </p>
-                                </div>
+                            onClick={() => handleToDetailZone(item.zone_id)}
+                            className={`${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"
+                                } text-white cursor-pointer w-full px-4 py-3 rounded-l shadow`}
+                        >
+                            <div className="ml-4 flex items-center gap-3 font-semibold">
+                                <MapPinned />
+                                {item.zoneName}
                             </div>
 
-                            {/* Action */}
-                            <div className={`flex flex-col items-center justify-start w-28 gap-2 px-2 sm:px-3 rounded-r cursor-pointer  ${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"} text-white`}>
-                                <Edit
-                                    className="text-white h-4 w-4 mt-2 sm:h-5 sm:w-5 cursor-pointer hover:text-gray-400"
-                                    onClick={() => {
-                                        setShowEditZone(true);
-                                        setZoneId(item.zone_id);
-                                    }}
-                                />
-                                <Trash
-                                    className="text-white hover:text-gray-400 h-4 w-4 sm:h-5 sm:w-5 cursor-pointer"
-                                    onClick={() => handleDelete(item.zone_id)}
-                                />
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation(); // ป้องกัน navigate
-                                        handleToggleStatus(item);
-                                    }}
-                                    className="cursor-pointer mt-2 px-3 py-1 bg-white text-black rounded-md text-sm hover:bg-gray-200 transition"
-                                >
-                                    {item.zoneStatus ? t("statusFree") : t("statusFull")}
-                                </button>
+                            <div className="mt-2 ml-4 flex items-center gap-3">
+                                <Clock3 />
+                                {item.timeFix} {t("minuteLabel")}
+                            </div>
+
+                            <div className="mt-2 ml-4 font-semibold">
+                                {item.zoneStatus ? t("statusFree") : t("statusFull")}
                             </div>
                         </div>
-                    ))}
+
+                        <div className={`flex flex-col items-center w-24 gap-2 px-2 rounded-r ${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"
+                            } text-white`}
+                        >
+                            <Edit
+                                className="mt-2 cursor-pointer"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowEditZone(true);
+                                    setZoneId(item.zone_id);
+                                }}
+                            />
+                            <Trash
+                                className="cursor-pointer"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDelete(item.zone_id);
+                                }}
+                            />
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleToggleStatus(item);
+                                }}
+                                className="mt-2 px-2 py-1 bg-white text-black rounded text-sm"
+                            >
+                                {item.zoneStatus ? t("statusFree") : t("statusFull")}
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* 🔹 Pagination เพิ่มเข้ามา (เหมือน TimeList) */}
+            <div className="flex justify-end mt-4 gap-2 items-center">
+                <button
+                    onClick={() => handlePageChange(page - 1)}
+                    disabled={page === 1}
+                    className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ‹
+                </button>
+
+                {getPageNumbers().map((p) => (
+                    <button
+                        key={p}
+                        onClick={() => handlePageChange(p)}
+                        className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
+                            }`}
+                    >
+                        {p}
+                    </button>
+                ))}
+
+                <button
+                    onClick={() => handlePageChange(page + 1)}
+                    disabled={page === totalPage || totalPage === 0}
+                    className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
+                        ? "bg-gray-100 text-gray-400"
+                        : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ›
+                </button>
             </div>
 
             <EditZone
                 show={showEditZone}
                 onClose={() => setShowEditZone(false)}
                 zoneId={zoneId}
-                fetchZone={fetchZone}
+                fetchZone={fetchData}
             />
 
             <AddZone
                 show={showAddZone}
                 onClose={() => setShowAddZone(false)}
-                fetchZone={fetchZone}
+                fetchZone={fetchData}
             />
         </div>
     );

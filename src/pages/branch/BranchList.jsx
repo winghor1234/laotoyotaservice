@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import EditBranch from "./EditBranch";
 import useServerFilterPagination from "../../utils/useServerFilterPagination";
 import ExportExcelPopup from "../../utils/exportExelPopup";
+import DownloadButton from "../../utils/DownloadButton";
 
 
 
@@ -86,32 +87,26 @@ const BranchList = () => {
 
 
     return (
-        <div className="p-4">
-            <div className="flex flex-col sm:flex-row lg:flex-row lg:items-center gap-4 lg:gap-6 mb-4 flex-1">
-                {/* Search + Date + Export or download */}
-                <div className="border-2 border-red-500 p-9 flex justify-end items-center">
-                    <SelectDate
-                        searchValue={search}
-                        onSearchChange={handleSearch}
-                        onDateChange={handleDateChange}
+        <div>
+            {/* Search + Date + Export or download */}
+            <div className="flex justify-end items-center mb-6">
+                <SelectDate
+                    searchValue={search}
+                    onSearchChange={handleSearch}
+                    onDateChange={handleDateChange}
+                />
+                {/* download button */}
+                <DownloadButton open={open} setOpen={setOpen} />
+                {open && (
+                    <ExportExcelPopup
+                        apiUrl={APIPath.EXPORT_BRANCH}
+                        fileName="branch-report.xlsx"
+                        onClose={() => setOpen(false)}
                     />
-                    {/* download button */}
-                    <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5">
-                        {t("export")}
-                    </button>
-                    {open && (
-                        <ExportExcelPopup
-                            apiUrl={APIPath.EXPORT_BRANCH}
-                            fileName="branch-report.xlsx"
-                            onClose={() => setOpen(false)}
-                        />
-                    )}
-                </div>
-                <div onClick={() => setShowAddBranch(true)} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                    <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
-                        {t("add_branch")}
-                    </button>
-                </div>
+                )}
+                <button onClick={() => setShowAddBranch(true)} className="bg-blue-600 hover:bg-blue-700 transition-colors  px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base">
+                    {t("add_branch")}
+                </button>
             </div>
 
             {/* Mobile Card Layout */}
@@ -167,7 +162,7 @@ const BranchList = () => {
 
             {/* Desktop/Tablet Table */}
             <div className="hidden md:block bg-white rounded-lg shadow-sm overflow-hidden w-full">
-                <div className="w-full h-10 md:h-12 lg:h-14 bg-[#E52020] text-white">
+                <div className="w-full h-12 md:h-12 lg:h-14 bg-[#E52020] text-white">
                     <div className="grid grid-cols-6 gap-3 md:gap-8 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-sm md:text-sm lg:text-base">
                         <div className="text-center line-clamp-1">{t("index")}</div>
                         <div className="text-center line-clamp-1">{t("branch_code")}</div>

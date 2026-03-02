@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import useServerFilterPagination from "../../utils/useServerFilterPagination";
 import ExportExcelPopup from "../../utils/exportExelPopup";
+import DownloadButton from "../../utils/DownloadButton";
 
 const UserList = () => {
     const { t } = useTranslation("user");
@@ -90,17 +91,15 @@ const UserList = () => {
     }, []);
 
     return (
-        <div className="p-4">
-            <div className=" p-9 flex justify-end items-center">
+        <div>
+            <div className="flex justify-end items-center mb-6">
                 <SelectDate
                     searchValue={search}
                     onSearchChange={handleSearch}
                     onDateChange={handleDateChange}
                 />
                 {/* download button */}
-                <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5">
-                    {t("export")}
-                </button>
+                <DownloadButton open={open} setOpen={setOpen} />
                 {open && (
                     <ExportExcelPopup
                         apiUrl={APIPath.EXPORT_CUSTOMER}
@@ -108,25 +107,23 @@ const UserList = () => {
                         onClose={() => setOpen(false)}
                     />
                 )}
-                <div className="flex flex-col sm:flex-row sm:justify-center gap-2 sm:gap-3">
-                    <button onClick={() => setShowAdd(true)} className="bg-blue-500 hover:bg-blue-600 transition-colors w-full sm:w-auto px-6 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
-                        {t("add_user")}
-                    </button>
-                </div>
+                <button onClick={() => setShowAdd(true)} className="bg-blue-500 hover:bg-blue-600 transition-colors w-full sm:w-auto px-5 py-3.5  text-white rounded font-medium cursor-pointer text-sm sm:text-base">
+                    {t("add_user")}
+                </button>
             </div>
             {/* Table Header */}
-            <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
+            <div className="hidden md:block w-full h-12 md:h-12 lg:h-14 rounded-t-lg bg-[#E52020] text-white">
                 <div className="grid grid-cols-10 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
-                    <div className="text-center">{t("index")}</div>
-                    <div className="text-center">{t("code")}</div>
-                    <div className="text-center">{t("username")}</div>
-                    <div className="text-center">{t("village")}</div>
-                    <div className="text-center">{t("district")}</div>
-                    <div className="text-center">{t("province")}</div>
-                    <div className="text-center">{t("phone")}</div>
-                    <div className="text-center">{t("email")}</div>
-                    <div className="text-center">{t("status")}</div>
-                    <div className="text-center">{t("action")}</div>
+                    <div className="flex justify-center items-center">{t("index")}</div>
+                    <div className="flex justify-center items-center">{t("code")}</div>
+                    <div className="flex justify-center items-center">{t("username")}</div>
+                    <div className="flex justify-center items-center">{t("village")}</div>
+                    <div className="flex justify-center items-center">{t("district")}</div>
+                    <div className="flex justify-center items-center">{t("province")}</div>
+                    <div className="flex justify-center items-center">{t("phone")}</div>
+                    <div className="flex justify-center items-center">{t("email")}</div>
+                    <div className="flex justify-center items-center">{t("status")}</div>
+                    <div className="flex justify-center items-center">{t("action")}</div>
                 </div>
             </div>
 

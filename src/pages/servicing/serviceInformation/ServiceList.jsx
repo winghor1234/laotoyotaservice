@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import useServerFilterPagination from "../../../utils/useServerFilterPagination";
 import ExportExcelPopup from "../../../utils/exportExelPopup";
 import SelectDate from "../../../utils/SelectDate";
+import DownloadButton from "../../../utils/DownloadButton";
 
 const ServiceList = () => {
     const { t } = useTranslation("service");
@@ -80,17 +81,15 @@ const ServiceList = () => {
     // };
 
     return (
-        <div className="p-4">
-            <div className=" p-9 flex justify-end items-center">
+        <div>
+            <div className="mb-6 flex justify-end items-center">
                 <SelectDate
                     searchValue={search}
                     onSearchChange={handleSearch}
                     onDateChange={handleDateChange}
                 />
                 {/* download button */}
-                <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5">
-                    {t("export")}
-                </button>
+                <DownloadButton open={open} setOpen={setOpen} />
                 {open && (
                     <ExportExcelPopup
                         apiUrl={APIPath.EXPORT_SERVICE}
@@ -98,14 +97,12 @@ const ServiceList = () => {
                         onClose={() => setOpen(false)}
                     />
                 )}
-                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                    <button
-                        onClick={() => setShowAddService(true)}
-                        className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base"
-                    >
-                        {t("add")}
-                    </button>
-                </div>
+                <button
+                    onClick={() => setShowAddService(true)}
+                    className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base"
+                >
+                    {t("add")}
+                </button>
             </div>
 
             {/* Data Table */}
@@ -253,3 +250,4 @@ const ServiceList = () => {
 };
 
 export default ServiceList;
+

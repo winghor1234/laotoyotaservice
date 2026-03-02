@@ -1,56 +1,60 @@
+
 import { useEffect, useState } from "react";
-// import { filterByDateRange } from "../../../utils/FilterDate";
-// import { filterSearch } from "../../../utils/FilterSearch";
 import { Calendar, TimerIcon, Edit, Trash, MapPinned, Search } from "lucide-react";
-import SelectDate from "../../../utils/SelectDate";
-import AddTime from "./AddTime";
-import EditTime from "./EditTime";
 import { useNavigate } from "react-router-dom";
-import { DeleteAlert } from "../../../utils/handleAlert/DeleteAlert";
-import ExportExcelButton from "../../../utils/ExcelExportButton";
-import ImportExcel from "../../../utils/ImportExel";
+import useServerFilterPagination from "../../../utils/useServerFilterPagination";
+import { useTranslation } from "react-i18next";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
-import { useTranslation } from "react-i18next";
+import { DeleteAlert } from "../../../utils/handleAlert/DeleteAlert";
+import SelectDate from "../../../utils/SelectDate";
+import ExportExcelPopup from "../../../utils/exportExelPopup";
+import AddTime from "./AddTime";
+import EditTime from "./EditTime";
+import DownloadButton from "../../../utils/DownloadButton";
 
 const TimeList = () => {
-    const { t } = useTranslation("timeZone"); // ใช้ namespace timeList
+    const { t } = useTranslation("timeZone");
+
     const [showAddTime, setShowAddTime] = useState(false);
     const [showEditTime, setShowEditTime] = useState(false);
-    const [time, setTime] = useState([]);
     const [timeId, setTimeId] = useState(null);
-    const [search, setSearch] = useState("");
-    // const [startDate, setStartDate] = useState(null);
-    // const [endDate, setEndDate] = useState(null);
-    const [exportData, setExportData] = useState([]);
+    // const [exportData, setExportData] = useState([]);
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
-    const fetchTime = async () => {
-        try {
-            const res = await axiosInstance.get(APIPath.SELECT_ALL_TIME);
-            const data = res?.data?.data || [];
-            setTime(data);
-            // อัปเดต exportData ทุกครั้งเมื่อ fetch
-            setExportData(
-                data.map((item) => ({
-                    ເວລາ: item.time,
-                    ວັນທີເດືອນປີ: item.date,
-                    ຊື່ໂຊນ: item?.zone?.zoneName,
-                    ສະຖານະ: item.timeStatus ? "ຫວ່າງ" : "ເຕັມ",
-                }))
-            );
-        } catch (error) {
-            console.error("Error fetching time:", error);
-        }
-    };
+    // ✅ ใช้ Server Pagination
+    const {
+        data: time,
+        page,
+        totalPage,
+        search,
+        handleSearch,
+        handleDateChange,
+        handlePageChange,
+        fetchData,
+        getPageNumbers,
+    } = useServerFilterPagination({
+        apiCall: ({ page, limit, search, startDate, endDate }) => {
+            return axiosInstance.get(APIPath.GET_ALL_TIME, {
+                params: {
+                    page,
+                    limit,
+                    search: search || undefined,
+                    startDate: startDate?.toISOString(),
+                    endDate: endDate?.toISOString(),
+                },
+            });
+        },
+    });
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     const handleToDetailTime = (id) => {
         navigate(`/user/time-detail/${id}`);
     };
-
-    useEffect(() => {
-        fetchTime();
-    }, []);
 
     const handleToggleStatus = async (item) => {
         try {
@@ -61,49 +65,11 @@ const TimeList = () => {
                 { timeStatus: String(newStatus) }
             );
 
-            // อัปเดต state ทันทีโดยไม่ต้องโหลดใหม่ทั้งหมด
-            setTime(prev =>
-                prev.map(t =>
-                    t.time_id === item.time_id
-                        ? { ...t, timeStatus: newStatus }
-                        : t
-                )
-            );
-
+            fetchData();
         } catch (error) {
-            console.error("Error updating status:", error.response?.data || error);
+            console.error("Error updating status:", error);
         }
     };
-
-   
-    const handleBackendSearch = async (searchText) => {
-        if (!searchText) {
-            fetchTime(); // ถ้า search ว่าง โหลดข้อมูลทั้งหมด
-            return;
-        }
-
-        try {
-            const res = await axiosInstance.get(APIPath.SEARCH_TIME, {
-                params: { search: searchText }, // ส่ง query ?search=...
-            });
-            const data = res?.data?.data || [];
-            setTime(data);
-
-            // อัปเดต exportData ด้วย
-            setExportData(
-                data.map((item) => ({
-                    ເວລາ: item.time,
-                    ວັນທີເດືອນປີ: item.date,
-                    ຊື່ໂຊນ: item?.zone?.zoneName,
-                    ສະຖານະ: item.timeStatus ? "ຫວ່າງ" : "ເຕັມ",
-                }))
-            );
-        } catch (error) {
-            console.error("Error searching time:", error);
-        }
-    };
-
-
 
     const handleDelete = async (id) => {
         const confirmDelete = await DeleteAlert(
@@ -112,137 +78,156 @@ const TimeList = () => {
         );
         if (confirmDelete) {
             await axiosInstance.delete(APIPath.DELETE_TIME(id));
-            fetchTime();
+            fetchData();
         }
     };
 
-    // const filteredTime = filterByDateRange(
-    //     filterSearch(time, "name", search),
-    //     startDate,
-    //     endDate,
-    //     "createdAt"
-    // );
-
     return (
         <div>
-            {/* Top Controls */}
-            <div className=" flex flex-col sm:flex-row md:flex-row lg:flex-row justify-between items-center gap-4 sm:gap-5 md:gap-6 mb-4 sm:mb-5 md:mb-6 p-3 sm:p-4 md:p-5 lg:p-6 rounded-lg">
-                {/* <SelectDate
-                    // onSearch={(value) => { 
-                    //     handleBackendSearch(value); // เรียก backend
-                    // }}
-                    // placeholder={t("timeSearchPlaceholder")}
-                    // onDateChange={({ startDate, endDate }) => { setStartDate(startDate); setEndDate(endDate); }}
-                 /> */}
-                <div className="flex items-center min-w-[200px] sm:w-auto lg:w-64 h-12 sm:h-14 border border-gray-300 focus-within:border-blue-600 px-3 py-2 bg-white shadow-sm rounded">
-                    <Search className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 mr-2" />
-                    <input
-                        type="text"
-                        onChange={async (e) => {
-                            const value = e.target.value;
-                            setSearch(value);
-                            handleBackendSearch(value);
-                        }}
-                        placeholder={t("timeSearchPlaceholder")}
-                        className="outline-none text-sm sm:text-base flex-1"
+            <div className=" gap-9 mb-6 flex justify-end items-center">
+                <SelectDate
+                    searchValue={search}
+                    onSearchChange={handleSearch}
+                    onDateChange={handleDateChange}
+                    placeholder={t("timeSearchPlaceholder")}
+                    apiPath={APIPath.GET_ALL_TIME}
+                    fileName={"time-report.xlsx"}
+                />
+                {/* download button */}
+                <DownloadButton open={open} setOpen={setOpen} />
+                {open && (
+                    <ExportExcelPopup
+                        apiUrl={APIPath.EXPORT_TIME}
+                        fileName="time-report.xlsx"
+                        onClose={() => setOpen(false)}
                     />
-                </div>
-                <div className="flex gap-3 sm:gap-4">
-                    {/* Export Excel */}
-                    <ExportExcelButton data={exportData} fileName="TimeData.xlsx" />
-                    {/* Import Excel */}
-                    <ImportExcel
-                        apiPath={APIPath.CREATE_TIME}
-                        requiredFields={["ເວລາ", "ວັນທີເດືອນປີ"]}
-                        transformData={(item) => ({
-                            time: item["ເວລາ"],
-                            date: item["ວັນທີເດືອນປີ"],
-                        })}
-                        onUploadSuccess={fetchTime}
-                    />
-                    <div onClick={() => setShowAddTime(true)} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                        <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-3.5 sm:py-3 text-white rounded-sm font-medium cursor-pointer text-sm sm:text-base">
-                            {t("addButton")}
-                        </button>
-                    </div>
-                </div>
+                )}
+                <button
+                    onClick={() => setShowAddTime(true)}
+                    className="bg-blue-600 hover:bg-blue-700 px-5 py-3.5 text-white rounded font-medium"
+                >
+                    {t("addButton")}
+                </button>
             </div>
+
             {/* Time Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 
-                overflow-y-auto gap-2 sm:gap-3 lg:gap-4 mb-6">
-                {time
-                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                    .map((item) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+                {time?.map((item) => (
+                    <div key={item.time_id} className="flex hover:shadow-xl">
                         <div
-                            key={item.time_id}
-                            className="flex justify-center hover:shadow-xl"
-                        >
-                            <div
-                                onClick={() => handleToDetailTime(item.time_id)}
-                                className={`${item.timeStatus
-                                    ? item.zoneId === null
-                                        ? "bg-yellow-500"
-                                        : "bg-green-600"
-                                    : "bg-[#E52020]"
-                                    } text-white cursor-pointer w-full px-3 sm:px-4 py-2 sm:py-3 rounded-l shadow-2xl`}
-                            >
-                                <div className="ml-2 sm:ml-4 flex items-center gap-2 sm:gap-3 text-sm sm:text-md">
-                                    <TimerIcon />
-                                    {item.time}
-                                </div>
-
-                                <div className="mt-2 ml-2 sm:ml-4 flex items-center gap-2 sm:gap-3 text-sm sm:text-md">
-                                    <Calendar />
-                                    {item.date}
-                                </div>
-
-                                <div className="mt-2 ml-2 sm:ml-4 flex items-center gap-2 sm:gap-3  text-base sm:text-lg lg:text-xl font-semibold">
-                                    <MapPinned />
-                                    {item?.zone?.zoneName}
-                                </div>
-
-                                <div className="mt-2 ml-2 sm:ml-4 font-semibold">
-                                    <p className="text-base sm:text-lg lg:text-xl">
-                                        {item.timeStatus ? t("statusFree") : t("statusFull")}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className={` flex flex-col items-center justify-start w-28 gap-2 px-2 sm:px-3 rounded-r cursor-pointer ${item.timeStatus
+                            onClick={() => handleToDetailTime(item.time_id)}
+                            className={`${item.timeStatus
                                 ? item.zoneId === null
                                     ? "bg-yellow-500"
                                     : "bg-green-600"
                                 : "bg-[#E52020]"
-                                } text-white`}
-                            >
-                                <Edit
-                                    className="h-4 w-4 mt-2 sm:h-5 sm:w-5 cursor-pointer tex-white hover:text-gray-400"
-                                    onClick={() => {
-                                        setShowEditTime(true);
-                                        setTimeId(item.time_id);
-                                    }}
-                                />
-                                <Trash
-                                    className="h-4 w-4 sm:h-5 sm:w-5 cursor-pointer tex-white hover:text-gray-400"
-                                    onClick={() => handleDelete(item.time_id)}
-                                />
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation(); // ป้องกัน navigate
-                                        handleToggleStatus(item);
-                                    }}
-                                    className="cursor-pointer mt-2 px-3 py-1 bg-white text-black rounded-md text-sm hover:bg-gray-200 transition"
-                                >
-                                    {item.timeStatus ? t("statusFree") : t("statusFull")}
-                                </button>
+                                } text-white cursor-pointer w-full px-4 py-3 rounded-l shadow`}
+                        >
+                            <div className="flex items-center gap-2">
+                                <TimerIcon />
+                                {item.time}
+                            </div>
+
+                            <div className="mt-2 flex items-center gap-2">
+                                <Calendar />
+                                {item.date}
+                            </div>
+
+                            <div className="mt-2 flex items-center gap-2 font-semibold">
+                                <MapPinned />
+                                {item?.zone?.zoneName}
+                            </div>
+
+                            <div className="mt-2 font-semibold">
+                                {item.timeStatus ? t("statusFree") : t("statusFull")}
                             </div>
                         </div>
-                    ))}
+
+                        <div className={`flex flex-col items-center w-24 gap-2 px-2 rounded-r ${item.timeStatus
+                            ? item.zoneId === null
+                                ? "bg-yellow-500"
+                                : "bg-green-600"
+                            : "bg-[#E52020]"
+                            } text-white`}
+                        >
+                            <Edit
+                                className="mt-2 cursor-pointer"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowEditTime(true);
+                                    setTimeId(item.time_id);
+                                }}
+                            />
+                            <Trash
+                                className="cursor-pointer"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDelete(item.time_id);
+                                }}
+                            />
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleToggleStatus(item);
+                                }}
+                                className="mt-2 px-2 py-1 bg-white text-black rounded text-sm"
+                            >
+                                {item.timeStatus ? t("statusFree") : t("statusFull")}
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* Pagination (แก้ไขให้โชว์แค่บางช่วงหน้า) */}
+            <div className="flex justify-end mt-4 gap-2 items-center">
+                {/* ปุ่มย้อนกลับ */}
+                <button
+                    onClick={() => handlePageChange(page - 1)}
+                    disabled={page === 1}
+                    className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ‹
+                </button>
+
+                {getPageNumbers().map((p) => (
+                    <button
+                        key={p}
+                        onClick={() => handlePageChange(p)}
+                        className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
+                            }`}
+                    >
+                        {p}
+                    </button>
+                ))}
+
+                {/* ปุ่มถัดไป */}
+                <button
+                    onClick={() => handlePageChange(page + 1)}
+                    disabled={page === totalPage || totalPage === 0}
+                    className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
+                        ? "bg-gray-100 text-gray-400"
+                        : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                >
+                    ›
+                </button>
             </div>
 
             {/* Popups */}
-            <EditTime show={showEditTime} onClose={() => setShowEditTime(false)} timeId={timeId} fetchTime={fetchTime} />
-            <AddTime show={showAddTime} onClose={() => setShowAddTime(false)} fetchTime={fetchTime} addToExport={(newData) => setExportData((prev) => [...prev, { ...newData, status: t("statusFree") }])} />
+            <EditTime
+                show={showEditTime}
+                onClose={() => setShowEditTime(false)}
+                timeId={timeId}
+                fetchTime={fetchData}
+            />
+
+            <AddTime
+                show={showAddTime}
+                onClose={() => setShowAddTime(false)}
+                fetchTime={fetchData}
+            />
         </div>
     );
 };

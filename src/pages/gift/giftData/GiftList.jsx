@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next"; // import i18n hook
 import { useNavigate } from "react-router-dom";
 import useServerFilterPagination from "../../../utils/useServerFilterPagination";
 import ExportExcelPopup from "../../../utils/exportExelPopup";
+import DownloadButton from "../../../utils/DownloadButton";
 
 const GiftList = () => {
     const { t } = useTranslation("gift"); // ใช้ hook สำหรับแปลข้อความ
@@ -76,16 +77,14 @@ const GiftList = () => {
 
     return (
         <div>
-            <div className="p-9 flex justify-end items-center">
+            <div className="flex justify-end items-center mb-6">
                 <SelectDate
                     searchValue={search}
                     onSearchChange={handleSearch}
                     onDateChange={handleDateChange}
                 />
                 {/* download button */}
-                <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5">
-                    {t("export")}
-                </button>
+                <DownloadButton open={open} setOpen={setOpen} />
                 {open && (
                     <ExportExcelPopup
                         apiUrl={APIPath.EXPORT_GIFT_CARD}
@@ -93,11 +92,9 @@ const GiftList = () => {
                         onClose={() => setOpen(false)}
                     />
                 )}
-                <div onClick={() => setShowAddReward(true)} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                    <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
-                        {t("add_reward_button")}
-                    </button>
-                </div>
+                <button onClick={() => setShowAddReward(true)} className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base">
+                    {t("add_reward_button")}
+                </button>
             </div>
 
             {/* Mobile Card Layout */}

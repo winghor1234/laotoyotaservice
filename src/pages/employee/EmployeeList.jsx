@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import EditEmployee from "./EditEmployee";
 import useServerFilterPagination from "../../utils/useServerFilterPagination";
 import ExportExcelPopup from "../../utils/exportExelPopup";
+import DownloadButton from "../../utils/DownloadButton";
 
 const EmployeeList = () => {
     const { t } = useTranslation("employee");
@@ -67,17 +68,15 @@ const EmployeeList = () => {
 
 
     return (
-        <div className="p-4">
-            <div className=" p-9 flex justify-end items-center">
+        <div>
+            <div className="flex justify-end items-center mb-6">
                 <SelectDate
                     searchValue={search}
                     onSearchChange={handleSearch}
                     onDateChange={handleDateChange}
                 />
                 {/* download button */}
-                <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5">
-                    {t("export")}
-                </button>
+                <DownloadButton open={open} setOpen={setOpen} />
                 {open && (
                     <ExportExcelPopup
                         apiUrl={APIPath.EXPORT_EMPLOYEE}
@@ -86,7 +85,7 @@ const EmployeeList = () => {
                     />
                 )}
                 <div onClick={() => setShowAddEmployee(true)} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                    <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
+                    <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base">
                         {t("add_employee")}
                     </button>
                 </div>
@@ -137,7 +136,7 @@ const EmployeeList = () => {
 
             {/* Desktop/Tablet Table */}
             <div className="hidden md:block bg-white rounded-lg shadow-sm overflow-hidden w-full">
-                <div className="w-full h-10 md:h-12 lg:h-14 bg-[#E52020] text-white">
+                <div className="w-full h-12 md:h-12 lg:h-14 bg-[#E52020] text-white">
                     <div className="grid grid-cols-6 gap-3 md:gap-8 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-sm md:text-sm lg:text-base">
                         <div className="flex justify-center items-center">{t("index")}</div>
                         <div className="flex justify-center items-center">{t("employee_code")}</div>

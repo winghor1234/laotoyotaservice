@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import useServerFilterPagination from "../../../utils/useServerFilterPagination";
 import ExportExcelPopup from "../../../utils/exportExelPopup";
+import DownloadButton from "../../../utils/DownloadButton";
 
 const GiftHistoryList = () => {
     // const [gifts, setGifts] = useState([]);
@@ -58,16 +59,14 @@ const GiftHistoryList = () => {
     return (
         <div>
             {/* Top Controls */}
-            <div className=" p-9 flex justify-end items-center">
+            <div className="flex justify-end items-center mb-6">
                 <SelectDate
                     searchValue={search}
                     onSearchChange={handleSearch}
                     onDateChange={handleDateChange}
                 />
                 {/* download button */}
-                <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5">
-                    {t("export")}
-                </button>
+                <DownloadButton open={open} setOpen={setOpen} />
                 {open && (
                     <ExportExcelPopup
                         apiUrl={APIPath.EXPORT_GIFT_HISTORY}

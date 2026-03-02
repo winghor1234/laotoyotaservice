@@ -39,7 +39,7 @@ const BookingStatusButton = () => {
     ];
 
     return (
-        <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-3">
+        <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-6">
             {ApproveButton.map((item, index) => (
                 <button
                     key={index}
@@ -51,7 +51,7 @@ const BookingStatusButton = () => {
                         }
       `}
                 >
-                    <span className="font-semibold whitespace-nowrap">
+                    <span className="font-semibold text-xl sm:text-md whitespace-nowrap">
                         {t(item.key)}
                     </span>
                 </button>

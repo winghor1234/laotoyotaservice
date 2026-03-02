@@ -11,6 +11,8 @@ import { useTranslation } from "react-i18next";
 import ImportExcel from "../../utils/ImportExel";
 import { useNavigate } from "react-router-dom";
 import useServerFilterPagination from "../../utils/useServerFilterPagination";
+import ExportExcelPopup from "../../utils/exportExelPopup";
+import DownloadButton from "../../utils/DownloadButton";
 
 const CarList = () => {
   const { t } = useTranslation("car");
@@ -19,6 +21,7 @@ const CarList = () => {
   // Popup
   const [showAddCarForm, setShowAddCarForm] = useState(false);
   const [showEditCarForm, setShowEditCarForm] = useState(false);
+  const [open, setOpen] = useState(false);
   const [carId, setCarId] = useState(null);
 
   // ===============================
@@ -55,15 +58,15 @@ const CarList = () => {
   // ===============================
   // Export (ถ้ายังต้องใช้)
   // ===============================
-  const exportedData = car?.map((item) => ({
-    "ລະຫັດ": item.userId,
-    "ຊື່ລົດ": item.model,
-    "ປ້າຍທະບຽນ": item.plateNumber,
-    "ເລກຖັງ": item.frameNumber,
-    "ເລກຈັກ": item.engineNumber,
-    "ແຂວງ": item.province,
-    "ສີ": item.color,
-  }));
+  // const exportedData = car?.map((item) => ({
+  //   "ລະຫັດ": item.userId,
+  //   "ຊື່ລົດ": item.model,
+  //   "ປ້າຍທະບຽນ": item.plateNumber,
+  //   "ເລກຖັງ": item.frameNumber,
+  //   "ເລກຈັກ": item.engineNumber,
+  //   "ແຂວງ": item.province,
+  //   "ສີ": item.color,
+  // }));
   // console.log("car :",  totalPage);
 
 
@@ -88,52 +91,64 @@ const CarList = () => {
 
   return (
     <div>
-      {/* Controls */}
-      <div className="flex flex-col lg:flex-row gap-4 mb-6">
+      {/* Search + Date + Export or download */}
+      <div className="flex justify-end items-center mb-6">
         <SelectDate
           searchValue={search}
           onSearchChange={handleSearch}
           onDateChange={handleDateChange}
         />
-
-        <div className="flex gap-3">
-          <ExportExcelButton data={exportedData} />
-
-          <ImportExcel
-            apiPath={APIPath.CREATE_CAR}
-            requiredFields={[
-              "ຊື່ລົດ",
-              "ປ້າຍທະບຽນ",
-              "ເລກຖັງ",
-              "ເລກຈັກ",
-              "ແຂວງ",
-              "ສີ",
-            ]}
-            transformData={(item) => ({
-              userId: null,
-              model: item["ຊື່ລົດ"]?.trim(),
-              plateNumber: item["ປ້າຍທະບຽນ"]?.trim(),
-              frameNumber: item["ເລກຖັງ"]?.trim(),
-              engineNumber: item["ເລກຈັກ"]?.trim(),
-              province: item["ແຂວງ"]?.trim(),
-              color: item["ສີ"]?.trim(),
-            })}
-            onUploadSuccess={() =>
-              fetchData()
-            }
+        {/* download button */}
+        <DownloadButton open={open} setOpen={setOpen} />
+        {open && (
+          <ExportExcelPopup
+            apiUrl={APIPath.EXPORT_CAR}
+            fileName="car-report.xlsx"
+            onClose={() => setOpen(false)}
           />
-
-          <button
-            onClick={() => setShowAddCarForm(true)}
-            className="bg-blue-500 hover:bg-blue-600 px-6 py-2 text-white rounded-xl"
-          >
-            {t("add")}
-          </button>
-        </div>
+        )}
+        <button onClick={() => setShowAddCarForm(true)} className="bg-blue-600 hover:bg-blue-700 transition-colors px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base mr-2">
+          {t("add")}
+        </button>
+        <ImportExcel
+          apiPath={APIPath.CREATE_CAR}
+          requiredFields={[
+            "ຊື່ລົດ",
+            "ປ້າຍທະບຽນ",
+            "ເລກຖັງ",
+            "ເລກຈັກ",
+            "ແຂວງ",
+            "ສີ",
+          ]}
+          transformData={(item) => ({
+            userId: null,
+            model: item["ຊື່ລົດ"]?.trim(),
+            plateNumber: item["ປ້າຍທະບຽນ"]?.trim(),
+            frameNumber: item["ເລກຖັງ"]?.trim(),
+            engineNumber: item["ເລກຈັກ"]?.trim(),
+            province: item["ແຂວງ"]?.trim(),
+            color: item["ສີ"]?.trim(),
+          })}
+          onUploadSuccess={() =>
+            fetchData()
+          }
+        />
       </div>
 
       {/* Desktop Card Layout */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="w-full h-10 md:h-12 lg:h-14 bg-[#E52020] text-white">
+          <div className="grid grid-cols-8 gap-3 md:gap-8 px-3 md:px-4 lg:px-8 py-3 md:py-4 font-medium text-sm md:text-sm lg:text-base">
+            <div className="flex justify-center items-center">{t("index")}</div>
+            <div className="flex justify-center items-center">{t("car_model")}</div>
+            <div className="flex justify-center items-center">{t("plate")}</div>
+            <div className="flex justify-center items-center">{t("color")}</div>
+            <div className="flex justify-center items-center">{t("frame")}</div>
+            <div className="flex justify-center items-center">{t("engine")}</div>
+            <div className="flex justify-center items-center">{t("province")}</div>
+            <div className="flex justify-center items-center">{t("action")}</div>
+          </div>
+        </div>
         <div className="divide-y divide-gray-200">
           {car?.map((item, index) => (
             <div

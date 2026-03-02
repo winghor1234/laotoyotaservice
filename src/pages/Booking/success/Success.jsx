@@ -10,6 +10,7 @@ import { useEmployeeBranchId } from "../../../utils/useEmployeeBranchId";
 import ExportExcelPopup from "../../../utils/exportExelPopup";
 import useServerFilterPagination from "../../../utils/useServerFilterPagination";
 import SelectDate from "../../../utils/SelectDate";
+import DownloadButton from "../../../utils/DownloadButton";
 
 const Success = () => {
     const navigate = useNavigate();
@@ -79,19 +80,17 @@ const Success = () => {
     };
 
     return (
-        <div className="p-4">
+        <div>
             {/* <BookingSearch onSearch={handleSearch} exportData={exportData} setExportData={setExportData} fetchBooking={fetchData} /> */}
             {/* Search + Date + Export or download */}
-            <div className=" p-4 flex justify-end items-center">
+            <div className="flex justify-end items-center mb-6">
                 <SelectDate
                     searchValue={search}
                     onSearchChange={handleSearch}
                     onDateChange={handleDateChange}
                 />
                 {/* download button */}
-                <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5">
-                    {t("export")}
-                </button>
+                <DownloadButton open={open} setOpen={setOpen} />
                 {open && (
                     <ExportExcelPopup
                         apiUrl={APIPath.EXPORT_BOOKING}

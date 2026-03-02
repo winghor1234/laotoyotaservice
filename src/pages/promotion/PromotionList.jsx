@@ -11,6 +11,7 @@ import EditPromotion from "./EditPromotion";
 import { useTranslation } from "react-i18next";
 import useServerFilterPagination from "../../utils/useServerFilterPagination";
 import ExportExcelPopup from "../../utils/exportExelPopup";
+import DownloadButton from "../../utils/DownloadButton";
 
 
 const PromotionList = () => {
@@ -84,16 +85,14 @@ const PromotionList = () => {
     return (
         <div>
             {/* Search + Date + Export or download */}
-            <div className=" p-9 flex justify-end items-center">
+            <div className=" flex justify-end items-center mb-6">
                 <SelectDate
                     searchValue={search}
                     onSearchChange={handleSearch}
                     onDateChange={handleDateChange}
                 />
                 {/* download button */}
-                <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5">
-                    {t("export")}
-                </button>
+                <DownloadButton open={open} setOpen={setOpen} />
                 {open && (
                     <ExportExcelPopup
                         apiUrl={APIPath.EXPORT_PROMOTION}
@@ -101,9 +100,7 @@ const PromotionList = () => {
                         onClose={() => setOpen(false)}
                     />
                 )}
-            </div>
-            <div onClick={() => setShowAddPromotion(true)} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                <button className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-10 py-2.5 sm:py-3 text-white rounded-xl font-medium cursor-pointer text-sm sm:text-base">
+                <button onClick={() => setShowAddPromotion(true)} className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base">
                     {t("add")}
                 </button>
             </div>
@@ -150,7 +147,7 @@ const PromotionList = () => {
                 ))}
             </div>
             {/* Desktop/Tablet Table */}
-            <div className="hidden md:block bg-white rounded-lg shadow-sm overflow-hidden w-full flex flex-col flex-1">
+            <div className="hidden md:block bg-white rounded-lg shadow-sm overflow-hidden w-full flex-col flex-1">
                 <div className="w-full h-10 md:h-12 lg:h-14 bg-[#E52020] text-white">
                     <div className="grid grid-cols-5 gap-3 md:gap-8 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-sm md:text-sm lg:text-base">
                         <div className="flex justify-center items-center">{t("index")}</div>
