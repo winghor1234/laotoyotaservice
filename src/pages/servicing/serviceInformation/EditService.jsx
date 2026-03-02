@@ -3,7 +3,9 @@ import Spinner from "../../../utils/Loading";
 import { useServiceEditForm } from "../../../component/schemaValidate/serviceValidate/EditServiceValidate";
 import { useTranslation } from "react-i18next";
 import { Controller } from "react-hook-form";
-import ImageUpload from "../../../../utils/ImageUpload";
+import { UploadIMG } from "../../../utils/UploadIMG";
+
+
 
 
 const EditService = ({ show, onClose, serviceId, handleFetch }) => {
@@ -52,7 +54,7 @@ const EditService = ({ show, onClose, serviceId, handleFetch }) => {
             name="image"
             control={control}
             render={({ field }) => (
-              <ImageUpload
+              <UploadIMG
                 value={field.value}
                 onChange={field.onChange}
                 error={errors.image?.message}

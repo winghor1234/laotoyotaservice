@@ -4,9 +4,9 @@ import { useState } from "react";
 import { X, Upload } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-const ImageUpload = ({ value, onChange, error, width = "w-72", height = "h-56" }) => {
+export const UploadIMG = ({ value, onChange, error, width = "w-72", height = "h-56" }) => {
     const [isDragging, setIsDragging] = useState(false);
-        const { t } = useTranslation("util");
+    const { t } = useTranslation("util");
     const isFile = value instanceof File;
     const isFileList = value instanceof FileList && value.length > 0;
     const isUrl = typeof value === "string";
@@ -77,4 +77,3 @@ const ImageUpload = ({ value, onChange, error, width = "w-72", height = "h-56" }
     );
 };
 
-export default ImageUpload;

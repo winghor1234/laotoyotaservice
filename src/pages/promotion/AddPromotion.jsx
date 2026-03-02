@@ -3,7 +3,8 @@ import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
 import { useAddPromotionForm } from "../../component/schemaValidate/promotionValidate/AddPromotionValidate";
 import { useTranslation } from "react-i18next";
 import { Controller } from "react-hook-form";
-import ImageUpload from "../../../utils/ImageUpload";
+import { UploadIMG } from "../../utils/UploadIMG";
+
 
 const AddPromotion = ({ show, onClose, handleFetchPromotion }) => {
   const { t } = useTranslation("promotion"); 
@@ -55,7 +56,7 @@ const AddPromotion = ({ show, onClose, handleFetchPromotion }) => {
             name="image"
             control={control}
             render={({ field }) => (
-              <ImageUpload
+              <UploadIMG
                 value={field.value}
                 onChange={field.onChange}
                 error={errors.image?.message}

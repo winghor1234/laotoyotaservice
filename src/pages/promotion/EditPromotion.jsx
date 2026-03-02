@@ -4,7 +4,7 @@ import Spinner from "../../utils/Loading";
 import { useEditPromotionForm } from "../../component/schemaValidate/promotionValidate/EditPromotionValidate";
 import { useTranslation } from "react-i18next";
 import { Controller } from "react-hook-form";
-import ImageUpload from "../../../utils/ImageUpload";
+import { UploadIMG } from "../../utils/UploadIMG";
 
 const EditPromotion = ({ show, onClose, promotionId, handleFetchPromotion }) => {
   const { t } = useTranslation("promotion");
@@ -53,7 +53,7 @@ const EditPromotion = ({ show, onClose, promotionId, handleFetchPromotion }) => 
             name="image"
             control={control}
             render={({ field }) => (
-              <ImageUpload
+              <UploadIMG
                 value={field.value}
                 onChange={field.onChange}
                 error={errors.image?.message}

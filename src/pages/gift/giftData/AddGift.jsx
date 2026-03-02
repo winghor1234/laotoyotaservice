@@ -3,7 +3,8 @@ import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import Spinner from "../../../utils/Loading";
 import { useAddGiftForm } from "../../../component/schemaValidate/giftValidate.js/AddGiftValidate";
 import { Controller } from "react-hook-form";
-import ImageUpload from "../../../../utils/ImageUpload";
+import { UploadIMG } from "../../../utils/UploadIMG";
+
 
 const AddGift = ({ show, onClose, handleFetch }) => {
   const { t } = useTranslation("gift");
@@ -117,7 +118,7 @@ const AddGift = ({ show, onClose, handleFetch }) => {
             name="image"
             control={control}
             render={({ field }) => (
-              <ImageUpload
+              <UploadIMG
                 value={field.value}
                 onChange={field.onChange}
                 error={errors.image?.message}
