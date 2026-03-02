@@ -46,7 +46,7 @@ const EditService = ({ show, onClose, serviceId, handleFetch }) => {
             </div>
           </div>
 
-          {/* Image preview */}
+          {/* Image preview and upload */}
           <Controller
             name="image"
             control={control}
