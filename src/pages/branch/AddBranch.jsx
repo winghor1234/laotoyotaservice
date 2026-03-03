@@ -1,7 +1,7 @@
 import { Wrench, X } from "lucide-react";
 import Spinner from "../../utils/Loading";
 import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
-import { useAddBranchForm } from "../../component/schemaValidate/BranchValidate/AddBranchValidate";
+import { useAddBranchForm } from "../../component/schemaValidate/branchValidate/AddBranchValidate";
 import { useTranslation } from "react-i18next";
 
 
