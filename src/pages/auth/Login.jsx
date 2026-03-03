@@ -2,6 +2,7 @@ import { Eye, EyeOff, Lock, Phone } from 'lucide-react';
 import { useLoginForm } from '../../component/schemaValidate/authValidate/LoginValidate';
 import { useTranslation } from "react-i18next";
 import LanguageToggle from '../../utils/LanguageToggle';
+import logo from '../../assets/logo.jpg';
 
 const Login = () => {
     const { showPassword, setShowPassword, loading, register, handleSubmit, formState: { errors }, submitForm } = useLoginForm();
@@ -14,7 +15,7 @@ const Login = () => {
             </div>
             <div>
                 <div className="mx-auto h-20 w-20 flex items-center justify-center">
-                    <img src="/src/assets/logo.jpg" alt="Lao Toyota" className="h-16 w-auto rounded " />
+                    <img src={logo} alt="Lao Toyota" className="h-16 w-auto rounded " />
                 </div>
                 <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
                     {t("login_title")}

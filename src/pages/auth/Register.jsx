@@ -2,6 +2,7 @@ import { Eye, EyeOff, User, Mail, Lock, MapPin, Phone } from 'lucide-react';
 import { registerSchema, useRegisterForm } from '../../component/schemaValidate/authValidate/RegisterValidate';
 import { useTranslation } from 'react-i18next';
 import LanguageToggle from '../../utils/LanguageToggle';
+import logo from '../../assets/logo.jpg';
 
 const Register = () => {
     const { t } = useTranslation("auth"); // ✅ ใช้ i18n
@@ -13,7 +14,7 @@ const Register = () => {
                 <LanguageToggle />
             </div>
             <div className="mx-auto h-20 w-20 flex items-center justify-center">
-                <img src="/src/assets/logo.jpg" alt="Lao Toyota" className="h-16 w-auto rounded-full" />
+                <img src={logo} alt="Lao Toyota" className="h-16 w-auto rounded-full" />
             </div>
             <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
                 {t("register_title")}
