@@ -84,7 +84,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             alt="logo"
             className="w-[110px] h-[110px] rounded-full object-cover"
           />
-          <img src={logo} alt="logo" />
           <button
             onClick={() => setSidebarOpen(false)}
             className="absolute top-2 right-2 lg:hidden"
