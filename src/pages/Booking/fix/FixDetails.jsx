@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
-import { FaCar } from "react-icons/fa";
-import { BackButton } from "../../../utils/BackButton";
+import { FaArrowLeft, FaCar } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import PopupFix from "./PopupFix";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const FixDetails = () => {
-  const { t } = useTranslation("booking"); 
+  const { t } = useTranslation("booking");
   const { id } = useParams();
   const [showPopup, setShowPopup] = useState(false);
   const [fixData, setFixData] = useState([]);
   const [bookingId, setBookingId] = useState("");
   const [timeId, setTimeId] = useState("");
+  const navigate = useNavigate();
+
 
   const fetchData = async () => {
     try {
@@ -38,7 +40,14 @@ const FixDetails = () => {
     <div className="relative overflow-y-auto bg-gray-50 p-2 sm:p-4 lg:p-6">
       <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="p-4 sm:p-6">
-          <BackButton />
+          <div
+            onClick={() => navigate("/user/booking/fix")}
+            className="inline-flex items-center justify-center w-auto px-4 py-1 sm:py-2 bg-gray-200 hover:bg-gray-300 rounded-xl cursor-pointer transition-colors mb-4">
+            <button className="flex items-center gap-2 text-gray-700 hover:text-black">
+              <FaArrowLeft className="text-sm sm:text-base cursor-pointer" />
+              <span className="font-medium text-sm sm:text-lg lg:text-xl cursor-pointer">{t("back")}</span>
+            </button>
+          </div>
           <hr className="border-gray-300 w-full mb-4 sm:mb-6" />
 
           <h2 className="text-center text-lg sm:text-xl lg:text-2xl font-medium mb-6 sm:mb-8">

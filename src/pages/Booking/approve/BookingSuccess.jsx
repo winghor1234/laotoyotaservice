@@ -38,15 +38,6 @@ const BookingSuccess = () => {
                     setBillId(newBillId);
                 }
 
-                // ✅ Export only first time
-                const exported = sessionStorage.getItem(`exported-${id}`);
-                if (!exported) {
-                    setTimeout(() => {
-                        handleExportPDF();
-                        sessionStorage.setItem(`exported-${id}`, "true");
-                    }, 500);
-                }
-
             } catch (error) {
                 console.log(error);
             }
@@ -79,7 +70,7 @@ const BookingSuccess = () => {
                     <FaArrowLeft /> {t("back")}
                 </button>
                 <button onClick={handleExportPDF} style={btnGreen}>
-                    <FaFileInvoiceDollar /> Export PDF
+                    <FaFileInvoiceDollar /> {t("export_pdf")}
                 </button>
             </div>
 
@@ -143,13 +134,16 @@ const BookingSuccess = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {bookingDetail?.map((detail, index) => (
-                            <tr key={index}>
-                                <td style={td}>{index + 1}</td>
-                                <td style={td}>{detail?.service?.serviceName}</td>
-                                <td style={td}>{booking?.remark || "-"}</td>
-                            </tr>
-                        ))}
+                        {bookingDetail?.map((detail, index) =>
+                            detail?.service?.length > 0 &&
+                            detail.service.map((s, i) => (
+                                <tr key={`${index}-${i}`}>
+                                    <td style={td}>{i + 1}</td> 
+                                    <td style={td}>{s.serviceName}</td>
+                                    <td style={td}>{booking?.remark || "-"}</td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
 

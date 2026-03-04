@@ -1,14 +1,14 @@
 
 import { useEffect, useState, useCallback } from "react";
-import { FaCar } from "react-icons/fa";
+import { FaArrowLeft, FaCar } from "react-icons/fa";
 import PopupApprove from "./PopupApprove";
 import PopupReject from "./PopupReject";
-import { BackButton } from "../../../utils/BackButton";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { useTranslation } from "react-i18next";
 import EditForm from "./editForm";
+import { useNavigate } from "react-router-dom";
 
 const ReceiverCarDetail = () => {
   const { t } = useTranslation("booking");
@@ -21,6 +21,8 @@ const ReceiverCarDetail = () => {
   const [rejectZone, setRejectZone] = useState(false);
   const [edit, setEdit] = useState(false);
   const [selectedTimeId, setSelectedTimeId] = useState(null);
+  const navigate = useNavigate();
+
 
 
   // 🔥 single source loader (no race condition)
@@ -65,7 +67,14 @@ const ReceiverCarDetail = () => {
     <div className="relative min-h-screen bg-gray-50 p-4">
       <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden p-4">
 
-        <BackButton />
+        <div
+          onClick={() => navigate("/user/booking/fix")}
+          className="inline-flex items-center justify-center w-auto px-4 py-1 sm:py-2 bg-gray-200 hover:bg-gray-300 rounded-xl cursor-pointer transition-colors mb-4">
+          <button className="flex items-center gap-2 text-gray-700 hover:text-black">
+            <FaArrowLeft className="text-sm sm:text-base cursor-pointer" />
+            <span className="font-medium text-sm sm:text-lg lg:text-xl cursor-pointer">{t("back")}</span>
+          </button>
+        </div>
         <hr className="border-gray-300 w-full mb-3" />
         <h2 className="text-center text-lg font-medium mb-5">
           {t("receiver_car_detail")}

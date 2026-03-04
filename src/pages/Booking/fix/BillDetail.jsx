@@ -62,15 +62,6 @@ const BillDetail = () => {
                     setBillId(newBillId);
                 }
 
-                // auto export PDF หลังโหลดเสร็จ
-                const exported = localStorage.getItem(`exported-${bookingId}`);
-                if (!exported) {
-                    setTimeout(() => {
-                        handleExportPDF();
-                        localStorage.setItem(`exported-${bookingId}`, "true");
-                    }, 500);
-                }
-
             } catch (error) {
                 console.error("Error fetching bill data:", error);
             }
@@ -101,7 +92,7 @@ const BillDetail = () => {
             {/* ปุ่มย้อนกลับ */}
             <div className="flex justify-between items-center mb-4">
                 <button
-                    onClick={() => navigate('/user/booking')}
+                    onClick={() => navigate('/user/booking/fix')}
                     className="flex items-center gap-2 px-4 py-2 rounded-xl text-gray-700 transition-colors"
                     style={{ backgroundColor: "#e5e7eb" }}
                     onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#d1d5db")}

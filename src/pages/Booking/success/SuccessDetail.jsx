@@ -45,7 +45,7 @@ const SuccessDetail = () => {
     <div className="border relative h-[470px] overflow-y-auto bg-gray-50 px-3 py-2 sm:px-2 sm:py-4 lg:px-4 lg:py-6 max-w-7xl mx-auto rounded-2xl shadow-md">
       {/* Back button */}
       <div
-        onClick={() => navigate('/user/booking')}
+        onClick={() => navigate('/user/booking/success')}
         className="inline-flex items-center justify-center w-auto px-4 py-1 sm:py-2 bg-gray-200 hover:bg-gray-300 rounded-xl cursor-pointer transition-colors mb-4">
         <button className="flex items-center gap-2 text-gray-700 hover:text-black">
           <FaArrowLeft className="text-sm sm:text-base" />

@@ -92,7 +92,10 @@
   "this_year": "This Year",
   "last_year": "Last Year",
   "date_start_placeholder": "Date Start...",
-  "date_end_placeholder": "Date End..."
+  "date_end_placeholder": "Date End...",
+  "export_pdf": "Export PDF",
+  "Optional_text": "Optional",
+  "km_text": "KM"
 
 
 
