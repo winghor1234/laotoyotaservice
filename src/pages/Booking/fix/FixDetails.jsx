@@ -79,6 +79,11 @@ const FixDetails = () => {
             <h3 style={{ marginBottom: "10px", fontSize: "16px", color: "#374151" }}>{t("customer_info")}</h3>
             <p><strong>{t("customer_name")}:</strong> {fixData?.user?.username}</p>
             <p><strong>{t("customer_phone")}:</strong> {fixData?.user?.phoneNumber}</p>
+
+            <h3 style={{ margin: "15px 0 10px 0", fontSize: "16px", color: "#374151" }}>{t("appointment_time")}</h3>
+            <p><strong>{t("date_label")}:</strong> {fixData?.time?.date}</p>
+            <p><strong>{t("branch_label")}:</strong> {fixData?.branch?.branch_name}</p>
+            <p><strong>{t("time_label")}:</strong> {fixData?.time?.time}</p>
           </div>
 
           {/* Right: Car + Appointment */}
@@ -88,10 +93,6 @@ const FixDetails = () => {
             <p><strong>{t("engine_number")}:</strong> {fixData?.car?.engineNumber}</p>
             <p><strong>{t("frame_number")}:</strong> {fixData?.car?.frameNumber}</p>
             <p><strong>{t("car_model")}:</strong> {fixData?.car?.model}</p>
-
-            <h3 style={{ margin: "15px 0 10px 0", fontSize: "16px", color: "#374151" }}>{t("appointment_time")}</h3>
-            <p><strong>{t("date_label")}:</strong> {fixData?.time?.date}</p>
-            <p><strong>{t("time_label")}:</strong> {fixData?.time?.time}</p>
           </div>
         </div>
 
