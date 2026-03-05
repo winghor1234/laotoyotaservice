@@ -45,7 +45,7 @@ const SuccessDetail = () => {
   }, [id]);
 
   return (
-    <div style={{ background: "#f3f4f6", padding: "30px 0", fontFamily: "Arial, sans-serif", fontSize: "13px", lineHeight: "1.4", color: "#111827" }}>
+    <div style={{ background: "#f3f4f6", padding: "30px 0", fontFamily: "Arial, sans-serif", fontSize: "15px", lineHeight: "1.6", color: "#111827" }}>
 
       {/* Top Action */}
       <div style={{ maxWidth: "900px", margin: "0 auto 20px", display: "flex", justifyContent: "flex-start" }}>
@@ -53,11 +53,11 @@ const SuccessDetail = () => {
           display: "inline-flex",
           alignItems: "center",
           gap: "6px",
-          padding: "6px 12px",
+          padding: "8px 14px",
           background: "#e5e7eb",
           borderRadius: "12px",
           cursor: "pointer",
-          fontSize: "13px",
+          fontSize: "15px",
           fontWeight: "500",
           transition: "0.2s",
         }}>
@@ -66,12 +66,12 @@ const SuccessDetail = () => {
       </div>
 
       {/* Title */}
-      <h2 style={{ textAlign: "center", fontSize: "18px", fontWeight: "500", marginBottom: "15px" }}>{t("title")}</h2>
+      <h2 style={{ textAlign: "center", fontSize: "20px", fontWeight: "600", marginBottom: "20px" }}>{t("title")}</h2>
 
-      <div style={{ maxWidth: "900px", margin: "auto", background: "#ffffff", padding: "20px 25px", borderRadius: "16px", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
+      <div style={{ maxWidth: "900px", margin: "auto", background: "#ffffff", padding: "25px 30px", borderRadius: "16px", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
 
-        {/* Grid Info */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginBottom: "20px" }}>
+        {/* Customer + Car + Appointment Section */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginBottom: "25px" }}>
           {[
             { label: t("bookingInfo"), value: <FaCar className="inline-block text-gray-700" /> },
             { label: t("customerName"), value: booking?.user?.username },
@@ -91,37 +91,61 @@ const SuccessDetail = () => {
               background: "#f9fafb",
               borderRadius: "12px",
               textAlign: "center",
-              padding: "10px",
+              padding: "12px",
             }}>
-              <p style={{ fontSize: "11px", color: "#6b7280", marginBottom: "4px" }}>{item.label}</p>
-              <p style={{ fontSize: "13px", fontWeight: "500", color: "#111827" }}>{item.value}</p>
-            </div>
-          ))}
-
-          {/* Services */}
-          {service?.map((item, index) => (
-            <div key={index} style={{
-              flex: "1 1 120px",
-              background: "#f9fafb",
-              borderRadius: "12px",
-              textAlign: "center",
-              padding: "10px",
-            }}>
-              <p style={{ fontSize: "11px", color: "#6b7280", marginBottom: "4px" }}>{t("detailFix")}</p>
-              <p style={{ fontSize: "13px", fontWeight: "500", color: "#111827" }}>{item?.service?.serviceName}</p>
+              <p style={{ fontSize: "13px", color: "#6b7280", marginBottom: "6px" }}>{item.label}</p>
+              <p style={{ fontSize: "15px", fontWeight: "500", color: "#111827" }}>{item.value}</p>
             </div>
           ))}
         </div>
 
-        {/* Price Section */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "15px" }}>
-          <div style={{ background: "#f3f4f6", padding: "10px 12px", borderRadius: "12px", textAlign: "center" }}>
-            <p style={{ margin: "2px 0" }}>{t("fixCarPrice")}: {data?.fixCarPrice} ກີບ</p>
-            <p style={{ margin: "2px 0" }}>{t("carPartPrice")}: {data?.carPartPrice} ກີບ</p>
-          </div>
-          <div style={{ background: "#f3f4f6", padding: "10px 12px", borderRadius: "12px", textAlign: "center" }}>
-            <p style={{ fontWeight: "600", color: "#16a34a", fontSize: "16px" }}>{t("totalPrice")}: {data?.totalPrice} ກີບ</p>
-          </div>
+        {/* Services Table Section */}
+        <div style={{ marginBottom: "25px" }}>
+          <h3 style={{ marginBottom: "12px", fontSize: "16px", fontWeight: "500", color: "#374151" }}>{t("service_information")}</h3>
+          {service?.length > 0 ? (
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "15px" }}>
+              <thead>
+                <tr style={{ backgroundColor: "#f3f4f6" }}>
+                  <th style={{ border: "1px solid #e5e7eb", padding: "8px", textAlign: "left" }}>#</th>
+                  <th style={{ border: "1px solid #e5e7eb", padding: "8px", textAlign: "left" }}>{t("service_label")}</th>
+                  <th style={{ border: "1px solid #e5e7eb", padding: "8px", textAlign: "left" }}>{t("remark_label")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {service.map((item, index) => (
+                  <tr key={index}>
+                    <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{index + 1}</td>
+                    <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{item?.service?.serviceName}</td>
+                    <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{booking?.remark || "-"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p style={{ fontSize: "15px", color: "#6b7280" }}>{t("no_service")}</p>
+          )}
+        </div>
+
+        {/* Price Table Section */}
+        <div style={{ marginBottom: "0px" }}>
+          <h3 style={{ marginBottom: "12px", fontSize: "16px", fontWeight: "500", color: "#374151" }}>{t("price_information")}</h3>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "15px" }}>
+            <tbody>
+              <tr>
+                <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{t("fixCarPrice")}</td>
+                <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{data?.fixCarPrice} ກີບ</td>
+              </tr>
+              <tr>
+                <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{t("carPartPrice")}</td>
+                <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{data?.carPartPrice} ກີບ</td>
+              </tr>
+              <tr>
+                <td style={{ border: "1px solid #e5e7eb", padding: "8px", fontWeight: "600", color: "#16a34a" }} colSpan={2} align="center">
+                  {t("totalPrice")}: {data?.totalPrice} ກີບ
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
