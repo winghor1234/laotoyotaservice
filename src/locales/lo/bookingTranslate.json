@@ -97,7 +97,10 @@
   "export_pdf": "ດາວໂຫລດ PDF",
   "Optional_text": "ບໍ່ຈຳເປັນ",
   "km_text": "ກິໂລແມັດ",
-  "kip_text": "ກີບ"
+  "kip_text": "ກີບ",
+  "service_information": "ຂໍ້ມູນບໍລິການ",
+  "remark_label": "ອາການເບື້ອງຕົ້ນ",
+  "service_label": "ບໍລິການ"
 
 
   

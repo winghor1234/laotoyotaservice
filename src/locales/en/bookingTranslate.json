@@ -96,7 +96,11 @@
   "export_pdf": "Export PDF",
   "Optional_text": "Optional",
   "km_text": "KM",
-  "kip_text": "Kip"
+  "kip_text": "Kip",
+  "service_information": "Service Information",
+  "remark_label": "Remark",
+  "service_label": "Service"
+
 
 
 
