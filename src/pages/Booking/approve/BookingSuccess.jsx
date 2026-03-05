@@ -64,7 +64,7 @@ const BookingSuccess = () => {
         <div style={{ background: "#f3f4f6", padding: "40px 0" }}>
             {/* Top Action Buttons (not in PDF) */}
             <div style={{ maxWidth: "850px", margin: "0 auto 20px", display: "flex", justifyContent: "space-between" }}>
-                <button onClick={navigate("/user/booking")} style={btnGray}>
+                <button onClick={() => navigate("/user/booking")} style={btnGray}>
                     <FaArrowLeft /> {t("back")}
                 </button>
                 <button onClick={handleExportPDF} style={btnGreen}>
