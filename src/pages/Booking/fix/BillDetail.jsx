@@ -125,9 +125,15 @@ const BillDetail = () => {
                     🧾 {t("billTitle")}
                 </h2>
 
-                <div className="mb-4 text-sm" style={{ color: "#4b5563" }}>
-                    <p>{t("date_bill")}: {formatNewDate}</p>
-                    <p>{t("billId")}: {billId}</p>
+
+                <div className="mb-4 text-sm flex justify-between items-start" style={{ color: "#4b5563" }}>
+                    <div>
+                        <div><strong>{t("branch_label")}</strong>: {booking?.branch?.branch_name}</div>
+                    </div>
+                    <div>
+                        <p>{t("date_bill")}: {formatNewDate}</p>
+                        <p>{t("billId")}: {billId}</p>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm" style={{ color: "#374151" }}>
@@ -135,7 +141,7 @@ const BillDetail = () => {
                     <div><strong>{t("phone")}</strong>: {booking?.user?.phoneNumber}</div>
                     <div><strong>{t("plateNumber")}</strong>: {booking?.car?.plateNumber}</div>
                     <div><strong>{t("carModel")}</strong>: {booking?.car?.model}</div>
-                    <div><strong>{t("zone")}</strong>: {zone?.zoneName}</div>
+                    <div><strong>{t("zone_label")}</strong>: {zone?.zoneName}</div>
                     <div><strong>{t("date_label")}</strong>: {booking?.time?.date}</div>
                 </div>
 
@@ -175,9 +181,29 @@ const BillDetail = () => {
                 <p className="text-center text-sm mt-6" style={{ color: "#6b7280" }}>
                     {t("thanks_message")} 🙏
                 </p>
+                {/* Action Button */}
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <button
+                        onClick={() => navigate("/user/booking/fix")}
+                        style={btnGreen}
+                    >
+                        {t("complete_fix")}
+                    </button>
+                </div>
             </div>
         </div>
     );
+};
+
+const btnGreen = {
+    background: "#16a34a",
+    color: "#fff",
+    padding: "8px 16px",
+    borderRadius: "8px",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    cursor: "pointer",
 };
 
 export default BillDetail;
