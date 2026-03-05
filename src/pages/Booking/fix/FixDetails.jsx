@@ -161,7 +161,7 @@ const FixDetails = () => {
                   }}
                 >
                   <p>
-                    <strong>{t("service_label")}:</strong> {item?.serviceName}
+                    <strong>{t("service_label")}:</strong> {item?.service?.serviceName}
                   </p>
                   <p>
                     <strong>{t("remark_label")}:</strong> {fixData?.remark}
