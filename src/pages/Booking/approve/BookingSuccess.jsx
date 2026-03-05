@@ -132,16 +132,15 @@ const BookingSuccess = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {bookingDetail?.map((detail, index) =>
-                            detail?.service?.length > 0 &&
-                            detail.service.map((s, i) => (
-                                <tr key={`${index}-${i}`}>
-                                    <td style={td}>{i + 1}</td>
-                                    <td style={td}>{s.serviceName}</td>
-                                    <td style={td}>{booking?.remark || "-"}</td>
-                                </tr>
-                            ))
-                        )}
+                        {bookingDetail?.map((item, index) =>
+                        (
+                            <tr key={index}>
+                                <td style={td}>{item + 1}</td>
+                                <td style={td}>{item.serviceName}</td>
+                                <td style={td}>{booking?.remark || "-"}</td>
+                            </tr>
+                        ))
+                        }
                     </tbody>
                 </table>
 
