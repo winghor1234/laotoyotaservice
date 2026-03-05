@@ -15,10 +15,11 @@ const FixDetails = () => {
   const [bookingId, setBookingId] = useState("");
   const [timeId, setTimeId] = useState("");
   const [service, setService] = useState([]);
+  const [zone, setZone] = useState([]);
   const navigate = useNavigate();
 
 
-  const fetchData = async () => {
+  const fetchBooking = async () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(id));
       setFixData(res?.data?.data);
@@ -26,10 +27,20 @@ const FixDetails = () => {
       console.log(error);
     }
   };
-  const fetchDataDT = async () => {
+  const fetchBooingDetail = async () => {
     try {
       const serviceRes = await axiosInstance.get(APIPath.SELECT_BOOKING_DETAIL_BY(id));
       setService(serviceRes?.data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const zoneId = fixData?.time?.zoneId;
+  const fetchZone = async () => {
+    try {
+      const serviceRes = await axiosInstance.get(APIPath.SELECT_ONE_ZONE(zoneId));
+      setZone(serviceRes?.data?.data);
     } catch (error) {
       console.log(error);
     }
@@ -43,8 +54,9 @@ const FixDetails = () => {
   };
 
   useEffect(() => {
-    fetchData();
-    fetchDataDT();
+    fetchBooking();
+    fetchBooingDetail();
+    fetchZone();
   }, []);
 
   return (
@@ -81,6 +93,7 @@ const FixDetails = () => {
             <p><strong>{t("customer_phone")}:</strong> {fixData?.user?.phoneNumber}</p>
 
             <h3 style={{ margin: "15px 0 10px 0", fontSize: "16px", color: "#374151" }}>{t("appointment_time")}</h3>
+            <p><strong>{t("zone_label")}:</strong> {zone?.zoneName}</p>
             <p><strong>{t("branch_label")}:</strong> {fixData?.branch?.branch_name}</p>
             <p><strong>{t("date_label")}:</strong> {fixData?.time?.date}</p>
             <p><strong>{t("time_label")}:</strong> {fixData?.time?.time}</p>
