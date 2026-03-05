@@ -110,7 +110,7 @@ const BookingSuccess = () => {
                 {/* CUSTOMER + VEHICLE SECTION */}
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "30px" }}>
                     <div style={{ width: "48%" }}>
-                        <h3 style={{ marginBottom: "10px" }}>Customer Information</h3>
+                        <h3 style={{ marginBottom: "10px" }}>{t("customerInfo")}</h3>
                         <p><strong>{t("name")}:</strong> {booking?.user?.username}</p>
                         <p><strong>{t("phone")}:</strong> {booking?.user?.phoneNumber}</p>
                     </div>
