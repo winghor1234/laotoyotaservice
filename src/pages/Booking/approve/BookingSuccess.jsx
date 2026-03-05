@@ -58,7 +58,7 @@ const BookingSuccess = () => {
         html2pdf().set(opt).from(printRef.current).save();
     };
 
-    if (!booking) return null;
+    // if (!booking) return null;
 
     return (
         <div style={{ background: "#f3f4f6", padding: "40px 0" }}>
