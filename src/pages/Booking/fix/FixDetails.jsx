@@ -75,12 +75,16 @@ const FixDetails = () => {
 
         <hr style={{ marginBottom: "20px", borderColor: "#e5e7eb" }} />
 
-        {/* Customer Section */}
+        {/* Customer + Car + Appointment Section */}
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px", gap: "25px" }}>
           <div style={{ width: "48%" }}>
             <h3 style={{ marginBottom: "8px", fontSize: "14px", color: "#374151" }}>{t("customer_info")}</h3>
             <p><strong>{t("customer_name")}:</strong> {fixData?.user?.username}</p>
             <p><strong>{t("customer_phone")}:</strong> {fixData?.user?.phoneNumber}</p>
+
+            <h3 style={{ margin: "15px 0 8px 0", fontSize: "14px", color: "#374151" }}>{t("appointment_time")}</h3>
+            <p><strong>{t("date_label")}:</strong> {fixData?.time?.date}</p>
+            <p><strong>{t("time_label")}:</strong> {fixData?.time?.time}</p>
           </div>
 
           <div style={{ width: "48%" }}>
@@ -94,40 +98,32 @@ const FixDetails = () => {
 
         <hr style={{ marginBottom: "20px", borderColor: "#e5e7eb" }} />
 
-        {/* Appointment + Service */}
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px", gap: "25px" }}>
-          <div style={{ width: "48%" }}>
-            <h3 style={{ marginBottom: "8px", fontSize: "14px", color: "#374151" }}>{t("appointment_time")}</h3>
-            <p><strong>{t("date_label")}:</strong> {fixData?.time?.date}</p>
-            <p><strong>{t("time_label")}:</strong> {fixData?.time?.time}</p>
-          </div>
+        {/* Service Table Section */}
+        <div style={{ marginBottom: "20px" }}>
+          <h3 style={{ marginBottom: "10px", fontSize: "14px", color: "#374151" }}>{t("service_information")}</h3>
 
-          <div style={{ width: "48%" }}>
-            <h3 style={{ marginBottom: "8px", fontSize: "14px", color: "#374151" }}>{t("service_information")}</h3>
-
-            {service?.length > 0 ? (
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
-                <thead>
-                  <tr style={{ backgroundColor: "#f9fafb" }}>
-                    <th style={{ border: "1px solid #e5e7eb", padding: "5px", textAlign: "left" }}>#</th>
-                    <th style={{ border: "1px solid #e5e7eb", padding: "5px", textAlign: "left" }}>{t("service_label")}</th>
-                    <th style={{ border: "1px solid #e5e7eb", padding: "5px", textAlign: "left" }}>{t("remark_label")}</th>
+          {service?.length > 0 ? (
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
+              <thead>
+                <tr style={{ backgroundColor: "#f9fafb" }}>
+                  <th style={{ border: "1px solid #e5e7eb", padding: "5px", textAlign: "left" }}>#</th>
+                  <th style={{ border: "1px solid #e5e7eb", padding: "5px", textAlign: "left" }}>{t("service_label")}</th>
+                  <th style={{ border: "1px solid #e5e7eb", padding: "5px", textAlign: "left" }}>{t("remark_label")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {service.map((item, index) => (
+                  <tr key={index}>
+                    <td style={{ border: "1px solid #e5e7eb", padding: "5px" }}>{index + 1}</td>
+                    <td style={{ border: "1px solid #e5e7eb", padding: "5px" }}>{item?.service?.serviceName}</td>
+                    <td style={{ border: "1px solid #e5e7eb", padding: "5px" }}>{fixData?.remark || "-"}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {service.map((item, index) => (
-                    <tr key={index}>
-                      <td style={{ border: "1px solid #e5e7eb", padding: "5px" }}>{index + 1}</td>
-                      <td style={{ border: "1px solid #e5e7eb", padding: "5px" }}>{item?.service?.serviceName}</td>
-                      <td style={{ border: "1px solid #e5e7eb", padding: "5px" }}>{fixData?.remark || "-"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <p style={{ fontSize: "13px", color: "#6b7280" }}>{t("no_service")}</p>
-            )}
-          </div>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p style={{ fontSize: "13px", color: "#6b7280" }}>{t("no_service")}</p>
+          )}
         </div>
 
         <hr style={{ marginBottom: "20px", borderColor: "#e5e7eb" }} />
