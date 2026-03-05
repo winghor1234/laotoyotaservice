@@ -12,6 +12,7 @@ const SuccessDetail = () => {
 
   const [data, setData] = useState([]);
   const [booking, setBooking] = useState([]);
+  const [service, setService] = useState([]);
   const [zone, setZone] = useState([]);
 
   useEffect(() => {
@@ -25,12 +26,14 @@ const SuccessDetail = () => {
         const zoneIdFromFix = fixData?.zoneId;
 
         if (bookingIdFromFix || zoneIdFromFix) {
-          const [bookingRes, zoneRes] = await Promise.all([
+          const [bookingRes, serviceRes, zoneRes] = await Promise.all([
             bookingIdFromFix ? axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingIdFromFix)) : Promise.resolve(null),
+            bookingIdFromFix ? axiosInstance.get(APIPath.SELECT_BOOKING_DETAIL_BY(bookingIdFromFix)) : Promise.resolve(null),
             zoneIdFromFix ? axiosInstance.get(APIPath.SELECT_ONE_ZONE(zoneIdFromFix)) : Promise.resolve(null),
           ]);
 
           if (bookingRes) setBooking(bookingRes?.data?.data);
+          if (serviceRes) setService(serviceRes?.data?.data);
           if (zoneRes) setZone(zoneRes?.data?.data);
         }
       } catch (error) {
@@ -42,84 +45,82 @@ const SuccessDetail = () => {
   }, [id]);
 
   return (
-    <div className="border relative h-[470px] overflow-y-auto bg-gray-50 px-3 py-2 sm:px-2 sm:py-4 lg:px-4 lg:py-6 max-w-7xl mx-auto rounded-2xl shadow-md">
-      {/* Back button */}
-      <div
-        onClick={() => navigate('/user/booking/success')}
-        className="inline-flex items-center justify-center w-auto px-4 py-1 sm:py-2 bg-gray-200 hover:bg-gray-300 rounded-xl cursor-pointer transition-colors mb-4">
-        <button className="flex items-center gap-2 text-gray-700 hover:text-black">
-          <FaArrowLeft className="text-sm sm:text-base" />
-          <span className="font-medium text-sm sm:text-lg lg:text-xl">{t("back")}</span>
+    <div style={{ background: "#f3f4f6", padding: "30px 0", fontFamily: "Arial, sans-serif", fontSize: "13px", lineHeight: "1.4", color: "#111827" }}>
+
+      {/* Top Action */}
+      <div style={{ maxWidth: "900px", margin: "0 auto 20px", display: "flex", justifyContent: "flex-start" }}>
+        <button onClick={() => navigate("/user/booking/success")} style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "6px",
+          padding: "6px 12px",
+          background: "#e5e7eb",
+          borderRadius: "12px",
+          cursor: "pointer",
+          fontSize: "13px",
+          fontWeight: "500",
+          transition: "0.2s",
+        }}>
+          <FaArrowLeft /> {t("back")}
         </button>
       </div>
-      <hr className="border-gray-300 border w-full " />
 
       {/* Title */}
-      <h2 className="text-center text-lg sm:text-xl lg:text-2xl font-medium mb-4">{t("title")}</h2>
+      <h2 style={{ textAlign: "center", fontSize: "18px", fontWeight: "500", marginBottom: "15px" }}>{t("title")}</h2>
 
-      <div className="p-4 rounded-lg">
-        <div className="flex flex-wrap gap-6">
-          <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
-            <FaCar className="text-2xl sm:text-3xl lg:text-4xl text-gray-700" />
-            <span className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("bookingInfo")}</span>
-          </div>
-          <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
-            <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("customerName")}</p>
-            <p className="text-gray-800 font-medium text-sm">{booking?.user?.username}</p>
-          </div>
-          <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
-            <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("phone")}</p>
-            <p className="text-gray-800 font-medium text-sm">{booking?.user?.phoneNumber}</p>
-          </div>
-          <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
-            <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("plateNumber")}</p>
-            <p className="text-gray-800 font-medium text-sm">{booking?.car?.plateNumber}</p>
-          </div>
-          <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
-            <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("frameNumber")}</p>
-            <p className="text-gray-800 font-medium text-sm">{booking?.car?.frameNumber}</p>
-          </div>
-          <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
-            <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("engineNumber")}</p>
-            <p className="text-gray-800 font-medium text-sm">{booking?.car?.engineNumber}</p>
-          </div>
-          <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
-            <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("carModel")}</p>
-            <p className="text-gray-800 font-medium text-sm">{booking?.car?.model}</p>
-          </div>
-          <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
-            <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("date_label")}</p>
-            <p className="text-gray-800 font-medium text-sm">{booking?.time?.date}</p>
-          </div>
-          <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
-            <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("time_label")}</p>
-            <p className="text-gray-800 font-medium text-sm">{booking?.time?.time}</p>
-          </div>
-          <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
-            <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("zone")}</p>
-            <p className="text-gray-800 font-medium text-sm">{zone?.zoneName}</p>
-          </div>
-          <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
-            <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("kmLast")}</p>
-            <p className="text-gray-800 font-medium text-sm">{data?.kmLast}</p>
-          </div>
-          <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
-            <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("kmNext")}</p>
-            <p className="text-gray-800 font-medium text-sm">{data?.kmNext}</p>
-          </div>
-          <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
-            <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("detailFix")}</p>
-            <p className="text-gray-800 font-medium text-sm">{data?.detailFix}</p>
-          </div>
+      <div style={{ maxWidth: "900px", margin: "auto", background: "#ffffff", padding: "20px 25px", borderRadius: "16px", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
+
+        {/* Grid Info */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginBottom: "20px" }}>
+          {[
+            { label: t("bookingInfo"), value: <FaCar className="inline-block text-gray-700" /> },
+            { label: t("customerName"), value: booking?.user?.username },
+            { label: t("phone"), value: booking?.user?.phoneNumber },
+            { label: t("plateNumber"), value: booking?.car?.plateNumber },
+            { label: t("frameNumber"), value: booking?.car?.frameNumber },
+            { label: t("engineNumber"), value: booking?.car?.engineNumber },
+            { label: t("carModel"), value: booking?.car?.model },
+            { label: t("date_label"), value: booking?.time?.date },
+            { label: t("time_label"), value: booking?.time?.time },
+            { label: t("zone"), value: zone?.zoneName },
+            { label: t("kmLast"), value: data?.kmLast },
+            { label: t("kmNext"), value: data?.kmNext },
+          ].map((item, index) => (
+            <div key={index} style={{
+              flex: "1 1 120px",
+              background: "#f9fafb",
+              borderRadius: "12px",
+              textAlign: "center",
+              padding: "10px",
+            }}>
+              <p style={{ fontSize: "11px", color: "#6b7280", marginBottom: "4px" }}>{item.label}</p>
+              <p style={{ fontSize: "13px", fontWeight: "500", color: "#111827" }}>{item.value}</p>
+            </div>
+          ))}
+
+          {/* Services */}
+          {service?.map((item, index) => (
+            <div key={index} style={{
+              flex: "1 1 120px",
+              background: "#f9fafb",
+              borderRadius: "12px",
+              textAlign: "center",
+              padding: "10px",
+            }}>
+              <p style={{ fontSize: "11px", color: "#6b7280", marginBottom: "4px" }}>{t("detailFix")}</p>
+              <p style={{ fontSize: "13px", fontWeight: "500", color: "#111827" }}>{item?.service?.serviceName}</p>
+            </div>
+          ))}
         </div>
 
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <div className="bg-gray-50 p-3 rounded-lg text-center justify-center flex flex-col min-w-[120px]">
-            <h1>{t("fixCarPrice")}: {data?.fixCarPrice} ກີບ</h1>
-            <h1>{t("carPartPrice")}: {data?.carPartPrice} ກີບ</h1>
+        {/* Price Section */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "15px" }}>
+          <div style={{ background: "#f3f4f6", padding: "10px 12px", borderRadius: "12px", textAlign: "center" }}>
+            <p style={{ margin: "2px 0" }}>{t("fixCarPrice")}: {data?.fixCarPrice} ກີບ</p>
+            <p style={{ margin: "2px 0" }}>{t("carPartPrice")}: {data?.carPartPrice} ກີບ</p>
           </div>
-          <div className="bg-gray-50 rounded-lg text-center justify-center flex min-w-[120px]">
-            <h1 className="text-green-700 font-medium text-xl">{t("totalPrice")}: {data?.totalPrice} ກີບ</h1>
+          <div style={{ background: "#f3f4f6", padding: "10px 12px", borderRadius: "12px", textAlign: "center" }}>
+            <p style={{ fontWeight: "600", color: "#16a34a", fontSize: "16px" }}>{t("totalPrice")}: {data?.totalPrice} ກີບ</p>
           </div>
         </div>
       </div>
