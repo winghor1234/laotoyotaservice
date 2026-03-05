@@ -32,7 +32,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId }) => {
                 placeholder={t("kmLast")}
                 className=" w-full py-2 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
               />
-              <span className="border border-red-500 absolute right-4 inset-y-0 -translate-y-2 flex items-center text-gray-500 text-base sm:text-lg pointer-events-none">
+              <span className="border border-red-500 absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg pointer-events-none">
                 {t("km_text")}
               </span>
               <div className="h-6">{errors.kmLast && <p className="text-red-500 text-sm">{errors.kmLast.message}</p>}</div>
