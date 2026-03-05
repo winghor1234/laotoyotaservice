@@ -16,8 +16,6 @@ const BookingSuccess = () => {
     const { t } = useTranslation("booking");
     const [billId, setBillId] = useState("");
     const [bookingDetail, setBookingDetail] = useState([]);
-    const handleBack = () => navigate("/user/booking");
-
     useEffect(() => {
         const init = async () => {
             try {
@@ -66,7 +64,7 @@ const BookingSuccess = () => {
         <div style={{ background: "#f3f4f6", padding: "40px 0" }}>
             {/* Top Action Buttons (not in PDF) */}
             <div style={{ maxWidth: "850px", margin: "0 auto 20px", display: "flex", justifyContent: "space-between" }}>
-                <button onClick={handleBack} style={btnGray}>
+                <button onClick={navigate("/user/booking")} style={btnGray}>
                     <FaArrowLeft /> {t("back")}
                 </button>
                 <button onClick={handleExportPDF} style={btnGreen}>
@@ -138,7 +136,7 @@ const BookingSuccess = () => {
                             detail?.service?.length > 0 &&
                             detail.service.map((s, i) => (
                                 <tr key={`${index}-${i}`}>
-                                    <td style={td}>{i + 1}</td> 
+                                    <td style={td}>{i + 1}</td>
                                     <td style={td}>{s.serviceName}</td>
                                     <td style={td}>{booking?.remark || "-"}</td>
                                 </tr>
@@ -160,6 +158,15 @@ const BookingSuccess = () => {
                 >
                     {t("thanks_message")}
                 </p>
+            </div>
+            {/* Action Button */}
+            <div className="flex justify-center  mt-6">
+                <button
+                    onClick={() => navigate("/user/booking")}
+                    className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full transition-colors font-medium text-sm lg:text-base w-full sm:w-auto"
+                >
+                    {t("complete_fix")}
+                </button>
             </div>
         </div>
     );
