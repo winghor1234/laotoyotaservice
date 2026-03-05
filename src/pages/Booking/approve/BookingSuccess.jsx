@@ -136,7 +136,7 @@ const BookingSuccess = () => {
                         (
                             <tr key={index}>
                                 <td style={td}>{index + 1}</td>
-                                <td style={td}>{item.serviceName}</td>
+                                <td style={td}>{item?.service?.serviceName}</td>
                                 <td style={td}>{booking?.remark || "-"}</td>
                             </tr>
                         ))
