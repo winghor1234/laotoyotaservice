@@ -70,15 +70,16 @@ const SuccessDetail = () => {
 
       <div style={{ maxWidth: "900px", margin: "auto", background: "#ffffff", padding: "25px 30px", borderRadius: "16px", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
 
-        {/* Customer + Car + Appointment Section */}
+        {/* Customer + Appointment Section */}
         <div style={{ display: "flex", gap: "20px", marginBottom: "25px" }}>
-
-          {/* Customer Info - Left */}
+          {/* Customer Info */}
           <div style={{ flex: "1", display: "flex", flexDirection: "column", gap: "12px" }}>
             {[
-              { label: t("bookingInfo"), value: <FaCar className="inline-block text-gray-700" /> },
               { label: t("customerName"), value: booking?.user?.username },
               { label: t("phone"), value: booking?.user?.phoneNumber },
+              { label: t("branch_label"), value: booking?.branch?.branch_name },
+              { label: t("date_label"), value: booking?.time?.date },
+              { label: t("time_label"), value: booking?.time?.time },
             ].map((item, index) => (
               <div key={index} style={{
                 background: "#f9fafb",
@@ -92,15 +93,13 @@ const SuccessDetail = () => {
             ))}
           </div>
 
-          {/* Car + Appointment Info - Right */}
+          {/* Car Info */}
           <div style={{ flex: "1", display: "flex", flexDirection: "column", gap: "12px" }}>
             {[
               { label: t("plateNumber"), value: booking?.car?.plateNumber },
               { label: t("frameNumber"), value: booking?.car?.frameNumber },
               { label: t("engineNumber"), value: booking?.car?.engineNumber },
               { label: t("carModel"), value: booking?.car?.model },
-              { label: t("date_label"), value: booking?.time?.date },
-              { label: t("time_label"), value: booking?.time?.time },
               { label: t("zone"), value: zone?.zoneName },
               { label: t("kmLast"), value: data?.kmLast },
               { label: t("kmNext"), value: data?.kmNext },
@@ -116,7 +115,6 @@ const SuccessDetail = () => {
               </div>
             ))}
           </div>
-
         </div>
 
         {/* Services Table Section */}
