@@ -39,8 +39,8 @@ const FixDetails = () => {
   const zoneId = fixData?.time?.zoneId;
   const fetchZone = async () => {
     try {
-      const serviceRes = await axiosInstance.get(APIPath.SELECT_ONE_ZONE(zoneId));
-      setZone(serviceRes?.data?.data);
+      const zoneRes = await axiosInstance.get(APIPath.SELECT_ONE_ZONE(zoneId));
+      setZone(zoneRes?.data?.data);
     } catch (error) {
       console.log(error);
     }
@@ -57,7 +57,7 @@ const FixDetails = () => {
     fetchBooking();
     fetchBooingDetail();
     fetchZone();
-  }, []);
+  }, [zoneId]);
 
   return (
     <div style={{ background: "#f3f4f6", padding: "30px 0", fontFamily: "Arial, sans-serif", fontSize: "15px", lineHeight: "1.6", color: "#111827" }}>
