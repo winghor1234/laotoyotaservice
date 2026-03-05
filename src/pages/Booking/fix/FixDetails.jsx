@@ -48,13 +48,13 @@ const FixDetails = () => {
   }, []);
 
   return (
-    <div style={{ background: "#f3f4f6", padding: "40px 0" }}>
+    <div style={{ background: "#f9fafb", minHeight: "100vh", padding: "40px 20px" }}>
 
       {/* Top Action */}
       <div
         style={{
-          maxWidth: "850px",
-          margin: "0 auto 20px",
+          maxWidth: "900px",
+          margin: "0 auto 25px",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -68,45 +68,58 @@ const FixDetails = () => {
         </button>
       </div>
 
-      {/* Paper */}
+      {/* Main Paper */}
       <div
         style={{
-          maxWidth: "850px",
+          maxWidth: "900px",
           margin: "auto",
           background: "#ffffff",
-          padding: "40px",
+          padding: "45px",
           fontFamily: "Arial, sans-serif",
-          fontSize: "12pt",
-          lineHeight: "1.7",
-          color: "#111827",
-          borderRadius: "10px",
-          boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+          fontSize: "13pt",
+          lineHeight: "1.8",
+          color: "#1f2937",
+          borderRadius: "12px",
+          border: "1px solid #e5e7eb",
+          boxShadow: "0 6px 18px rgba(0,0,0,0.06)",
         }}
       >
-        <h2
+
+        {/* Title */}
+        <h1
           style={{
             textAlign: "center",
-            marginBottom: "30px",
-            fontWeight: "600",
+            marginBottom: "35px",
+            fontWeight: "700",
+            fontSize: "24px",
+            color: "#111827",
             letterSpacing: "0.5px",
           }}
         >
           {t("fix_details")}
-        </h2>
+        </h1>
 
-        <hr style={{ marginBottom: "30px", borderColor: "#e5e7eb" }} />
+        <hr style={{ marginBottom: "35px", borderColor: "#e5e7eb" }} />
 
-        {/* Customer Section */}
+        {/* Customer + Car */}
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
-            marginBottom: "30px",
-            gap: "30px",
+            gap: "40px",
+            marginBottom: "35px",
           }}
         >
-          <div style={{ width: "48%" }}>
-            <h3 style={{ marginBottom: "12px", color: "#374151" }}>
+          <div style={{ width: "50%" }}>
+            <h3
+              style={{
+                marginBottom: "15px",
+                fontWeight: "600",
+                color: "#374151",
+                borderBottom: "2px solid #f3f4f6",
+                paddingBottom: "6px",
+              }}
+            >
               {t("customer_info")}
             </h3>
 
@@ -114,8 +127,16 @@ const FixDetails = () => {
             <p><strong>{t("customer_phone")}:</strong> {fixData?.user?.phoneNumber}</p>
           </div>
 
-          <div style={{ width: "48%" }}>
-            <h3 style={{ marginBottom: "12px", color: "#374151" }}>
+          <div style={{ width: "50%" }}>
+            <h3
+              style={{
+                marginBottom: "15px",
+                fontWeight: "600",
+                color: "#374151",
+                borderBottom: "2px solid #f3f4f6",
+                paddingBottom: "6px",
+              }}
+            >
               {t("car_info")}
             </h3>
 
@@ -126,19 +147,27 @@ const FixDetails = () => {
           </div>
         </div>
 
-        <hr style={{ marginBottom: "30px", borderColor: "#e5e7eb" }} />
+        <hr style={{ marginBottom: "35px", borderColor: "#e5e7eb" }} />
 
         {/* Appointment + Service */}
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
-            marginBottom: "30px",
-            gap: "30px",
+            gap: "40px",
+            marginBottom: "35px",
           }}
         >
-          <div style={{ width: "48%" }}>
-            <h3 style={{ marginBottom: "12px", color: "#374151" }}>
+          <div style={{ width: "50%" }}>
+            <h3
+              style={{
+                marginBottom: "15px",
+                fontWeight: "600",
+                color: "#374151",
+                borderBottom: "2px solid #f3f4f6",
+                paddingBottom: "6px",
+              }}
+            >
               {t("appointment_time")}
             </h3>
 
@@ -146,8 +175,16 @@ const FixDetails = () => {
             <p><strong>{t("time_label")}:</strong> {fixData?.time?.time}</p>
           </div>
 
-          <div style={{ width: "48%" }}>
-            <h3 style={{ marginBottom: "12px", color: "#374151" }}>
+          <div style={{ width: "50%" }}>
+            <h3
+              style={{
+                marginBottom: "15px",
+                fontWeight: "600",
+                color: "#374151",
+                borderBottom: "2px solid #f3f4f6",
+                paddingBottom: "6px",
+              }}
+            >
               {t("service_information")}
             </h3>
 
@@ -156,24 +193,30 @@ const FixDetails = () => {
                 <div
                   key={index}
                   style={{
-                    padding: "8px 0",
-                    borderBottom: "1px solid #e5e7eb",
+                    padding: "12px",
+                    marginBottom: "10px",
+                    background: "#f9fafb",
+                    borderRadius: "6px",
+                    border: "1px solid #e5e7eb",
                   }}
                 >
                   <p>
-                    <strong>{t("service_label")}:</strong> {item?.service?.serviceName}
+                    <strong>{t("service_label")}:</strong>{" "}
+                    {item?.service?.serviceName}
                   </p>
+
                   <p>
-                    <strong>{t("remark_label")}:</strong> {fixData?.remark}
+                    <strong>{t("remark_label")}:</strong>{" "}
+                    {fixData?.remark}
                   </p>
                 </div>
               ))}
           </div>
         </div>
 
-        <hr style={{ marginBottom: "30px", borderColor: "#e5e7eb" }} />
+        <hr style={{ marginBottom: "35px", borderColor: "#e5e7eb" }} />
 
-        {/* Action Button */}
+        {/* Action */}
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <button
             onClick={() =>
@@ -184,6 +227,7 @@ const FixDetails = () => {
             {t("complete_fix")}
           </button>
         </div>
+
       </div>
 
       {showPopup && (
