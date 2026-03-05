@@ -26,13 +26,13 @@ const PopupFix = ({ setShowPopup, bookingId, timeId }) => {
           {/* KM Last & KM Next */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {/* KM Last */}
-            <div className="border border-red-500flex flex-col relative">
+            <div className="flex flex-col relative">
               <input
                 {...register("kmLast")}
                 placeholder={t("kmLast")}
                 className=" w-full py-2 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
               />
-              <span className="border border-red-500 absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg pointer-events-none">
+              <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg pointer-events-none">
                 {t("km_text")}
               </span>
               <div className="h-6">{errors.kmLast && <p className="text-red-500 text-sm">{errors.kmLast.message}</p>}</div>
@@ -45,7 +45,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId }) => {
                 placeholder={t("kmNext")}
                 className="w-full py-2 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
               />
-              <span className="absolute right-4 inset-y-0 flex items-center text-gray-500 text-base sm:text-lg">
+              <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg pointer-events-none">
                 {t("km_text")}
               </span>
               <div className="h-6">{errors.kmNext && <p className="text-red-500 text-sm">{errors.kmNext.message}</p>}</div>
@@ -77,7 +77,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId }) => {
                 className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
                 onValueChange={(value) => setValue("fixCarPrice", Number(value) || 0)}
               />
-              <span className="absolute right-4 inset-y-0 flex items-center text-gray-500 text-base sm:text-lg">
+              <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
                 {t("kip_text")}
               </span>
               <div className="h-6">{errors.fixCarPrice && <p className="text-red-500 text-sm">{errors.fixCarPrice.message}</p>}</div>
@@ -94,7 +94,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId }) => {
                 className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
                 onValueChange={(value) => setValue("carPartPrice", Number(value) || 0)}
               />
-              <span className="absolute right-4 inset-y-0 flex items-center text-gray-500 text-base sm:text-lg">
+              <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
                 {t("kip_text")}
               </span>
               <div className="h-6">{errors.carPartPrice && <p className="text-red-500 text-sm">{errors.carPartPrice.message}</p>}</div>
@@ -111,7 +111,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId }) => {
               decimalsLimit={0}
               className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors bg-gray-100 pr-12"
             />
-            <span className="absolute right-4 inset-y-0 flex items-center text-gray-500 text-base sm:text-lg">
+            <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
               {t("kip_text")}
             </span>
             <div className="h-6">{errors.totalPrice && <p className="text-red-500 text-sm">{errors.totalPrice.message}</p>}</div>
