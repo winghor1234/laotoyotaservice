@@ -48,10 +48,10 @@ const FixDetails = () => {
   }, []);
 
   return (
-    <div style={{ background: "#f3f4f6", padding: "30px 0", fontFamily: "Arial, sans-serif", fontSize: "13px", lineHeight: "1.4", color: "#111827" }}>
+    <div style={{ background: "#f3f4f6", padding: "30px 0", fontFamily: "Arial, sans-serif", fontSize: "15px", lineHeight: "1.6", color: "#111827" }}>
 
       {/* Top Action */}
-      <div style={{ maxWidth: "850px", margin: "0 auto 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div style={{ maxWidth: "900px", margin: "0 auto 25px", display: "flex", justifyContent: "flex-start" }}>
         <button onClick={() => navigate("/user/booking/fix")} style={btnGray}>
           <FaArrowLeft /> {t("back")}
         </button>
@@ -59,78 +59,72 @@ const FixDetails = () => {
 
       {/* Paper */}
       <div style={{
-        maxWidth: "850px",
+        maxWidth: "900px",
         margin: "auto",
         background: "#ffffff",
-        padding: "25px 30px",
-        fontSize: "13px",
-        lineHeight: "1.4",
-        color: "#111827",
-        borderRadius: "12px",
+        padding: "30px",
+        borderRadius: "14px",
         boxShadow: "0 4px 12px rgba(0,0,0,0.05)"
       }}>
-        <h1 style={{ textAlign: "center", marginBottom: "20px", fontWeight: "600", fontSize: "15px", letterSpacing: "0.5px" }}>
+        <h1 style={{ textAlign: "center", marginBottom: "25px", fontWeight: "600", fontSize: "18px" }}>
           {t("fix_details")}
         </h1>
 
-        <hr style={{ marginBottom: "20px", borderColor: "#e5e7eb" }} />
+        <hr style={{ marginBottom: "25px", borderColor: "#e5e7eb" }} />
 
-        {/* Customer Section */}
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px", gap: "25px" }}>
+        {/* Customer + Car + Appointment */}
+        <div style={{ display: "flex", justifyContent: "space-between", gap: "25px", marginBottom: "25px" }}>
+          {/* Left: Customer */}
           <div style={{ width: "48%" }}>
-            <h3 style={{ marginBottom: "8px", fontSize: "14px", color: "#374151" }}>{t("customer_info")}</h3>
+            <h3 style={{ marginBottom: "10px", fontSize: "16px", color: "#374151" }}>{t("customer_info")}</h3>
             <p><strong>{t("customer_name")}:</strong> {fixData?.user?.username}</p>
             <p><strong>{t("customer_phone")}:</strong> {fixData?.user?.phoneNumber}</p>
           </div>
 
+          {/* Right: Car + Appointment */}
           <div style={{ width: "48%" }}>
-            <h3 style={{ marginBottom: "8px", fontSize: "14px", color: "#374151" }}>{t("car_info")}</h3>
+            <h3 style={{ marginBottom: "10px", fontSize: "16px", color: "#374151" }}>{t("car_info")}</h3>
             <p><strong>{t("plate_number")}:</strong> {fixData?.car?.plateNumber}</p>
             <p><strong>{t("engine_number")}:</strong> {fixData?.car?.engineNumber}</p>
             <p><strong>{t("frame_number")}:</strong> {fixData?.car?.frameNumber}</p>
             <p><strong>{t("car_model")}:</strong> {fixData?.car?.model}</p>
-          </div>
-        </div>
 
-        <hr style={{ marginBottom: "20px", borderColor: "#e5e7eb" }} />
-
-        {/* Appointment + Service */}
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px", gap: "25px" }}>
-          <div style={{ width: "48%" }}>
-            <h3 style={{ marginBottom: "8px", fontSize: "14px", color: "#374151" }}>{t("appointment_time")}</h3>
+            <h3 style={{ margin: "15px 0 10px 0", fontSize: "16px", color: "#374151" }}>{t("appointment_time")}</h3>
             <p><strong>{t("date_label")}:</strong> {fixData?.time?.date}</p>
             <p><strong>{t("time_label")}:</strong> {fixData?.time?.time}</p>
           </div>
-
-          <div style={{ width: "48%" }}>
-            <h3 style={{ marginBottom: "8px", fontSize: "14px", color: "#374151" }}>{t("service_information")}</h3>
-
-            {service?.length > 0 ? (
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
-                <thead>
-                  <tr style={{ backgroundColor: "#f9fafb" }}>
-                    <th style={{ border: "1px solid #e5e7eb", padding: "5px", textAlign: "left" }}>#</th>
-                    <th style={{ border: "1px solid #e5e7eb", padding: "5px", textAlign: "left" }}>{t("service_label")}</th>
-                    <th style={{ border: "1px solid #e5e7eb", padding: "5px", textAlign: "left" }}>{t("remark_label")}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {service.map((item, index) => (
-                    <tr key={index}>
-                      <td style={{ border: "1px solid #e5e7eb", padding: "5px" }}>{index + 1}</td>
-                      <td style={{ border: "1px solid #e5e7eb", padding: "5px" }}>{item?.service?.serviceName}</td>
-                      <td style={{ border: "1px solid #e5e7eb", padding: "5px" }}>{fixData?.remark || "-"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <p style={{ fontSize: "13px", color: "#6b7280" }}>{t("no_service")}</p>
-            )}
-          </div>
         </div>
 
-        <hr style={{ marginBottom: "20px", borderColor: "#e5e7eb" }} />
+        <hr style={{ marginBottom: "25px", borderColor: "#e5e7eb" }} />
+
+        {/* Service Table */}
+        <div style={{ marginBottom: "25px" }}>
+          <h3 style={{ marginBottom: "12px", fontSize: "16px", color: "#374151" }}>{t("service_information")}</h3>
+          {service?.length > 0 ? (
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "15px" }}>
+              <thead>
+                <tr style={{ backgroundColor: "#f9fafb" }}>
+                  <th style={{ border: "1px solid #e5e7eb", padding: "8px", textAlign: "left" }}>#</th>
+                  <th style={{ border: "1px solid #e5e7eb", padding: "8px", textAlign: "left" }}>{t("service_label")}</th>
+                  <th style={{ border: "1px solid #e5e7eb", padding: "8px", textAlign: "left" }}>{t("remark_label")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {service.map((item, index) => (
+                  <tr key={index}>
+                    <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{index + 1}</td>
+                    <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{item?.service?.serviceName}</td>
+                    <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{fixData?.remark || "-"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p style={{ fontSize: "15px", color: "#6b7280" }}>{t("no_service")}</p>
+          )}
+        </div>
+
+        <hr style={{ marginBottom: "25px", borderColor: "#e5e7eb" }} />
 
         {/* Action Button */}
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
