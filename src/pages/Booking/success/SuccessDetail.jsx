@@ -71,32 +71,52 @@ const SuccessDetail = () => {
       <div style={{ maxWidth: "900px", margin: "auto", background: "#ffffff", padding: "25px 30px", borderRadius: "16px", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
 
         {/* Customer + Car + Appointment Section */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginBottom: "25px" }}>
-          {[
-            { label: t("bookingInfo"), value: <FaCar className="inline-block text-gray-700" /> },
-            { label: t("customerName"), value: booking?.user?.username },
-            { label: t("phone"), value: booking?.user?.phoneNumber },
-            { label: t("plateNumber"), value: booking?.car?.plateNumber },
-            { label: t("frameNumber"), value: booking?.car?.frameNumber },
-            { label: t("engineNumber"), value: booking?.car?.engineNumber },
-            { label: t("carModel"), value: booking?.car?.model },
-            { label: t("date_label"), value: booking?.time?.date },
-            { label: t("time_label"), value: booking?.time?.time },
-            { label: t("zone"), value: zone?.zoneName },
-            { label: t("kmLast"), value: data?.kmLast },
-            { label: t("kmNext"), value: data?.kmNext },
-          ].map((item, index) => (
-            <div key={index} style={{
-              flex: "1 1 120px",
-              background: "#f9fafb",
-              borderRadius: "12px",
-              textAlign: "center",
-              padding: "12px",
-            }}>
-              <p style={{ fontSize: "13px", color: "#6b7280", marginBottom: "6px" }}>{item.label}</p>
-              <p style={{ fontSize: "15px", fontWeight: "500", color: "#111827" }}>{item.value}</p>
-            </div>
-          ))}
+        <div style={{ display: "flex", gap: "20px", marginBottom: "25px" }}>
+
+          {/* Customer Info - Left */}
+          <div style={{ flex: "1", display: "flex", flexDirection: "column", gap: "12px" }}>
+            {[
+              { label: t("bookingInfo"), value: <FaCar className="inline-block text-gray-700" /> },
+              { label: t("customerName"), value: booking?.user?.username },
+              { label: t("phone"), value: booking?.user?.phoneNumber },
+            ].map((item, index) => (
+              <div key={index} style={{
+                background: "#f9fafb",
+                borderRadius: "12px",
+                textAlign: "center",
+                padding: "12px",
+              }}>
+                <p style={{ fontSize: "13px", color: "#6b7280", marginBottom: "6px" }}>{item.label}</p>
+                <p style={{ fontSize: "15px", fontWeight: "500", color: "#111827" }}>{item.value}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Car + Appointment Info - Right */}
+          <div style={{ flex: "1", display: "flex", flexDirection: "column", gap: "12px" }}>
+            {[
+              { label: t("plateNumber"), value: booking?.car?.plateNumber },
+              { label: t("frameNumber"), value: booking?.car?.frameNumber },
+              { label: t("engineNumber"), value: booking?.car?.engineNumber },
+              { label: t("carModel"), value: booking?.car?.model },
+              { label: t("date_label"), value: booking?.time?.date },
+              { label: t("time_label"), value: booking?.time?.time },
+              { label: t("zone"), value: zone?.zoneName },
+              { label: t("kmLast"), value: data?.kmLast },
+              { label: t("kmNext"), value: data?.kmNext },
+            ].map((item, index) => (
+              <div key={index} style={{
+                background: "#f9fafb",
+                borderRadius: "12px",
+                textAlign: "center",
+                padding: "12px",
+              }}>
+                <p style={{ fontSize: "13px", color: "#6b7280", marginBottom: "6px" }}>{item.label}</p>
+                <p style={{ fontSize: "15px", fontWeight: "500", color: "#111827" }}>{item.value}</p>
+              </div>
+            ))}
+          </div>
+
         </div>
 
         {/* Services Table Section */}
