@@ -57,6 +57,7 @@ const FixDetails = () => {
           margin: "0 auto 20px",
           display: "flex",
           justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
         <button
@@ -76,15 +77,24 @@ const FixDetails = () => {
           padding: "40px",
           fontFamily: "Arial, sans-serif",
           fontSize: "12pt",
-          lineHeight: "1.6",
+          lineHeight: "1.7",
           color: "#111827",
+          borderRadius: "10px",
+          boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
         }}
       >
-        <h2 style={{ textAlign: "center", marginBottom: "30px" }}>
+        <h2
+          style={{
+            textAlign: "center",
+            marginBottom: "30px",
+            fontWeight: "600",
+            letterSpacing: "0.5px",
+          }}
+        >
           {t("fix_details")}
         </h2>
 
-        <hr style={{ marginBottom: "30px" }} />
+        <hr style={{ marginBottom: "30px", borderColor: "#e5e7eb" }} />
 
         {/* Customer Section */}
         <div
@@ -92,92 +102,88 @@ const FixDetails = () => {
             display: "flex",
             justifyContent: "space-between",
             marginBottom: "30px",
+            gap: "30px",
           }}
         >
           <div style={{ width: "48%" }}>
-            <h3 style={{ marginBottom: "10px" }}>
+            <h3 style={{ marginBottom: "12px", color: "#374151" }}>
               {t("customer_info")}
             </h3>
-            <p>
-              <strong>{t("customer_name")}:</strong>{" "}
-              {fixData?.user?.username}
-            </p>
-            <p>
-              <strong>{t("customer_phone")}:</strong>{" "}
-              {fixData?.user?.phoneNumber}
-            </p>
+
+            <p><strong>{t("customer_name")}:</strong> {fixData?.user?.username}</p>
+            <p><strong>{t("customer_phone")}:</strong> {fixData?.user?.phoneNumber}</p>
           </div>
 
           <div style={{ width: "48%" }}>
-            <h3 style={{ marginBottom: "10px" }}>
+            <h3 style={{ marginBottom: "12px", color: "#374151" }}>
               {t("car_info")}
             </h3>
-            <p>
-              <strong>{t("plate_number")}:</strong>{" "}
-              {fixData?.car?.plateNumber}
-            </p>
-            <p>
-              <strong>{t("engine_number")}:</strong>{" "}
-              {fixData?.car?.engineNumber}
-            </p>
-            <p>
-              <strong>{t("frame_number")}:</strong>{" "}
-              {fixData?.car?.frameNumber}
-            </p>
-            <p>
-              <strong>{t("car_model")}:</strong>{" "}
-              {fixData?.car?.model}
-            </p>
+
+            <p><strong>{t("plate_number")}:</strong> {fixData?.car?.plateNumber}</p>
+            <p><strong>{t("engine_number")}:</strong> {fixData?.car?.engineNumber}</p>
+            <p><strong>{t("frame_number")}:</strong> {fixData?.car?.frameNumber}</p>
+            <p><strong>{t("car_model")}:</strong> {fixData?.car?.model}</p>
           </div>
         </div>
 
-        {/* Appointment Section */}
-        <div style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "30px",
-        }}>
-          <div style={{ marginBottom: "30px" }}>
-            <h3 style={{ marginBottom: "10px" }}>
+        <hr style={{ marginBottom: "30px", borderColor: "#e5e7eb" }} />
+
+        {/* Appointment + Service */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: "30px",
+            gap: "30px",
+          }}
+        >
+          <div style={{ width: "48%" }}>
+            <h3 style={{ marginBottom: "12px", color: "#374151" }}>
               {t("appointment_time")}
             </h3>
-            <p>
-              <strong>{t("date_label")}:</strong>{" "}
-              {fixData?.time?.date}
-            </p>
-            <p>
-              <strong>{t("time_label")}:</strong>{" "}
-              {fixData?.time?.time}
-            </p>
+
+            <p><strong>{t("date_label")}:</strong> {fixData?.time?.date}</p>
+            <p><strong>{t("time_label")}:</strong> {fixData?.time?.time}</p>
           </div>
-          <div style={{ marginBottom: "30px" }}>
-            <h3 style={{ marginBottom: "10px" }}>
+
+          <div style={{ width: "48%" }}>
+            <h3 style={{ marginBottom: "12px", color: "#374151" }}>
               {t("service_information")}
             </h3>
-            {
-              service?.length > 0 && service?.map((item, index) => (
-                <div key={index}>
+
+            {service?.length > 0 &&
+              service?.map((item, index) => (
+                <div
+                  key={index}
+                  style={{
+                    padding: "8px 0",
+                    borderBottom: "1px solid #e5e7eb",
+                  }}
+                >
                   <p>
-                    <strong>{t("service_label")}:</strong>{" "}
-                    {item?.serviceName}
+                    <strong>{t("service_label")}:</strong> {item?.serviceName}
                   </p>
                   <p>
-                    <strong>{t("remark_label")}:</strong>{" "}
-                    {fixData?.remark}
+                    <strong>{t("remark_label")}:</strong> {fixData?.remark}
                   </p>
                 </div>
-              ))
-            }
+              ))}
           </div>
         </div>
-        <button
-          onClick={() =>
-            handleSubmit(fixData?.booking_id, fixData?.timeId)
-          }
-          style={btnGreen}
-        >
-          {t("complete_fix")}
-        </button>
+
+        <hr style={{ marginBottom: "30px", borderColor: "#e5e7eb" }} />
+
+        {/* Action Button */}
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <button
+            onClick={() =>
+              handleSubmit(fixData?.booking_id, fixData?.timeId)
+            }
+            style={btnGreen}
+          >
+            {t("complete_fix")}
+          </button>
+        </div>
       </div>
 
       {showPopup && (
