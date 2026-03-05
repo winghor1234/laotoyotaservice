@@ -6,26 +6,14 @@ import { Users, Clock3, Car, Gift } from "lucide-react";
 import { HiOutlineWrenchScrewdriver } from "react-icons/hi2";
 import { LiaGiftsSolid } from "react-icons/lia";
 import { GrUserAdmin } from "react-icons/gr";
-import { FaChartLine } from "react-icons/fa";
 import { PieChart, Pie, Cell, ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from "recharts";
 import { useTranslation } from "react-i18next";
 import { calculatePercentIncrease, countUsersByMonth, getIncomes } from "../../utils/Income";
 import { FormatNumber } from "../../utils/FormatNumber";
+import ExcelExportButton from "../../utils/ExcelExportButton";
 
 
-
-// const dataCircle = [
-//     { name: "Complete", value: 40 },
-//     { name: "Remaining", value: 100 }
-// ];
 const COLORS = ["#E52020", "#F0F0F0"];
-
-// const dataLine = [
-//     { name: "Jan", value: 50 }, { name: "Feb", value: 900 }, { name: "Mar", value: 300 },
-//     { name: "Apr", value: 200 }, { name: "May", value: 100 }, { name: "Jun", value: 250 },
-//     { name: "Jul", value: 50 }, { name: "Aug", value: 400 }, { name: "Sep", value: 500 },
-//     { name: "Oct", value: 300 }, { name: "Nov", value: 400 }, { name: "Dec", value: 500 }
-// ];
 
 const Dashboard = () => {
     const { t } = useTranslation("dashboard");
@@ -89,16 +77,8 @@ const Dashboard = () => {
 
     useEffect(() => {
         fetchData();
-        
+
     }, []);
-    console.log("service data", service);
-    // console.log("promotion data", promotions.length);
-    // console.log("booking data", booking.length);
-    // console.log("car data", car);
-    console.log("gift data", gift);
-    // console.log("time data", time);
-    // console.log("zone data", zone);
-    // console.log("user data", users);
 
 
     // PieChart data
@@ -148,7 +128,7 @@ const Dashboard = () => {
                                         <Cell key={idx} fill={COLORS[idx]} />
                                     ))}
                                 </Pie>
-                                <text  x="50%"  y="50%"  textAnchor="middle"  dominantBaseline="middle"  fontWeight="bold"  fill="black" >
+                                <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontWeight="bold" fill="black" >
                                     {Math.round(percentUserIncrease)}%
                                 </text>
                             </PieChart>
@@ -161,7 +141,7 @@ const Dashboard = () => {
                 <div className="bg-white rounded-lg shadow-lg p-4">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-lg font-medium">{t("income")}</h2>
-                        <button className="bg-red-500 text-white px-4 py-2 rounded-2xl text-sm">{t("view_history")}</button>
+                        <ExcelExportButton data={monthlyIncomes} fileName="FixRevenueReport.xlsx" />
                     </div>
                     <div className="w-full h-64">
                         <ResponsiveContainer width="100%" height="100%">

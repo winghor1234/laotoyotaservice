@@ -51,23 +51,6 @@ const ReportList = () => {
     fetchReportData();
   }, []);
 
-  // const bookingByMonth = [
-  //   { month: "Jan", total: 20 },
-  //   { month: "Feb", total: 15 },
-  //   { month: "Mar", total: 30 },
-  //   { month: "Apr", total: 25 },
-  //   { month: "May", total: 40 },
-  //   { month: "Jun", total: 35 },
-  // ];
-
-  // const fixRevenue = [
-  //   { month: "Jan", revenue: 1000 },
-  //   { month: "Feb", revenue: 1800 },
-  //   { month: "Mar", revenue: 1200 },
-  //   { month: "Apr", revenue: 2200 },
-  //   { month: "May", revenue: 2600 },
-  //   { month: "Jun", revenue: 1500 },
-  // ];
 
   return (
     <div className="p-4 bg-gray-50 min-h-screen">
