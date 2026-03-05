@@ -70,50 +70,28 @@ const SuccessDetail = () => {
 
       <div style={{ maxWidth: "900px", margin: "auto", background: "#ffffff", padding: "25px 30px", borderRadius: "16px", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
 
-        {/* Customer + Appointment Section */}
-        <div style={{ display: "flex", gap: "20px", marginBottom: "25px" }}>
-          {/* Customer Info */}
-          <div style={{ flex: "1", display: "flex", flexDirection: "column", gap: "12px" }}>
-            {[
-              { label: t("customerName"), value: booking?.user?.username },
-              { label: t("phone"), value: booking?.user?.phoneNumber },
-              { label: t("branch_label"), value: booking?.branch?.branch_name },
-              { label: t("date_label"), value: booking?.time?.date },
-              { label: t("time_label"), value: booking?.time?.time },
-            ].map((item, index) => (
-              <div key={index} style={{
-                background: "#f9fafb",
-                borderRadius: "12px",
-                textAlign: "center",
-                padding: "12px",
-              }}>
-                <p style={{ fontSize: "13px", color: "#6b7280", marginBottom: "6px" }}>{item.label}</p>
-                <p style={{ fontSize: "15px", fontWeight: "500", color: "#111827" }}>{item.value}</p>
-              </div>
-            ))}
+        {/* Customer + Car + Appointment */}
+        <div style={{ display: "flex", justifyContent: "space-between", gap: "25px", marginBottom: "25px" }}>
+          {/* Left: Customer */}
+          <div style={{ width: "48%" }}>
+            <h3 style={{ marginBottom: "10px", fontSize: "16px", color: "#374151" }}>{t("customer_info")}</h3>
+            <p><strong>{t("customer_name")}:</strong> {booking?.user?.username}</p>
+            <p><strong>{t("customer_phone")}:</strong> {booking?.user?.phoneNumber}</p>
+
+            <h3 style={{ margin: "15px 0 10px 0", fontSize: "16px", color: "#374151" }}>{t("appointment_time")}</h3>
+            <p><strong>{t("branch_label")}:</strong> {zone?.zoneName}</p>
+            <p><strong>{t("branch_label")}:</strong> {booking?.branch?.branch_name}</p>
+            <p><strong>{t("date_label")}:</strong> {booking?.time?.date}</p>
+            <p><strong>{t("time_label")}:</strong> {booking?.time?.time}</p>
           </div>
 
-          {/* Car Info */}
-          <div style={{ flex: "1", display: "flex", flexDirection: "column", gap: "12px" }}>
-            {[
-              { label: t("plateNumber"), value: booking?.car?.plateNumber },
-              { label: t("frameNumber"), value: booking?.car?.frameNumber },
-              { label: t("engineNumber"), value: booking?.car?.engineNumber },
-              { label: t("carModel"), value: booking?.car?.model },
-              { label: t("zone"), value: zone?.zoneName },
-              { label: t("kmLast"), value: data?.kmLast },
-              { label: t("kmNext"), value: data?.kmNext },
-            ].map((item, index) => (
-              <div key={index} style={{
-                background: "#f9fafb",
-                borderRadius: "12px",
-                textAlign: "center",
-                padding: "12px",
-              }}>
-                <p style={{ fontSize: "13px", color: "#6b7280", marginBottom: "6px" }}>{item.label}</p>
-                <p style={{ fontSize: "15px", fontWeight: "500", color: "#111827" }}>{item.value}</p>
-              </div>
-            ))}
+          {/* Right: Car + Appointment */}
+          <div style={{ width: "48%" }}>
+            <h3 style={{ marginBottom: "10px", fontSize: "16px", color: "#374151" }}>{t("car_info")}</h3>
+            <p><strong>{t("plate_number")}:</strong> {booking?.car?.plateNumber}</p>
+            <p><strong>{t("engine_number")}:</strong> {booking?.car?.engineNumber}</p>
+            <p><strong>{t("frame_number")}:</strong> {booking?.car?.frameNumber}</p>
+            <p><strong>{t("car_model")}:</strong> {booking?.car?.model}</p>
           </div>
         </div>
 
