@@ -51,7 +51,7 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
         console.log("device token not found");
         return;
       }
-      const notification = await axiosInstance.post(APIPath.SEND_NOTIFICATION, {
+      const notification = await axiosInstance.post(APIPath.SEND_ONE_NOTIFICATION, {
         deviceToken1: deviceToken,
         title: "Booking Approved",
         body: `Your booking ${bookingId} for ${timeData?.date} ${timeData?.time} has been approved`
