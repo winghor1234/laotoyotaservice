@@ -46,15 +46,17 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
         axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "false" }),
         axiosInstance.put(APIPath.UPDATE_POINT, pointData),
       ]);
-
-      if (deviceToken) {
-        const notification = await axiosInstance.post(APIPath.SEND_NOTIFICATION, {
-          deviceToken1: deviceToken,
-          title: "Booking Approved",
-          body: `Your booking ${bookingId} for ${timeData?.date} ${timeData?.time} has been approved`
-        });
-        console.log("notification : ", notification);
+      if (!deviceToken) {
+        console.log("device token not found");
+        return;
       }
+      const notification = await axiosInstance.post(APIPath.SEND_NOTIFICATION, {
+        deviceToken1: deviceToken,
+        title: "Booking Approved",
+        body: `Your booking ${bookingId} for ${timeData?.date} ${timeData?.time} has been approved`
+      });
+      console.log("notification : ", notification);
+
       navigate("/user/bookingSuccess/" + bookingId);
       SuccessAlert(t("success_alert"));
       fetchBooking();
