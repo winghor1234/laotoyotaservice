@@ -21,6 +21,7 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingId));
       setDeviceToken(res?.data?.data?.user?.deviceToken);
+      console.log("res data  : ", res?.data?.data);
     } catch (error) {
       console.log(error);
     }
