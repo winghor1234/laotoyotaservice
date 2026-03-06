@@ -5,15 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useEffect, useState } from 'react';
 import { useTranslation } from "react-i18next";
-import useToyotaStore from '../../../store/ToyotaStore';
+// import useToyotaStore from '../../../store/ToyotaStore';
 
 const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking }) => {
   const { t } = useTranslation("booking"); // namespace booking
   const navigate = useNavigate();
   const [timeData, setTimeData] = useState([]);
   const [deviceToken, setDeviceToken] = useState([]);
-  const token = useToyotaStore((state) => state.getToken());
-  console.log("token : ", token)
+  // const token = useToyotaStore((state) => state.getToken());
+  // console.log("token : ", token)
 
 
 
@@ -46,12 +46,15 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
         axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "false" }),
         axiosInstance.put(APIPath.UPDATE_POINT, pointData),
       ]);
-      const notification = await axiosInstance.post(APIPath.SEND_NOTIFICATION, {
-        deviceToken1: deviceToken,
-        title: "Booking Approved",
-        body: `Your booking ${bookingId} for ${timeData?.date} ${timeData?.time} has been approved`
-      });
-      console.log("notification : ", notification);
+
+      if (deviceToken) {
+        const notification = await axiosInstance.post(APIPath.SEND_NOTIFICATION, {
+          deviceToken1: deviceToken,
+          title: "Booking Approved",
+          body: `Your booking ${bookingId} for ${timeData?.date} ${timeData?.time} has been approved`
+        });
+        console.log("notification : ", notification);
+      }
       navigate("/user/bookingSuccess/" + bookingId);
       SuccessAlert(t("success_alert"));
       fetchBooking();
