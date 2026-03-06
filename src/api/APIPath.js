@@ -159,4 +159,8 @@ export default class APIPath {
     static DELETE_EMPLOYEE(id) { return `${this.BASE_URL}/employee/delete/${id}` }
 
 
+    // Notification API
+    static SEND_ONE_NOTIFICATION = `${this.BASE_URL}/noti/one`
+    static SEND_NOTIFICATION = `${this.BASE_URL}/noti/send`
+
 }

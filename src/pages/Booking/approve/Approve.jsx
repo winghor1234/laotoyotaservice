@@ -6,7 +6,6 @@ import { useEmployeeBranchId } from "../../../utils/useEmployeeBranchId";
 import useServerFilterPagination from "../../../utils/useServerFilterPagination";
 import APIPath from "../../../api/APIPath";
 import axiosInstance from "../../../utils/AxiosInstance";
-import BookingSearch from "../../../utils/BookingSearch";
 import { useEffect, useState } from "react";
 import SelectDate from "../../../utils/SelectDate";
 import ExportExcelPopup from "../../../utils/exportExelPopup";
@@ -62,17 +61,6 @@ const Approve = () => {
   }, [role, branch_id]);
 
 
-  // Export Data (ข้อมูลเดิม 100%)
-  // const exportData = booking
-  //   ?.filter((item) => item.bookingStatus === "await")
-  //   .map((item) => ({
-  //     [t("car_model")]: item?.car?.model,
-  //     [t("username")]: item?.user?.username,
-  //     [t("phone")]: item?.user?.phoneNumber,
-  //     [t("plate_number")]: item?.car?.plateNumber,
-  //     [t("date_label")]: item?.time?.date,
-  //     [t("time_label")]: item?.time?.time,
-  //   }));
 
 
   // Navigate Approve
