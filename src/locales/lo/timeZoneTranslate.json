@@ -36,5 +36,6 @@
   "zoneDeleteSuccess": "ລົບຂໍ້ມູນໂຊນສຳເລັດ",
   "minuteLabel": "ນາທີ",
   "selectBranch": "ເລືອກສາຂາ",
-  "noBranch": "ບໍ່ມີສາຂາ"
+  "noBranch": "ບໍ່ມີສາຂາ",
+  "qtyLabel": "ຈໍານວນ"
 }

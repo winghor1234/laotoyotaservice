@@ -36,5 +36,6 @@
   "zoneDeleteSuccess": "Zone deleted successfully",
   "minuteLabel": "minutes",
   "selectBranch": "Select Branch",
-  "noBranch": "No Branch"
+  "noBranch": "No Branch",
+  "qtyLabel": "Quantity"
 }

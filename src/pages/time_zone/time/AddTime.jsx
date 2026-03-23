@@ -22,7 +22,7 @@ const AddTime = ({ show, onClose, fetchTime, addToExport }) => {
         </h2>
 
         <form onSubmit={handleSubmit(submitForm)} className="space-y-3 sm:space-y-4">
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
             <input
               type="text"
               placeholder={t("timeLabel")}
@@ -42,6 +42,18 @@ const AddTime = ({ show, onClose, fetchTime, addToExport }) => {
 
             <div className="h-6">
               {errors.date && <p className="text-red-500 text-sm">{errors.date.message}</p>}
+            </div>
+            <input
+              type="number"
+              placeholder={t("qtyLabel")}
+              min="1"
+              // placeholder="quantity..."
+              {...register("qty" ,{ valueAsNumber: true })}
+              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+            />
+
+            <div className="h-6">
+              {errors.qty && <p className="text-red-500 text-sm">{errors.qty.message}</p>}
             </div>
             <select
               {...register("zoneId")}

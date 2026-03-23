@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 const AddTimeSchema = (t) => z.object({
     time: z.string().min(1, t("min_length_1")),
     date: z.string().min(1, t("min_length_1")),
+    qty: z.number().min(1, t("min_length_1")),
     zoneId: z.string().min(1, t("min_length_1")),
     branchId: z.string().min(1, t("min_length_1")),
 });

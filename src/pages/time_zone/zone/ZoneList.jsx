@@ -83,7 +83,7 @@ const ZoneList = () => {
 
     return (
         <div>
-            <div className="border-1 border-rex-500 gap-9 mb-6 flex justify-end items-center">
+            <div className=" gap-9 mb-6 flex justify-end items-center">
                 <SelectDate
                     searchValue={search}
                     onSearchChange={handleSearch}
