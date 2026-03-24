@@ -17,17 +17,13 @@ import DetailService from "../pages/servicing/serviceInformation/DetailService";
 import DetailPromotion from "../pages/promotion/DetailPromotion";
 import Gift from "../pages/gift/Gift";
 import GiftHistoryList from "../pages/gift/giftHistory/GiftHistoryList";
-import Time_Zone from "../pages/time_zone/Time_Zone";
-import TimeDetail from "../pages/time_zone/time/TimeDetail";
-import ZoneDetail from "../pages/time_zone/zone/ZoneDetail";
 import CarList from "../pages/Car/CarList";
 import Booking from "../pages/Booking/Booking";
 import Approve from "../pages/Booking/approve/Approve";
 import PromotionList from "../pages/promotion/PromotionList";
 import GiftList from "../pages/gift/giftData/GiftList";
 import ServiceList from "../pages/servicing/serviceInformation/ServiceList";
-import TimeList from "../pages/time_zone/time/TimeList";
-import ZoneList from "../pages/time_zone/zone/ZoneList";
+
 import ReportList from "../pages/report/ReportList";
 import FixList from "../pages/Booking/fix/FixList";
 import FixDetails from "../pages/Booking/fix/FixDetails";
@@ -47,6 +43,10 @@ import DetailGiftHistory from "../pages/gift/giftHistory/DetailGiftHistory";
 import DetailUser from "../pages/user/DetailUser";
 import CancelDetail from "../pages/Booking/cancel/CancelDetail";
 import Cancel from "../pages/Booking/cancel/Cancel";
+import ZoneDetail from "../pages/zone/ZoneDetail";
+import ZoneList from "../pages/zone/ZoneList";
+import TimeList from "../pages/time/TimeList";
+import TimeDetail from "../pages/time/TimeDetail";
 
 
 const router = createBrowserRouter([
@@ -134,9 +134,9 @@ const router = createBrowserRouter([
         path: "billDetail/:id",
         element: <BillDetail />,
       },
-          {
+      {
         path: "cancel-detail/:id",
-        element: <CancelDetail/>,
+        element: <CancelDetail />,
       },
       {
         path: "car",
@@ -171,18 +171,12 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "time-zone",
-        element: <Time_Zone />,
-        children: [
-          {
-            index: true,
-            element: <TimeList />,
-          },
-          {
-            path: "zone",
-            element: <ZoneList />,
-          },
-        ],
+        path: "time",
+        element: <TimeList />,
+      },
+      {
+        path: "zone",
+        element: <ZoneList />,
       },
       {
         path: "user",
@@ -234,31 +228,31 @@ const router = createBrowserRouter([
       },
       {
         path: "branch-detail/:id",
-        element: <DetailBranch/>,
+        element: <DetailBranch />,
       },
       {
         path: "employee-detail/:id",
-        element: <DetailEmployee/>,
+        element: <DetailEmployee />,
       },
       {
         path: "gift-detail/:id",
-        element: <DetailGift/>,
+        element: <DetailGift />,
       },
       {
         path: "admin-detail/:id",
-        element: <DetailAdmin/>,
+        element: <DetailAdmin />,
       },
       {
         path: "car-detail/:id",
-        element: <DetailCar/>,
+        element: <DetailCar />,
       },
       {
         path: "gift-history-detail/:id",
-        element: <DetailGiftHistory/>,
+        element: <DetailGiftHistory />,
       },
       {
         path: "user-detail/:id",
-        element: <DetailUser/>,
+        element: <DetailUser />,
       },
     ],
   },

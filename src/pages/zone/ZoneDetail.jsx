@@ -1,10 +1,10 @@
 import { Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { BackButton } from "../../../utils/BackButton";
+import { BackButton } from "../../utils/BackButton";
 import EditZone from "./EditZone";
-import axiosInstance from "../../../utils/AxiosInstance";
-import APIPath from "../../../api/APIPath";
+import axiosInstance from "../../utils/AxiosInstance";
+import APIPath from "../../api/APIPath";
 import { useTranslation } from "react-i18next";
 
 const ZoneDetail = () => {

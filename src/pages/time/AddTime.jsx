@@ -1,6 +1,6 @@
-import { useAddTimeForm } from "../../../component/schemaValidate/time-zone/AddTimeValidate";
-import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-import Spinner from "../../../utils/Loading";
+import { useAddTimeForm } from "../../component/schemaValidate/time-zone/AddTimeValidate";
+import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
+import Spinner from "../../utils/Loading";
 import { useTranslation } from "react-i18next";
 
 const AddTime = ({ show, onClose, fetchTime, addToExport }) => {

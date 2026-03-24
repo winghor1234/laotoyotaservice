@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Home, Users, Gift, Car, Settings, Clock, X, LogOutIcon, PinIcon, MapPin, ShieldUser } from "lucide-react";
+import { Home, Users, Gift, Car, Settings, Clock, X, LogOutIcon, PinIcon, MapPin, ShieldUser, MapPinHouse, Settings2, Settings2Icon, CalendarCog } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo.jpg";
 import useToyotaStore from "../store/ToyotaStore";
@@ -9,6 +9,7 @@ import { TbReportAnalytics } from "react-icons/tb";
 import { useTranslation } from "react-i18next";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { useCheckRole } from "../utils/checkRole";
+import { useState } from "react";
 
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
@@ -17,6 +18,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const { t } = useTranslation("headerSidebar");
   const role = useCheckRole();
   // console.log("User role:", role);
+
+  const [openDropdown, setOpenDropdown] = useState({ general: false, admin: false, });
+  const toggleDropdown = (key) => {
+    setOpenDropdown((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
 
 
   const removeToken = useToyotaStore.getState().removeToken;
@@ -35,7 +44,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const isPromotionPath = currentPath.startsWith("/user/promotion");
   const isBranchPath = currentPath.startsWith("/user/branch") || currentPath.startsWith("/user/branch-detail");
   const isCar = currentPath.startsWith("/user/car");
-  const isTimePath = currentPath.startsWith("/user/time-zone") || currentPath.startsWith("/user/time-detail") || currentPath.startsWith("/user/zone-detail");
+  const isTimePath = currentPath.startsWith("/user/time") || currentPath.startsWith("/user/time-detail");
+  const isZonePath = currentPath.startsWith("/user/zone") || currentPath.startsWith("/user/zone-detail");
   const isReportPath = currentPath.startsWith("/user/report");
   const isUserPath = currentPath.startsWith("/user/user");
   const isAdminPath = currentPath.startsWith("/user/admin");
@@ -46,19 +56,67 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     navigate("/");
   };
 
+  // const SideBarItems = [
+  //   { icon: <Home className="w-5 h-5" />, label: t("dashboard"), path: "/user/dashboard", isActive: isDashboardPath },
+  //   { icon: <FaPeopleArrows className="w-5 h-5" />, label: t("appointment"), path: "/user/booking", isActive: isBookingPath },
+  //   { icon: <Clock className="w-5 h-5" />, label: t("time_zone"), path: "/user/time-zone", isActive: isTimePath },
+  //   { icon: <Gift className="w-5 h-5" />, label: t("promotion"), path: "/user/promotion", isActive: isPromotionPath },
+  //   { icon: <LiaGiftsSolid className="w-5 h-5" />, label: t("reward"), path: "/user/gift", isActive: isGiftPath },
+  //   { icon: <Car className="w-5 h-5" />, label: t("car_info"), path: "/user/car", isActive: isCar },
+  //   { icon: <Users className="w-5 h-5" />, label: t("customer_info"), path: "/user/user", isActive: isUserPath },
+  //   ...(role && role === "super_admin" ? [
+  //     { icon: <MapPin className="w-5 h-5" />, label: t("branch_info"), path: "/user/branch", isActive: isBranchPath },
+  //     { icon: <MdOutlineAdminPanelSettings className="w-5 h-5" />, label: t("admin_info"), path: "/user/admin", isActive: isAdminPath },
+  //     { icon: <ShieldUser className="w-5 h-5" />, label: t("employee_info"), path: "/user/employee", isActive: isEmployeePath },
+  //   ] : []),
+  //   { icon: <Settings className="w-5 h-5" />, label: t("service"), path: "/user/servicing", isActive: isServicePath },
+  //   { icon: <TbReportAnalytics className="w-5 h-5" />, label: t("report"), path: "/user/report", isActive: isReportPath },
+  // ];
+
   const SideBarItems = [
     { icon: <Home className="w-5 h-5" />, label: t("dashboard"), path: "/user/dashboard", isActive: isDashboardPath },
     { icon: <FaPeopleArrows className="w-5 h-5" />, label: t("appointment"), path: "/user/booking", isActive: isBookingPath },
-    { icon: <Clock className="w-5 h-5" />, label: t("time_zone"), path: "/user/time-zone", isActive: isTimePath },
+    // ✅ time zone Setting
+    {
+      icon: <CalendarCog className="w-5 h-5" />,
+      label: t("zone_time_management"),
+      children: [
+        { icon: <Clock className="w-5 h-5" />, label: t("time"), path: "/user/time", isActive: isTimePath },
+        { icon: <MapPinHouse className="w-5 h-5" />, label: t("zone"), path: "/user/zone", isActive: isZonePath },
+      ],
+    },
+
     { icon: <Gift className="w-5 h-5" />, label: t("promotion"), path: "/user/promotion", isActive: isPromotionPath },
     { icon: <LiaGiftsSolid className="w-5 h-5" />, label: t("reward"), path: "/user/gift", isActive: isGiftPath },
-    { icon: <Car className="w-5 h-5" />, label: t("car_info"), path: "/user/car", isActive: isCar },
-    { icon: <Users className="w-5 h-5" />, label: t("customer_info"), path: "/user/user", isActive: isUserPath },
-    ...(role && role === "super_admin" ? [
-      { icon: <MapPin className="w-5 h-5" />, label: t("branch_info"), path: "/user/branch", isActive: isBranchPath },
-      { icon: <MdOutlineAdminPanelSettings className="w-5 h-5" />, label: t("admin_info"), path: "/user/admin", isActive: isAdminPath },
-      { icon: <ShieldUser className="w-5 h-5" />, label: t("employee_info"), path: "/user/employee", isActive: isEmployeePath },
-    ] : []),
+
+    {
+      icon: <Settings className="w-5 h-5" />,
+      label: t("general_management"),
+      children: [
+        { icon: <Car className="w-5 h-5" />, label: t("car_info"), path: "/user/car", isActive: isCar },
+        { icon: <Users className="w-5 h-5" />, label: t("customer_info"), path: "/user/user", isActive: isUserPath },
+        ...(role === "super_admin"
+          ? [
+            { icon: <MapPin className="w-5 h-5" />, label: t("branch_info"), path: "/user/branch", isActive: isBranchPath },
+          ]
+          : []),
+      ],
+    },
+
+    // ✅ backend Setting
+    ...(role === "super_admin"
+      ? [
+        {
+          icon: <MdOutlineAdminPanelSettings className="w-5 h-5" />,
+          label: t("backend_management"),
+          children: [
+            { icon: <MdOutlineAdminPanelSettings className="w-5 h-5" />, label: t("admin_info"), path: "/user/admin", isActive: isAdminPath },
+            { icon: <ShieldUser className="w-5 h-5" />, label: t("employee_info"), path: "/user/employee", isActive: isEmployeePath },
+          ],
+        },
+      ]
+      : []),
+
     { icon: <Settings className="w-5 h-5" />, label: t("service"), path: "/user/servicing", isActive: isServicePath },
     { icon: <TbReportAnalytics className="w-5 h-5" />, label: t("report"), path: "/user/report", isActive: isReportPath },
   ];
@@ -94,22 +152,59 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
         {/* Menu */}
         <nav className="flex-1 w-full overflow-y-auto px-2 lg:px-4">
-          {SideBarItems.map((item, index) => (
-            <Link
-              key={index}
-              to={item.path}
-              onClick={() => setSidebarOpen(false)}
-              className={` w-full h-10 mb-2 flex items-center gap-3 px-3 rounded-lg transition
-          ${item.isActive
-                  ? "bg-white text-[#E52020]"
-                  : "hover:bg-white hover:text-[#E52020]"
-                }
-        `}
-            >
-              {item.icon}
-              <span className="text-lg">{item.label}</span>
-            </Link>
-          ))}
+          {SideBarItems.map((item, index) => {
+            if (item.children) {
+              return (
+                <div key={index}>
+                  <button
+                    onClick={() => toggleDropdown(item.label)}
+                    className="w-full h-10 mb-2 flex items-center justify-between px-3 rounded-lg hover:bg-white hover:text-[#E52020]"
+                  >
+                    <div className="flex items-center gap-3">
+                      {item.icon}
+                      <span className="text-lg">{item.label}</span>
+                    </div>
+                  </button>
+
+                  {/* ✅ FIX อยู่ตรงนี้ */}
+                  {openDropdown[item.label] && (
+                    <div className="ml-6">
+                      {item.children.map((child, i) => (
+                        <Link
+                          key={i}
+                          to={child.path}
+                          onClick={() => setSidebarOpen(false)}
+                          className={`w-full h-10 mb-2 flex items-center gap-3 px-3 rounded-lg transition
+                  ${child.isActive
+                              ? "bg-white text-[#E52020]"
+                              : "hover:bg-white hover:text-[#E52020]"}
+                `}
+                        >
+                          {child.icon}
+                          <span className="text-lg">{child.label}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
+            return (
+              <Link
+                key={index}
+                to={item.path}
+                onClick={() => setSidebarOpen(false)}
+                className={`w-full h-10 mb-2 flex items-center gap-3 px-3 rounded-lg transition
+        ${item.isActive
+                    ? "bg-white text-[#E52020]"
+                    : "hover:bg-white hover:text-[#E52020]"}`}
+              >
+                {item.icon}
+                <span className="text-lg">{item.label}</span>
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Logout */}

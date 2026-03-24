@@ -1,6 +1,6 @@
-import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-import Spinner from "../../../utils/Loading";
-import { useEditZoneForm } from "../../../component/schemaValidate/time-zone/EditZoneValidate";
+import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
+import Spinner from "../../utils/Loading";
+import { useEditZoneForm } from "../../component/schemaValidate/time-zone/EditZoneValidate";
 import { useTranslation } from "react-i18next";
 
 const EditZone = ({ show, onClose, zoneId, fetchZone }) => {

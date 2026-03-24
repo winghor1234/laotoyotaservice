@@ -5,7 +5,8 @@
   "car": "ລົດ",
   "no_image": "ບໍ່ມີຮູບ",
   "appointment": "ນັດໝາຍ",
-  "time_zone": "ຈັດການໂຊນ/ເວລາ",
+  "time": "ຈັດການເວລາ",
+  "zone": "ຈັດການໂຊນ",
   "promotion": "ໂປຣໂມຊັ່ນ",
   "reward": "ລາງວັນ",
   "car_info": "ຂໍ້ມູນລົດ",
@@ -15,6 +16,9 @@
   "report": "ລາຍງານ",
   "logout": "ອອກຈາກລະບົບ",
   "branch_info": "ຂໍ້ມູນສາຂາ",
-  "employee_info": "ຂໍ້ມູນພະນັກງານ"
+  "employee_info": "ຂໍ້ມູນພະນັກງານ",
+  "zone_time_management": "ຈັດການຂໍ້ມູນຕັ້ງຄ່າ",
+  "general_management": "ຈັດການຂໍ້ມູນທົ່ວໄປ",
+  "backend_management": "ຈັດການຂໍ້ມູນຫຼັງບ້ານ"
 
 }

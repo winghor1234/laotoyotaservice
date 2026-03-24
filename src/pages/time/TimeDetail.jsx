@@ -1,11 +1,11 @@
 import { Calendar, Clock3, MapPinned } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { BackButton } from "../../../utils/BackButton";
 import EditTime from "./EditTime";
-import axiosInstance from "../../../utils/AxiosInstance";
-import APIPath from "../../../api/APIPath";
 import { useTranslation } from "react-i18next";
+import { BackButton } from "../../utils/BackButton";
+import axiosInstance from "../../utils/AxiosInstance";
+import APIPath from "../../api/APIPath";
 
 const TimeDetail = () => {
     const { t } = useTranslation("timeZone");

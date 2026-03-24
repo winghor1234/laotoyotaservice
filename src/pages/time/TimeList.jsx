@@ -2,16 +2,16 @@
 import { useEffect, useState } from "react";
 import { Calendar, TimerIcon, Edit, Trash, MapPinned, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import useServerFilterPagination from "../../../utils/useServerFilterPagination";
+import useServerFilterPagination from "../../utils/useServerFilterPagination";
 import { useTranslation } from "react-i18next";
-import axiosInstance from "../../../utils/AxiosInstance";
-import APIPath from "../../../api/APIPath";
-import { DeleteAlert } from "../../../utils/handleAlert/DeleteAlert";
-import SelectDate from "../../../utils/SelectDate";
-import ExportExcelPopup from "../../../utils/exportExelPopup";
+import axiosInstance from "../../utils/AxiosInstance";
+import APIPath from "../../api/APIPath";
+import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
+import SelectDate from "../../utils/SelectDate";
+import ExportExcelPopup from "../../utils/exportExelPopup";
 import AddTime from "./AddTime";
 import EditTime from "./EditTime";
-import DownloadButton from "../../../utils/DownloadButton";
+import DownloadButton from "../../utils/DownloadButton";
 
 const TimeList = () => {
     const { t } = useTranslation("timeZone");

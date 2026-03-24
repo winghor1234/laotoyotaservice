@@ -1,6 +1,6 @@
-import { useEditTimeForm } from "../../../component/schemaValidate/time-zone/EdittTimeValidate";
-import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-import Spinner from "../../../utils/Loading";
+import { useEditTimeForm } from "../../component/schemaValidate/time-zone/EdittTimeValidate";
+import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
+import Spinner from "../../utils/Loading";
 import { useTranslation } from "react-i18next";
 
 const EditTime = ({ show, onClose, timeId, fetchTime }) => {

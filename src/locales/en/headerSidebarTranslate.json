@@ -5,7 +5,8 @@
   "car": "Car",
   "no_image": "No image",
   "appointment": "Appointment",
-  "time_zone": "Time/Zone",
+  "time": "Time",
+  "zone": "Zone",
   "promotion": "Promotion",
   "reward": "Gift",
   "car_info": "Car",
@@ -15,5 +16,8 @@
   "report": "Report",
   "logout": "Logout",
   "branch_info": "Branch",
-  "employee_info": "Employee"
+  "employee_info": "Employee",
+  "zone_time_management": "Zone Time",
+  "general_management": "General",
+  "backend_management": "Backend"
 }

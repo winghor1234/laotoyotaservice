@@ -1,6 +1,6 @@
-import { useAddZoneForm } from "../../../component/schemaValidate/time-zone/AddZoneValidate";
-import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-import Spinner from "../../../utils/Loading";
+import { useAddZoneForm } from "../../component/schemaValidate/time-zone/AddZoneValidate";
+import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
+import Spinner from "../../utils/Loading";
 import { useTranslation } from "react-i18next";
 
 const AddZone = ({ show, onClose, fetchZone }) => {

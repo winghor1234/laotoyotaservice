@@ -2,17 +2,17 @@ import { useState, useEffect } from "react";
 import { Clock3, Edit, MapPinned, Search, Trash } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { DeleteAlert } from "../../../utils/handleAlert/DeleteAlert";
-import ExportExcelButton from "../../../utils/ExcelExportButton";
-import ImportExcel from "../../../utils/ImportExel";
+import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
+import ExportExcelButton from "../../utils/ExcelExportButton";
+import ImportExcel from "../../utils/ImportExel";
 import AddZone from "./AddZone";
 import EditZone from "./EditZone";
-import axiosInstance from "../../../utils/AxiosInstance";
-import APIPath from "../../../api/APIPath";
-import useServerFilterPagination from "../../../utils/useServerFilterPagination";
-import ExportExcelPopup from "../../../utils/exportExelPopup";
-import SelectDate from "../../../utils/SelectDate";
-import DownloadButton from "../../../utils/DownloadButton";
+import axiosInstance from "../../utils/AxiosInstance";
+import APIPath from "../../api/APIPath";
+import useServerFilterPagination from "../../utils/useServerFilterPagination";
+import ExportExcelPopup from "../../utils/exportExelPopup";
+import SelectDate from "../../utils/SelectDate";
+import DownloadButton from "../../utils/DownloadButton";
 
 const ZoneList = () => {
     const { t } = useTranslation("timeZone");

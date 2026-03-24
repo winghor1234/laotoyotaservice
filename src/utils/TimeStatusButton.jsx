@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-const Time_ZoneStatusButton = () => {
+const TimeStatusButton = () => {
     const { t } = useTranslation("timeZone");
     const location = useLocation();
     const currentPath = location.pathname;
@@ -9,9 +9,9 @@ const Time_ZoneStatusButton = () => {
 
     const handleButtonClick = (path) => {
         if (!path) {
-            navigate('/user/time-zone');
+            navigate('/user/time');
         } else {
-            navigate(`/user/time-zone/${path}`);
+            navigate(`/user/time/${path}`);
         }
     };
 
@@ -21,11 +21,11 @@ const Time_ZoneStatusButton = () => {
             path: '',
             isActive: currentPath === '/user/time-zone',
         },
-        {
-            label: t("zoneLabel"),  // ໂຊນ
-            path: 'zone',
-            isActive: currentPath === '/user/time-zone/zone',
-        },
+        // {
+        //     label: t("zoneLabel"),  // ໂຊນ
+        //     path: 'zone',
+        //     isActive: currentPath === '/user/time-zone/zone',
+        // },
     ];
 
     return (
@@ -45,4 +45,4 @@ const Time_ZoneStatusButton = () => {
     );
 };
 
-export default Time_ZoneStatusButton;
+export default TimeStatusButton;
