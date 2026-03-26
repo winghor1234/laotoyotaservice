@@ -159,4 +159,13 @@ export default class APIPath {
     static DELETE_EMPLOYEE(id) { return `${this.BASE_URL}/employee/delete/${id}` }
 
 
+    // time Fix
+    static SEARCH_TIME_FIX = `${this.BASE_URL}/timefix/search`;
+    static SELECT_ONE_TIME_FIX(id) { return `${this.BASE_URL}/timefix/selOne/${id}` }
+    static GET_ALL_TIME_FIX = `${this.BASE_URL}/timefix/getAll`;
+    static CREATE_TIME_FIX = `${this.BASE_URL}/timefix/insert`;
+    static UPDATE_TIME_FIX(id) { return `${this.BASE_URL}/timefix/update/${id}` }
+    static DELETE_TIME_FIX(id) { return `${this.BASE_URL}/timefix/delete/${id}` }
+
+
 }

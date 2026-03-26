@@ -47,6 +47,8 @@ import ZoneDetail from "../pages/zone/ZoneDetail";
 import ZoneList from "../pages/zone/ZoneList";
 import TimeList from "../pages/time/TimeList";
 import TimeDetail from "../pages/time/TimeDetail";
+import TimeFixList from "../pages/timeFix/TimeFixList";
+import TimeFixDerail from "../pages/timeFix/TimeFixDetail";
 
 
 const router = createBrowserRouter([
@@ -179,6 +181,10 @@ const router = createBrowserRouter([
         element: <ZoneList />,
       },
       {
+        path: "time-fix",
+        element: <TimeFixList />,
+      },
+      {
         path: "user",
         element: <UserList />,
       },
@@ -225,6 +231,10 @@ const router = createBrowserRouter([
       {
         path: "zone-detail/:id",
         element: <ZoneDetail />,
+      },
+      {
+        path: "time-fix-detail/:id",
+        element: <TimeFixDerail/>,
       },
       {
         path: "branch-detail/:id",

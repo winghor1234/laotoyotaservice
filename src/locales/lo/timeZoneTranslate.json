@@ -6,9 +6,9 @@
   "noZone": "ບໍ່ມີໂຊນ",
   "cancel": "ຍົກເລີກ",
   "submit": "ຕົກລົງ",
-  "addTimeCancelMessage": "ຍົກເລີກການເພີ່ມຂໍ້ມູນເວລາ",
+  "addTimeCancelMessage": "ຍົກເລີກການເພີ່ມ",
   "edit_time_title": "ແກ້ໄຂ້ຂໍ້ມູນເວລາ",
-  "editTimeCancelMessage": "ຍົກເລີກການແກ້ໄຂຂໍ້ມູນເວລາ",
+  "editTimeCancelMessage": "ຍົກເລີກການແກ້ໄຂ",
   "detail_title": "ລາຍລະອຽດເວລາ",
   "dateLabel": "ວັນທີ/ເດືອນ/ປີ",
   "timeLabel": "ເວລາ",
@@ -25,7 +25,7 @@
   "zoneName": "ຊື່ໂຊນ",
   "timeFix": "ເວລາສ້ອມແປງ",
   "cancelButton": "ຍົກເລີກ",
-  "editZoneCancelMessage": "ຍົກເລີກການແກ້ໄຂຂໍ້ມູນໂຊນ",
+  "editZoneCancelMessage": "ຍົກເລີກການແກ້ໄຂ",
   "submitButton": "ຕົກລົງ",
   "zoneDetailTitle": "ລາຍລະອຽດໂຊນ",
   "timeFixLabel": "ເວລາສ້ອມແປງ :",
@@ -37,5 +37,8 @@
   "minuteLabel": "ນາທີ",
   "selectBranch": "ເລືອກສາຂາ",
   "noBranch": "ບໍ່ມີສາຂາ",
-  "qtyLabel": "ຈໍານວນ"
+  "qtyLabel": "ຈໍານວນ",
+  "edit_time_fix_title": "ແກ້ໄຂຂໍ້ມູນຜູກເວລາ ແລະ ໂຊນ",
+  "add_time_fix_title": "ເພີ່ມຂໍ້ມູນຜູກເວລາ ແລະ ໂຊນ"
+
 }

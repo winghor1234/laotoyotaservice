@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { Home, Users, Gift, Car, Settings, Clock, X, LogOutIcon, PinIcon, MapPin, ShieldUser, MapPinHouse, Settings2, Settings2Icon, CalendarCog } from "lucide-react";
+import {
+  Home, Users, Gift, Car, Settings, Clock, X, LogOutIcon,
+  MapPin, ShieldUser, MapPinHouse, CalendarCog, MapPinPlus
+} from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo.jpg";
 import useToyotaStore from "../store/ToyotaStore";
@@ -9,17 +12,18 @@ import { TbReportAnalytics } from "react-icons/tb";
 import { useTranslation } from "react-i18next";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { useCheckRole } from "../utils/checkRole";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation("headerSidebar");
   const role = useCheckRole();
-  // console.log("User role:", role);
 
-  const [openDropdown, setOpenDropdown] = useState({ general: false, admin: false, });
+  const [openDropdown, setOpenDropdown] = useState({});
+  const [activeParent, setActiveParent] = useState(null);
+  const [activeChild, setActiveChild] = useState(null);
+
   const toggleDropdown = (key) => {
     setOpenDropdown((prev) => ({
       ...prev,
@@ -27,99 +31,84 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     }));
   };
 
-
   const removeToken = useToyotaStore.getState().removeToken;
-
-  const currentPath = location.pathname;
-  const isBookingPath =
-    currentPath.startsWith("/user/booking") ||
-    currentPath.startsWith("/user/receiverCarDetail") ||
-    currentPath.startsWith("/user/fixDetail") ||
-    currentPath.startsWith("/user/cancelDetail") ||
-    currentPath.startsWith("/user/successDetail") ||
-    currentPath.startsWith("/user/cancel-detail");
-  const isGiftPath = currentPath.startsWith("/user/gift") || currentPath.startsWith("/user/gift-detail");
-  const isServicePath = currentPath.startsWith("/user/servicing") || currentPath.startsWith("/user/service-detail/");
-  const isDashboardPath = currentPath.startsWith("/user/dashboard");
-  const isPromotionPath = currentPath.startsWith("/user/promotion");
-  const isBranchPath = currentPath.startsWith("/user/branch") || currentPath.startsWith("/user/branch-detail");
-  const isCar = currentPath.startsWith("/user/car");
-  const isTimePath = currentPath.startsWith("/user/time") || currentPath.startsWith("/user/time-detail");
-  const isZonePath = currentPath.startsWith("/user/zone") || currentPath.startsWith("/user/zone-detail");
-  const isReportPath = currentPath.startsWith("/user/report");
-  const isUserPath = currentPath.startsWith("/user/user");
-  const isAdminPath = currentPath.startsWith("/user/admin");
-  const isEmployeePath = currentPath.startsWith("/user/employee") || currentPath.startsWith("/user/employee-detail");
 
   const handleLogout = () => {
     removeToken();
     navigate("/");
   };
 
-  // const SideBarItems = [
-  //   { icon: <Home className="w-5 h-5" />, label: t("dashboard"), path: "/user/dashboard", isActive: isDashboardPath },
-  //   { icon: <FaPeopleArrows className="w-5 h-5" />, label: t("appointment"), path: "/user/booking", isActive: isBookingPath },
-  //   { icon: <Clock className="w-5 h-5" />, label: t("time_zone"), path: "/user/time-zone", isActive: isTimePath },
-  //   { icon: <Gift className="w-5 h-5" />, label: t("promotion"), path: "/user/promotion", isActive: isPromotionPath },
-  //   { icon: <LiaGiftsSolid className="w-5 h-5" />, label: t("reward"), path: "/user/gift", isActive: isGiftPath },
-  //   { icon: <Car className="w-5 h-5" />, label: t("car_info"), path: "/user/car", isActive: isCar },
-  //   { icon: <Users className="w-5 h-5" />, label: t("customer_info"), path: "/user/user", isActive: isUserPath },
-  //   ...(role && role === "super_admin" ? [
-  //     { icon: <MapPin className="w-5 h-5" />, label: t("branch_info"), path: "/user/branch", isActive: isBranchPath },
-  //     { icon: <MdOutlineAdminPanelSettings className="w-5 h-5" />, label: t("admin_info"), path: "/user/admin", isActive: isAdminPath },
-  //     { icon: <ShieldUser className="w-5 h-5" />, label: t("employee_info"), path: "/user/employee", isActive: isEmployeePath },
-  //   ] : []),
-  //   { icon: <Settings className="w-5 h-5" />, label: t("service"), path: "/user/servicing", isActive: isServicePath },
-  //   { icon: <TbReportAnalytics className="w-5 h-5" />, label: t("report"), path: "/user/report", isActive: isReportPath },
-  // ];
+  const currentPath = location.pathname;
+
+  const isPath = (path) => currentPath.startsWith(path);
 
   const SideBarItems = [
-    { icon: <Home className="w-5 h-5" />, label: t("dashboard"), path: "/user/dashboard", isActive: isDashboardPath },
-    { icon: <FaPeopleArrows className="w-5 h-5" />, label: t("appointment"), path: "/user/booking", isActive: isBookingPath },
-    // ✅ time zone Setting
+    { icon: <Home className="w-5 h-5" />, label: t("dashboard"), path: "/user/dashboard" },
+    { icon: <FaPeopleArrows className="w-5 h-5" />, label: t("appointment"), path: "/user/booking" },
+
     {
       icon: <CalendarCog className="w-5 h-5" />,
       label: t("zone_time_management"),
       children: [
-        { icon: <Clock className="w-5 h-5" />, label: t("time"), path: "/user/time", isActive: isTimePath },
-        { icon: <MapPinHouse className="w-5 h-5" />, label: t("zone"), path: "/user/zone", isActive: isZonePath },
+        { icon: <Clock className="w-5 h-5" />, label: t("time"), path: "/user/time" },
+        { icon: <MapPinHouse className="w-5 h-5" />, label: t("zone"), path: "/user/zone" },
+        { icon: <MapPinPlus className="w-5 h-5" />, label: t("time_zone"), path: "/user/time-fix" },
       ],
     },
 
-    { icon: <Gift className="w-5 h-5" />, label: t("promotion"), path: "/user/promotion", isActive: isPromotionPath },
-    { icon: <LiaGiftsSolid className="w-5 h-5" />, label: t("reward"), path: "/user/gift", isActive: isGiftPath },
+    { icon: <Gift className="w-5 h-5" />, label: t("promotion"), path: "/user/promotion" },
+    { icon: <LiaGiftsSolid className="w-5 h-5" />, label: t("reward"), path: "/user/gift" },
 
     {
       icon: <Settings className="w-5 h-5" />,
       label: t("general_management"),
       children: [
-        { icon: <Car className="w-5 h-5" />, label: t("car_info"), path: "/user/car", isActive: isCar },
-        { icon: <Users className="w-5 h-5" />, label: t("customer_info"), path: "/user/user", isActive: isUserPath },
+        { icon: <Car className="w-5 h-5" />, label: t("car_info"), path: "/user/car" },
+        { icon: <Users className="w-5 h-5" />, label: t("customer_info"), path: "/user/user" },
         ...(role === "super_admin"
-          ? [
-            { icon: <MapPin className="w-5 h-5" />, label: t("branch_info"), path: "/user/branch", isActive: isBranchPath },
-          ]
+          ? [{ icon: <MapPin className="w-5 h-5" />, label: t("branch_info"), path: "/user/branch" }]
           : []),
       ],
     },
 
-    // ✅ backend Setting
     ...(role === "super_admin"
       ? [
         {
           icon: <MdOutlineAdminPanelSettings className="w-5 h-5" />,
           label: t("backend_management"),
           children: [
-            { icon: <MdOutlineAdminPanelSettings className="w-5 h-5" />, label: t("admin_info"), path: "/user/admin", isActive: isAdminPath },
-            { icon: <ShieldUser className="w-5 h-5" />, label: t("employee_info"), path: "/user/employee", isActive: isEmployeePath },
+            { icon: <MdOutlineAdminPanelSettings className="w-5 h-5" />, label: t("admin_info"), path: "/user/admin" },
+            { icon: <ShieldUser className="w-5 h-5" />, label: t("employee_info"), path: "/user/employee" },
           ],
         },
       ]
       : []),
 
-    { icon: <Settings className="w-5 h-5" />, label: t("service"), path: "/user/servicing", isActive: isServicePath },
-    { icon: <TbReportAnalytics className="w-5 h-5" />, label: t("report"), path: "/user/report", isActive: isReportPath },
+    { icon: <Settings className="w-5 h-5" />, label: t("service"), path: "/user/servicing" },
+    { icon: <TbReportAnalytics className="w-5 h-5" />, label: t("report"), path: "/user/report" },
   ];
+
+  // ✅ sync active กับ URL (refresh ก็ยังแดง)
+  useEffect(() => {
+    SideBarItems.forEach((item) => {
+      if (item.children) {
+        const found = item.children.find((child) =>
+          isPath(child.path)
+        );
+        if (found) {
+          setActiveParent(item.label);
+          setActiveChild(found.path);
+          setOpenDropdown((prev) => ({
+            ...prev,
+            [item.label]: true,
+          }));
+        }
+      } else if (item.path && isPath(item.path)) {
+        setActiveParent(item.label);
+        setActiveChild(null);
+      }
+    });
+  }, [currentPath]);
 
   return (
     <>
@@ -131,21 +120,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       )}
 
       <div
-        className={` fixed lg:relative top-0 left-0 z-50 w-[243px] h-screen bg-[#E52020] text-white flex flex-col transition-transform duration-300
-    ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-  `}
+        className={`fixed lg:relative top-0 left-0 z-50 w-[243px] h-screen bg-[#E52020] text-white flex flex-col transition-transform duration-300
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
+
         {/* Logo */}
         <div className="relative p-4 lg:p-6 flex justify-center">
-          <img
-            src={logo}
-            alt="logo"
-            className="w-[110px] h-[110px] rounded-full object-cover"
-          />
-          <button
-            onClick={() => setSidebarOpen(false)}
-            className="absolute top-2 right-2 lg:hidden"
-          >
+          <img src={logo} className="w-[110px] h-[110px] rounded-full object-cover" />
+          <button onClick={() => setSidebarOpen(false)} className="absolute top-2 right-2 lg:hidden">
             <X size={22} />
           </button>
         </div>
@@ -153,12 +135,25 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         {/* Menu */}
         <nav className="flex-1 w-full overflow-y-auto px-2 lg:px-4">
           {SideBarItems.map((item, index) => {
+
+            const isParentActive =
+              activeParent === item.label ||
+              item.children?.some(child => child.path === activeChild);
+
             if (item.children) {
               return (
                 <div key={index}>
                   <button
-                    onClick={() => toggleDropdown(item.label)}
-                    className="w-full h-10 mb-2 flex items-center justify-between px-3 rounded-lg hover:bg-white hover:text-[#E52020]"
+                    onClick={() => {
+                      toggleDropdown(item.label);
+                      setActiveParent(item.label);
+                      setActiveChild(null);
+                    }}
+                    className={`w-full h-10 mb-2 flex items-center justify-between px-3 rounded-lg transition
+                      ${isParentActive
+                        ? "bg-white text-[#E52020]"
+                        : "hover:bg-white hover:text-[#E52020]"}
+                    `}
                   >
                     <div className="flex items-center gap-3">
                       {item.icon}
@@ -166,19 +161,22 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                     </div>
                   </button>
 
-                  {/* ✅ FIX อยู่ตรงนี้ */}
                   {openDropdown[item.label] && (
                     <div className="ml-6">
                       {item.children.map((child, i) => (
                         <Link
                           key={i}
                           to={child.path}
-                          onClick={() => setSidebarOpen(false)}
+                          onClick={() => {
+                            setSidebarOpen(false);
+                            setActiveParent(item.label);
+                            setActiveChild(child.path);
+                          }}
                           className={`w-full h-10 mb-2 flex items-center gap-3 px-3 rounded-lg transition
-                  ${child.isActive
+                            ${activeChild === child.path
                               ? "bg-white text-[#E52020]"
                               : "hover:bg-white hover:text-[#E52020]"}
-                `}
+                          `}
                         >
                           {child.icon}
                           <span className="text-lg">{child.label}</span>
@@ -194,11 +192,16 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               <Link
                 key={index}
                 to={item.path}
-                onClick={() => setSidebarOpen(false)}
+                onClick={() => {
+                  setSidebarOpen(false);
+                  setActiveParent(item.label);
+                  setActiveChild(null);
+                }}
                 className={`w-full h-10 mb-2 flex items-center gap-3 px-3 rounded-lg transition
-        ${item.isActive
+                  ${activeParent === item.label
                     ? "bg-white text-[#E52020]"
-                    : "hover:bg-white hover:text-[#E52020]"}`}
+                    : "hover:bg-white hover:text-[#E52020]"}
+                `}
               >
                 {item.icon}
                 <span className="text-lg">{item.label}</span>
@@ -218,7 +221,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           </button>
         </div>
       </div>
-
     </>
   );
 };

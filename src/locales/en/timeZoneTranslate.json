@@ -37,5 +37,8 @@
   "minuteLabel": "minutes",
   "selectBranch": "Select Branch",
   "noBranch": "No Branch",
-  "qtyLabel": "Quantity"
+  "qtyLabel": "Quantity",
+  "edit_time_fix_title": "Edit Fix Time",
+  "add_time_fix_title": "Add Fix Time"
+
 }
