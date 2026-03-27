@@ -17,8 +17,8 @@
   "logout": "Logout",
   "branch_info": "Branch",
   "employee_info": "Employee",
-  "zone_time_management": "Tie Zone with Time",
+  "zone_time_management": "Tie Zone Time",
   "general_management": "General",
   "backend_management": "Backend",
-  "time_zone": "Tie Time with Zone"
+  "time_zone": "Tie Time Zone"
 }

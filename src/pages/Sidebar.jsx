@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import {
   Home, Users, Gift, Car, Settings, Clock, X, LogOutIcon,
-  MapPin, ShieldUser, MapPinHouse, CalendarCog, MapPinPlus
+  MapPin, ShieldUser, MapPinHouse, CalendarCog, MapPinPlus,
+  ChevronDown,
+  ChevronRight
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo.jpg";
@@ -133,7 +135,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         </div>
 
         {/* Menu */}
-        <nav className="flex-1 w-full overflow-y-auto px-2 lg:px-4">
+        <nav className="flex-1 w-full overflow-y-auto px-2 ">
           {SideBarItems.map((item, index) => {
 
             const isParentActive =
@@ -149,16 +151,19 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       setActiveParent(item.label);
                       setActiveChild(null);
                     }}
-                    className={`w-full h-10 mb-2 flex items-center justify-between px-3 rounded-lg transition
+                    className={`w-full h-10 mb-2 flex items-center justify-between px-3 duration-200 rounded-lg transition
                       ${isParentActive
                         ? "bg-white text-[#E52020]"
                         : "hover:bg-white hover:text-[#E52020]"}
                     `}
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
                       {item.icon}
                       <span className="text-lg">{item.label}</span>
                     </div>
+                    <ChevronRight
+                      className={`w-5 h-5 transition-transform duration-300 ${openDropdown[item.label] ? "rotate-90" : ""}`}
+                    />
                   </button>
 
                   {openDropdown[item.label] && (
