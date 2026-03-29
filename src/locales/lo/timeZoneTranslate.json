@@ -39,6 +39,8 @@
   "noBranch": "ບໍ່ມີສາຂາ",
   "qtyLabel": "ຈໍານວນ",
   "edit_time_fix_title": "ແກ້ໄຂຂໍ້ມູນຜູກເວລາ ແລະ ໂຊນ",
-  "add_time_fix_title": "ເພີ່ມຂໍ້ມູນຜູກເວລາ ແລະ ໂຊນ"
+  "add_time_fix_title": "ເພີ່ມຂໍ້ມູນຜູກເວລາ ແລະ ໂຊນ",
+  "noTime": "ບໍ່ມີເວລາ",
+  "selectTime": "ເລືອກເວລາ"
 
 }

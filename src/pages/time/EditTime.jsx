@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 const EditTime = ({ show, onClose, timeId, fetchTime }) => {
     const { t } = useTranslation("timeZone");
-    const { register, handleSubmit, formState: { errors }, loading, submitForm, zones } = useEditTimeForm({ onClose, timeId, fetchTime });
+    const { register, handleSubmit, formState: { errors }, loading, submitForm } = useEditTimeForm({ onClose, timeId, fetchTime });
 
     if (!show) return null;
 
@@ -30,7 +30,7 @@ const EditTime = ({ show, onClose, timeId, fetchTime }) => {
                             </div>
 
                         </div>
-                        <div className="w-full ">
+                        {/* <div className="w-full ">
                             <input
                                 type="date"
                                 placeholder={t("dateLabel")}
@@ -40,21 +40,17 @@ const EditTime = ({ show, onClose, timeId, fetchTime }) => {
                             <div className="h-6">
                                 {errors.date && <p className="text-red-500 text-sm">{errors.date.message}</p>}
                             </div>
-                        </div>
+                        </div> */}
 
-
-                        <div className="w-full">
-                            <select
-                                {...register("zoneId")}
-                                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-                            >
-                                <option value="" disabled>{t("selectZone")}</option>
-                                {zones.length > 0 ? zones.map(zone => (
-                                    <option key={zone.zone_id} value={zone.zone_id}>{zone.zoneName}</option>
-                                )) : <option value="">{t("noZone")}</option>}
-                            </select>
+                        <div className="w-full ">
+                            <input
+                                type="text"
+                                placeholder={t("qtyLabel")}
+                                {...register("qty")}
+                                className=" w-full py-2 sm:py-3.5 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                            />
                             <div className="h-6">
-                                {errors.zoneId && <p className="text-red-500 text-sm">{errors.zoneId.message}</p>}
+                                {errors.qty && <p className="text-red-500 text-sm">{errors.qty.message}</p>}
                             </div>
                         </div>
                     </div>

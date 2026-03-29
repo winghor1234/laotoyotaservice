@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 const AddTimeFix = ({ show, onClose, fetchTimeFix }) => {
   const { t } = useTranslation("timeZone");
-  const { register, handleSubmit, formState: { errors }, loading, submitForm, time, zone } = useAddTimeFixForm({ onClose, fetchTimeFix });
+  const { register, handleSubmit, formState: { errors }, loading, submitForm, time, zone, branch } = useAddTimeFixForm({ onClose, fetchTimeFix });
 
   if (!show) return null;
 
@@ -35,19 +35,34 @@ const AddTimeFix = ({ show, onClose, fetchTimeFix }) => {
             <div className="h-6">
               {errors.zoneId && <p className="text-red-500 text-sm">{errors.zoneId.message}</p>}
             </div>
+
             <select
               {...register("timeId")}
               className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
             >
-              <option value="" disabled>{t("selectBranch")}</option>
+              <option value="" disabled>{t("selectTime")}</option>
               {time.length > 0 ? time.map(time => (
                 <option key={time.time_id} value={time.time_id}>{time.time}</option>
-              )) : <option value="">{t("noBranch")}</option>}
+              )) : <option value="">{t("noTime")}</option>}
             </select>
             <div className="h-6">
               {errors.timeId && <p className="text-red-500 text-sm">{errors.timeId.message}</p>}
             </div>
+
+            <select
+              {...register("branchId")}
+              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+            >
+              <option value="" disabled>{t("selectBranch")}</option>
+              {branch.length > 0 ? branch.map(branch => (
+                <option key={branch.branch_id} value={branch.branch_id}>{branch.branch_name}</option>
+              )) : <option value="">{t("noBranch")}</option>}
+            </select>
+            <div className="h-6">
+              {errors.branchId && <p className="text-red-500 text-sm">{errors.branchId.message}</p>}
+            </div>
           </div>
+
 
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-3">
             <button

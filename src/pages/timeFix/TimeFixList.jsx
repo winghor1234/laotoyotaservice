@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { Calendar, TimerIcon, Edit, Trash, MapPinned, Search } from "lucide-react";
+import { Calendar, TimerIcon, Edit, Trash, MapPinned, Search, MapPinnedIcon, MapPinPen, MapPin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useServerFilterPagination from "../../utils/useServerFilterPagination";
 import { useTranslation } from "react-i18next";
@@ -8,8 +8,6 @@ import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
 import SelectDate from "../../utils/SelectDate";
-import ExportExcelPopup from "../../utils/exportExelPopup";
-import DownloadButton from "../../utils/DownloadButton";
 import AddTimeFix from "./AddTimeFix";
 import EditTimeFix from "./EditTimeFix";
 const TimeFixList = () => {
@@ -106,10 +104,11 @@ const TimeFixList = () => {
                                 <MapPinned />
                                 {item?.zone?.zoneName}
                             </div>
-
-                            {/* <div className="mt-2 font-semibold">
-                                {item.timeStatus ? t("statusFree") : t("statusFull")}
-                            </div> */}
+                            <div className="mt-2 flex items-center gap-2 font-semibold">
+                                <MapPin />
+                                {item?.branch?.branch_name}
+                            </div>
+                            
                         </div>
 
                         <div className={`flex flex-col items-center w-24 gap-2 px-2 rounded-r bg-green-600 text-white`}>

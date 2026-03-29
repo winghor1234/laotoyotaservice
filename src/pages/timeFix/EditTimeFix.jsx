@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 const EditTimeFix = ({ show, onClose, timefix_id, fetchTimeFix }) => {
     const { t } = useTranslation("timeZone");
-    const { register, handleSubmit, formState: { errors }, loading, submitForm, zone, time } = useEditTimeFixForm({ onClose, timefix_id, fetchTimeFix });
+    const { register, handleSubmit, formState: { errors }, loading, submitForm, zone, time, branch } = useEditTimeFixForm({ onClose, timefix_id, fetchTimeFix });
 
     if (!show) return null;
 
@@ -44,6 +44,20 @@ const EditTimeFix = ({ show, onClose, timefix_id, fetchTimeFix }) => {
                             </select>
                             <div className="h-6">
                                 {errors.zoneId && <p className="text-red-500 text-sm">{errors.zoneId.message}</p>}
+                            </div>
+                        </div>
+                        <div className="w-full">
+                            <select
+                                {...register("branchId")}
+                                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                            >
+                                <option value="" disabled>{t("selectBranch")}</option>
+                                {branch.length > 0 ? branch.map(branch => (
+                                    <option key={branch.branch_id} value={branch.branch_id}>{branch.branch_name}</option>
+                                )) : <option value="">{t("noBranch")}</option>}
+                            </select>
+                            <div className="h-6">
+                                {errors.branchId && <p className="text-red-500 text-sm">{errors.branchId.message}</p>}
                             </div>
                         </div>
                     </div>

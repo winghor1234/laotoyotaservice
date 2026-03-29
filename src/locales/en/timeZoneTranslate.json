@@ -39,6 +39,8 @@
   "noBranch": "No Branch",
   "qtyLabel": "Quantity",
   "edit_time_fix_title": "Edit Fix Time",
-  "add_time_fix_title": "Add Fix Time"
+  "add_time_fix_title": "Add Fix Time",
+  "noTime": "No Time",
+  "selectTime": "Select Time"
 
 }

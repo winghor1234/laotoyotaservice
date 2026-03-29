@@ -21,14 +21,17 @@ export const useEditTimeFixForm = ({ timefix_id , fetchTimeFix, onClose }) => {
     const [loading, setLoading] = useState(false);
     const [zone, setZone] = useState([]);
     const [time, setTime] = useState([]);
+    const [branch, setBranch] = useState([]);
 
     // Fetch zones
     useEffect(() => {
         const fetch = async () => {
             try {
-                const [zoneRes, timeRes] = await Promise.all([
+                const [zoneRes, timeRes, branchRes] = await Promise.all([
                     axiosInstance.get(APIPath.SELECT_ALL_ZONE),
                     axiosInstance.get(APIPath.SELECT_ALL_TIME),
+                    axiosInstance.get(APIPath.SELECT_ALL_BRANCH),
+
                 ]);
 
                 if (zoneRes?.data?.data) {
@@ -37,6 +40,9 @@ export const useEditTimeFixForm = ({ timefix_id , fetchTimeFix, onClose }) => {
 
                 if (timeRes?.data?.data) {
                     setTime(timeRes.data.data);
+                }
+                if (branchRes?.data?.data) {
+                    setBranch(branchRes.data.data);
                 }
             } catch (error) {
                 console.error("Error fetching :", error);
@@ -62,6 +68,6 @@ export const useEditTimeFixForm = ({ timefix_id , fetchTimeFix, onClose }) => {
         }
     };
 
-    return { register, handleSubmit, formState: { errors }, submitForm, loading, zone, time };
+    return { register, handleSubmit, formState: { errors }, submitForm, loading, zone, time, branch };
 
 }

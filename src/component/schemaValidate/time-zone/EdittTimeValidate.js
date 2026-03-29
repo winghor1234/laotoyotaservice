@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-import { formatDate } from "../../../utils/FormatDate";
+// import { formatDate } from "../../../utils/FormatDate";
 import { useTranslation } from "react-i18next";
 
 
@@ -13,29 +13,15 @@ import { useTranslation } from "react-i18next";
 
 const EditTimeSchema = (t) => z.object({
     time: z.string().min(1, t("min_length_1")),
-    date: z.string().min(1, t("min_length_1")),
-    zoneId: z.string().min(1, t("min_length_1")),
+    qty: z.string().min(1, t("min_length_1")),
+    // date: z.string().min(1, t("min_length_1")),
+    // zoneId: z.string().min(1, t("min_length_1")),
 });
 
 export const useEditTimeForm = ({ timeId, fetchTime, onClose }) => {
     const { t } = useTranslation("auth");
     const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: zodResolver(EditTimeSchema(t)), });
     const [loading, setLoading] = useState(false);
-    const [zones, setZones] = useState([]);
-
-    // Fetch zones
-    useEffect(() => {
-        const fetchZones = async () => {
-            try {
-                const res = await axiosInstance.get(APIPath.SELECT_ALL_ZONE);
-                if (res?.data?.data) setZones(res.data.data);
-            } catch (error) {
-                console.error("Error fetching zones:", error);
-            }
-        };
-        fetchZones();
-    }, []);
-
     // Fetch time data
     useEffect(() => {
         if (!timeId) return;
@@ -44,11 +30,12 @@ export const useEditTimeForm = ({ timeId, fetchTime, onClose }) => {
             try {
                 const res = await axiosInstance.get(APIPath.SELECT_ONE_TIME(timeId));
                 const data = res?.data?.data;
+                console.log("qty ",data?.qty);
                 if (data) {
                     reset({
                         time: data.time,
-                        date: formatDate(data.date),
-                        zoneId: data.zoneId,
+                        qty: data.qty,
+                        // date: formatDate(data.date),
                     });
                 }
             } catch (error) {
@@ -74,6 +61,6 @@ export const useEditTimeForm = ({ timeId, fetchTime, onClose }) => {
         }
     };
 
-    return { register, handleSubmit, formState: { errors }, submitForm, loading, zones };
+    return { register, handleSubmit, formState: { errors }, submitForm, loading };
 
 }

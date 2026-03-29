@@ -36,7 +36,7 @@ const ZoneList = () => {
         fetchData,
         getPageNumbers,
     } = useServerFilterPagination({
-        apiCall: ({ page, limit, search }) => {
+        apiCall: ({ page, limit = 12, search }) => {
             return axiosInstance.get(APIPath.GET_ALL_ZONE, {
                 params: {
                     page,

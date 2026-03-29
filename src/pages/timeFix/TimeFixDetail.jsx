@@ -62,6 +62,13 @@ const TimeFixDetail = () => {
                                 </div>
                                 <p className="text-gray-900">{timeFix?.zone?.zoneName}</p>
                             </div>
+                            <div className="space-y-3 py-4 flex flex-col items-center">
+                                <div className="flex gap-2 items-center">
+                                    <MapPinned className="text-2xl lg:text-4xl text-gray-700" />
+                                    <span className="text-base lg:text-lg text-gray-500 text-center">{t("zoneLabel")} :</span>
+                                </div>
+                                <p className="text-gray-900">{timeFix?.branch?.branch_name}</p>
+                            </div>
                         </div>
                     </div>
 

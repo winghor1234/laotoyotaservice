@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { Calendar, TimerIcon, Edit, Trash, MapPinned, Search } from "lucide-react";
+import { Calendar, TimerIcon, Edit, Trash, MapPinned, Search, Timer, ListFilterPlus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useServerFilterPagination from "../../utils/useServerFilterPagination";
 import { useTranslation } from "react-i18next";
@@ -117,9 +117,8 @@ const TimeList = () => {
                         <div
                             onClick={() => handleToDetailTime(item.time_id)}
                             className={`${item.timeStatus
-                                ? item.zoneId === null
-                                    ? "bg-yellow-500"
-                                    : "bg-green-600"
+                                ?
+                                "bg-green-600"
                                 : "bg-[#E52020]"
                                 } text-white cursor-pointer w-full px-4 py-3 rounded-l shadow`}
                         >
@@ -128,25 +127,28 @@ const TimeList = () => {
                                 {item.time}
                             </div>
 
-                            <div className="mt-2 flex items-center gap-2">
+                            {/* <div className="mt-2 flex items-center gap-2">
                                 <Calendar />
                                 {item.date}
-                            </div>
+                            </div> */}
 
-                            <div className="mt-2 flex items-center gap-2 font-semibold">
+                            {/* <div className="mt-2 flex items-center gap-2 font-semibold">
                                 <MapPinned />
                                 {item?.zone?.zoneName}
+                            </div> */}
+                            <div className="mt-2 flex items-center gap-2 font-semibold">
+                                <ListFilterPlus  />
+                                {item?.qty}
                             </div>
 
-                            <div className="mt-2 font-semibold">
+                            <div className="my-2 font-semibold">
                                 {item.timeStatus ? t("statusFree") : t("statusFull")}
                             </div>
                         </div>
 
                         <div className={`flex flex-col items-center w-24 gap-2 px-2 rounded-r ${item.timeStatus
-                            ? item.zoneId === null
-                                ? "bg-yellow-500"
-                                : "bg-green-600"
+                            ?
+                            "bg-green-600"
                             : "bg-[#E52020]"
                             } text-white`}
                         >

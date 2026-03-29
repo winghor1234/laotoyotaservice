@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 const AddTimeFixSchema = (t) => z.object({
     timeId: z.string().min(1, t("min_length_1")),
     zoneId: z.string().min(1, t("min_length_1")),
+    branchId: z.string().min(1, t("min_length_1")),
 });
 
 export const useAddTimeFixForm = ({ onClose, fetchTimeFix }) => {
@@ -18,13 +19,16 @@ export const useAddTimeFixForm = ({ onClose, fetchTimeFix }) => {
     const [loading, setLoading] = useState(false);
     const [zone, setZone] = useState([]);
     const [time, setTime] = useState([]);
+    const [branch, setBranch] = useState([]);
+
 
     useEffect(() => {
         const fetch = async () => {
             try {
-                const [zoneRes, timeRes] = await Promise.all([
+                const [zoneRes, timeRes, branchRes] = await Promise.all([
                     axiosInstance.get(APIPath.SELECT_ALL_ZONE),
                     axiosInstance.get(APIPath.SELECT_ALL_TIME),
+                    axiosInstance.get(APIPath.SELECT_ALL_BRANCH),
                 ]);
 
                 if (zoneRes?.data?.data) {
@@ -33,6 +37,9 @@ export const useAddTimeFixForm = ({ onClose, fetchTimeFix }) => {
 
                 if (timeRes?.data?.data) {
                     setTime(timeRes.data.data);
+                }
+                if (branchRes?.data?.data) {
+                    setBranch(branchRes.data.data);
                 }
             } catch (error) {
                 console.error("Error fetching :", error);
@@ -62,6 +69,6 @@ export const useAddTimeFixForm = ({ onClose, fetchTimeFix }) => {
         }
     };
 
-    return { register, handleSubmit, formState: { errors }, submitForm, loading, zone, time };
+    return { register, handleSubmit, formState: { errors }, submitForm, loading, zone, time , branch};
 
 }

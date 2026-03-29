@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 const AddTime = ({ show, onClose, fetchTime, addToExport }) => {
   const { t } = useTranslation("timeZone");
-  const { register, handleSubmit, formState: { errors }, loading, submitForm, zones, branches } = useAddTimeForm({ onClose, fetchTime, addToExport });
+  const { register, handleSubmit, formState: { errors }, loading, submitForm, } = useAddTimeForm({ onClose, fetchTime, addToExport });
 
   if (!show) return null;
 
@@ -33,7 +33,7 @@ const AddTime = ({ show, onClose, fetchTime, addToExport }) => {
               {errors.time && <p className="text-red-500 text-sm">{errors.time.message}</p>}
             </div>
 
-            <input
+            {/* <input
               type="date"
               placeholder={t("dateLabel")}
               {...register("date")}
@@ -42,7 +42,7 @@ const AddTime = ({ show, onClose, fetchTime, addToExport }) => {
 
             <div className="h-6">
               {errors.date && <p className="text-red-500 text-sm">{errors.date.message}</p>}
-            </div>
+            </div> */}
             <input
               type="number"
               placeholder={t("qtyLabel")}
@@ -54,30 +54,6 @@ const AddTime = ({ show, onClose, fetchTime, addToExport }) => {
 
             <div className="h-6">
               {errors.qty && <p className="text-red-500 text-sm">{errors.qty.message}</p>}
-            </div>
-            <select
-              {...register("zoneId")}
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-            >
-              <option value="" disabled>{t("selectZone")}</option>
-              {zones.length > 0 ? zones.map(zone => (
-                <option key={zone.zone_id} value={zone.zone_id}>{zone.zoneName}</option>
-              )) : <option value="">{t("noZone")}</option>}
-            </select>
-            <div className="h-6">
-              {errors.zoneId && <p className="text-red-500 text-sm">{errors.zoneId.message}</p>}
-            </div>
-            <select
-              {...register("branchId")}
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-            >
-              <option value="" disabled>{t("selectBranch")}</option>
-              {branches.length > 0 ? branches.map(branch => (
-                <option key={branch.branch_id} value={branch.branch_id}>{branch.branch_name}</option>
-              )) : <option value="">{t("noBranch")}</option>}
-            </select>
-            <div className="h-6">
-              {errors.branchId && <p className="text-red-500 text-sm">{errors.branchId.message}</p>}
             </div>
           </div>
 
