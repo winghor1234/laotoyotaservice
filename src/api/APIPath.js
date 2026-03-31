@@ -168,4 +168,8 @@ export default class APIPath {
     static DELETE_TIME_FIX(id) { return `${this.BASE_URL}/timefix/delete/${id}` }
 
 
+    // notification 
+    static SEND_NOTIFICATION = `${this.BASE_URL}/noti/send`;
+
+
 }

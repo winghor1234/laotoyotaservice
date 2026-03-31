@@ -10,6 +10,7 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
   const { t } = useTranslation("booking"); // namespace booking
   const navigate = useNavigate();
   const [timeData, setTimeData] = useState([]);
+  const [booking, setBooking] = useState([]);
 
 
 
@@ -29,8 +30,13 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
       await Promise.all([
         axiosInstance.post(APIPath.CREATE_FIX, fixData),
         axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId), { bookingStatus: "success" }),
-        axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "false" }),
+        // axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "false" }),
         axiosInstance.put(APIPath.UPDATE_POINT, pointData),
+        axiosInstance.post(APIPath.SEND_NOTIFICATION, {
+          deviceToken: "DEVICE_TOKEN",
+          title: "Booking Confirmed",
+          body: "Your car repair booking is confirmed",
+        })
       ]);
 
       navigate("/user/bookingSuccess/" + bookingId);
@@ -50,9 +56,19 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
       console.log(error);
     }
   }
+  const handleFetchBooking = async () => {
+    try {
+      const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingId));
+      setBooking(res?.data?.data);
+      // console.log("time data:",res?.data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     handleFetchTime();
+    handleFetchBooking();
   }, []);
 
   return (
@@ -65,12 +81,12 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
             <div className='flex flex-col items-center gap-1'>
               <CalendarDays className='text-lg text-gray-600' />
               <p className="font-medium text-gray-600 text-xs lg:text-sm">{t("date_label")}:</p>
-              <p className="text-gray-900 text-md lg:text-xl">{timeData?.date}</p>
+              <p className="text-gray-900 text-md lg:text-xl">{booking?.time?.date}</p>
             </div>
             <div className='flex flex-col items-center gap-1'>
               <Clock3 className='text-lg text-gray-600' />
               <p className="font-medium text-gray-600 text-xs lg:text-sm">{t("time_label")}:</p>
-              <p className="text-gray-900 text-md lg:text-xl">{timeData?.time}</p>
+              <p className="text-gray-900 text-md lg:text-xl">{booking?.time?.time}</p>
             </div>
             <div className='flex flex-col items-center gap-1'>
               <MapPinned className='text-lg text-gray-600' />
@@ -80,7 +96,7 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
             <div className='flex flex-col items-center gap-1'>
               <MapIcon className='text-lg text-gray-600' />
               <p className="font-medium text-gray-600 text-xs lg:text-sm">{t("branch_label")}:</p>
-              <p className="text-gray-900 text-md lg:text-xl">{timeData?.branch?.branch_name}</p>
+              <p className="text-gray-900 text-md lg:text-xl">{booking?.branch?.branch_name}</p>
             </div>
           </div>
         </div>

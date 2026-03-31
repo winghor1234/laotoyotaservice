@@ -33,6 +33,7 @@ const ReceiverCarDetail = () => {
         APIPath.SELECT_ONE_BOOKING(bookingId)
       );
       const bookingData = bookingRes?.data?.data;
+      console.log("booking data:", bookingData);
       setBooking(bookingData);
       setSelectedTimeId(bookingData.timeId);
       // console.log("booking data time id :", bookingData?.timeId);
