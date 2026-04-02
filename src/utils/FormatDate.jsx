@@ -9,4 +9,9 @@ export const formatDate = (dateStr) => {
   return dateStr; // ถ้า format มันถูกอยู่แล้ว
 }
 
+export const formatDates = (date) => {
+  if (!date) return "";
+  return new Date(date).toLocaleDateString("en-GB");
+}
+
 

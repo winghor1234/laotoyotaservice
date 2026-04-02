@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useEffect, useState } from 'react';
 import { useTranslation } from "react-i18next";
+import { formatDates } from '../../../utils/FormatDate';
 
-const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking }) => {
+const PopupApprove = ({ setShowPopup, bookingId, userId, fetchBooking , zoneName, zoneId}) => {
   const { t } = useTranslation("booking"); // namespace booking
   const navigate = useNavigate();
-  const [timeData, setTimeData] = useState([]);
   const [booking, setBooking] = useState([]);
 
 
@@ -19,7 +19,7 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
     try {
       const fixData = new URLSearchParams();
       fixData.append("bookingId", bookingId);
-      fixData.append("zoneId", timeData?.zoneId);
+      fixData.append("zoneId", zoneId);
 
       // console.log("zone id : ", timeData.zoneId);
 
@@ -30,7 +30,6 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
       await Promise.all([
         axiosInstance.post(APIPath.CREATE_FIX, fixData),
         axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId), { bookingStatus: "success" }),
-        // axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "false" }),
         axiosInstance.put(APIPath.UPDATE_POINT, pointData),
         axiosInstance.post(APIPath.SEND_NOTIFICATION, {
           deviceToken: "DEVICE_TOKEN",
@@ -47,15 +46,6 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
     }
   }
 
-  const handleFetchTime = async () => {
-    try {
-      const res = await axiosInstance.get(APIPath.SELECT_ONE_TIME(timeId));
-      setTimeData(res?.data?.data);
-      // console.log("time data:",res?.data?.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
   const handleFetchBooking = async () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingId));
@@ -67,7 +57,6 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
   }
 
   useEffect(() => {
-    handleFetchTime();
     handleFetchBooking();
   }, []);
 
@@ -81,7 +70,7 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
             <div className='flex flex-col items-center gap-1'>
               <CalendarDays className='text-lg text-gray-600' />
               <p className="font-medium text-gray-600 text-xs lg:text-sm">{t("date_label")}:</p>
-              <p className="text-gray-900 text-md lg:text-xl">{booking?.time?.date}</p>
+              <p className="text-gray-900 text-md lg:text-xl">{formatDates(booking?.day)}</p>
             </div>
             <div className='flex flex-col items-center gap-1'>
               <Clock3 className='text-lg text-gray-600' />
@@ -91,7 +80,7 @@ const PopupApprove = ({ setShowPopup, bookingId, timeId, userId, fetchBooking })
             <div className='flex flex-col items-center gap-1'>
               <MapPinned className='text-lg text-gray-600' />
               <p className="font-medium text-gray-600 text-xs lg:text-sm">{t("zone_label")}:</p>
-              <p className="text-gray-900 text-md lg:text-xl">{timeData?.zone?.zoneName}</p>
+              <p className="text-gray-900 text-md lg:text-xl">{zoneName}</p>
             </div>
             <div className='flex flex-col items-center gap-1'>
               <MapIcon className='text-lg text-gray-600' />

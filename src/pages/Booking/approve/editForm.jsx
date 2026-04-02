@@ -6,8 +6,9 @@ import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { Clock3 } from "lucide-react";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
+import { formatDates } from "../../../utils/FormatDate";
 
-const EditForm = ({ setShowEdit, bookingId, reload }) => {
+const EditForm = ({ setShowEdit, bookingId, reload, zoneName }) => {
   const { t } = useTranslation("booking");
 
   const [timesList, setTimesList] = useState([]);
@@ -152,10 +153,10 @@ const EditForm = ({ setShowEdit, bookingId, reload }) => {
                     key={item.time_id}
                     value={item.time_id}
                   >
-                    ເວລາ:{item.time} /
-                    ວັນທີ:{item.date} /
-                    ສາຂາ:{item.branch?.branch_name} /
-                    ໂຊນ:{item.zone?.zoneName}
+                    ເວລາ: {item.time} /
+                    ວັນທີ: {formatDates(booking?.day)} /
+                    ສາຂາ: {item.branch?.branch_name} /
+                    ໂຊນ: {zoneName}
                   </option>
                 ))}
               </select>

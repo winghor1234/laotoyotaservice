@@ -9,14 +9,15 @@ import APIPath from "../../../api/APIPath";
 import { useTranslation } from "react-i18next";
 import EditForm from "./editForm";
 import { useNavigate } from "react-router-dom";
+import { formatDates } from "../../../utils/FormatDate";
 
 const ReceiverCarDetail = () => {
   const { t } = useTranslation("booking");
   const { id: bookingId } = useParams();
 
   const [booking, setBooking] = useState(null);
-  const [timeData, setTimeData] = useState(null);
   const [bookingDetail, setBookingDetail] = useState([]);
+  const [timeFixData, setTimeFixData] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [rejectZone, setRejectZone] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -25,7 +26,7 @@ const ReceiverCarDetail = () => {
 
 
 
-  // 🔥 single source loader (no race condition)
+
   const loadAllData = useCallback(async () => {
     try {
       // 1️⃣ fetch booking
@@ -33,24 +34,22 @@ const ReceiverCarDetail = () => {
         APIPath.SELECT_ONE_BOOKING(bookingId)
       );
       const bookingData = bookingRes?.data?.data;
-      console.log("booking data:", bookingData);
+      // console.log("booking data:", bookingData);
       setBooking(bookingData);
       setSelectedTimeId(bookingData.timeId);
       // console.log("booking data time id :", bookingData?.timeId);
 
-      // 2️⃣ fetch time from booking.timeId
-      if (bookingData?.timeId) {
-        const timeRes = await axiosInstance.get(
-          APIPath.SELECT_ONE_TIME(bookingData.timeId)
-        );
-        setTimeData(timeRes?.data?.data);
-      }
 
       // 3️⃣ fetch booking detail
       const detailRes = await axiosInstance.get(
         APIPath.SELECT_BOOKING_DETAIL_BY(bookingId)
       );
       setBookingDetail(detailRes?.data?.data);
+
+      // fetch timeFix
+      const timeFixRes = await axiosInstance.get(APIPath.SELECT_ALL_TIME_FIX);
+      setTimeFixData(timeFixRes?.data?.data);
+      // console.log("time fix data:", timeFixRes?.data?.data);
 
     } catch (error) {
       console.log(error);
@@ -62,7 +61,9 @@ const ReceiverCarDetail = () => {
   }, [loadAllData]);
 
   const userId = booking?.userId;
-  // console.log("selected time :", selectedTimeId);
+  const selectedTimeFix = timeFixData.find((item) => item?.timeId === selectedTimeId);
+  const zoneName = selectedTimeFix?.zone?.zoneName;
+  const zoneId = selectedTimeFix?.zoneId;
 
   return (
     <div className="relative min-h-screen bg-gray-50 p-4">
@@ -125,7 +126,7 @@ const ReceiverCarDetail = () => {
 
             <div>
               <p className="text-gray-500 text-sm">{t("date_label")}</p>
-              <p>{booking?.time?.date}</p>
+              <p>{formatDates(booking?.day)}</p>
             </div>
 
             <div>
@@ -135,7 +136,7 @@ const ReceiverCarDetail = () => {
 
             <div>
               <p className="text-gray-500 text-sm">{t("zone_label")}</p>
-              <p>{timeData?.zone?.zoneName}</p>
+              <p>{zoneName}</p>
             </div>
 
             <div>
@@ -241,7 +242,7 @@ const ReceiverCarDetail = () => {
 
             <div>
               <p className="text-gray-500">{t("date_label")}</p>
-              <p>{booking?.time?.date}</p>
+              <p>{formatDates(booking?.day)}</p>
             </div>
 
             <div>
@@ -251,7 +252,7 @@ const ReceiverCarDetail = () => {
 
             <div>
               <p className="text-gray-500">{t("zone_label")}</p>
-              <p>{timeData?.zone?.zoneName}</p>
+              <p>{zoneName}</p>
             </div>
 
             <div>
@@ -308,8 +309,10 @@ const ReceiverCarDetail = () => {
           setShowPopup={setShowPopup}
           bookingId={bookingId}
           userId={userId}
-          timeId={selectedTimeId}
+          // timeId={selectedTimeId}
           fetchBooking={loadAllData}
+          zoneName={zoneName}
+          zoneId={zoneId}
         />
       )}
 
@@ -319,6 +322,7 @@ const ReceiverCarDetail = () => {
           bookingId={bookingId}
           timeId={selectedTimeId}
           fetchBooking={loadAllData}
+          zoneName={zoneName}
         />
       )}
 
@@ -327,6 +331,7 @@ const ReceiverCarDetail = () => {
           setShowEdit={setEdit}
           bookingId={bookingId}
           reload={loadAllData}
+          zoneName={zoneName}
         />
       )}
 

@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import SelectDate from "../../../utils/SelectDate";
 import ExportExcelPopup from "../../../utils/exportExelPopup";
 import DownloadButton from "../../../utils/DownloadButton";
+import {  formatDates } from "../../../utils/FormatDate";
 
 
 
@@ -20,10 +21,12 @@ const Approve = () => {
   const branch_id = useEmployeeBranchId();
   const [open, setOpen] = useState(false);
 
+
+
   // ===============================
   // useServerFilterPagination
   // ===============================
-  const isReady = role === "super_admin" || (!!role && !!branch_id);
+  const isReady = role === "super_admin" || !!branch_id;
   const {
     data: booking,
     page,
@@ -61,7 +64,7 @@ const Approve = () => {
   }, [role, branch_id]);
 
 
-
+  // console.log("Booking data:", booking);
 
   // Navigate Approve
   const handleApprove = (BookingId, timeId) => {
@@ -131,7 +134,7 @@ const Approve = () => {
                   {item?.car?.plateNumber}
                 </div>
                 <div className="text-sm text-center">
-                  {item?.time?.date}
+                  {formatDates(item?.day)}
                 </div>
                 <div className="text-sm text-center">
                   {item?.time?.time}

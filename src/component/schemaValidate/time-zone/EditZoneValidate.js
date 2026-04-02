@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 
 const EditZoneSchema = (t) => z.object({
     zoneName: z.string().min(1, t("min_length_1")),
-    timeFix: z.string().min(1, t("min_length_1")),
 });
 
 
@@ -25,7 +24,6 @@ export const useEditZoneForm = ({ zoneId, fetchZone, onClose }) => {
         if (resData) {
             reset({
                 zoneName: resData.zoneName,
-                timeFix: resData.timeFix,
             });
         }
     };

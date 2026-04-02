@@ -8,7 +8,6 @@ const EditTimeFix = ({ show, onClose, timefix_id, fetchTimeFix }) => {
     const { register, handleSubmit, formState: { errors }, loading, submitForm, zone, time, branch } = useEditTimeFixForm({ onClose, timefix_id, fetchTimeFix });
 
     if (!show) return null;
-
     return (
         <>
             <div className="fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity" onClick={onClose} />
@@ -23,7 +22,7 @@ const EditTimeFix = ({ show, onClose, timefix_id, fetchTimeFix }) => {
                                 {...register("timeId")}
                                 className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
                             >
-                                <option value="" disabled>{t("selectZone")}</option>
+                                <option value="" disabled>{t("selectTime")}</option>
                                 {time.length > 0 ? time.map(time => (
                                     <option key={time.time_id} value={time.time_id}>{time.time}</option>
                                 )) : <option value="">{t("noTime")}</option>}
@@ -37,7 +36,7 @@ const EditTimeFix = ({ show, onClose, timefix_id, fetchTimeFix }) => {
                                 {...register("zoneId")}
                                 className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
                             >
-                                <option value="" disabled>{t("selectTime")}</option>
+                                <option value="" disabled>{t("selectZone")}</option>
                                 {zone.length > 0 ? zone.map(zone => (
                                     <option key={zone.zone_id} value={zone.zone_id}>{zone.zoneName}</option>
                                 )) : <option value="">{t("noZone")}</option>}

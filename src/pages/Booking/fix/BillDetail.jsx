@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import html2pdf from "html2pdf.js";
 import logo from "../../../assets/logo.jpg";
 import { formatNewDate } from "../../../utils/formatNewDate";
+import { formatDates } from "../../../utils/FormatDate";
 
 
 // ฟังก์ชัน generate Bill ID แบบมาตรฐาน
@@ -142,7 +143,7 @@ const BillDetail = () => {
                     <div><strong>{t("plateNumber")}</strong>: {booking?.car?.plateNumber}</div>
                     <div><strong>{t("carModel")}</strong>: {booking?.car?.model}</div>
                     <div><strong>{t("zone_label")}</strong>: {zone?.zoneName}</div>
-                    <div><strong>{t("date_label")}</strong>: {booking?.time?.date}</div>
+                    <div><strong>{t("date_label")}</strong>: {formatDates(booking?.day)}</div>
                 </div>
 
                 <div className="mt-6">

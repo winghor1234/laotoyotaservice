@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 const EditTimeFixSchema = (t) => z.object({
     timeId: z.string().min(1, t("min_length_1")),
     zoneId: z.string().min(1, t("min_length_1")),
+    branchId: z.string().min(1, t("min_length_1")), // new
 });
 
 export const useEditTimeFixForm = ({ timefix_id , fetchTimeFix, onClose }) => {
@@ -52,7 +53,7 @@ export const useEditTimeFixForm = ({ timefix_id , fetchTimeFix, onClose }) => {
     }, []);
 
     const submitForm = async (data) => {
-        // console.log("time fix date ; ",data);
+        console.log("time fix data : ",data);
         setLoading(true);
         try {
             await axiosInstance.put(APIPath.UPDATE_TIME_FIX(timefix_id), data);

@@ -8,7 +8,7 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
   const { register, handleSubmit, formState: { errors }, users = [], onSubmit, handleBack } = useAddCarForm({ handleFetchCar, onClose });
   const {t} = useTranslation("car"); 
   const fields = [
-    { name: 'model', labelKey: 'model', placeholderKey: 'model_placeholder' },
+    { name: 'model', labelKey: 'car_model', placeholderKey: 'model_placeholder' },
     { name: 'engineNumber', labelKey: 'engine', placeholderKey: 'engine_placeholder' },
     { name: 'frameNumber', labelKey: 'frame', placeholderKey: 'frame_placeholder' },
     { name: 'plateNumber', labelKey: 'plate', placeholderKey: 'plate_placeholder' },
@@ -76,7 +76,7 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
                 <option value="">{t("choose_customer")}</option>
                 {(users || []).map((user) => (
                   <option key={user.user_id} value={user.user_id}>
-                    {user.customer_number}
+                    {user.customer_number } - {user.username} {user?.car?.plateNumber ? `(${user.car.plateNumber})` : ''}
                   </option>
                 ))}
               </select>

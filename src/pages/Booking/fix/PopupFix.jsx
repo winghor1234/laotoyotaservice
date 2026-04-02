@@ -4,9 +4,9 @@ import { useFixForm } from "../../../component/schemaValidate/fixValidate/PopupF
 import { useTranslation } from "react-i18next";
 import CurrencyInput from "react-currency-input-field";
 
-const PopupFix = ({ setShowPopup, bookingId, timeId }) => {
+const PopupFix = ({ setShowPopup, bookingId, timeId, zoneId }) => {
   const { t } = useTranslation("booking");
-  const { register, handleSubmit, errors, submitForm, setValue, watch } = useFixForm({ bookingId, timeId });
+  const { register, handleSubmit, errors, submitForm, setValue, watch } = useFixForm({ bookingId, timeId, zoneId });
 
   const fixCarPrice = watch("fixCarPrice") || 0;
   const carPartPrice = watch("carPartPrice") || 0;

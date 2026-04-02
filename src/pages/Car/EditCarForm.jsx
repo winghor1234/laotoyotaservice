@@ -6,26 +6,24 @@ import { useTranslation } from "react-i18next";
 
 const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
   const { t } = useTranslation("car");
-  const { register, handleSubmit, submitForm, users,} = useEditCarForm({ carId, handleFetchCar, onClose });
-
+  const { register, handleSubmit, submitForm, users } = useEditCarForm({ carId, handleFetchCar, onClose });
+console.log("users in edit form : ", users);
   return (
     <>
       {/* Blur background */}
       <div
-        className={`fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity ${
-          show
+        className={`fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity ${show
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
-        }`}
+          }`}
         onClick={onClose}
       />
       {/* Popup */}
       <div
-        className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-gray-50 rounded-2xl shadow-lg w-full max-w-3xl p-4 sm:p-6 text-sm transition-all ${
-          show
+        className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-gray-50 rounded-2xl shadow-lg w-full max-w-3xl p-4 sm:p-6 text-sm transition-all ${show
             ? "scale-100 opacity-100"
             : "scale-90 opacity-0 pointer-events-none"
-        }`}
+          }`}
       >
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
@@ -83,10 +81,10 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
                 {...register("userId")}
                 className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500 transition-colors"
               >
-                {/* <option value="">{t("select_customer")}</option> */}
+                <option value="">{t("select_customer")}</option>
                 {users.map((user) => (
                   <option key={user.user_id} value={String(user.user_id)}>
-                    {user.customer_number} - {user.username}
+                    {user.customer_number} {user.username}
                   </option>
                 ))}
               </select>

@@ -1,7 +1,6 @@
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { useEffect, useState } from "react";
-import BookingSearch from "../../../utils/BookingSearch";
 import { useTranslation } from "react-i18next";
 import { useCheckRole } from "../../../utils/checkRole";
 import { useEmployeeBranchId } from "../../../utils/useEmployeeBranchId";
@@ -10,6 +9,7 @@ import SelectDate from "../../../utils/SelectDate";
 import ExportExcelPopup from "../../../utils/exportExelPopup";
 import useServerFilterPagination from "../../../utils/useServerFilterPagination";
 import DownloadButton from "../../../utils/DownloadButton";
+import { formatDates } from "../../../utils/FormatDate";
 
 const Cancel = () => {
     const { t } = useTranslation("booking"); // ใช้ namespace "booking"
@@ -64,9 +64,12 @@ const Cancel = () => {
         navigate(`/user/cancel-detail/${id}`);
     }
 
+
     useEffect(() => {
         fetchData();
     }, [role, branch_id]);
+
+
 
     return (
         <div>
@@ -129,7 +132,7 @@ const Cancel = () => {
                                     {item?.car?.plateNumber}
                                 </div>
                                 <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center line-clamp-1">
-                                    {item?.time?.date}
+                                    {formatDates(item?.day)}
                                 </div>
                                 <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center line-clamp-1">
                                     {item?.time?.time}

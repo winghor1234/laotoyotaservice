@@ -161,6 +161,7 @@ export default class APIPath {
 
     // time Fix
     static SEARCH_TIME_FIX = `${this.BASE_URL}/timefix/search`;
+    static SELECT_ALL_TIME_FIX = `${this.BASE_URL}/timefix/selAll`;
     static SELECT_ONE_TIME_FIX(id) { return `${this.BASE_URL}/timefix/selOne/${id}` }
     static GET_ALL_TIME_FIX = `${this.BASE_URL}/timefix/getAll`;
     static CREATE_TIME_FIX = `${this.BASE_URL}/timefix/insert`;

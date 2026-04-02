@@ -20,7 +20,7 @@ const fixSchema = (t) =>
     totalPrice: z.coerce.number().min(1, t("min_length_1")),
   });
 
-export const useFixForm = ({ bookingId, timeId }) => {
+export const useFixForm = ({ bookingId, timeId, zoneId }) => {
   const { t } = useTranslation("auth");
   const [fixes, setFixes] = useState([]);
   const navigate = useNavigate();
@@ -35,6 +35,7 @@ export const useFixForm = ({ bookingId, timeId }) => {
   const fetchFix = async () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ALL_FIX);
+      // console.log("fix: " ,res);
       setFixes(res?.data?.data || []);
     } catch (error) {
       console.log(error);
@@ -49,9 +50,8 @@ export const useFixForm = ({ bookingId, timeId }) => {
   const submitForm = async (data) => {
     try {
       const fixToUpdate = fixes.find((fix) => fix.bookingId === bookingId);
+      console.log("this", bookingId);
       if (!fixToUpdate) return;
-
-      const zoneId = fixToUpdate?.zoneId;
 
       const formData = new URLSearchParams({
         bookingId,
@@ -66,8 +66,7 @@ export const useFixForm = ({ bookingId, timeId }) => {
 
       await axiosInstance.put(APIPath.UPDATE_FIX_STATUS(fixToUpdate.fix_id), formData);
       await axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "true" });
-      await axiosInstance.put(APIPath.UPDATE_ZONE_STATUS(fixToUpdate.zoneId), { zoneStatus: "true" });
-
+      await axiosInstance.put(APIPath.UPDATE_ZONE_STATUS(zoneId), { zoneStatus: "true" });
       SuccessAlert(t("fix_success"));
       navigate(`/user/billDetail/${fixToUpdate.fix_id}`);
     } catch (error) {

@@ -26,7 +26,7 @@ const useServerFilterPagination = ({
             setLoading(true);
             const res = await apiCall({ page, limit, search, startDate, endDate, status });
             const result = res?.data?.data || {};
-            console.log("result", result);
+            // console.log("result", result);
 
             setData(result?.data || []);
             setTotalPage(Number(result.totalPage) || 1);

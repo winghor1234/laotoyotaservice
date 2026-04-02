@@ -54,7 +54,7 @@ const ZoneList = () => {
     const handleDelete = async (id) => {
         const confirm = await DeleteAlert(
             t("zoneDeleteConfirm"),
-            t("ZoneDeleteSuccess")
+            t("zoneDeleteSuccess")
         );
         if (confirm) {
             await axiosInstance.delete(APIPath.DELETE_ZONE(id));
@@ -124,11 +124,6 @@ const ZoneList = () => {
                                 {item.zoneName}
                             </div>
 
-                            <div className="mt-2 ml-4 flex items-center gap-3">
-                                <Clock3 />
-                                {item.timeFix} {t("minuteLabel")}
-                            </div>
-
                             <div className="mt-2 ml-4 font-semibold">
                                 {item.zoneStatus ? t("statusFree") : t("statusFull")}
                             </div>
@@ -157,7 +152,7 @@ const ZoneList = () => {
                                     e.stopPropagation();
                                     handleToggleStatus(item);
                                 }}
-                                className="mt-2 px-2 py-1 bg-white text-black rounded text-sm"
+                                className="my-2 px-2 py-1 bg-white text-black rounded text-sm"
                             >
                                 {item.zoneStatus ? t("statusFree") : t("statusFull")}
                             </button>

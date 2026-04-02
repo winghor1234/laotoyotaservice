@@ -11,6 +11,7 @@ import ExportExcelPopup from "../../../utils/exportExelPopup";
 import useServerFilterPagination from "../../../utils/useServerFilterPagination";
 import SelectDate from "../../../utils/SelectDate";
 import DownloadButton from "../../../utils/DownloadButton";
+import { formatDates } from "../../../utils/FormatDate";
 
 const Success = () => {
     const navigate = useNavigate();
@@ -130,7 +131,7 @@ const Success = () => {
                             <div className="text-center line-clamp-1">{item?.booking?.user?.username}</div>
                             <div className="text-center line-clamp-1">{item?.booking?.user?.phoneNumber}</div>
                             <div className="text-center line-clamp-1">{item?.booking?.car?.plateNumber}</div>
-                            <div className="text-center line-clamp-1">{item?.booking?.time?.date}</div>
+                            <div className="text-center line-clamp-1">{formatDates(item?.booking?.day)}</div>
                             <div className="text-center line-clamp-1">{item?.booking?.time?.time}</div>
                         </div>
                     ))}

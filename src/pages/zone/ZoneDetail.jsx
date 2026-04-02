@@ -51,12 +51,6 @@ const ZoneDetail = () => {
                                 </div>
                                 <p className="text-gray-900 text-xl">{zone?.zoneName}</p>
                             </div>
-                            <div className="space-y-3 py-4 flex flex-col items-center">
-                                <p className="font-medium text-gray-500 text-sm lg:text-lg">
-                                    {t("timeFixLabel")}
-                                </p>
-                                <p className="text-gray-900 text-xl">{zone?.timeFix}</p>
-                            </div>
                         </div>
                     </div>
 

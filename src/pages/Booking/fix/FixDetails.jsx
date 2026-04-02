@@ -6,23 +6,24 @@ import APIPath from "../../../api/APIPath";
 import PopupFix from "./PopupFix";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { formatDates } from "../../../utils/FormatDate";
 
 const FixDetails = () => {
   const { t } = useTranslation("booking");
   const { id } = useParams();
   const [showPopup, setShowPopup] = useState(false);
-  const [fixData, setFixData] = useState([]);
+  const [booking, setBooking] = useState([]);
   const [bookingId, setBookingId] = useState("");
   const [timeId, setTimeId] = useState("");
   const [service, setService] = useState([]);
-  const [zone, setZone] = useState([]);
+  const [timeFix, setTimeFix] = useState([]);
   const navigate = useNavigate();
 
 
   const fetchBooking = async () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(id));
-      setFixData(res?.data?.data);
+      setBooking(res?.data?.data);
     } catch (error) {
       console.log(error);
     }
@@ -35,16 +36,21 @@ const FixDetails = () => {
       console.log(error);
     }
   };
-
-  const zoneId = fixData?.time?.zoneId;
-  const fetchZone = async () => {
+  const fetchTimeFix = async () => {
     try {
-      const zoneRes = await axiosInstance.get(APIPath.SELECT_ONE_ZONE(zoneId));
-      setZone(zoneRes?.data?.data);
+      const timeFixRes = await axiosInstance.get(APIPath.SELECT_ALL_TIME_FIX);
+      setTimeFix(timeFixRes?.data?.data);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const timeIdInBooking = booking?.timeId;
+  const selectedTimeFix = timeFix.find((time) => time?.timeId === timeIdInBooking);
+  const zoneName = selectedTimeFix?.zone?.zoneName;
+  const zoneId = selectedTimeFix?.zoneId;
+
+
 
 
   const handleSubmit = (bookingId, timeId) => {
@@ -56,8 +62,8 @@ const FixDetails = () => {
   useEffect(() => {
     fetchBooking();
     fetchBooingDetail();
-    fetchZone();
-  }, [zoneId]);
+    fetchTimeFix();
+  }, []);
 
   return (
     <div style={{ background: "#f3f4f6", padding: "30px 0", fontFamily: "Arial, sans-serif", fontSize: "15px", lineHeight: "1.6", color: "#111827" }}>
@@ -89,23 +95,23 @@ const FixDetails = () => {
           {/* Left: Customer */}
           <div style={{ width: "48%" }}>
             <h3 style={{ marginBottom: "10px", fontSize: "16px", color: "#374151" }}>{t("customer_info")}</h3>
-            <p><strong>{t("customer_name")}:</strong> {fixData?.user?.username}</p>
-            <p><strong>{t("customer_phone")}:</strong> {fixData?.user?.phoneNumber}</p>
+            <p><strong>{t("customer_name")}:</strong> {booking?.user?.username}</p>
+            <p><strong>{t("customer_phone")}:</strong> {booking?.user?.phoneNumber}</p>
 
             <h3 style={{ margin: "15px 0 10px 0", fontSize: "16px", color: "#374151" }}>{t("appointment_time")}</h3>
-            <p><strong>{t("zone_label")}:</strong> {zone?.zoneName}</p>
-            <p><strong>{t("branch_label")}:</strong> {fixData?.branch?.branch_name}</p>
-            <p><strong>{t("date_label")}:</strong> {fixData?.time?.date}</p>
-            <p><strong>{t("time_label")}:</strong> {fixData?.time?.time}</p>
+            <p><strong>{t("zone_label")}:</strong> {zoneName}</p>
+            <p><strong>{t("branch_label")}:</strong> {booking?.branch?.branch_name}</p>
+            <p><strong>{t("date_label")}:</strong> {formatDates(booking?.day)}</p>
+            <p><strong>{t("time_label")}:</strong> {booking?.time?.time}</p>
           </div>
 
           {/* Right: Car + Appointment */}
           <div style={{ width: "48%" }}>
             <h3 style={{ marginBottom: "10px", fontSize: "16px", color: "#374151" }}>{t("car_info")}</h3>
-            <p><strong>{t("plate_number")}:</strong> {fixData?.car?.plateNumber}</p>
-            <p><strong>{t("engine_number")}:</strong> {fixData?.car?.engineNumber}</p>
-            <p><strong>{t("frame_number")}:</strong> {fixData?.car?.frameNumber}</p>
-            <p><strong>{t("car_model")}:</strong> {fixData?.car?.model}</p>
+            <p><strong>{t("plate_number")}:</strong> {booking?.car?.plateNumber}</p>
+            <p><strong>{t("engine_number")}:</strong> {booking?.car?.engineNumber}</p>
+            <p><strong>{t("frame_number")}:</strong> {booking?.car?.frameNumber}</p>
+            <p><strong>{t("car_model")}:</strong> {booking?.car?.model}</p>
           </div>
         </div>
 
@@ -128,7 +134,7 @@ const FixDetails = () => {
                   <tr key={index}>
                     <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{index + 1}</td>
                     <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{item?.service?.serviceName}</td>
-                    <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{fixData?.remark || "-"}</td>
+                    <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{booking?.remark || "-"}</td>
                   </tr>
                 ))}
               </tbody>
@@ -142,14 +148,14 @@ const FixDetails = () => {
 
         {/* Action Button */}
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button onClick={() => handleSubmit(fixData?.booking_id, fixData?.timeId)} style={btnGreen}>
+          <button onClick={() => handleSubmit(booking?.booking_id, booking?.timeId)} style={btnGreen}>
             {t("complete_fix")}
           </button>
         </div>
       </div>
 
       {showPopup && (
-        <PopupFix setShowPopup={setShowPopup} bookingId={bookingId} timeId={timeId} />
+        <PopupFix setShowPopup={setShowPopup} bookingId={bookingId} timeId={timeId} zoneId={zoneId} />
       )}
     </div>
   );

@@ -28,17 +28,6 @@ const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
                                 {errors.zoneName && <span className="text-red-500 text-xs">{errors.zoneName.message}</span>}
                             </div>
                         </div>
-                        <div className="flex flex-col">
-                            <input
-                                type="text"
-                                {...register("timeFix")}
-                                placeholder={t("timeFix")}
-                                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-                            />
-                            <div className="h-6">
-                                {errors.timeFix && <span className="text-red-500 text-xs">{errors.timeFix.message}</span>}
-                            </div>
-                        </div>
                     </div>
 
                     {/* Buttons */}

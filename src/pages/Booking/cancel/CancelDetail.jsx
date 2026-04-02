@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { useTranslation } from "react-i18next";
+import { formatDates } from "../../../utils/FormatDate";
 
 const CancelDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { t } = useTranslation("booking");
-
     const [data, setData] = useState({});
+    const [timeFix, setTimeFix] = useState([]);
 
     useEffect(() => {
         const fetchAllData = async () => {
@@ -19,14 +20,27 @@ const CancelDetail = () => {
                 const CancelData = Data?.data?.data;
 
                 setData(CancelData);
-                
+
             } catch (error) {
                 console.error("Error fetching cancel data:", error);
             }
         };
 
+        const handleFetchTimeFix = async () => {
+            try {
+                const res = await axiosInstance.get(APIPath.SELECT_ALL_TIME_FIX);
+                setTimeFix(res?.data?.data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
         fetchAllData();
+        handleFetchTimeFix()
     }, [id]);
+
+    const zoneData = timeFix.find((item) => item?.timeId === data?.timeId);
+    const zoneName = zoneData?.zone?.zoneName
 
     return (
         <div className="border relative h-[470px] overflow-y-auto bg-gray-50 px-3 py-2 sm:px-2 sm:py-4 lg:px-4 lg:py-6 max-w-7xl mx-auto rounded-2xl shadow-md">
@@ -68,11 +82,11 @@ const CancelDetail = () => {
                     </div>
                     <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
                         <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("zone")}</p>
-                        <p className="text-gray-800 font-medium text-sm">{data?.zoneName}</p>
+                        <p className="text-gray-800 font-medium text-sm">{zoneName}</p>
                     </div>
                     <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
                         <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("date_label")}</p>
-                        <p className="text-gray-800 font-medium text-sm">{data?.time?.date}</p>
+                        <p className="text-gray-800 font-medium text-sm">{formatDates(data?.day)}</p>
                     </div>
                     <div className="bg-gray-50 p-3 rounded-lg text-center flex-1 min-w-[120px]">
                         <p className="font-medium text-gray-500 text-xs sm:text-sm mb-1">{t("time_label")}</p>

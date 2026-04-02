@@ -11,6 +11,7 @@ import useServerFilterPagination from "../../../utils/useServerFilterPagination"
 import ExportExcelPopup from "../../../utils/exportExelPopup";
 import SelectDate from "../../../utils/SelectDate";
 import DownloadButton from "../../../utils/DownloadButton";
+import { formatDates } from "../../../utils/FormatDate";
 
 
 const FixList = () => {
@@ -58,11 +59,24 @@ const FixList = () => {
     },
   });
 
+  // const handleFetchFix = async () => {
+  //   try {
+  //     const res = await axiosInstance.get(APIPath.SELECT_ALL_FIX);
+  //     setFixes(res?.data?.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+
   useEffect(() => {
     if (role === "super_admin" || (role && branch_id)) {
       fetchData();
+      // handleFetchFix();
     }
   }, [role, branch_id]);
+
+
 
   // console.log("booking :", booking);
 
@@ -152,7 +166,7 @@ const FixList = () => {
               <div className="text-center">{item?.user?.username}</div>
               <div className="text-center">{item?.user?.phoneNumber}</div>
               <div className="text-center">{item?.car?.plateNumber}</div>
-              <div className="text-center">{item?.time?.date}</div>
+              <div className="text-center">{formatDates(item?.day)}</div>
               <div className="text-center">{item?.time?.time}</div>
               <div className="flex justify-center items-center">
                 <Eye className="w-4 h-4 md:w-5 md:h-5" />

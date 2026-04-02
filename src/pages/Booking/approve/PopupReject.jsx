@@ -5,11 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useEffect, useState } from 'react';
 import { useTranslation } from "react-i18next";
+import { formatDates } from '../../../utils/FormatDate';
 
-const PopupReject = ({ setRejectZone, bookingId, timeId, fetchBooking }) => {
+const PopupReject = ({ setRejectZone, bookingId, timeId, fetchBooking, zoneName }) => {
   const { t } = useTranslation("booking"); // namespace booking
   const navigate = useNavigate();
   const [timeData, setTimeData] = useState([]);
+  const [booking, setBooking] = useState([]);
 
   const handleChangeStatus = async () => {
     try {
@@ -32,9 +34,18 @@ const PopupReject = ({ setRejectZone, bookingId, timeId, fetchBooking }) => {
       console.log(error);
     }
   }
+  const handleFetchBooking= async () => {
+    try {
+      const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingId));
+      setBooking(res?.data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     handleFetchTime();
+    handleFetchBooking();
   }, []);
 
   return (
@@ -47,7 +58,7 @@ const PopupReject = ({ setRejectZone, bookingId, timeId, fetchBooking }) => {
             <div className='flex flex-col items-center gap-1'>
               <CalendarDays className='text-lg text-gray-600' />
               <p className="font-medium text-gray-600 text-xs lg:text-sm">{t("date_label")}:</p>
-              <p className="text-gray-900 text-md lg:text-xl">{timeData?.date}</p>
+              <p className="text-gray-900 text-md lg:text-xl">{formatDates(booking?.day)}</p>
             </div>
             <div className='flex flex-col items-center gap-1'>
               <Clock3 className='text-lg text-gray-600' />
@@ -57,7 +68,7 @@ const PopupReject = ({ setRejectZone, bookingId, timeId, fetchBooking }) => {
             <div className='flex flex-col items-center gap-1'>
               <MapPinned className='text-lg text-gray-600' />
               <p className="font-medium text-gray-600 text-xs lg:text-sm">{t("zone_label")}:</p>
-              <p className="text-gray-900 text-md lg:text-xl">{timeData?.branch?.branch_name}</p>
+              <p className="text-gray-900 text-md lg:text-xl">{zoneName}</p>
             </div>
           </div>
         </div>

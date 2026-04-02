@@ -254,7 +254,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const [activeChild, setActiveChild] = useState(null);
 
   const currentPath = location.pathname;
-  const isPath = (path) => currentPath.startsWith(path);
+  const isPath = (path) => {
+    return currentPath === path || currentPath.startsWith(path + "/");
+  };
 
   const toggleDropdown = (id) => {
     setOpenDropdown((prev) => ({

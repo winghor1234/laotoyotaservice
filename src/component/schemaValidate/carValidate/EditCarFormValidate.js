@@ -22,6 +22,7 @@ const editCarSchema = (t) =>z.object({
 export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
     const { t } = useTranslation("auth");
     const [users, setUsers] = useState([]);
+    const [car, setCar] = useState([]);
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({
          
         resolver: zodResolver(editCarSchema(t))
@@ -40,6 +41,7 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
 
                 // ตั้งค่า default values ของ form ให้ตรงกับข้อมูลรถ
                 const carData = carResponse?.data?.data;
+                setCar(carData);
                 if (carData) {
                     reset({
                         userId: String(carData.userId) || "",
@@ -71,5 +73,5 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
     };
 
 
-    return { register,handleSubmit,submitForm,formState: { errors },users,reset, };
+    return { register,handleSubmit,submitForm,formState: { errors },users,reset, car };
 }

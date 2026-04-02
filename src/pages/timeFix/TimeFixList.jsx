@@ -61,6 +61,7 @@ const TimeFixList = () => {
             fetchData();
         }
     };
+    console.log("time fix : ",timeFix);
 
     return (
         <div>
@@ -95,10 +96,10 @@ const TimeFixList = () => {
                                 {item?.time?.time}
                             </div>
 
-                            <div className="mt-2 flex items-center gap-2">
+                            {/* <div className="mt-2 flex items-center gap-2">
                                 <Calendar />
                                 {item?.time?.date}
-                            </div>
+                            </div> */}
 
                             <div className="mt-2 flex items-center gap-2 font-semibold">
                                 <MapPinned />

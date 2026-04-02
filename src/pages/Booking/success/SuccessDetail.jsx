@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { useTranslation } from "react-i18next";
+import { formatDates } from "../../../utils/FormatDate";
+import { FormatNumber } from "../../../utils/FormatNumber";
 
 const SuccessDetail = () => {
   const { id } = useParams();
@@ -81,7 +83,7 @@ const SuccessDetail = () => {
             <h3 style={{ margin: "15px 0 10px 0", fontSize: "16px", color: "#374151" }}>{t("appointment_time")}</h3>
             <p><strong>{t("zone_label")}:</strong> {zone?.zoneName}</p>
             <p><strong>{t("branch_label")}:</strong> {booking?.branch?.branch_name}</p>
-            <p><strong>{t("date_label")}:</strong> {booking?.time?.date}</p>
+            <p><strong>{t("date_label")}:</strong> {formatDates(booking?.day)}</p>
             <p><strong>{t("time_label")}:</strong> {booking?.time?.time}</p>
           </div>
 
@@ -129,15 +131,15 @@ const SuccessDetail = () => {
             <tbody>
               <tr>
                 <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{t("fixCarPrice")}</td>
-                <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{data?.fixCarPrice} ກີບ</td>
+                <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{FormatNumber(data?.fixCarPrice)} ກີບ</td>
               </tr>
               <tr>
                 <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{t("carPartPrice")}</td>
-                <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{data?.carPartPrice} ກີບ</td>
+                <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{FormatNumber(data?.carPartPrice)} ກີບ</td>
               </tr>
               <tr>
                 <td style={{ border: "1px solid #e5e7eb", padding: "8px", fontWeight: "600", color: "#16a34a" }} colSpan={2} align="center">
-                  {t("totalPrice")}: {data?.totalPrice} ກີບ
+                  {t("totalPrice")}: {FormatNumber(data?.totalPrice)} ກີບ
                 </td>
               </tr>
             </tbody>

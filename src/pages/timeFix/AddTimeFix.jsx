@@ -24,19 +24,6 @@ const AddTimeFix = ({ show, onClose, fetchTimeFix }) => {
         <form onSubmit={handleSubmit(submitForm)} className="space-y-3 sm:space-y-4">
           <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
             <select
-              {...register("zoneId")}
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-            >
-              <option value="" disabled>{t("selectZone")}</option>
-              {zone.length > 0 ? zone.map(zone => (
-                <option key={zone.zone_id} value={zone.zone_id}>{zone.zoneName}</option>
-              )) : <option value="">{t("noZone")}</option>}
-            </select>
-            <div className="h-6">
-              {errors.zoneId && <p className="text-red-500 text-sm">{errors.zoneId.message}</p>}
-            </div>
-
-            <select
               {...register("timeId")}
               className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
             >
@@ -47,6 +34,20 @@ const AddTimeFix = ({ show, onClose, fetchTimeFix }) => {
             </select>
             <div className="h-6">
               {errors.timeId && <p className="text-red-500 text-sm">{errors.timeId.message}</p>}
+            </div>
+
+
+            <select
+              {...register("zoneId")}
+              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+            >
+              <option value="" disabled>{t("selectZone")}</option>
+              {zone.length > 0 ? zone.map(zone => (
+                <option key={zone.zone_id} value={zone.zone_id}>{zone.zoneName}</option>
+              )) : <option value="">{t("noZone")}</option>}
+            </select>
+            <div className="h-6">
+              {errors.zoneId && <p className="text-red-500 text-sm">{errors.zoneId.message}</p>}
             </div>
 
             <select

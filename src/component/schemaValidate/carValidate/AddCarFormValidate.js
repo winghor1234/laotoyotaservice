@@ -9,19 +9,19 @@ import { useTranslation } from 'react-i18next';
 
 
 const addCarSchema = (t) => z.object({
-//   userId: z.string().min(2, t("min_length_2")),
-  model: z.string().min(2, t("min_length_2")),
-  engineNumber: z.string().min(2, t("min_length_2")),
-  frameNumber: z.string().min(2, t("min_length_2")),
-  plateNumber: z.string().min(2, t("min_length_2")),
-  province: z.string().min(2, t("min_length_2")),
-  color: z.string().min(2, t("min_length_2")),
+    userId: z.string().optional(),
+    model: z.string().min(2, t("min_length_2")),
+    engineNumber: z.string().min(2, t("min_length_2")),
+    frameNumber: z.string().min(2, t("min_length_2")),
+    plateNumber: z.string().min(2, t("min_length_2")),
+    province: z.string().min(2, t("min_length_2")),
+    color: z.string().min(2, t("min_length_2")),
 });
 
-export const useAddCarForm = ({handleFetchCar, onClose}) => {
+export const useAddCarForm = ({ handleFetchCar, onClose }) => {
     const { t } = useTranslation("auth");
     const [users, setUsers] = useState([]);
-    const { register,handleSubmit,formState: { errors },reset,} = useForm({resolver: zodResolver(addCarSchema(t)),});
+    const { register, handleSubmit, formState: { errors }, reset, } = useForm({ resolver: zodResolver(addCarSchema(t)), });
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -36,6 +36,7 @@ export const useAddCarForm = ({handleFetchCar, onClose}) => {
     }, []);
 
     const onSubmit = async (data) => {
+        console.log("car data : ",data);
         try {
             await axiosInstance.post(APIPath.CREATE_CAR, data);
             handleFetchCar();
@@ -54,5 +55,5 @@ export const useAddCarForm = ({handleFetchCar, onClose}) => {
     };
 
 
-    return { register,handleSubmit,formState: { errors },users, onSubmit, handleBack, reset,  };
+    return { register, handleSubmit, formState: { errors }, users, onSubmit, handleBack, reset, };
 }
