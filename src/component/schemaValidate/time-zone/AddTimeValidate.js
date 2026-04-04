@@ -21,6 +21,7 @@ export const useAddTimeForm = ({ onClose, fetchTime, addToExport }) => {
     const submitForm = async (data) => {
         setLoading(true);
         try {
+            // console.log("Time data : ", typeof(data.time), typeof(data.qty));
             await axiosInstance.post(APIPath.CREATE_TIME, data);
             SuccessAlert(t("add_success"));
             fetchTime();

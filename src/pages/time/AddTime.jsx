@@ -1,5 +1,4 @@
 import { useAddTimeForm } from "../../component/schemaValidate/time-zone/AddTimeValidate";
-import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
 import Spinner from "../../utils/Loading";
 import { useTranslation } from "react-i18next";
 
@@ -60,7 +59,7 @@ const AddTime = ({ show, onClose, fetchTime, addToExport }) => {
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-3">
             <button
               type="button"
-              onClick={() => { SuccessAlert(t("editTimeCancelMessage")); onClose(); }}
+              onClick={() => { onClose(); }}
               className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg w-full sm:w-28 h-10 cursor-pointer transition-colors text-sm"
               disabled={loading}
             >

@@ -116,7 +116,6 @@ const EditForm = ({ setShowEdit, bookingId, reload, zoneName }) => {
 
       await Promise.all(requests);
       SuccessAlert(t("edit_success"));
-      // reload parent data (zone will refresh correctly)
       await reload();
       setShowEdit(false);
 

@@ -49,7 +49,6 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
               <button
                 type="button"
                 onClick={() => {
-                  SuccessAlert(t("success_cancel"));
                   onClose();
                 }}
                 className="w-full py-2 border cursor-pointer border-gray-300 rounded-lg text-sm hover:bg-gray-100 transition-colors"

@@ -79,7 +79,7 @@ const AddUser = ({ show, onClose, handleFetch }) => {
 
                     {/* Action buttons */}
                     <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-3">
-                        <button onClick={() => { SuccessAlert(t("cancelSuccess")); onClose(); }} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg w-full sm:w-28 h-10 cursor-pointer transition-colors text-base">{t("cancel")}</button>
+                        <button onClick={() => {  onClose(); }} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg w-full sm:w-28 h-10 cursor-pointer transition-colors text-base">{t("cancel")}</button>
                         <button disabled={loading} type='submit' className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg w-full sm:w-28 h-10 cursor-pointer transition-colors text-base">{t("submit")}</button>
                     </div>
                 </form>

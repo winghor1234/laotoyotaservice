@@ -55,7 +55,6 @@ console.log("users in edit form : ", users);
               <button
                 type="button"
                 onClick={() => {
-                  SuccessAlert(t("cancel_edit_alert"));
                   onClose();
                 }}
                 className="w-full py-2 border cursor-pointer border-gray-300 rounded-lg text-sm hover:bg-gray-100 transition-colors"

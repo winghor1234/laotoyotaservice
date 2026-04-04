@@ -69,7 +69,6 @@ const AddPromotion = ({ show, onClose, handleFetchPromotion }) => {
             <button
               type="button"
               onClick={() => {
-                SuccessAlert(t("cancel_add")); // ຍົກເລີກການເພີ່ມ / Cancel Add
                 onClose();
               }}
               className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg w-full sm:w-28 h-10 cursor-pointer transition-colors text-sm"
