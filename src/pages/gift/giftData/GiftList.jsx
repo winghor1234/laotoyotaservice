@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import useServerFilterPagination from "../../../utils/useServerFilterPagination";
 import ExportExcelPopup from "../../../utils/exportExelPopup";
 import DownloadButton from "../../../utils/DownloadButton";
+import ExchangeGift from "./exchangeGift";
 
 const GiftList = () => {
     const { t } = useTranslation("gift"); // ใช้ hook สำหรับแปลข้อความ
@@ -19,17 +20,9 @@ const GiftList = () => {
     const [showAddReward, setShowAddReward] = useState(false);
     const [giftId, setGiftId] = useState(null);
     const [open, setOpen] = useState(false);
+    const [showExchangeGift, setShowExchangeGift] = useState(false);
 
 
-
-    // const fetchGifts = async () => {
-    //     try {
-    //         const res = await axiosInstance.get(APIPath.SELECT_ALL_GIFT);
-    //         setGifts(res?.data?.data || []);
-    //     } catch (error) {
-    //         console.error("Error fetching gifts:", error);
-    //     }
-    // };
     const {
         data: gift,
         page,
@@ -83,6 +76,9 @@ const GiftList = () => {
                     onSearchChange={handleSearch}
                     onDateChange={handleDateChange}
                 />
+                <button onClick={() => setShowExchangeGift(true)} className="bg-green-600 hover:bg-green-700 transition-colors w-full sm:w-auto px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base">
+                    {t("exchange_gift_button")}
+                </button>
                 {/* download button */}
                 <DownloadButton open={open} setOpen={setOpen} />
                 {open && (
@@ -207,6 +203,7 @@ const GiftList = () => {
             {/* Edit & Add Reward Popups */}
             <EditReward show={showEditReward} onClose={() => setShowEditReward(false)} giftId={giftId} handleFetch={fetchData} />
             <AddReward show={showAddReward} onClose={() => setShowAddReward(false)} handleFetch={fetchData} />
+            <ExchangeGift show={showExchangeGift} onClose={() => setShowExchangeGift(false)} handleFetch={fetchData} />
         </div>
     );
 };

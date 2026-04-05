@@ -32,5 +32,11 @@
   "gift_user_village": "Village",
   "gift_user_district": "District",
   "gift_user_province": "Province",
-  "gift_user_date": "Date"
+  "gift_user_date": "Date",
+  "exchange_gift_button": "Exchange Gift",
+  "select_user": "Select User",
+  "select_gift": "Select Gift",
+  "exchange_gift": "Exchange Gift",
+  "exchange_gift_success": "Exchange gift successfully",
+  "exchange_gift_cancel": "Cancelled exchange gift"
 }

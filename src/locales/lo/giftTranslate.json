@@ -31,5 +31,10 @@
   "gift_user_phone": "ເບີໂທລູກຄ້າ",
   "gift_user_village": "ບ້ານ",
   "gift_user_province": "ແຂວງ",
-  "gift_user_date": "ວັນທີ"
+  "gift_user_date": "ວັນທີ",
+  "exchange_gift_button": "ແລກລາງວັນ",
+  "select_user": "ເລືອກລູກຄ້າ",
+  "select_gift": "ເລືອກລາງວັນ",
+  "exchange_gift": "ແລກລາງວັນ",
+  "exchange_gift_success": "ແລກລາງວັນສຳເລັດ"
 }

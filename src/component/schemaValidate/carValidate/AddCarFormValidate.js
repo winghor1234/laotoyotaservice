@@ -36,7 +36,7 @@ export const useAddCarForm = ({ handleFetchCar, onClose }) => {
     }, []);
 
     const onSubmit = async (data) => {
-        console.log("car data : ",data);
+        // console.log("car data : ",data);
         try {
             await axiosInstance.post(APIPath.CREATE_CAR, data);
             handleFetchCar();
