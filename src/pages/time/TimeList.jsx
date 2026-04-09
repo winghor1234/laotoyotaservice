@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { Calendar, TimerIcon, Edit, Trash, MapPinned, Search, Timer, ListFilterPlus } from "lucide-react";
+import { Calendar, TimerIcon, Edit, Trash, MapPinned, Search, Timer, ListFilterPlus, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useServerFilterPagination from "../../utils/useServerFilterPagination";
 import { useTranslation } from "react-i18next";
@@ -115,7 +115,6 @@ const TimeList = () => {
                 {time?.map((item) => (
                     <div key={item.time_id} className="flex hover:shadow-xl">
                         <div
-                            onClick={() => handleToDetailTime(item.time_id)}
                             className={`${item.timeStatus
                                 ?
                                 "bg-green-600"
@@ -126,16 +125,6 @@ const TimeList = () => {
                                 <TimerIcon />
                                 {item.time}
                             </div>
-
-                            {/* <div className="mt-2 flex items-center gap-2">
-                                <Calendar />
-                                {item.date}
-                            </div> */}
-
-                            {/* <div className="mt-2 flex items-center gap-2 font-semibold">
-                                <MapPinned />
-                                {item?.zone?.zoneName}
-                            </div> */}
                             <div className="mt-2 flex items-center gap-2 font-semibold">
                                 <ListFilterPlus  />
                                 {item?.qty}
@@ -152,6 +141,13 @@ const TimeList = () => {
                             : "bg-[#E52020]"
                             } text-white`}
                         >
+                            <Eye
+                                className="mt-2 cursor-pointer"
+                                onClick={(e) => {    
+                                    e.stopPropagation();    
+                                    handleToDetailTime(item.time_id);
+                                }}
+                            />
                             <Edit
                                 className="mt-2 cursor-pointer"
                                 onClick={(e) => {
@@ -172,7 +168,7 @@ const TimeList = () => {
                                     e.stopPropagation();
                                     handleToggleStatus(item);
                                 }}
-                                className="mt-2 px-2 py-1 bg-white text-black rounded text-sm"
+                                className="my-2 px-2 py-1 bg-white text-black rounded text-sm"
                             >
                                 {item.timeStatus ? t("statusFree") : t("statusFull")}
                             </button>

@@ -27,7 +27,7 @@ const DetailGiftHistory = () => {
         };
         fetchData();
     }, [id]);
-    console.log("giftHistoryData : ",giftHistoryData);
+    // console.log("giftHistoryData : ",giftHistoryData);
 
     if (loading) {
         return (

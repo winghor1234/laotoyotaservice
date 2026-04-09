@@ -74,7 +74,7 @@ const Success = () => {
     //     }));
 
 
-    const fixDetail = (id) => {
+    const SuccessDetail = (id) => {
         const fixId = fix.find((f) => f.bookingId === id)?.fix_id;
         if (!fixId) return;
         navigate(`/user/successDetail/${fixId}`);
@@ -111,17 +111,14 @@ const Success = () => {
                         <div className="text-center">{t("plate")}</div>
                         <div className="text-center">{t("date_label")}</div>
                         <div className="text-center">{t("time_label")}</div>
+                        <div className="text-center">{t("action_label")}</div>
                     </div>
                 </div>
 
                 {/* Desktop/Tablet Body */}
                 <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
                     {fix?.filter((item) => item.fixStatus === "success").map((item, index) => (
-                        <div
-                            key={index}
-                            onClick={() => fixDetail(item.bookingId)}
-                            className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 transition-colors cursor-pointer text-xs md:text-sm lg:text-base"
-                        >
+                        <div key={index} className="grid grid-cols-7 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 transition-colors cursor-pointer text-xs md:text-sm lg:text-base">
                             <div className="flex items-center gap-2 md:gap-3">
                                 <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-gray-200 rounded-full flex items-center justify-center">
                                     <img src={logo} alt="success" className="h-full w-full object-contain" />
@@ -133,6 +130,9 @@ const Success = () => {
                             <div className="text-center line-clamp-1">{item?.booking?.car?.plateNumber}</div>
                             <div className="text-center line-clamp-1">{formatDates(item?.booking?.day)}</div>
                             <div className="text-center line-clamp-1">{item?.booking?.time?.time}</div>
+                            <div className="text-center line-clamp-1">
+                                <Eye onClick={() => SuccessDetail(item.booking_id)} className="text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -170,6 +170,12 @@ const Success = () => {
                                 <div className="flex justify-between">
                                     <span className="text-gray-500 line-clamp-1">{t("time_label")}:</span>
                                     <span className="text-gray-900 line-clamp-1">{item?.booking?.time?.time}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-gray-500 line-clamp-1">{t("action_label")}:</span>
+                                    <span className="text-gray-900 line-clamp-1">
+                                        <Eye onClick={() => SuccessDetail(item.booking_id)} className="text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                    </span>
                                 </div>
                             </div>
                         </div>

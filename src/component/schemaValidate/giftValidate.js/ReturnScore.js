@@ -7,15 +7,13 @@ import APIPath from "../../../api/APIPath";
 import axiosInstance from "../../../utils/AxiosInstance";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 
-const exchangeGiftSchema = (t) => z.object({
-    userId: z.string().min(1, t("min_length_1")),
-    giftcardId: z.string().min(1, t("min_length_1")),
-    amount: z.string().min(1, t("min_length_1")),
+const returnGiftSchema = (t) => z.object({
+    gifthistory_id: z.string().min(1, t("min_length_1")),
 });
 
-export const useExchangeGiftForm = ({ onClose, handleFetch, }) => {
+export const useReturnGiftForm = ({ onClose, handleFetch, }) => {
     const { t } = useTranslation("auth");
-    const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(exchangeGiftSchema(t)), });
+    const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(returnGiftSchema(t)), });
     const [loading, setLoading] = useState(false);
     const [users, setUsers] = useState([]);
     const [giftCards, setGiftCards] = useState([]);
@@ -50,8 +48,9 @@ export const useExchangeGiftForm = ({ onClose, handleFetch, }) => {
             onClose();
             SuccessAlert(t("add_success"))
         } catch (error) {
-            const message = error.response?.data?.message;
-            SuccessAlert(t(message), 1500, "warning");
+            // SuccessAlert(t("add_failed"), 1500, "warning");
+            SuccessAlert(t("add_failed"), 1500, "warning");
+            console.error("Error adding gift:", error);
         } finally {
             setLoading(false);
         }

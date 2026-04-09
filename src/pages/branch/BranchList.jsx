@@ -116,16 +116,15 @@ const BranchList = () => {
                 ) : (
                     branch?.map((item, index) => (
                         <div
-                            key={item.branch_id || index}
-                            onClick={() => handleToDetailBranch(item.branch_id)}
+                            key={index}
                             className="bg-white rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition-shadow"
                         >
                             <div className="flex items-center justify-between mb-3">
                                 <div className="text-sm font-medium text-gray-600">#{index + 1}</div>
                                 <div className="flex items-center gap-3">
-                                    <Eye className="w-4 h-4" />
+                                    <Eye  onClick={() => handleToDetailBranch(item.branch_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                                     <Edit
-                                        className="w-4 h-4 hover:text-blue-600 transition-colors"
+                                        className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setShowEditBranch(true);
@@ -133,7 +132,7 @@ const BranchList = () => {
                                         }}
                                     />
                                     <Trash
-                                        className="w-4 h-4 hover:text-red-600 transition-colors"
+                                        className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             handleDeleteBranch(item.branch_id);
@@ -142,13 +141,6 @@ const BranchList = () => {
                                 </div>
                             </div>
                             <div className="flex gap-3">
-                                {/* {item.image && (
-                                    <img
-                                        src={item.image}
-                                        className="w-16 h-16 object-cover rounded-lg flex-shrink-0"
-                                        alt={item.title || 'Branch image'}
-                                    />
-                                )} */}
                                 <div className="flex-1 min-w-0">
                                     <h3 className="font-medium text-gray-900 line-clamp-1 mb-1">{item.branch_name}</h3>
                                     <p className="text-sm text-gray-600 line-clamp-2">{item.location}</p>
@@ -189,13 +181,6 @@ const BranchList = () => {
                                     </div>
                                     <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                                         {item.branch_code}
-                                        {/* {item.image && (
-                                            <img
-                                                src={item.image}
-                                                className="w-12 h-12 md:w-16 md:h-16 object-cover rounded-lg"
-                                                alt={item.title || 'Branch image'}
-                                            />
-                                        )} */}
                                     </div>
                                     <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-1">
                                         {item.branch_name}
@@ -207,9 +192,9 @@ const BranchList = () => {
                                         {item.phone}
                                     </div>
                                     <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-3 md:gap-6">
-                                        <Eye className="w-4 h-4 md:w-5 md:h-5" />
+                                        <Eye  onClick={() => handleToDetailBranch(item.branch_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                                         <Edit
-                                            className="w-4 h-4 md:w-5 md:h-5 hover:text-blue-600 transition-colors"
+                                            className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 setShowEditBranch(true);
@@ -217,7 +202,7 @@ const BranchList = () => {
                                             }}
                                         />
                                         <Trash
-                                            className="w-4 h-4 md:w-5 md:h-5 hover:text-red-600 transition-colors"
+                                            className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 handleDeleteBranch(item.branch_id);

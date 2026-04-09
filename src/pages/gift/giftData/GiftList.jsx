@@ -14,15 +14,13 @@ import DownloadButton from "../../../utils/DownloadButton";
 import ExchangeGift from "./exchangeGift";
 
 const GiftList = () => {
-    const { t } = useTranslation("gift"); // ใช้ hook สำหรับแปลข้อความ
+    const { t } = useTranslation("gift");
     const navigate = useNavigate();
     const [showEditReward, setShowEditReward] = useState(false);
     const [showAddReward, setShowAddReward] = useState(false);
     const [giftId, setGiftId] = useState(null);
     const [open, setOpen] = useState(false);
     const [showExchangeGift, setShowExchangeGift] = useState(false);
-
-
     const {
         data: gift,
         page,
@@ -97,12 +95,12 @@ const GiftList = () => {
             <div className="md:hidden space-y-4 mb-6">
                 {gift?.map((item, index) => (
                     <div key={index} className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
-                        <div onClick={() => handleToDetailGift(item.giftcard_id)} className="flex items-center justify-between mb-3">
-                            <div className="text-sm font-medium text-gray-600">#{index + 1}</div>
+                        <div  className="flex items-center justify-between mb-3">
+                            <div  className="text-sm font-medium text-gray-600">{index + 1}</div>
                             <div className="flex items-center gap-3">
-                                <Eye className="w-4 h-4" />
-                                <Edit className="w-4 h-4" onClick={(e) => { e.stopPropagation(); setShowEditReward(true); setGiftId(item.giftcard_id); }} />
-                                <Trash className="w-4 h-4" onClick={(e) => { e.stopPropagation(); handleDelete(item.giftcard_id); }} />
+                                <Eye onClick={() => handleToDetailGift(item.giftcard_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                <Edit className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" onClick={(e) => { e.stopPropagation(); setShowEditReward(true); setGiftId(item.giftcard_id); }} />
+                                <Trash className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" onClick={(e) => { e.stopPropagation(); handleDelete(item.giftcard_id); }} />
                             </div>
                         </div>
 
@@ -140,7 +138,7 @@ const GiftList = () => {
 
                 <div className="divide-y divide-gray-200 overflow-auto max-h-[400px]">
                     {gift?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
-                        <div key={index} onClick={() => handleToDetailGift(item.giftcard_id)} className="grid grid-cols-5 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
+                        <div key={index} className="grid grid-cols-5 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                                 {index + 1}
                             </div>
@@ -156,9 +154,9 @@ const GiftList = () => {
                             <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2 ">{item.name}</div>
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.point}</div>
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-3 md:gap-6">
-                                <Eye className="w-4 h-4 md:w-5 md:h-5" />
-                                <Edit className="w-4 h-4 md:w-5 md:h-5" onClick={(e) => { e.stopPropagation(); setShowEditReward(true); setGiftId(item.giftcard_id); }} />
-                                <Trash className="w-4 h-4 md:w-5 md:h-5" onClick={(e) => { e.stopPropagation(); handleDelete(item.giftcard_id); }} />
+                                <Eye onClick={() => handleToDetailGift(item.giftcard_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                <Edit className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" onClick={(e) => { e.stopPropagation(); setShowEditReward(true); setGiftId(item.giftcard_id); }} />
+                                <Trash className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" onClick={(e) => { e.stopPropagation(); handleDelete(item.giftcard_id); }} />
                             </div>
                         </div>
                     ))}

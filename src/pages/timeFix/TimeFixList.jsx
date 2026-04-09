@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { Calendar, TimerIcon, Edit, Trash, MapPinned, Search, MapPinnedIcon, MapPinPen, MapPin } from "lucide-react";
+import { Calendar, TimerIcon, Edit, Trash, MapPinned, Search, MapPinnedIcon, MapPinPen, MapPin, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useServerFilterPagination from "../../utils/useServerFilterPagination";
 import { useTranslation } from "react-i18next";
@@ -61,7 +61,7 @@ const TimeFixList = () => {
             fetchData();
         }
     };
-    console.log("time fix : ",timeFix);
+    // console.log("time fix : ",timeFix);
 
     return (
         <div>
@@ -89,18 +89,11 @@ const TimeFixList = () => {
                 {timeFix?.map((item) => (
                     <div key={item.timefix_id} className="flex hover:shadow-xl">
                         <div
-                            onClick={() => handleToDetailTime(item.timefix_id)}
                             className={` text-white cursor-pointer w-full  bg-green-600 px-4 py-3 rounded-l shadow`}>
                             <div className="flex items-center gap-2">
                                 <TimerIcon />
                                 {item?.time?.time}
                             </div>
-
-                            {/* <div className="mt-2 flex items-center gap-2">
-                                <Calendar />
-                                {item?.time?.date}
-                            </div> */}
-
                             <div className="mt-2 flex items-center gap-2 font-semibold">
                                 <MapPinned />
                                 {item?.zone?.zoneName}
@@ -113,6 +106,10 @@ const TimeFixList = () => {
                         </div>
 
                         <div className={`flex flex-col items-center w-24 gap-2 px-2 rounded-r bg-green-600 text-white`}>
+                            <Eye
+                                className="mt-2 cursor-pointer"
+                                onClick={() => handleToDetailTime(item.timefix_id)}
+                            />
                             <Edit
                                 className="mt-2 cursor-pointer"
                                 onClick={(e) => {

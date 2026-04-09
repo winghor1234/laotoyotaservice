@@ -154,7 +154,6 @@ const FixList = () => {
           {booking?.filter((item) => item.bookingStatus === "success").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
             <div
               key={index}
-              onClick={() => fixDetail(item.booking_id)}
               className="grid grid-cols-7 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 transition-colors cursor-pointer text-xs md:text-sm lg:text-base"
             >
               <div className="flex items-center gap-2 md:gap-3">
@@ -169,7 +168,7 @@ const FixList = () => {
               <div className="text-center">{formatDates(item?.day)}</div>
               <div className="text-center">{item?.time?.time}</div>
               <div className="flex justify-center items-center">
-                <Eye className="w-4 h-4 md:w-5 md:h-5" />
+                <Eye onClick={() => fixDetail(item.booking_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
               </div>
             </div>
           ))}
@@ -180,7 +179,6 @@ const FixList = () => {
           {booking?.filter((item) => item.bookingStatus === "success").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
             <div
               key={index}
-              onClick={() => fixDetail(item.booking_id)}
               className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
             >
               <div className="flex items-center justify-between mb-2">
@@ -211,7 +209,7 @@ const FixList = () => {
                   <span className="text-gray-900 line-clamp-1">{item?.time?.time}</span>
                 </div>
                 <div className="flex justify-between">
-                  <Eye className="w-4 h-4 md:w-5 md:h-5" />
+                  <Eye onClick={() => fixDetail(item.booking_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                 </div>
               </div>
             </div>

@@ -53,6 +53,18 @@ const ZoneDetail = () => {
                             </div>
                         </div>
                     </div>
+                    {/* Mobile View */}
+                    <div className="md:hidden">
+                        <div className="flex flex-col items-center py-4 gap-2">
+                            <div className="flex gap-2 items-center">
+                                <Calendar className="text-2xl lg:text-4xl text-gray-700" />
+                                <span className="text-base lg:text-lg text-gray-500 text-center">
+                                    {t("zoneNameLabel")}
+                                </span>
+                            </div>
+                            <p className="text-gray-900 text-xl">{zone?.zoneName}</p>
+                        </div>
+                    </div>
 
                     {/* Action Button */}
                     <div className="flex justify-center lg:justify-end">

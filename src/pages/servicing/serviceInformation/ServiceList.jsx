@@ -123,7 +123,6 @@ const ServiceList = () => {
                     {service.map((item, index) => (
                         <div
                             key={index}
-                            onClick={() => handleToDetailService(item.service_id)}
                             className="grid grid-cols-5 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors text-xs md:text-sm lg:text-base"
                         >
                             <div className="text-center">{index + 1}</div>
@@ -139,8 +138,9 @@ const ServiceList = () => {
                             <div className="text-center line-clamp-1">{item.serviceName}</div>
                             <div className="text-center line-clamp-2 ">{item.description}</div>
                             <div className="flex justify-center gap-4">
-                                <Eye />
+                                <Eye  onClick={() => handleToDetailService(item.service_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                                 <Edit
+                                    className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         setShowEditService(true);
@@ -148,6 +148,7 @@ const ServiceList = () => {
                                     }}
                                 />
                                 <Trash
+                                    className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         handleDeleteService(item.service_id);
@@ -163,13 +164,9 @@ const ServiceList = () => {
                     {service.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
                         <div
                             key={index}
-                            onClick={() => handleToDetailService(item.service_id)}
                             className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
                         >
                             <div className="flex items-center gap-3 mb-3">
-                                <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <Car className="text-gray-600 w-6 h-6" />
-                                </div>
                                 <div className="flex-1">
                                     <h3 className="font-semibold text-base text-gray-900 line-clamp-1">
                                         {item.serviceName}
@@ -178,7 +175,9 @@ const ServiceList = () => {
                                 </div>
                             </div>
                             <div className="flex justify-end gap-4 text-gray-600">
+                                <Eye onClick={() => handleToDetailService(item.service_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                                 <Edit
+                                    className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         setShowEditService(true);
@@ -186,6 +185,7 @@ const ServiceList = () => {
                                     }}
                                 />
                                 <Trash
+                                    className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         handleDeleteService(item.service_id);

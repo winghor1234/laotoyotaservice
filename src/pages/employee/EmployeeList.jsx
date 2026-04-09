@@ -98,16 +98,18 @@ const EmployeeList = () => {
                 ) : (
                     employee.map((item, index) => (
                         <div
-                            key={item.employee_id || index}
-                            onClick={() => handleToDetailEmployee(item.employee_id)}
+                            key={index}
                             className="bg-white rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition-shadow"
                         >
                             <div className="flex items-center justify-between mb-3">
                                 <div className="text-sm font-medium text-gray-600">#{index + 1}</div>
                                 <div className="flex items-center gap-3">
-                                    <Eye className="w-4 h-4" />
+                                    <Eye
+                                        className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
+                                        onClick={() => handleToDetailEmployee(item.employee_id)}
+                                    />
                                     <Edit
-                                        className="w-4 h-4 hover:text-blue-600 transition-colors"
+                                        className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             setShowEditEmployee(true);
@@ -115,7 +117,7 @@ const EmployeeList = () => {
                                         }}
                                     />
                                     <Trash
-                                        className="w-4 h-4 hover:text-red-600 transition-colors"
+                                        className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             handleDeleteEmployee(item.employee_id);
@@ -153,7 +155,6 @@ const EmployeeList = () => {
                             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                             .map((item, index) => (
                                 <div
-                                    onClick={() => handleToDetailEmployee(item.employee_id)}
                                     key={item.employee_id || index}
                                     className="grid grid-cols-6 gap-3 md:gap-4 px-2 md:px-3 lg:px-4 py-2 md:py-3 lg:py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors"
                                 >
@@ -170,9 +171,9 @@ const EmployeeList = () => {
                                         {item.position}
                                     </div>
                                     <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-3 md:gap-6">
-                                        <Eye className="w-4 h-4 md:w-5 md:h-5" />
+                                        <Eye  onClick={() => handleToDetailEmployee(item.employee_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                                         <Edit
-                                            className="w-4 h-4 md:w-5 md:h-5 hover:text-blue-600 transition-colors"
+                                            className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 setShowEditEmployee(true);
@@ -180,7 +181,7 @@ const EmployeeList = () => {
                                             }}
                                         />
                                         <Trash
-                                            className="w-4 h-4 md:w-5 md:h-5 hover:text-red-600 transition-colors"
+                                            className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 handleDeleteEmployee(item.employee_id);

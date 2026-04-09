@@ -38,5 +38,8 @@
   "select_gift": "Select Gift",
   "exchange_gift": "Exchange Gift",
   "exchange_gift_success": "Exchange gift successfully",
-  "exchange_gift_cancel": "Cancelled exchange gift"
+  "exchange_gift_cancel": "Cancelled exchange gift",
+  "total_point": "Total Point",
+  "return_score_gift": "Return Score Gift",
+  "return_score_gift_success": "Return score gift successfully"
 }

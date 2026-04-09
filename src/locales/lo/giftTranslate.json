@@ -36,5 +36,8 @@
   "select_user": "ເລືອກລູກຄ້າ",
   "select_gift": "ເລືອກລາງວັນ",
   "exchange_gift": "ແລກລາງວັນ",
-  "exchange_gift_success": "ແລກລາງວັນສຳເລັດ"
+  "total_point": "ຄະແນນທັງໝົດ",
+  "exchange_gift_success": "ແລກລາງວັນສຳເລັດ",
+  "return_score_gift": "ຄືນຄະແນນລາງວັນ",
+  "return_score_gift_success": "ຄືນຄະແນນລາງວັນສຳເລັດ"
 }

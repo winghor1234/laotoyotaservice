@@ -44,24 +44,48 @@ const TimeDetail = () => {
                             <div className="flex flex-col items-center py-4 col-span-2 lg:col-span-1 gap-2">
                                 <div className="flex gap-2 items-center">
                                     <Calendar className="text-2xl lg:text-4xl text-gray-700" />
-                                    <span className="text-base lg:text-lg text-gray-500 text-center">{t("dateLabel")} :</span>
-                                </div>
-                                <p className="text-gray-900">{time?.date}</p>
-                            </div>
-                            <div className="space-y-3 py-4 flex flex-col items-center">
-                                <div className="flex gap-2 items-center">
-                                    <Clock3 className="text-2xl lg:text-4xl text-gray-700" />
                                     <span className="text-base lg:text-lg text-gray-500 text-center">{t("timeLabel")} :</span>
                                 </div>
                                 <p className="text-gray-900">{time?.time}</p>
                             </div>
                             <div className="space-y-3 py-4 flex flex-col items-center">
                                 <div className="flex gap-2 items-center">
-                                    <MapPinned className="text-2xl lg:text-4xl text-gray-700" />
-                                    <span className="text-base lg:text-lg text-gray-500 text-center">{t("zoneLabel")} :</span>
+                                    <Clock3 className="text-2xl lg:text-4xl text-gray-700" />
+                                    <span className="text-base lg:text-lg text-gray-500 text-center">{t("qtyLabel")} :</span>
                                 </div>
-                                <p className="text-gray-900">{time?.zone?.zoneName}</p>
+                                <p className="text-gray-900">{time?.qty}</p>
                             </div>
+                            <div className="space-y-3 py-4 flex flex-col items-center">
+                                <div className="flex gap-2 items-center">
+                                    <MapPinned className="text-2xl lg:text-4xl text-gray-700" />
+                                    <span className="text-base lg:text-lg text-gray-500 text-center">{t("statusLabel")} :</span>
+                                </div>
+                                <p className="text-gray-900">{time?.timeStatus ? t("statusFree") : t("statusFull")}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {/* Mobile View */}
+                    <div className="md:hidden ">
+                        <div className="flex flex-col items-center py-4 gap-2">
+                            <div className="flex gap-2 items-center">
+                                <Calendar className="text-2xl lg:text-4xl text-gray-700" />
+                                <span className="text-base lg:text-lg text-gray-500 text-center">{t("timeLabel")} :</span>
+                            </div>
+                            <p className="text-gray-900">{time?.time}</p>
+                        </div>
+                        <div className="flex flex-col items-center py-4 gap-2">
+                            <div className="flex gap-2 items-center">
+                                <Clock3 className="text-2xl lg:text-4xl text-gray-700" />
+                                <span className="text-base lg:text-lg text-gray-500 text-center">{t("qtyLabel")} :</span>
+                            </div>
+                            <p className="text-gray-900">{time?.qty}</p>
+                        </div>
+                        <div className="flex flex-col items-center py-4 gap-2">
+                            <div className="flex gap-2 items-center">
+                                <MapPinned className="text-2xl lg:text-4xl text-gray-700" />
+                                <span className="text-base lg:text-lg text-gray-500 text-center">{t("statusLabel")} :</span>
+                            </div>
+                            <p className="text-gray-900">{time?.timeStatus ? t("statusFree") : t("statusFull")}</p>
                         </div>
                     </div>
 

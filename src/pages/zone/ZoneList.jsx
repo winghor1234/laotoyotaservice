@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Clock3, Edit, MapPinned, Search, Trash } from "lucide-react";
+import { Clock3, Edit, Eye, MapPinned, Search, Trash } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
@@ -115,7 +115,6 @@ const ZoneList = () => {
                 {zone?.map((item) => (
                     <div key={item.zone_id} className="flex hover:shadow-xl">
                         <div
-                            onClick={() => handleToDetailZone(item.zone_id)}
                             className={`${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"
                                 } text-white cursor-pointer w-full px-4 py-3 rounded-l shadow`}
                         >
@@ -132,6 +131,7 @@ const ZoneList = () => {
                         <div className={`flex flex-col items-center w-24 gap-2 px-2 rounded-r ${item.zoneStatus ? "bg-green-600" : "bg-[#E52020]"
                             } text-white`}
                         >
+                            <Eye className="mt-2 cursor-pointer" onClick={() => handleToDetailZone(item.zone_id)} />
                             <Edit
                                 className="mt-2 cursor-pointer"
                                 onClick={(e) => {

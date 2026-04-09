@@ -3,7 +3,7 @@ import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
 import AddUser from "./AddAdmin";
 import SelectDate from "../../utils/SelectDate";
-import { Car, Edit, Trash } from "lucide-react";
+import { Car, Edit, Eye, Trash } from "lucide-react";
 import EditUser from "./EditAdmin";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
 import { useTranslation } from "react-i18next";
@@ -133,7 +133,6 @@ const AdminList = () => {
       <div className="hidden md:block divide-y divide-gray-200 bg-gray-50 overflow-auto max-h-[400px]">
         {admin.filter((item) => item.role === "admin").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
           <div
-            onClick={() => handleToDetailAdmin(item.user_id)}
             key={index}
             className="grid grid-cols-6 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors text-xs md:text-sm lg:text-base"
           >
@@ -154,8 +153,12 @@ const AdminList = () => {
             </div>
             <div className="text-center line-clamp-1">{item.phoneNumber}</div>
             <div className="text-center flex justify-center items-center gap-4">
+              <Eye
+                className={`cursor-pointer text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800`}
+                onClick={() => { handleToDetailAdmin(item.user_id) }}
+              />
               <Edit
-                className={`cursor-pointer `}
+                className={`cursor-pointer text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800 `}
                 onClick={(e) => {
                   e.stopPropagation();
                   setShowEdit(true);
@@ -163,7 +166,7 @@ const AdminList = () => {
                 }}
               />
               <Trash
-                className={`cursor-pointer`}
+                className={`cursor-pointer text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800`}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleDelete(item.user_id);
@@ -184,9 +187,6 @@ const AdminList = () => {
             className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
           >
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                <Car className="text-gray-600 w-6 h-6" />
-              </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-base text-gray-900 line-clamp-1">
                   {item.username}
@@ -222,6 +222,25 @@ const AdminList = () => {
               <div className="flex justify-between py-1">
                 <span className="text-gray-500 font-medium">{t("status")}:</span>
                 <span className="text-gray-900">{item.role}</span>
+              </div>
+              <div className="flex justify-between py-1">
+                <span className="text-gray-500 font-medium">{t("action_label")}:</span>
+                <span className="text-gray-900">
+                  <Eye className={`cursor-pointer text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800`} onClick={() => { handleToDetailAdmin(item.user_id) }} />
+                </span>
+                <span className="text-gray-900">
+                  <Edit className={`cursor-pointer text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800 `} onClick={(e) => {
+                    e.stopPropagation();
+                    setShowEdit(true);
+                    setCustomerId(item.user_id);
+                  }} />
+                </span>
+                <span className="text-gray-900">
+                  <Trash className={`cursor-pointer text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800`} onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(item.user_id);
+                  }} />
+                </span>
               </div>
             </div>
           </div>

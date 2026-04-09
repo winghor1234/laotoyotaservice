@@ -41,13 +41,13 @@ const TimeFixDetail = () => {
                     {/* Desktop/Tablet View */}
                     <div className="hidden md:block">
                         <div className="flex justify-center gap-10 text-sm lg:text-base font-medium text-gray-700">
-                            <div className="flex flex-col items-center py-4 col-span-2 lg:col-span-1 gap-2">
+                            {/* <div className="flex flex-col items-center py-4 col-span-2 lg:col-span-1 gap-2">
                                 <div className="flex gap-2 items-center">
                                     <Calendar className="text-2xl lg:text-4xl text-gray-700" />
-                                    <span className="text-base lg:text-lg text-gray-500 text-center">{t("dateLabel")} :</span>
+                                    <span className="text-base lg:text-lg text-gray-500 text-center">{t("timeLabel")} :</span>
                                 </div>
-                                <p className="text-gray-900">{timeFix?.time?.date}</p>
-                            </div>
+                                <p className="text-gray-900">{timeFix?.time?.time}</p>
+                            </div> */}
                             <div className="space-y-3 py-4 flex flex-col items-center">
                                 <div className="flex gap-2 items-center">
                                     <Clock3 className="text-2xl lg:text-4xl text-gray-700" />
@@ -65,10 +65,34 @@ const TimeFixDetail = () => {
                             <div className="space-y-3 py-4 flex flex-col items-center">
                                 <div className="flex gap-2 items-center">
                                     <MapPinned className="text-2xl lg:text-4xl text-gray-700" />
-                                    <span className="text-base lg:text-lg text-gray-500 text-center">{t("zoneLabel")} :</span>
+                                    <span className="text-base lg:text-lg text-gray-500 text-center">{t("branchLabel")} :</span>
                                 </div>
                                 <p className="text-gray-900">{timeFix?.branch?.branch_name}</p>
                             </div>
+                        </div>
+                    </div>
+                    {/* Mobile View */}
+                    <div className="md:hidden">
+                        <div className="flex flex-col items-center py-4 gap-2">
+                            <div className="flex gap-2 items-center">
+                                <Clock3 className="text-2xl lg:text-4xl text-gray-700" />
+                                <span className="text-base lg:text-lg text-gray-500 text-center">{t("timeLabel")} :</span>
+                            </div>
+                            <p className="text-gray-900">{timeFix?.time?.time}</p>
+                        </div>
+                        <div className="flex flex-col items-center py-4 gap-2">
+                            <div className="flex gap-2 items-center">
+                                <MapPinned className="text-2xl lg:text-4xl text-gray-700" />
+                                <span className="text-base lg:text-lg text-gray-500 text-center">{t("zoneLabel")} :</span>
+                            </div>
+                            <p className="text-gray-900">{timeFix?.zone?.zoneName}</p>
+                        </div>
+                        <div className="flex flex-col items-center py-4 gap-2">
+                            <div className="flex gap-2 items-center">
+                                <MapPinned className="text-2xl lg:text-4xl text-gray-700" />
+                                <span className="text-base lg:text-lg text-gray-500 text-center">{t("branchLabel")} :</span>
+                            </div>
+                            <p className="text-gray-900">{timeFix?.branch?.branch_name}</p>
                         </div>
                     </div>
 

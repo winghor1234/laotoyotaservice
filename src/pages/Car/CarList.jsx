@@ -1,4 +1,4 @@
-import { Edit, Trash } from "lucide-react";
+import { Edit, Eye, Trash } from "lucide-react";
 import AddCarFormPopup from "./AddCarForm";
 import SelectDate from "../../utils/SelectDate";
 import { useState } from "react";
@@ -152,9 +152,7 @@ const CarList = () => {
         <div className="divide-y divide-gray-200">
           {car?.map((item, index) => (
             <div
-              key={index}
-              onClick={() => handleToDetailCar(item.car_id)}
-              className="hidden md:grid md:grid-cols-8 md:gap-2 text-center items-center w-full px-4 py-3 hover:bg-gray-50 cursor-pointer"
+              key={index}              className="hidden md:grid md:grid-cols-8 md:gap-2 text-center items-center w-full px-4 py-3 hover:bg-gray-50 cursor-pointer"
             >
               <div className="text-center">
                 {(page - 1) * limit + index + 1}
@@ -166,7 +164,9 @@ const CarList = () => {
               <div className="text-center line-clamp-1">{item.frameNumber}</div>
               <div className="text-center line-clamp-1">{item.province}</div>
               <div className="flex justify-center gap-4">
+                <Eye onClick={() => handleToDetailCar(item.car_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"/>
                 <Edit
+                  className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                   onClick={(e) => {
                     e.stopPropagation();
                     setCarId(item.car_id);
@@ -174,6 +174,7 @@ const CarList = () => {
                   }}
                 />
                 <Trash
+                  className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleDelete(item.car_id);
@@ -188,7 +189,6 @@ const CarList = () => {
           {car?.map((item, index) => (
             <div
               key={index}
-              onClick={() => handleToDetailCar(item.car_id)}
               className="md:hidden flex flex-col gap-1">
               <div className="flex justify-between">
                 <span className="font-semibold">{t("no")}:</span>
@@ -219,8 +219,9 @@ const CarList = () => {
                 <span>{item.province}</span>
               </div>
               <div className="flex gap-4 mt-2">
+                <Eye onClick={() => handleToDetailCar(item.car_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"/>
                 <Edit
-                  className="text-blue-500 hover:text-blue-700"
+                  className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                   onClick={(e) => {
                     e.stopPropagation();
                     setCarId(item.car_id);
@@ -228,7 +229,7 @@ const CarList = () => {
                   }}
                 />
                 <Trash
-                  className="text-red-500 hover:text-red-700"
+                  className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleDelete(item.car_id);

@@ -94,13 +94,14 @@ const Cancel = () => {
             <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mt-4">
                 {/* Desktop/Tablet Header */}
                 <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
-                    <div className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
+                    <div className="grid grid-cols-7 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
                         <div className="text-center">{t("appointment_info")}</div>
                         <div className="text-center">{t("customer_name")}</div>
                         <div className="text-center">{t("customer_phone")}</div>
                         <div className="text-center">{t("plate_number")}</div>
                         <div className="text-center">{t("date_label")}</div>
                         <div className="text-center">{t("time_label")}</div>
+                        <div className="text-center">{t("action_label")}</div>
                     </div>
                 </div>
 
@@ -111,8 +112,7 @@ const Cancel = () => {
                         .map((item, index) => (
                             <div
                                 key={index}
-                                onClick={() => CancelDetail(item.booking_id)}
-                                className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 transition-colors"
+                                className="grid grid-cols-7 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 transition-colors"
                             >
                                 <div className="flex items-center gap-2 md:gap-3">
                                     <span className="bg-red-500 px-4 py-2 text-black rounded-xl text-xs font-semibold text-center min-w-[60px]">
@@ -136,6 +136,12 @@ const Cancel = () => {
                                 </div>
                                 <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center line-clamp-1">
                                     {item?.time?.time}
+                                </div>
+                                <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center line-clamp-1">
+                                    <Eye
+                                        className={`cursor-pointer text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800`}
+                                        onClick={() => CancelDetail(item.bookingId)}
+                                    />
                                 </div>
                             </div>
                         ))}
@@ -173,6 +179,13 @@ const Cancel = () => {
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">{t("time_label")}:</span>
                                         <span className="text-gray-900">{item.time.time}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-500">{t("action_label")}:</span>
+                                        <Eye
+                                            className={`cursor-pointer text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800`}
+                                            onClick={() => CancelDetail(item.bookingId)}
+                                        />
                                     </div>
                                 </div>
                             </div>

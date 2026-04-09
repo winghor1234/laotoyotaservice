@@ -112,19 +112,18 @@ const PromotionList = () => {
                 ) : promotion.map((item, index) => (
                     <div
                         key={index}
-                        onClick={() => handleToDetailPromotion(item.promotion_id)}
                         className="bg-white rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition-shadow"
                     >
                         <div className="flex items-center justify-between mb-3">
                             <div className="text-sm font-medium text-gray-600">#{index + 1}</div>
                             <div className="flex items-center gap-3">
-                                <Eye className="w-4 h-4" />
-                                <Edit className="w-4 h-4" onClick={(e) => {
+                                <Eye  onClick={() => handleToDetailPromotion(item.promotion_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                <Edit className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" onClick={(e) => {
                                     e.stopPropagation();
                                     setShowEditPromotion(true);
                                     setSelectedPromotion(item.promotion_id);
                                 }} />
-                                <Trash className="w-4 h-4" onClick={(e) => {
+                                <Trash className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" onClick={(e) => {
                                     e.stopPropagation();
                                     handleDeletePromotion(item.promotion_id);
                                 }} />
@@ -171,13 +170,13 @@ const PromotionList = () => {
                             <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2 ">{item.title}</div>
                             <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2 ">{item.detail}</div>
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-3 md:gap-6">
-                                <Eye className="w-4 h-4 md:w-5 md:h-5" />
-                                <Edit className="w-4 h-4 md:w-5 md:h-5" onClick={(e) => {
+                                <Eye  onClick={() => handleToDetailPromotion(item.promotion_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                <Edit className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" onClick={(e) => {
                                     e.stopPropagation();
                                     setShowEditPromotion(true);
                                     setSelectedPromotion(item.promotion_id);
                                 }} />
-                                <Trash className="w-4 h-4 md:w-5 md:h-5" onClick={(e) => {
+                                <Trash className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" onClick={(e) => {
                                     e.stopPropagation();
                                     handleDeletePromotion(item.promotion_id);
                                 }} />
