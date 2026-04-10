@@ -32,7 +32,7 @@ const ReturnScore = ({ show, onClose, id, handleFetch }) => {
     const handleReturnScore = async (id) => {
         try {
             // console.log("giftHistoryData id : ", id);
-            await axiosInstance.put(APIPath.DELETE_GIFT_HISTORY(id));
+            await axiosInstance.delete(APIPath.DELETE_GIFT_HISTORY(id));
             handleFetch();
             onClose();
             SuccessAlert(t("return_score_gift_success"));

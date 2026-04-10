@@ -30,7 +30,7 @@
   "add_user": "ເພີ່ມ",
   "index": "ລຳດັບ",
   "code": "ລະຫັດຜູ້ໃຊ້",
-  "status": "ສະຖານະ:",
+  "status": "ສະຖານະ",
   "delete_confirm": "ທ່ານຕ້ອງການລົບຂໍໍ້ມູນນີ້ບໍ?",
   "delete_success": "ການລົບຂໍ້ມູນສຳເລັດ",
   "admin_detail": "ລາຍລະອຽດຜູ້ດູແລ",
@@ -44,6 +44,8 @@
   "user_email": "ອີເມວ",
   "user_phone_number": "ເບີໂທ",
   "user_village": "ບ້ານ",
-  "user_province": "ແຂວງ"
+  "user_province": "ແຂວງ",
+  "point": "ຄະແນນ"
+
 
 }

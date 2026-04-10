@@ -7,30 +7,25 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from "react-i18next";
 import { formatDates } from '../../../utils/FormatDate';
 
-const PopupApprove = ({ setShowPopup, bookingId, userId, fetchBooking , zoneName, zoneId}) => {
+const PopupApprove = ({ setShowPopup, bookingId, fetchBooking }) => {
   const { t } = useTranslation("booking"); // namespace booking
   const navigate = useNavigate();
   const [booking, setBooking] = useState([]);
+  console.log("bookingId in PopupApprove: ", bookingId);
 
 
 
 
   const handleChangeStatus = async () => {
     try {
-      const fixData = new URLSearchParams();
-      fixData.append("bookingId", bookingId);
-      fixData.append("zoneId", zoneId);
+      const fixData = {
+        bookingId: bookingId,
+      }
 
-      // console.log("zone id : ", timeData.zoneId);
-
-      const pointData = new URLSearchParams();
-      pointData.append("user_id", userId);
-      pointData.append("point", 50);
 
       await Promise.all([
-        axiosInstance.post(APIPath.CREATE_FIX, fixData),
-        axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId), { bookingStatus: "success" }),
-        axiosInstance.put(APIPath.UPDATE_POINT, pointData),
+        axiosInstance.post(APIPath.CREATE_FIX, fixData), 
+        axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId), { bookingStatus: "fix" }),
         axiosInstance.post(APIPath.SEND_NOTIFICATION, {
           deviceToken: "DEVICE_TOKEN",
           title: "Booking Confirmed",
@@ -80,7 +75,7 @@ const PopupApprove = ({ setShowPopup, bookingId, userId, fetchBooking , zoneName
             <div className='flex flex-col items-center gap-1'>
               <MapPinned className='text-lg text-gray-600' />
               <p className="font-medium text-gray-600 text-xs lg:text-sm">{t("zone_label")}:</p>
-              <p className="text-gray-900 text-md lg:text-xl">{zoneName}</p>
+              <p className="text-gray-900 text-md lg:text-xl">{booking?.zone?.zoneName}</p>
             </div>
             <div className='flex flex-col items-center gap-1'>
               <MapIcon className='text-lg text-gray-600' />

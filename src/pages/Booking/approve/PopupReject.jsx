@@ -7,17 +7,14 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from "react-i18next";
 import { formatDates } from '../../../utils/FormatDate';
 
-const PopupReject = ({ setRejectZone, bookingId, timeId, fetchBooking, zoneName }) => {
+const PopupReject = ({ setRejectZone, bookingId, fetchBooking }) => {
   const { t } = useTranslation("booking"); // namespace booking
   const navigate = useNavigate();
-  const [timeData, setTimeData] = useState([]);
   const [booking, setBooking] = useState([]);
 
   const handleChangeStatus = async () => {
     try {
       await axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId), { bookingStatus: "cancel" });
-      await axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "true" });
-
       navigate("/user/booking");
       SuccessAlert(t("reject_alert"));
       fetchBooking();
@@ -26,14 +23,6 @@ const PopupReject = ({ setRejectZone, bookingId, timeId, fetchBooking, zoneName 
     }
   }
 
-  const handleFetchTime = async () => {
-    try {
-      const res = await axiosInstance.get(APIPath.SELECT_ONE_TIME(timeId));
-      setTimeData(res?.data?.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
   const handleFetchBooking= async () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingId));
@@ -44,7 +33,6 @@ const PopupReject = ({ setRejectZone, bookingId, timeId, fetchBooking, zoneName 
   }
 
   useEffect(() => {
-    handleFetchTime();
     handleFetchBooking();
   }, []);
 
@@ -63,12 +51,12 @@ const PopupReject = ({ setRejectZone, bookingId, timeId, fetchBooking, zoneName 
             <div className='flex flex-col items-center gap-1'>
               <Clock3 className='text-lg text-gray-600' />
               <p className="font-medium text-gray-600 text-xs lg:text-sm">{t("time_label")}:</p>
-              <p className="text-gray-900 text-md lg:text-xl">{timeData?.time}</p>
+              <p className="text-gray-900 text-md lg:text-xl">{booking?.time.time}</p>
             </div>
             <div className='flex flex-col items-center gap-1'>
               <MapPinned className='text-lg text-gray-600' />
               <p className="font-medium text-gray-600 text-xs lg:text-sm">{t("zone_label")}:</p>
-              <p className="text-gray-900 text-md lg:text-xl">{zoneName}</p>
+              <p className="text-gray-900 text-md lg:text-xl">{booking?.zone?.zoneName}</p>
             </div>
           </div>
         </div>

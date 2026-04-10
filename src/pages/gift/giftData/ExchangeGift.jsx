@@ -29,7 +29,7 @@ const ExchangeGift = ({ show, onClose, handleFetch }) => {
                                 <option value="">{t("select_user")}</option>
                                 {(users || []).map((user) => (
                                     <option key={user.user_id} value={user.user_id}>
-                                        {user.customer_number} - {user.username}
+                                        {user.customer_number} - {user.username} : {user.point}
                                     </option>
                                 ))}
                             </select>
@@ -43,7 +43,8 @@ const ExchangeGift = ({ show, onClose, handleFetch }) => {
                                 <option value="">{t("select_gift")}</option>
                                 {(giftCards || []).map((giftCard) => (
                                     <option key={giftCard.giftcard_id} value={giftCard.giftcard_id}>
-                                        {giftCard.name}
+                                        {giftCard.name} : {giftCard.point}
+
                                     </option>
                                 ))}
                             </select>

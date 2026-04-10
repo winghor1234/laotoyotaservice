@@ -5,13 +5,11 @@ import { useTranslation } from "react-i18next";
 import { BackButton } from "../../utils/BackButton";
 import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
-import EditTimeFix from "./EditTimeFix";
 
 const TimeFixDetail = () => {
     const { t } = useTranslation("timeZone");
     const { id } = useParams();
     const [timeFix, setTimeFix] = useState([]);
-    const [showEditTime, setShowEditTime] = useState(false);
 
     const fetchData = async () => {
         try {
@@ -95,21 +93,8 @@ const TimeFixDetail = () => {
                             <p className="text-gray-900">{timeFix?.branch?.branch_name}</p>
                         </div>
                     </div>
-
-                    {/* Action Button */}
-                    <div className="flex justify-center lg:justify-end">
-                        <button
-                            onClick={() => setShowEditTime(true)}
-                            className="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-3 rounded-full transition-colors font-medium text-sm lg:text-base w-full sm:w-auto"
-                        >
-                            {t("editButton")}
-                        </button>
-                    </div>
                 </div>
             </div>
-
-            {/* Popup */}
-            <EditTimeFix show={showEditTime} onClose={() => setShowEditTime(false)} timeId={id} />
         </div>
     );
 };

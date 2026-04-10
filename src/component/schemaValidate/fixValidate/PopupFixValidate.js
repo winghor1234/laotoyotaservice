@@ -14,13 +14,14 @@ const fixSchema = (t) =>
   z.object({
     kmNext: z.coerce.number().min(1, t("min_length_1")),
     kmLast: z.coerce.number().min(1, t("min_length_1")),
-    // detailFix: z.string().min(2, t("min_length_2")),
     fixCarPrice: z.coerce.number().min(1, t("min_length_1")),
     carPartPrice: z.coerce.number().min(1, t("min_length_1")),
     totalPrice: z.coerce.number().min(1, t("min_length_1")),
+    totalPoint: z.coerce.number().min(1, t("min_length_1")).optional(),
   });
 
-export const useFixForm = ({ bookingId, timeId, zoneId }) => {
+export const useFixForm = ({ bookingId }) => {
+
   const { t } = useTranslation("auth");
   const [fixes, setFixes] = useState([]);
   const navigate = useNavigate();
@@ -28,14 +29,13 @@ export const useFixForm = ({ bookingId, timeId, zoneId }) => {
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm({
     resolver: zodResolver(fixSchema(t)),
   });
-
   const fixCarPrice = Number(watch("fixCarPrice") || 0);
   const carPartPrice = Number(watch("carPartPrice") || 0);
 
   const fetchFix = async () => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ALL_FIX);
-      // console.log("fix: " ,res);
+      // console.log("fix: ", res);
       setFixes(res?.data?.data || []);
     } catch (error) {
       console.log(error);
@@ -43,30 +43,35 @@ export const useFixForm = ({ bookingId, timeId, zoneId }) => {
   };
 
   useEffect(() => {
-    setValue("totalPrice", fixCarPrice + carPartPrice);
-    fetchFix();
+    const totalPrice = fixCarPrice + carPartPrice;
+    setValue("totalPrice", totalPrice);
+    setValue("totalPoint", Math.floor(totalPrice / 10000));
   }, [fixCarPrice, carPartPrice, setValue]);
+
+  useEffect(() => {
+    fetchFix();
+  }, []);
 
   const submitForm = async (data) => {
     try {
-      const fixToUpdate = fixes.find((fix) => fix.bookingId === bookingId);
-      console.log("this", bookingId);
-      if (!fixToUpdate) return;
+      const fixToUpdate = fixes.find((fix) => String(fix.bookingId) === String(bookingId))
+      if (!fixToUpdate) {
+        return
+      }
 
-      const formData = new URLSearchParams({
-        bookingId,
-        zoneId,
-        kmLast: String(data.kmLast),
-        kmNext: String(data.kmNext),
-        detailFix: data.detailFix,
-        fixCarPrice: String(data.fixCarPrice),
-        carPartPrice: String(data.carPartPrice),
-        totalPrice: String(data.totalPrice),
-      });
-
-      await axiosInstance.put(APIPath.UPDATE_FIX_STATUS(fixToUpdate.fix_id), formData);
-      await axiosInstance.put(APIPath.UPDATE_TIME_STATUS(timeId), { timeStatus: "true" });
-      await axiosInstance.put(APIPath.UPDATE_ZONE_STATUS(zoneId), { zoneStatus: "true" });
+      await axiosInstance.put(
+        APIPath.UPDATE_FIX_STATUS(fixToUpdate.fix_id),
+        {
+          bookingId,
+          kmLast: data.kmLast,
+          kmNext: data.kmNext,
+          detailFix: data.detailFix,
+          fixCarPrice: data.fixCarPrice,
+          carPartPrice: data.carPartPrice,
+          totalPrice: data.totalPrice,
+          totalPoint: data.totalPoint,
+        }
+      )
       SuccessAlert(t("fix_success"));
       navigate(`/user/billDetail/${fixToUpdate.fix_id}`);
     } catch (error) {

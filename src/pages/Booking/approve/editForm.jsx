@@ -4,20 +4,17 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
-import { Clock3 } from "lucide-react";
+import { Clock3, MapPinned } from "lucide-react";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-import { formatDates } from "../../../utils/FormatDate";
 
-const EditForm = ({ setShowEdit, bookingId, reload, zoneName }) => {
+
+const EditForm = ({ setShowEdit, bookingId, fetchBooking }) => {
   const { t } = useTranslation("booking");
-
-  const [timesList, setTimesList] = useState([]);
-  const [selectedTime, setSelectedTime] = useState(null);
-  const [booking, setBooking] = useState(null);
-
-  const { register, handleSubmit, reset, watch, formState: { errors, isSubmitting }, } = useForm({
+  const [booking, setBooking] = useState([]);
+  const [zone, setZone] = useState([]);
+  const { register, handleSubmit, watch, formState: { errors, isSubmitting }, } = useForm({
     defaultValues: {
-      timeId: "",
+      zoneId: "",
     },
   });
 
@@ -29,29 +26,14 @@ const EditForm = ({ setShowEdit, bookingId, reload, zoneName }) => {
         const bookingRes = await axiosInstance.get(
           APIPath.SELECT_ONE_BOOKING(bookingId)
         );
-
         const bookingData = bookingRes?.data?.data;
         setBooking(bookingData);
 
-        // set default timeId
-        reset({
-          timeId: bookingData?.timeId?.toString() || "",
-        });
 
-        // 2️⃣ fetch all times
-        const timesRes = await axiosInstance.get(
-          APIPath.SELECT_ALL_TIME
+        const zoneRes = await axiosInstance.get(
+          APIPath.SELECT_ALL_ZONE
         );
-
-        setTimesList(timesRes?.data?.data || []);
-
-        // 3️⃣ fetch selected time info (for zone display)
-        if (bookingData?.timeId) {
-          const timeRes = await axiosInstance.get(
-            APIPath.SELECT_ONE_TIME(bookingData.timeId)
-          );
-          setSelectedTime(timeRes?.data?.data);
-        }
+        setZone(zoneRes?.data?.data);
 
       } catch (error) {
         console.log(error);
@@ -59,64 +41,29 @@ const EditForm = ({ setShowEdit, bookingId, reload, zoneName }) => {
     };
 
     init();
-  }, [bookingId, reset]);
-
-  // 🔥 watch time change → update zone instantly
-  const watchTimeId = watch("timeId");
-
-  useEffect(() => {
-    const fetchSelectedTime = async () => {
-      try {
-        if (!watchTimeId) return;
-
-        const res = await axiosInstance.get(
-          APIPath.SELECT_ONE_TIME(watchTimeId)
-        );
-
-        setSelectedTime(res?.data?.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchSelectedTime();
-  }, [watchTimeId]);
+  }, [bookingId]);
 
   // 🔥 Submit
   const onSubmit = async () => {
     try {
-      if (!selectedTime) return;
+      const zoneId = watch("zoneId");
+      if (!zoneId) return;
+
       const payload = {
-        timeId: selectedTime.time_id,
-        branchId: selectedTime.branchId,
+        timeId: booking?.timeId,
+        branchId: booking?.branchId,
         carId: booking?.carId,
         remark: booking?.remark,
+        day: booking?.day,
+        zoneId: zoneId,
       };
 
-      const requests = [
-        axiosInstance.put(
-          APIPath.UPDATE_BOOKING(bookingId),
-          payload
-        ),
-        axiosInstance.put(
-          APIPath.UPDATE_TIME_STATUS(selectedTime.time_id),
-          { timeStatus: "false" }
-        )
-      ];
-
-      const currentTimeId = booking?.timeId;
-      if (currentTimeId) {
-        requests.push(
-          axiosInstance.put(
-            APIPath.UPDATE_TIME_STATUS(currentTimeId),
-            { timeStatus: "true" }
-          )
-        );
-      }
-
-      await Promise.all(requests);
+      await axiosInstance.put(
+        APIPath.UPDATE_BOOKING(bookingId, payload),
+        payload
+      );
+      fetchBooking();
       SuccessAlert(t("edit_success"));
-      await reload();
       setShowEdit(false);
 
     } catch (error) {
@@ -137,32 +84,29 @@ const EditForm = ({ setShowEdit, bookingId, reload, zoneName }) => {
           <div className="w-full py-4 border border-gray-300 rounded-lg shadow-sm px-6">
             <div className="flex flex-col items-center gap-2 w-full">
 
-              <Clock3 className="text-gray-600" />
+              <MapPinned className="text-gray-600" />
 
               <p className="font-medium text-gray-600 text-sm">
-                {t("time_label")}
+                {t("zone_label")}
               </p>
 
               <select
-                {...register("timeId", { required: true })}
+                {...register("zoneId", { required: true })}
                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-800 outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               >
-                {timesList.filter((item) => item.timeStatus === true).map(item => (
+                {zone?.map(item => (
                   <option
-                    key={item.time_id}
-                    value={item.time_id}
+                    key={item.zone_id}
+                    value={item.zone_id}
                   >
-                    ເວລາ: {item.time} /
-                    ວັນທີ: {formatDates(booking?.day)} /
-                    ສາຂາ: {item.branch?.branch_name} /
-                    ໂຊນ: {zoneName}
+                     {item.zoneName}
                   </option>
                 ))}
               </select>
 
-              {errors.timeId && (
+              {errors.zoneId && (
                 <p className="text-red-500 text-sm">
-                  {t("select_time_required")}
+                  {t("select_zone_required")}
                 </p>
               )}
 

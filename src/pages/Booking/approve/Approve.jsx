@@ -62,6 +62,7 @@ const Approve = () => {
       fetchData();
     }
   }, [role, branch_id]);
+  console.log("Booking :", booking);
 
 
   // console.log("Booking data:", booking);

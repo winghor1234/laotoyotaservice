@@ -1,6 +1,6 @@
 
-import { useEffect, useState } from "react";
-import { Calendar, TimerIcon, Edit, Trash, MapPinned, Search, MapPinnedIcon, MapPinPen, MapPin, Eye } from "lucide-react";
+import { useEffect } from "react";
+import { TimerIcon, Edit, Trash, MapPinned, MapPin, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useServerFilterPagination from "../../utils/useServerFilterPagination";
 import { useTranslation } from "react-i18next";
@@ -8,16 +8,9 @@ import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
 import SelectDate from "../../utils/SelectDate";
-import AddTimeFix from "./AddTimeFix";
-import EditTimeFix from "./EditTimeFix";
 const TimeFixList = () => {
     const { t } = useTranslation("timeZone");
-
-    const [showAddTime, setShowAddTime] = useState(false);
-    const [showEditTime, setShowEditTime] = useState(false);
-    const [timeFixId, setTimeFixId] = useState(null);
     const navigate = useNavigate();
-
     // ✅ ใช้ Server Pagination
     const {
         data: timeFix,
@@ -75,15 +68,7 @@ const TimeFixList = () => {
                     fileName={"time-fix-report.xlsx"}
                 />
                 {/* download button */}
-                {/* <DownloadButton open={open} setOpen={setOpen} /> */}
-                <button
-                    onClick={() => setShowAddTime(true)}
-                    className="bg-blue-600 hover:bg-blue-700 px-5 py-3.5 text-white rounded font-medium"
-                >
-                    {t("addButton")}
-                </button>
             </div>
-
             {/* Time Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
                 {timeFix?.map((item) => (
@@ -102,21 +87,13 @@ const TimeFixList = () => {
                                 <MapPin />
                                 {item?.branch?.branch_name}
                             </div>
-                            
+
                         </div>
 
                         <div className={`flex flex-col items-center w-24 gap-2 px-2 rounded-r bg-green-600 text-white`}>
                             <Eye
                                 className="mt-2 cursor-pointer"
                                 onClick={() => handleToDetailTime(item.timefix_id)}
-                            />
-                            <Edit
-                                className="mt-2 cursor-pointer"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setShowEditTime(true);
-                                    setTimeFixId(item.timefix_id);
-                                }}
                             />
                             <Trash
                                 className="cursor-pointer"
@@ -165,22 +142,6 @@ const TimeFixList = () => {
                     ›
                 </button>
             </div>
-
-            {/* Popups */}
-            <EditTimeFix
-                show={showEditTime}
-                onClose={() => setShowEditTime(false)}
-                timefix_id={timeFixId}
-                fetchTimeFix={fetchData}
-            />
-
-            <AddTimeFix
-                show={showAddTime}
-                onClose={() => setShowAddTime(false)}
-                fetchTimeFix={fetchData}
-            />
-
-            
         </div>
     );
 };

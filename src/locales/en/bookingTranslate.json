@@ -102,7 +102,8 @@
   "service_label": "Service",
   "customerInfo": "Customer Info",
   "price_information": "Price Information",
-  "action_label": "Action"
+  "action_label": "Action",
+  "success_fix_button": "Complete"
 
 
 

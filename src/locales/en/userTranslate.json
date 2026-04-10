@@ -45,6 +45,7 @@
   "user_email": "Email",
   "user_phone_number": "Phone",
   "user_village": "Village",
-  "user_province": "Province"
+  "user_province": "Province",
+  "point": "Point"
 
 }

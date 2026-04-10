@@ -13,11 +13,13 @@ const FixDetails = () => {
   const { id } = useParams();
   const [showPopup, setShowPopup] = useState(false);
   const [booking, setBooking] = useState([]);
-  const [bookingId, setBookingId] = useState("");
-  const [timeId, setTimeId] = useState("");
+  // const [bookingId, setBookingId] = useState("");
+  // const [timeId, setTimeId] = useState("");
   const [service, setService] = useState([]);
-  const [timeFix, setTimeFix] = useState([]);
+  // const [timeFix, setTimeFix] = useState([]);
   const navigate = useNavigate();
+
+  // console.log("id: ", id);
 
 
   const fetchBooking = async () => {
@@ -36,35 +38,40 @@ const FixDetails = () => {
       console.log(error);
     }
   };
-  const fetchTimeFix = async () => {
-    try {
-      const timeFixRes = await axiosInstance.get(APIPath.SELECT_ALL_TIME_FIX);
-      setTimeFix(timeFixRes?.data?.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const fetchTimeFix = async () => {
+  //   try {
+  //     const timeFixRes = await axiosInstance.get(APIPath.SELECT_ALL_TIME_FIX);
+  //     setTimeFix(timeFixRes?.data?.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  const timeIdInBooking = booking?.timeId;
-  const selectedTimeFix = timeFix.find((time) => time?.timeId === timeIdInBooking);
-  const zoneName = selectedTimeFix?.zone?.zoneName;
-  const zoneId = selectedTimeFix?.zoneId;
+  // const timeIdInBooking = booking?.timeId;
 
 
+  // const selectedTimeFix = timeFix.find((time) => time?.timeId === timeIdInBooking);
+  // const zoneName = "zone"
+  // const zoneId = selectedTimeFix?.zoneId;
+
+  // console.log("booking: ", booking);
 
 
-  const handleSubmit = (bookingId, timeId) => {
-    setShowPopup(true);
-    setBookingId(bookingId);
-    setTimeId(timeId);
-  };
+
+
+  // const handleSubmit = (bookingId, timeId) => {
+  //   setShowPopup(true);
+  //   setBookingId(bookingId);
+  //   setTimeId(timeId);
+  // };
 
   useEffect(() => {
     fetchBooking();
     fetchBooingDetail();
-    fetchTimeFix();
+    // fetchTimeFix();
   }, []);
 
+// console.log("booking: ", booking);
   return (
     <div style={{ background: "#f3f4f6", padding: "30px 0", fontFamily: "Arial, sans-serif", fontSize: "15px", lineHeight: "1.6", color: "#111827" }}>
 
@@ -99,7 +106,7 @@ const FixDetails = () => {
             <p><strong>{t("customer_phone")}:</strong> {booking?.user?.phoneNumber}</p>
 
             <h3 style={{ margin: "15px 0 10px 0", fontSize: "16px", color: "#374151" }}>{t("appointment_time")}</h3>
-            <p><strong>{t("zone_label")}:</strong> {zoneName}</p>
+            <p><strong>{t("zone_label")}:</strong> {booking?.zone?.zoneName}</p>
             <p><strong>{t("branch_label")}:</strong> {booking?.branch?.branch_name}</p>
             <p><strong>{t("date_label")}:</strong> {formatDates(booking?.day)}</p>
             <p><strong>{t("time_label")}:</strong> {booking?.time?.time}</p>
@@ -148,14 +155,14 @@ const FixDetails = () => {
 
         {/* Action Button */}
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button onClick={() => handleSubmit(booking?.booking_id, booking?.timeId)} style={btnGreen}>
+          <button onClick={() => setShowPopup(true)} style={btnGreen}>
             {t("complete_fix")}
           </button>
         </div>
       </div>
 
       {showPopup && (
-        <PopupFix setShowPopup={setShowPopup} bookingId={bookingId} timeId={timeId} zoneId={zoneId} />
+        <PopupFix setShowPopup={setShowPopup} bookingId={id} timeId={booking?.timeId} zoneId={booking?.zoneId} userId={booking?.userId} />
       )}
     </div>
   );

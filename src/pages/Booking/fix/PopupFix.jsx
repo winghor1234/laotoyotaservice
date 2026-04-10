@@ -4,9 +4,9 @@ import { useFixForm } from "../../../component/schemaValidate/fixValidate/PopupF
 import { useTranslation } from "react-i18next";
 import CurrencyInput from "react-currency-input-field";
 
-const PopupFix = ({ setShowPopup, bookingId, timeId, zoneId }) => {
+const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
   const { t } = useTranslation("booking");
-  const { register, handleSubmit, errors, submitForm, setValue, watch } = useFixForm({ bookingId, timeId, zoneId });
+  const { register, handleSubmit, errors, submitForm, setValue, watch } = useFixForm({ bookingId, timeId });
 
   const fixCarPrice = watch("fixCarPrice") || 0;
   const carPartPrice = watch("carPartPrice") || 0;
@@ -101,20 +101,41 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, zoneId }) => {
             </div>
           </div>
 
-          {/* Total Price */}
-          <div className="flex flex-col relative">
-            <CurrencyInput
-              value={totalPrice}
-              readOnly
-              placeholder={t("totalPrice")}
-              groupSeparator=","
-              decimalsLimit={0}
-              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors bg-gray-100 pr-12"
-            />
-            <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
-              {t("kip_text")}
-            </span>
-            <div className="h-6">{errors.totalPrice && <p className="text-red-500 text-sm">{errors.totalPrice.message}</p>}</div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            {/* totalPrice */}
+            <div className="flex flex-col relative">
+              <CurrencyInput
+                value={totalPrice}
+                readOnly
+                placeholder={t("totalPrice")}
+                groupSeparator=","
+                decimalsLimit={0}
+                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                onValueChange={(value) => setValue("totalPrice", Number(value) || 0)}
+              />
+              <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
+                {t("kip_text")}
+              </span>
+              <div className="h-6">{errors.totalPrice && <p className="text-red-500 text-sm">{errors.totalPrice.message}</p>}</div>
+            </div>
+
+            {/* point */}
+            <div className="flex flex-col relative">
+              <CurrencyInput
+                value={watch("totalPoint") }
+                {...register("totalPoint")}
+                placeholder={t("point")}
+                groupSeparator=","
+                decimalsLimit={0}
+                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                onValueChange={(value) => setValue("totalPoint", Number(value) || 0)}
+              />
+              <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
+                {t("kip_text")}
+              </span>
+              <div className="h-6">{errors.totalPoint && <p className="text-red-500 text-sm">{errors.totalPoint.message}</p>}</div>
+            </div>
           </div>
         </div>
 

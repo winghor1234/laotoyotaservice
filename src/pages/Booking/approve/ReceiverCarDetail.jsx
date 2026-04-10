@@ -17,12 +17,13 @@ const ReceiverCarDetail = () => {
 
   const [booking, setBooking] = useState(null);
   const [bookingDetail, setBookingDetail] = useState([]);
-  const [timeFixData, setTimeFixData] = useState([]);
+  // const [timeFixData, setTimeFixData] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [rejectZone, setRejectZone] = useState(false);
   const [edit, setEdit] = useState(false);
   const [selectedTimeId, setSelectedTimeId] = useState(null);
   const navigate = useNavigate();
+  // console.log("bookingId: ", bookingId);
 
 
 
@@ -47,8 +48,8 @@ const ReceiverCarDetail = () => {
       setBookingDetail(detailRes?.data?.data);
 
       // fetch timeFix
-      const timeFixRes = await axiosInstance.get(APIPath.SELECT_ALL_TIME_FIX);
-      setTimeFixData(timeFixRes?.data?.data);
+      // const timeFixRes = await axiosInstance.get(APIPath.SELECT_ALL_TIME_FIX);
+      // setTimeFixData(timeFixRes?.data?.data);
       // console.log("time fix data:", timeFixRes?.data?.data);
 
     } catch (error) {
@@ -59,11 +60,6 @@ const ReceiverCarDetail = () => {
   useEffect(() => {
     loadAllData();
   }, [loadAllData]);
-
-  const userId = booking?.userId;
-  const selectedTimeFix = timeFixData.find((item) => item?.timeId === selectedTimeId);
-  const zoneName = selectedTimeFix?.zone?.zoneName;
-  const zoneId = selectedTimeFix?.zoneId;
 
   return (
     <div className="relative min-h-screen bg-gray-50 p-4">
@@ -136,7 +132,7 @@ const ReceiverCarDetail = () => {
 
             <div>
               <p className="text-gray-500 text-sm">{t("zone_label")}</p>
-              <p>{zoneName}</p>
+              <p>{booking?.zone?.zoneName}</p>
             </div>
 
             <div>
@@ -252,7 +248,7 @@ const ReceiverCarDetail = () => {
 
             <div>
               <p className="text-gray-500">{t("zone_label")}</p>
-              <p>{zoneName}</p>
+              <p>{booking?.zone?.zoneName}</p>
             </div>
 
             <div>
@@ -295,12 +291,8 @@ const ReceiverCarDetail = () => {
             >
               {t("reject")}
             </button>
-
           </div>
-
         </div>
-
-
       </div>
 
       {/* Popups */}
@@ -308,11 +300,8 @@ const ReceiverCarDetail = () => {
         <PopupApprove
           setShowPopup={setShowPopup}
           bookingId={bookingId}
-          userId={userId}
-          // timeId={selectedTimeId}
+          userId={booking?.userId}
           fetchBooking={loadAllData}
-          zoneName={zoneName}
-          zoneId={zoneId}
         />
       )}
 
@@ -322,7 +311,7 @@ const ReceiverCarDetail = () => {
           bookingId={bookingId}
           timeId={selectedTimeId}
           fetchBooking={loadAllData}
-          zoneName={zoneName}
+          zoneName={booking?.zone?.zoneName}
         />
       )}
 
@@ -330,8 +319,7 @@ const ReceiverCarDetail = () => {
         <EditForm
           setShowEdit={setEdit}
           bookingId={bookingId}
-          reload={loadAllData}
-          zoneName={zoneName}
+          fetchBooking={loadAllData}
         />
       )}
 
