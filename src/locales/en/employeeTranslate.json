@@ -21,6 +21,9 @@
     "cancel_add_alert": "Cancelled adding data",
     "submit": "Submit",
     "cancel": "Cancel",
-    "min_length_2": "Must be at least 2 characters"
+    "min_length_2": "Must be at least 2 characters",
+    "selectBranch": "Select Branch",
+    "selectUser": "Select User"
+    
 
 }

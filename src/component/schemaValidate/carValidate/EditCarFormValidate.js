@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 
 
 
-const editCarSchema = (t) =>z.object({
+const editCarSchema = (t) => z.object({
     // userId: z.string().min(2, t("min_length_2")),
     model: z.string().min(2, t("min_length_2")),
     engineNumber: z.string().min(2, t("min_length_2")),
@@ -23,8 +23,11 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
     const { t } = useTranslation("auth");
     const [users, setUsers] = useState([]);
     const [car, setCar] = useState([]);
+    const [search, setSearch] = useState("");
+    const [showDropdown, setShowDropdown] = useState(false);
+    const dropdownRef = useRef(null);
     const { register, handleSubmit, reset, formState: { errors }, } = useForm({
-         
+
         resolver: zodResolver(editCarSchema(t))
     });
 
@@ -59,6 +62,19 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
             });
     }, [carId, reset]);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowDropdown(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     // submit form
     const submitForm = async (data) => {
         try {
@@ -73,5 +89,5 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
     };
 
 
-    return { register,handleSubmit,submitForm,formState: { errors },users,reset, car };
+    return { register, handleSubmit, submitForm, formState: { errors }, users, reset, car, search, setSearch, showDropdown, setShowDropdown, dropdownRef };
 }

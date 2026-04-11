@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -21,6 +21,9 @@ const addCarSchema = (t) => z.object({
 export const useAddCarForm = ({ handleFetchCar, onClose }) => {
     const { t } = useTranslation("auth");
     const [users, setUsers] = useState([]);
+    const [search, setSearch] = useState("");
+    const [showDropdown, setShowDropdown] = useState(false);
+    const dropdownRef = useRef(null);
     const { register, handleSubmit, formState: { errors }, reset, } = useForm({ resolver: zodResolver(addCarSchema(t)), });
 
     useEffect(() => {
@@ -33,6 +36,19 @@ export const useAddCarForm = ({ handleFetchCar, onClose }) => {
             }
         };
         fetchUsers();
+    }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowDropdown(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
     }, []);
 
     const onSubmit = async (data) => {
@@ -55,5 +71,5 @@ export const useAddCarForm = ({ handleFetchCar, onClose }) => {
     };
 
 
-    return { register, handleSubmit, formState: { errors }, users, onSubmit, handleBack, reset, };
+    return { register, handleSubmit, formState: { errors }, users, onSubmit, handleBack, reset, search, setSearch, showDropdown, setShowDropdown, dropdownRef };
 }

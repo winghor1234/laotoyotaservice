@@ -3,26 +3,26 @@ import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
 import { FaArrowLeft } from "react-icons/fa";
 import { useEditCarForm } from "../../component/schemaValidate/carValidate/EditCarFormValidate";
 import { useTranslation } from "react-i18next";
+import CustomerSearch from "./CustomerSearch";
 
 const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
   const { t } = useTranslation("car");
-  const { register, handleSubmit, submitForm, users } = useEditCarForm({ carId, handleFetchCar, onClose });
-console.log("users in edit form : ", users);
+  const { register, handleSubmit, submitForm, users, reset, getValues, search, setSearch, showDropdown, setShowDropdown , dropdownRef} = useEditCarForm({ carId, handleFetchCar, onClose });
   return (
     <>
       {/* Blur background */}
       <div
         className={`fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity ${show
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 pointer-events-none"
           }`}
         onClick={onClose}
       />
       {/* Popup */}
       <div
         className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-gray-50 rounded-2xl shadow-lg w-full max-w-3xl p-4 sm:p-6 text-sm transition-all ${show
-            ? "scale-100 opacity-100"
-            : "scale-90 opacity-0 pointer-events-none"
+          ? "scale-100 opacity-100"
+          : "scale-90 opacity-0 pointer-events-none"
           }`}
       >
         {/* Header */}
@@ -72,26 +72,60 @@ console.log("users in edit form : ", users);
 
           {/* Right side - Form Fields */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-[400px] w-full">
-            <div className="flex flex-col">
-              <label className="text-sm font-medium mb-1">
-                {t("customer_id")}
-              </label>
-              <select
-                {...register("userId")}
-                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500 transition-colors"
-              >
-                <option value="">{t("select_customer")}</option>
-                {users.map((user) => (
-                  <option key={user.user_id} value={String(user.user_id)}>
-                    {user.customer_number} {user.username}
-                  </option>
-                ))}
-              </select>
-              {/* {errors.userId && (
-                <span className="text-red-500 text-xs mt-1">
-                  {errors.userId.message}
-                </span>
-              )} */}
+            <div className="flex flex-col" ref={dropdownRef}>
+              <div className="flex flex-col relative">
+                <label className="text-sm font-medium mb-1">
+                  {t("customer_id")}
+                </label>
+
+                {/* hidden input สำหรับ react-hook-form */}
+                <input type="hidden" {...register("userId")} />
+
+                {/* input search */}
+                <input
+                  type="text"
+                  value={search}
+                  placeholder={t("select_customer")}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                    setShowDropdown(true);
+                  }}
+                  onFocus={() => setShowDropdown(true)}
+                  className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
+                />
+
+                {/* dropdown */}
+                {showDropdown && (
+                  <div className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
+                    {users
+                      .filter((user) =>
+                        `${user.customer_number} ${user.username}`
+                          .toLowerCase()
+                          .includes(search.toLowerCase())
+                      )
+                      .map((user) => (
+                        <div
+                          key={user.user_id}
+                          onClick={() => {
+                            setSearch(`${user.customer_number} ${user.username}`);
+
+                            // ❗ ใช้ reset (ตามที่คุณบอกว่าใช้)
+                            const currentValues = getValues();
+                            reset({
+                              ...currentValues,
+                              userId: user.user_id,
+                            });
+
+                            setShowDropdown(false);
+                          }}
+                          className="px-3 py-2 text-sm cursor-pointer hover:bg-blue-100"
+                        >
+                          {user.customer_number} {user.username}
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </div>
             </div>
             <div className="flex flex-col">
               <label className="text-sm font-medium mb-1">{t("car_model")}</label>

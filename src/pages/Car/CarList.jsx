@@ -152,7 +152,8 @@ const CarList = () => {
         <div className="divide-y divide-gray-200">
           {car?.map((item, index) => (
             <div
-              key={index}              className="hidden md:grid md:grid-cols-8 md:gap-2 text-center items-center w-full px-4 py-3 hover:bg-gray-50 cursor-pointer"
+              key={index}
+              className="hidden md:grid md:grid-cols-8 md:gap-2 text-center items-center w-full px-4 py-3 hover:bg-gray-50 cursor-pointer"
             >
               <div className="text-center">
                 {(page - 1) * limit + index + 1}
@@ -164,7 +165,7 @@ const CarList = () => {
               <div className="text-center line-clamp-1">{item.frameNumber}</div>
               <div className="text-center line-clamp-1">{item.province}</div>
               <div className="flex justify-center gap-4">
-                <Eye onClick={() => handleToDetailCar(item.car_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"/>
+                <Eye onClick={() => handleToDetailCar(item.car_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                 <Edit
                   className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                   onClick={(e) => {
@@ -219,7 +220,7 @@ const CarList = () => {
                 <span>{item.province}</span>
               </div>
               <div className="flex gap-4 mt-2">
-                <Eye onClick={() => handleToDetailCar(item.car_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"/>
+                <Eye onClick={() => handleToDetailCar(item.car_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                 <Edit
                   className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                   onClick={(e) => {
