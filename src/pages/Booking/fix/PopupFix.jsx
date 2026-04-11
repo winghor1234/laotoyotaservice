@@ -132,7 +132,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
                 onValueChange={(value) => setValue("totalPoint", Number(value) || 0)}
               />
               <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
-                {t("kip_text")}
+                {t("point_text")}
               </span>
               <div className="h-6">{errors.totalPoint && <p className="text-red-500 text-sm">{errors.totalPoint.message}</p>}</div>
             </div>

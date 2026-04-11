@@ -74,7 +74,7 @@ const TimeFixList = () => {
                 {timeFix?.map((item) => (
                     <div key={item.timefix_id} className="flex hover:shadow-xl">
                         <div
-                            className={` text-white cursor-pointer w-full  bg-green-600 px-4 py-3 rounded-l shadow`}>
+                            className={` text-white cursor-pointer w-full  bg-[#E52020] px-4 py-3 rounded-l shadow`}>
                             <div className="flex items-center gap-2">
                                 <TimerIcon />
                                 {item?.time?.time}
@@ -90,7 +90,7 @@ const TimeFixList = () => {
 
                         </div>
 
-                        <div className={`flex flex-col items-center w-24 gap-2 px-2 rounded-r bg-green-600 text-white`}>
+                        <div className={`flex flex-col items-center w-24 gap-2 px-2 rounded-r bg-[#E52020] text-white`}>
                             <Eye
                                 className="mt-2 cursor-pointer"
                                 onClick={() => handleToDetailTime(item.timefix_id)}
