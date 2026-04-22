@@ -133,7 +133,7 @@ const ZoneList = () => {
                         >
                             <Eye className="mt-2 cursor-pointer" onClick={() => handleToDetailZone(item.zone_id)} />
                             <Edit
-                                className="mt-2 cursor-pointer"
+                                className=" cursor-pointer"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setShowEditZone(true);
@@ -152,9 +152,11 @@ const ZoneList = () => {
                                     e.stopPropagation();
                                     handleToggleStatus(item);
                                 }}
-                                className="my-2 px-2 py-1 bg-white text-black rounded text-sm"
+                                className={`relative w-14 h-7 mb-2 cursor-pointer rounded-full transition duration-200   ${item.zoneStatus ? "bg-green-500" : "bg-red-500"} `}
                             >
-                                {item.zoneStatus ? t("statusFree") : t("statusFull")}
+                                <span
+                                    className={`absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${item.zoneStatus ? "translate-x-7" : "translate-x-0"}  `}
+                                />
                             </button>
                         </div>
                     </div>

@@ -40,7 +40,7 @@ const ZoneDetail = () => {
                     </h2>
 
                     {/* Desktop/Tablet View */}
-                    <div className="hidden md:block">
+                    <div className="hidden md:flex justify-center gap-10 text-sm lg:text-base font-medium text-gray-700">
                         <div className="flex justify-center gap-10 text-sm lg:text-base font-medium text-gray-700">
                             <div className="flex flex-col items-center py-4 col-span-2 lg:col-span-1 gap-2">
                                 <div className="flex gap-2 items-center">
@@ -52,6 +52,17 @@ const ZoneDetail = () => {
                                 <p className="text-gray-900 text-xl">{zone?.zoneName}</p>
                             </div>
                         </div>
+                        <div className="flex justify-center gap-10 text-sm lg:text-base font-medium text-gray-700">
+                            <div className="flex flex-col items-center py-4 col-span-2 lg:col-span-1 gap-2">
+                                <div className="flex gap-2 items-center">
+                                    <span className="text-base lg:text-lg text-gray-500 text-center">
+                                        {t("statusLabel")}
+                                    </span>
+                                </div>
+                                <p className="text-gray-900 text-xl">{zone?.zoneStatus ? t("statusFree") : t("statusFull")}</p>
+                            </div>
+                        </div>
+                        
                     </div>
                     {/* Mobile View */}
                     <div className="md:hidden">
@@ -64,7 +75,23 @@ const ZoneDetail = () => {
                             </div>
                             <p className="text-gray-900 text-xl">{zone?.zoneName}</p>
                         </div>
+                        <div className="flex flex-col items-center py-4 gap-2">
+                            <div className="flex gap-2 items-center">
+                                <Calendar className="text-2xl lg:text-4xl text-gray-700" />
+                                <span className="text-base lg:text-lg text-gray-500 text-center">
+                                    {t("statusLabel")}
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className={`w-3 h-3 rounded-full ${zone?.zoneStatus ? "bg-green-500" : "bg-red-500"}`} />
+                                <p className="text-gray-900 text-xl">
+                                    {zone?.zoneStatus ? t("statusFree") : t("statusFull")}
+                                </p>
+                            </div>
+                        </div>
                     </div>
+
+
 
                     {/* Action Button */}
                     <div className="flex justify-center lg:justify-end">
@@ -76,11 +103,11 @@ const ZoneDetail = () => {
                         </button>
                     </div>
                 </div>
-            </div>
+            </div >
 
             {/* Popup */}
-            <EditZone show={showEditZone} onClose={() => setShowEditZone(false)} zoneId={id} fetchZone={fetchData} />
-        </div>
+            < EditZone show={showEditZone} onClose={() => setShowEditZone(false)} zoneId={id} fetchZone={fetchData} />
+        </div >
     );
 };
 

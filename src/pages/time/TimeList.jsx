@@ -126,7 +126,7 @@ const TimeList = () => {
                                 {item.time}
                             </div>
                             <div className="mt-2 flex items-center gap-2 font-semibold">
-                                <ListFilterPlus  />
+                                <ListFilterPlus />
                                 {item?.qty}
                             </div>
 
@@ -143,13 +143,13 @@ const TimeList = () => {
                         >
                             <Eye
                                 className="mt-2 cursor-pointer"
-                                onClick={(e) => {    
-                                    e.stopPropagation();    
+                                onClick={(e) => {
+                                    e.stopPropagation();
                                     handleToDetailTime(item.time_id);
                                 }}
                             />
                             <Edit
-                                className="mt-2 cursor-pointer"
+                                className="mty-2 cursor-pointer"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setShowEditTime(true);
@@ -168,9 +168,11 @@ const TimeList = () => {
                                     e.stopPropagation();
                                     handleToggleStatus(item);
                                 }}
-                                className="my-2 px-2 py-1 bg-white text-black rounded text-sm"
+                                className={`relative my-2 cursor-pointer w-14 h-7 rounded-full transition duration-300 ${item.timeStatus ? "bg-green-500" : "bg-red-500"} `}
                             >
-                                {item.timeStatus ? t("statusFree") : t("statusFull")}
+                                <span
+                                    className={`absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow transition-transform duration-300  ${item.timeStatus ? "translate-x-7" : "translate-x-0"}   `}
+                                />
                             </button>
                         </div>
                     </div>
