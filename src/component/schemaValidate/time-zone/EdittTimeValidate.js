@@ -48,8 +48,8 @@ export const useEditTimeForm = ({ timeId, fetchTime, onClose }) => {
     const submitForm = async (data) => {
         setLoading(true);
         try {
-            // console.log("Time data : ", data.time, data.qty);
-            // console.log("Time ID : ", timeId);
+            console.log("Time data : ", data.time, data.qty);
+            console.log("Time ID : ", timeId);
             await axiosInstance.put(APIPath.UPDATE_TIME(timeId), data);
             SuccessAlert(t("update_success"));
             fetchTime();
