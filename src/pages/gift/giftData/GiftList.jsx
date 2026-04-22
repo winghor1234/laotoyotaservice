@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import useServerFilterPagination from "../../../utils/useServerFilterPagination";
 import ExportExcelPopup from "../../../utils/exportExelPopup";
 import DownloadButton from "../../../utils/DownloadButton";
-import ExchangeGift from "./exchangeGift";
+import ExchangeGift from "./ExchangeGift";
 
 const GiftList = () => {
     const { t } = useTranslation("gift");
