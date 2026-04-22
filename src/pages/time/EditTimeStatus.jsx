@@ -1,11 +1,11 @@
-import { useEditTimeForm } from "../../component/schemaValidate/time-zone/EdittTimeValidate";
+import { useEditTimeStatusForm } from "../../component/schemaValidate/time-zone/EditTimeStatusVallidate";
 import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
 import Spinner from "../../utils/Loading";
 import { useTranslation } from "react-i18next";
 
-const EditTime = ({ show, onClose, timeId, fetchTime }) => {
+const EditTimeStatus = ({ show, onClose, timeId, fetchTime }) => {
     const { t } = useTranslation("timeZone");
-    const { register, handleSubmit, formState: { errors }, loading, submitForm } = useEditTimeForm({ onClose, timeId, fetchTime });
+    const { register, handleSubmit, formState: { errors }, loading, submitForm } = useEditTimeStatusForm({ onClose, timeId, fetchTime });
 
     if (!show) return null;
 
@@ -18,17 +18,14 @@ const EditTime = ({ show, onClose, timeId, fetchTime }) => {
                 </h2>
                 <form onSubmit={handleSubmit(submitForm)} className="space-y-3 sm:space-y-4">
                     <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                        <div className="w-full">
+                        <div className=" hidden w-full">
                             <input
                                 type="text"
                                 placeholder={t("timeLabel")}
                                 {...register("time")}
+                                // value={fetchTime?.time}
                                 className="w-full py-2 sm:py-3.5 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
                             />
-                            <div className="h-6">
-                                {errors.time && <p className="text-red-500 text-sm">{errors.time.message}</p>}
-                            </div>
-
                         </div>
 
 
@@ -68,4 +65,4 @@ const EditTime = ({ show, onClose, timeId, fetchTime }) => {
     );
 };
 
-export default EditTime;
+export default EditTimeStatus;

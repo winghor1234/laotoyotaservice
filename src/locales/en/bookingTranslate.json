@@ -104,7 +104,11 @@
   "price_information": "Price Information",
   "action_label": "Action",
   "success_fix_button": "Complete",
-  "point_text": "Points"
+  "point_text": "Points",
+  "edit_success": "Edit Success",
+  "no_service": "No service",
+  "select_time_required": "Please select time",
+  "select_zone_required": "Please select zone"
 
 
 

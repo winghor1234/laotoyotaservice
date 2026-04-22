@@ -94,7 +94,7 @@ const FixList = () => {
     fetchData();
   }, [role, branch_id]);
 
-
+console.log("Booking data for fix list:", booking);
   return (
     <div>
       {/* Search + Date + Export or download */}
@@ -160,7 +160,7 @@ const FixList = () => {
           <div
             key={index}
             className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
-            onClick={() => fixDetail(item.booking_id)}
+            // onClick={() => fixDetail(item.booking_id)}
           >
             <div className="flex items-center justify-between mb-2">
               <span className="bg-green-500 px-3 py-1 text-black rounded-xl text-xs font-semibold">

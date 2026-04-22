@@ -12,6 +12,7 @@ import ExportExcelPopup from "../../utils/exportExelPopup";
 import AddTime from "./AddTime";
 import EditTime from "./EditTime";
 import DownloadButton from "../../utils/DownloadButton";
+import EditTimeStatus from "./EditTimeStatus";
 
 const TimeList = () => {
     const { t } = useTranslation("timeZone");
@@ -21,6 +22,8 @@ const TimeList = () => {
     const [timeId, setTimeId] = useState(null);
     // const [exportData, setExportData] = useState([]);
     const [open, setOpen] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
     const navigate = useNavigate();
 
     // ✅ ใช้ Server Pagination
@@ -56,19 +59,35 @@ const TimeList = () => {
         navigate(`/user/time-detail/${id}`);
     };
 
+    // const handleToggleStatus = async (item) => {
+    //     try {
+    //         const newStatus = !item.timeStatus;
+
+    //         await axiosInstance.put(
+    //             APIPath.UPDATE_TIME_STATUS(item.time_id),
+    //             { timeStatus: String(newStatus) }
+    //         );
+
+    //         fetchData();
+    //     } catch (error) {
+    //         console.error("Error updating status:", error);
+    //     }
+    // };
+
     const handleToggleStatus = async (item) => {
-        try {
-            const newStatus = !item.timeStatus;
-
-            await axiosInstance.put(
-                APIPath.UPDATE_TIME_STATUS(item.time_id),
-                { timeStatus: String(newStatus) }
-            );
-
-            fetchData();
-        } catch (error) {
-            console.error("Error updating status:", error);
+        if (item.timeStatus === false) {
+            setSelectedItem(item.time_id);
+            setOpenEdit(true);
+            return
         }
+        // ✅ ถ้า true → อัปเดตเลย
+        // updateStatus(item);
+        await axiosInstance.put(
+                APIPath.UPDATE_TIME_STATUS(item.time_id),
+                { timeStatus: String(!item.timeStatus) }
+            );
+            fetchData();
+
     };
 
     const handleDelete = async (id) => {
@@ -168,10 +187,10 @@ const TimeList = () => {
                                     e.stopPropagation();
                                     handleToggleStatus(item);
                                 }}
-                                className={`relative my-2 cursor-pointer w-14 h-7 rounded-full transition duration-300 ${item.timeStatus ? "bg-green-500" : "bg-red-500"} `}
+                                className={`relative my-2 cursor-pointer w-14 h-7 rounded-full transition duration-300 ${item.timeStatus === true ? "bg-green-500" : "bg-red-500"} `}
                             >
                                 <span
-                                    className={`absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow transition-transform duration-300  ${item.timeStatus ? "translate-x-7" : "translate-x-0"}   `}
+                                    className={`absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow transition-transform duration-300  ${item.timeStatus === true ? "translate-x-7" : "translate-x-0"}   `}
                                 />
                             </button>
                         </div>
@@ -220,6 +239,12 @@ const TimeList = () => {
                 show={showEditTime}
                 onClose={() => setShowEditTime(false)}
                 timeId={timeId}
+                fetchTime={fetchData}
+            />
+            <EditTimeStatus
+                show={openEdit}
+                onClose={() => setOpenEdit(false)}
+                timeId={selectedItem}
                 fetchTime={fetchData}
             />
 

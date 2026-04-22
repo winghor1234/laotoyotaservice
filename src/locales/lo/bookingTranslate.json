@@ -105,7 +105,11 @@
   "price_information": "ຂໍ້ມູນລາຄາ",
   "action_label": "ການດໍາເນີນການ",
   "success_fix_button": "ສຳເລັດ",
-  "point_text": "ຄະແນນ"
+  "point_text": "ຄະແນນ",
+  "edit_success": "ແກ້ໄຂສຳເລັດແລ້ວ",
+  "no_service": "ບໍ່ມີບໍລິການ",
+  "select_time_required": "ກະລຸນາເລືອກເວລາ",
+  "select_zone_required": "ກະລຸນາເລືອກໂຊນ"
 
 
   

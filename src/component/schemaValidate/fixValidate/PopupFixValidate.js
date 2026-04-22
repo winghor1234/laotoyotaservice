@@ -72,6 +72,7 @@ export const useFixForm = ({ bookingId }) => {
           totalPoint: data.totalPoint,
         }
       )
+      await axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId), { bookingStatus: "success" });
       SuccessAlert(t("fix_success"));
       navigate(`/user/billDetail/${fixToUpdate.fix_id}`);
     } catch (error) {

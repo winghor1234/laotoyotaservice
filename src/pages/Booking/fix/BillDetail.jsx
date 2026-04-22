@@ -123,7 +123,7 @@ const BillDetail = () => {
                 </div>
 
                 <h2 className="text-center text-2xl font-semibold mb-4">
-                    🧾 {t("billTitle")}
+                    {t("billTitle")}
                 </h2>
 
 

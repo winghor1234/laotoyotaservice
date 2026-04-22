@@ -131,8 +131,8 @@ const Success = () => {
                             <div className="text-center line-clamp-1">{item?.booking?.car?.plateNumber}</div>
                             <div className="text-center line-clamp-1">{formatDates(item?.booking?.day)}</div>
                             <div className="text-center line-clamp-1">{item?.booking?.time?.time}</div>
-                            <div className="text-center line-clamp-1">
-                                <Eye onClick={() => SuccessDetail(item.booking_id)} className="text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                            <div className="flex items-center justify-center">
+                                <Eye onClick={() => SuccessDetail(item.booking.booking_id) } className="text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                             </div>
                         </div>
                     ))}

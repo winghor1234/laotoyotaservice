@@ -15,7 +15,7 @@ const SuccessDetail = () => {
   const [data, setData] = useState([]);
   const [booking, setBooking] = useState([]);
   const [service, setService] = useState([]);
-  const [zone, setZone] = useState([]);
+  // const [zone, setZone] = useState([]);
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -28,7 +28,7 @@ const SuccessDetail = () => {
         const zoneIdFromFix = fixData?.zoneId;
 
         if (bookingIdFromFix || zoneIdFromFix) {
-          const [bookingRes, serviceRes, zoneRes] = await Promise.all([
+          const [bookingRes, serviceRes] = await Promise.all([
             bookingIdFromFix ? axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingIdFromFix)) : Promise.resolve(null),
             bookingIdFromFix ? axiosInstance.get(APIPath.SELECT_BOOKING_DETAIL_BY(bookingIdFromFix)) : Promise.resolve(null),
             zoneIdFromFix ? axiosInstance.get(APIPath.SELECT_ONE_ZONE(zoneIdFromFix)) : Promise.resolve(null),
@@ -36,7 +36,7 @@ const SuccessDetail = () => {
 
           if (bookingRes) setBooking(bookingRes?.data?.data);
           if (serviceRes) setService(serviceRes?.data?.data);
-          if (zoneRes) setZone(zoneRes?.data?.data);
+          // if (zoneRes) setZone(zoneRes?.data?.data);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -81,7 +81,7 @@ const SuccessDetail = () => {
             <p><strong>{t("customer_phone")}:</strong> {booking?.user?.phoneNumber}</p>
 
             <h3 style={{ margin: "15px 0 10px 0", fontSize: "16px", color: "#374151" }}>{t("appointment_time")}</h3>
-            <p><strong>{t("zone_label")}:</strong> {zone?.zoneName}</p>
+            <p><strong>{t("zone_label")}:</strong> {booking?.zone?.zoneName}</p>
             <p><strong>{t("branch_label")}:</strong> {booking?.branch?.branch_name}</p>
             <p><strong>{t("date_label")}:</strong> {formatDates(booking?.day)}</p>
             <p><strong>{t("time_label")}:</strong> {booking?.time?.time}</p>
