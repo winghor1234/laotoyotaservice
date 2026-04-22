@@ -105,7 +105,7 @@ const Success = () => {
             <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mt-4">
                 {/* Desktop/Tablet Header */}
                 <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
-                    <div className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
+                    <div className="grid grid-cols-7 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
                         <div className="text-center">{t("booking")}</div>
                         <div className="text-center">{t("customerName")}</div>
                         <div className="text-center">{t("phone")}</div>
