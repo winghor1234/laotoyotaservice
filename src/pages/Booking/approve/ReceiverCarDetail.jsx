@@ -21,7 +21,7 @@ const ReceiverCarDetail = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [rejectZone, setRejectZone] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [selectedTimeId, setSelectedTimeId] = useState(null);
+  // const [selectedTimeId, setSelectedTimeId] = useState(null);
   const navigate = useNavigate();
   // console.log("bookingId: ", bookingId);
 
@@ -35,10 +35,8 @@ const ReceiverCarDetail = () => {
         APIPath.SELECT_ONE_BOOKING(bookingId)
       );
       const bookingData = bookingRes?.data?.data;
-      // console.log("booking data:", bookingData);
       setBooking(bookingData);
-      setSelectedTimeId(bookingData.timeId);
-      // console.log("booking data time id :", bookingData?.timeId);
+
 
 
       // 3️⃣ fetch booking detail
@@ -46,11 +44,6 @@ const ReceiverCarDetail = () => {
         APIPath.SELECT_BOOKING_DETAIL_BY(bookingId)
       );
       setBookingDetail(detailRes?.data?.data);
-
-      // fetch timeFix
-      // const timeFixRes = await axiosInstance.get(APIPath.SELECT_ALL_TIME_FIX);
-      // setTimeFixData(timeFixRes?.data?.data);
-      // console.log("time fix data:", timeFixRes?.data?.data);
 
     } catch (error) {
       console.log(error);
@@ -309,7 +302,7 @@ const ReceiverCarDetail = () => {
         <PopupReject
           setRejectZone={setRejectZone}
           bookingId={bookingId}
-          timeId={selectedTimeId}
+          // timeId={selectedTimeId}
           fetchBooking={loadAllData}
           zoneName={booking?.zone?.zoneName}
         />

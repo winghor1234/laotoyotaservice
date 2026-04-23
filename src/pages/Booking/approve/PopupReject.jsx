@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from "react-i18next";
 import { formatDates } from '../../../utils/FormatDate';
 
+
 const PopupReject = ({ setRejectZone, bookingId, fetchBooking }) => {
   const { t } = useTranslation("booking"); // namespace booking
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ const PopupReject = ({ setRejectZone, bookingId, fetchBooking }) => {
             <div className='flex flex-col items-center gap-1'>
               <Clock3 className='text-lg text-gray-600' />
               <p className="font-medium text-gray-600 text-xs lg:text-sm">{t("time_label")}:</p>
-              <p className="text-gray-900 text-md lg:text-xl">{booking?.time.time}</p>
+              <p className="text-gray-900 text-md lg:text-xl">{booking?.time?.time}</p>
             </div>
             <div className='flex flex-col items-center gap-1'>
               <MapPinned className='text-lg text-gray-600' />
