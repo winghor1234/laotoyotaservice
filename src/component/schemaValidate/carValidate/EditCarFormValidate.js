@@ -26,7 +26,7 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
     const [search, setSearch] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
-    const { register, handleSubmit, reset, formState: { errors }, } = useForm({
+    const { register, handleSubmit, reset,getValues, formState: { errors }, } = useForm({
 
         resolver: zodResolver(editCarSchema(t))
     });
@@ -44,16 +44,17 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
 
                 // ตั้งค่า default values ของ form ให้ตรงกับข้อมูลรถ
                 const carData = carResponse?.data?.data;
+                // console.log("car data : ",carData);
                 setCar(carData);
                 if (carData) {
                     reset({
-                        userId: String(carData.userId) || "",
-                        model: carData.model || "",
-                        engineNumber: carData.engineNumber || "",
-                        frameNumber: carData.frameNumber || "",
-                        plateNumber: carData.plateNumber || "",
-                        province: carData.province || "",
-                        color: carData.color || "",
+                        userId: String(carData?.userId) || "",
+                        model: carData?.model,
+                        engineNumber: carData?.engineNumber,
+                        frameNumber: carData?.frameNumber,
+                        plateNumber: carData?.plateNumber ,
+                        province: carData?.province ,
+                        color: carData?.color.trim() || "",
                     });
                 }
             })
@@ -89,5 +90,5 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
     };
 
 
-    return { register, handleSubmit, submitForm, formState: { errors }, users, reset, car, search, setSearch, showDropdown, setShowDropdown, dropdownRef };
+    return { register, handleSubmit, submitForm, formState: { errors }, users, reset, car, search, setSearch, showDropdown, setShowDropdown, dropdownRef, getValues };
 }

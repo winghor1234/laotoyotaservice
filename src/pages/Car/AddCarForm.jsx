@@ -3,17 +3,50 @@ import { SuccessAlert } from '../../utils/handleAlert/SuccessAlert';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useAddCarForm } from '../../component/schemaValidate/carValidate/AddCarFormValidate';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+
+
+const provinces = [
+  "ນະຄອນຫຼວງວຽງຈັນ",
+  "ແຂວງວຽງຈັນ",
+  "ຫຼວງພະບາງ",
+  "ຫຼວງນໍ້າທາ",
+  "ອຸດົມໄຊ",
+  "ຜົ້ງສາລີ",
+  "ບໍ່ແກ້ວ",
+  "ໄຊຍະບູລີ",
+  "ຫົວພັນ",
+  "ຊຽງຂວາງ",
+  "ບໍລິຄຳໄຊ",
+  "ຄຳມ່ວນ",
+  "ສະຫວັນນະເຂດ",
+  "ສາລະວັນ",
+  "ເຊກອງ",
+  "ຈຳປາສັກ",
+  "ອັດຕະປື",
+  "ໄຊສົມບູນ"
+];
+
+const colors = [
+  "ແດງ",
+  "ດຳ",
+  "ຂາວ",
+  "ເທົາ",
+  "ນໍ້າຕານ",
+];
+
 
 export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
-  const { register, handleSubmit, formState: { errors }, users = [], onSubmit, handleBack,getValues, search, setSearch, showDropdown, setShowDropdown,reset } = useAddCarForm({ handleFetchCar, onClose });
+  const { register, handleSubmit, formState: { errors }, users = [], onSubmit, handleBack, getValues, search, setSearch, showDropdown, setShowDropdown, reset } = useAddCarForm({ handleFetchCar, onClose });
   const { t } = useTranslation("car");
+  const [selectedUser, setSelectedUser] = useState(null);
   const fields = [
     { name: 'model', labelKey: 'car_model', placeholderKey: 'model_placeholder' },
     { name: 'engineNumber', labelKey: 'engine', placeholderKey: 'engine_placeholder' },
     { name: 'frameNumber', labelKey: 'frame', placeholderKey: 'frame_placeholder' },
     { name: 'plateNumber', labelKey: 'plate', placeholderKey: 'plate_placeholder' },
-    { name: 'province', labelKey: 'province', placeholderKey: 'province_placeholder' },
-    { name: 'color', labelKey: 'color', placeholderKey: 'color_placeholder' },
+    // { name: 'province', labelKey: 'province', placeholderKey: 'province_placeholder' },
+    // { name: 'color', labelKey: 'color', placeholderKey: 'color_placeholder' },
   ];
 
   return (
@@ -66,28 +99,10 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
 
           {/* Right */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-[400px] w-full">
-            {/* <div className="flex flex-col">
-              <label className="text-sm font-medium mb-1">{t("customer_id")}</label>
-              <select
-                {...register('userId')}
-                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
-              >
-                <option value="">{t("choose_customer")}</option>
-                {(users || []).map((user) => (
-                  <option key={user.user_id} value={user.user_id}>
-                    {user.customer_number } - {user.username} {user?.car?.plateNumber ? `(${user.car.plateNumber})` : ''}
-                  </option>
-                ))}
-              </select>
-              {errors.userId && <span className="text-red-500 text-xs mt-1">{errors.userId.message}</span>}
-            </div> */}
-
             <div className="flex flex-col relative">
               <label className="text-sm font-medium mb-1">
                 {t("customer_id")}
               </label>
-
-              {/* hidden input สำหรับ react-hook-form */}
               <input type="hidden" {...register("userId")} />
 
               {/* input search */}
@@ -97,14 +112,19 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
                 placeholder={t("select_customer")}
                 onChange={(e) => {
                   setSearch(e.target.value);
+                  setSelectedUser(null);
                   setShowDropdown(true);
                 }}
-                onFocus={() => setShowDropdown(true)}
+                onFocus={() => {
+                  if (!selectedUser) {
+                    setShowDropdown(true);
+                  }
+                }}
                 className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
               />
 
               {/* dropdown */}
-              {showDropdown && (
+              {showDropdown && !selectedUser && (
                 <div className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
                   {users
                     .filter((user) =>
@@ -118,8 +138,9 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
                         onClick={() => {
                           setSearch(`${user.customer_number} ${user.username}`);
 
-                          // ❗ ใช้ reset (ตามที่คุณบอกว่าใช้)
+                          setSelectedUser(user);
                           const currentValues = getValues();
+
                           reset({
                             ...currentValues,
                             userId: user.user_id,
@@ -149,6 +170,41 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
                 )}
               </div>
             ))}
+
+            {/* Province */}
+            <div className="flex flex-col">
+              <label className="text-sm font-medium mb-1">{t("province")}</label>
+              <select
+                {...register("province")}
+                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
+              >
+                <option value="">{t("province_placeholder")}</option>
+                {provinces.map((p) => (
+                  <option key={p} value={p}>{p}</option>
+                ))}
+              </select>
+              {errors.province && (
+                <span className="text-red-500 text-xs mt-1">{errors.province.message}</span>
+              )}
+            </div>
+
+            {/* Color */}
+
+            <div className="flex flex-col">
+              <label className="text-sm font-medium mb-1">{t("color")}</label>
+              <select
+                {...register("color")}
+                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500 duration-200 transition-colors"
+              >
+                <option value="">{t("color_placeholder")}</option>
+                {colors.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+              {errors.color && (
+                <span className="text-red-500 text-xs mt-1">{errors.color.message}</span>
+              )}
+            </div>
 
           </div>
         </form>

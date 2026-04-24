@@ -4,10 +4,40 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useEditCarForm } from "../../component/schemaValidate/carValidate/EditCarFormValidate";
 import { useTranslation } from "react-i18next";
 import CustomerSearch from "./CustomerSearch";
+import { useState } from "react";
+const provinces = [
+  "ນະຄອນຫຼວງວຽງຈັນ",
+  "ແຂວງວຽງຈັນ",
+  "ຫຼວງພະບາງ",
+  "ຫຼວງນໍ້າທາ",
+  "ອຸດົມໄຊ",
+  "ຜົ້ງສາລີ",
+  "ບໍ່ແກ້ວ",
+  "ໄຊຍະບູລີ",
+  "ຫົວພັນ",
+  "ຊຽງຂວາງ",
+  "ບໍລິຄຳໄຊ",
+  "ຄຳມ່ວນ",
+  "ສະຫວັນນະເຂດ",
+  "ສາລະວັນ",
+  "ເຊກອງ",
+  "ຈຳປາສັກ",
+  "ອັດຕະປື",
+  "ໄຊສົມບູນ"
+];
+const colors = [
+  "ແດງ",
+  "ດຳ",
+  "ຂາວ",
+  "ເທົາ",
+  "ນໍ້າຕານ",
+];
 
 const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
   const { t } = useTranslation("car");
-  const { register, handleSubmit, submitForm, users, reset, getValues, search, setSearch, showDropdown, setShowDropdown , dropdownRef} = useEditCarForm({ carId, handleFetchCar, onClose });
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const { register, handleSubmit, submitForm, users, reset, getValues, search, setSearch, showDropdown, setShowDropdown, dropdownRef, errors } = useEditCarForm({ carId, handleFetchCar, onClose });
   return (
     <>
       {/* Blur background */}
@@ -78,24 +108,27 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
                   {t("customer_id")}
                 </label>
 
-                {/* hidden input สำหรับ react-hook-form */}
-                <input type="hidden" {...register("userId")} />
-
                 {/* input search */}
                 <input
+                  {...register("userId")}
                   type="text"
                   value={search}
                   placeholder={t("select_customer")}
                   onChange={(e) => {
                     setSearch(e.target.value);
                     setShowDropdown(true);
+                    setSelectedUser(true);
                   }}
-                  onFocus={() => setShowDropdown(true)}
+                  onFocus={() => {
+                    if (!selectedUser) {
+                      setShowDropdown(true);
+                    }
+                  }}
                   className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
                 />
 
                 {/* dropdown */}
-                {showDropdown && (
+                {showDropdown && !selectedUser && (
                   <div className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
                     {users
                       .filter((user) =>
@@ -108,8 +141,7 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
                           key={user.user_id}
                           onClick={() => {
                             setSearch(`${user.customer_number} ${user.username}`);
-
-                            // ❗ ใช้ reset (ตามที่คุณบอกว่าใช้)
+                            // setSelectedUser(user);
                             const currentValues = getValues();
                             reset({
                               ...currentValues,
@@ -159,21 +191,43 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
                 placeholder={t("plate_placeholder")}
               />
             </div>
+            {/* Province */}
             <div className="flex flex-col">
               <label className="text-sm font-medium mb-1">{t("province")}</label>
-              <input
-                {...register("province", { required: true })}
-                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500 transition-colors"
-                placeholder={t("province_placeholder")}
-              />
+              <select
+                {...register("province")}
+                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
+              >
+                <option value="">{t("province_placeholder")}</option>
+                {provinces.map((p) => (
+                  <option key={p} value={p}>{p}</option>
+                ))}
+              </select>
+              {errors && errors.province && (
+                <span className="text-red-500 text-xs mt-1">
+                  {errors.province.message}
+                </span>
+              )}
             </div>
+
+            {/* Color */}
+
             <div className="flex flex-col">
               <label className="text-sm font-medium mb-1">{t("color")}</label>
-              <input
-                {...register("color", { required: true })}
-                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500 transition-colors"
-                placeholder={t("color_placeholder")}
-              />
+              <select
+                {...register("color")}
+                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
+              >
+                <option value="">{t("color_placeholder")}</option>
+                {colors.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+              {errors && errors.color && (
+                <span className="text-red-500 text-xs mt-1">
+                  {errors.color.message}
+                </span>
+              )}
             </div>
           </div>
         </form>
