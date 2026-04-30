@@ -3,7 +3,7 @@ import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
 import AddUser from "./AddUser";
 import SelectDate from "../../utils/SelectDate";
-import { Car, Edit, Trash } from "lucide-react";
+import { Car, Edit, Lock, Trash, UserLock } from "lucide-react";
 import EditUser from "./EditUser";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
 import { useTranslation } from "react-i18next";
@@ -11,26 +11,19 @@ import { useNavigate } from "react-router-dom";
 import useServerFilterPagination from "../../utils/useServerFilterPagination";
 import ExportExcelPopup from "../../utils/exportExelPopup";
 import DownloadButton from "../../utils/DownloadButton";
+import ImportExcel from "../../utils/ImportExel";
+import { toSafeString } from "../../utils/toSafeString";
+import ChangePassword from "./ChangePassword";
 
 const UserList = () => {
     const { t } = useTranslation("user");
     const [showAdd, setShowAdd] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
+    const [showChangePassword, setShowChangePassword] = useState(false);
     const [customerId, setCustomerId] = useState(null);
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
-
-    // setExportedData(
-    //     res?.data?.data?.map((item) => ({
-    //         ຊື່: item.username,
-    //         ເບີໂທ: item.phoneNumber,
-    //         ອີເມວ: item.email,
-    //         ບ້ານ: item.village,
-    //         ເມືອງ: item.district,
-    //         ແຂວງ: item.province,
-    //         ສະຖານະ: item.role,
-    //     }))
 
     const {
         data: customer,
@@ -75,16 +68,6 @@ const UserList = () => {
     const handleToDetailUser = (id) => {
         navigate(`/user/user-detail/${id}`);
     };
-    {/* <ImportExcel
-            apiPath={APIPath.REGISTER}
-            requiredFields={["ຊື່", "ວັນທີເດືອນປີ", "ໂຊນ"]}
-            transformData={(item) => ({
-              time: item["ເວລາ"],
-              date: item["ວັນທີເດືອນປີ"],
-              zoneId: item["ໂຊນ"],
-            })}
-            onUploadSuccess={handleFetchUser} 
-            /> */}
 
     useEffect(() => {
         fetchData();
@@ -107,9 +90,36 @@ const UserList = () => {
                         onClose={() => setOpen(false)}
                     />
                 )}
-                <button onClick={() => setShowAdd(true)} className="bg-blue-500 hover:bg-blue-600 transition-colors w-full sm:w-auto px-5 py-3.5  text-white rounded font-medium cursor-pointer text-sm sm:text-base">
-                    {t("add_user")}
-                </button>
+
+                <div className="flex gap-2 ">
+                    <button onClick={() => setShowAdd(true)} className="bg-blue-500 hover:bg-blue-600 transition-colors w-full sm:w-auto px-5 py-3.5  text-white rounded font-medium cursor-pointer text-sm sm:text-base">
+                        {t("add_user")}
+                    </button>
+                    <ImportExcel
+                        apiPath={APIPath.REGISTER}
+                        requiredFields={[
+                            "username",
+                            "phoneNumber",
+                            "password",
+                            "province",
+                            "district",
+                            "village",
+                            "email",
+                        ]}
+                        transformData={(item) => ({
+                            username: toSafeString(item["username"]),
+                            phoneNumber: toSafeString(item["phoneNumber"]),
+                            password: toSafeString(item["password"]),
+                            province: toSafeString(item["province"]),
+                            district: toSafeString(item["district"]),
+                            village: toSafeString(item["village"]),
+                            email: toSafeString(item["email"]),
+                        })}
+                        onUploadSuccess={() =>
+                            fetchData()
+                        }
+                    />
+                </div>
             </div>
             {/* Table Header */}
             <div className="hidden md:block w-full h-12 md:h-12 lg:h-14 rounded-t-lg bg-[#E52020] text-white">
@@ -170,6 +180,14 @@ const UserList = () => {
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     handleDelete(item.user_id);
+                                }}
+                            />
+                            <UserLock
+                                className="cursor-pointer"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowChangePassword(true);
+                                    setCustomerId(item.user_id);
                                 }}
                             />
                         </div>
@@ -275,6 +293,12 @@ const UserList = () => {
             <EditUser
                 show={showEdit}
                 onClose={() => setShowEdit(false)}
+                customerId={customerId}
+                handleFetch={fetchData}
+            />
+            <ChangePassword
+                show={showChangePassword}
+                onClose={() => setShowChangePassword(false)}
                 customerId={customerId}
                 handleFetch={fetchData}
             />

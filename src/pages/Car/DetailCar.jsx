@@ -61,7 +61,7 @@ const DetailCar = () => {
 
                     {/* Desktop / Tablet View */}
                     <div className="hidden md:block px-16">
-                        <div className="flex gap-6 items-start justify-start p-4 rounded-lg shadow-sm">
+                        <div className=" flex gap-6 items-start justify-between p-4 rounded-lg shadow-sm">
                             <div className="flex flex-col gap-2 text-left">
                                 <div>
                                     <p className="text-base text-gray-500">{t("model")} :</p>
@@ -88,6 +88,35 @@ const DetailCar = () => {
                                     <p className="text-base text-gray-800">{carData.province}</p>
                                 </div>
                             </div>
+                            {/* user */}
+                            {carData?.user && (
+                                <div className="flex flex-col gap-2 text-left">
+                                    <div>
+                                        <p className="text-base text-gray-500">{t("user")} :</p>
+                                        <p className="text-base text-gray-900 font-semibold">{carData?.user?.username}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-base text-gray-500">{t("email")} :</p>
+                                        <p className="text-base text-gray-800">{carData?.user?.email}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-base text-gray-500">{t("phone")} :</p>
+                                        <p className="text-base text-gray-800">{carData?.user?.phoneNumber}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-base text-gray-500">{t("province")} :</p>
+                                        <p className="text-base text-gray-800">{carData?.user?.province}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-base text-gray-500">{t("district")} :</p>
+                                        <p className="text-base text-gray-800">{carData?.user?.district}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-base text-gray-500">{t("village")} :</p>
+                                        <p className="text-base text-gray-800">{carData?.user?.village}</p>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -95,31 +124,61 @@ const DetailCar = () => {
                     <div className="md:hidden space-y-4">
                         <div className="bg-gray-50 p-4 rounded-md shadow-inner space-y-3">
                             <div>
-                                <span className="text-base text-gray-500 block">{t("branch_title")}:</span>
+                                <span className="text-base text-gray-500 block">{t("model")}:</span>
                                 <span className="text-base font-medium text-gray-900">{carData.model}</span>
                             </div>
                             <div>
-                                <span className="text-base text-gray-500 block">{t("branch_location")}:</span>
+                                <span className="text-base text-gray-500 block">{t("plate")}:</span>
                                 <span className="text-base font-medium text-gray-800">{carData.plateNumber}</span>
                             </div>
                             <div>
-                                <span className="text-base text-gray-500 block">{t("branch_phone")}:</span>
+                                <span className="text-base text-gray-500 block">{t("color")}:</span>
                                 <span className="text-base font-medium text-gray-800">{carData.color}</span>
                             </div>
                             <div>
-                                <span className="text-base text-gray-500 block">{t("branch_phone")}:</span>
+                                <span className="text-base text-gray-500 block">{t("engine")}:</span>
                                 <span className="text-base font-medium text-gray-800">{carData.engineNumber}</span>
                             </div>
                             <div>
-                                <span className="text-base text-gray-500 block">{t("branch_phone")}:</span>
+                                <span className="text-base text-gray-500 block">{t("frame")}:</span>
                                 <span className="text-base font-medium text-gray-800">{carData.frameNumber}</span>
                             </div>
                             <div>
-                                <span className="text-base text-gray-500 block">{t("branch_phone")}:</span>
+                                <span className="text-base text-gray-500 block">{t("province")}:</span>
                                 <span className="text-base font-medium text-gray-800">{carData.province}</span>
                             </div>
-                            
+
                         </div>
+                        {/* user */}
+                        {carData?.user && (
+                            <div className="bg-gray-50 p-4 rounded-md shadow-inner space-y-3">
+                                <div>
+                                    <span className="text-base text-gray-500 block">{t("user")}:</span>
+                                    <span className="text-base font-medium text-gray-900">{carData?.user?.username}</span>
+                                </div>
+                                <div>
+                                    <span className="text-base text-gray-500 block">{t("email")}:</span>
+                                    <span className="text-base font-medium text-gray-800">{carData?.user?.email}</span>
+                                </div>
+                                <div>
+                                    <span className="text-base text-gray-500 block">{t("phone")}:</span>
+                                    <span className="text-base font-medium text-gray-800">{carData?.user?.phoneNumber}</span>
+                                </div>
+                                <div>
+                                    <span className="text-base text-gray-500 block">{t("province")}:</span>
+                                    <span className="text-base font-medium text-gray-800">{carData?.user?.province}</span>
+                                </div>
+                                <div>
+                                    <span className="text-base text-gray-500 block">{t("district")}:</span>
+                                    <span className="text-base font-medium text-gray-800">{carData?.user?.district}</span>
+                                </div>
+                                <div>
+                                    <span className="text-base text-gray-500 block">{t("village")}:</span>
+                                    <span className="text-base font-medium text-gray-800">{carData?.user?.village}</span>
+                                </div>
+
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

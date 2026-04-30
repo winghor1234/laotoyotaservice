@@ -16,6 +16,7 @@ export default class APIPath {
     static EXPORT_ADMIN = `${this.BASE_URL}/user/exportAdmin`;
     static FORGOT = `${this.BASE_URL}/user/forgot`;
     static CHANGE_PASSWORD = `${this.BASE_URL}/user/changePassword`;
+    static CHANGE_CUSTOMER_PASSWORD(id) { return `${this.BASE_URL}/user/changeCustomerPassword/${id}` }
     static REFRESH = `${this.BASE_URL}/user/refresh`;
     static UPDATE_PROFILE = `${this.BASE_URL}/user/update`;
     static UPDATE_CUSTOMER(id) { return `${this.BASE_URL}/user/update/${id}` };

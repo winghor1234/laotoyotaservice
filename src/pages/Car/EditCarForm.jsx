@@ -5,7 +5,36 @@ import { useEditCarForm } from "../../component/schemaValidate/carValidate/EditC
 import { useTranslation } from "react-i18next";
 import CustomerSearch from "./CustomerSearch";
 import { useState } from "react";
-const provinces = [
+// const province = [
+//   "ນະຄອນຫຼວງວຽງຈັນ",
+//   "ແຂວງວຽງຈັນ",
+//   "ຫຼວງພະບາງ",
+//   "ຫຼວງນໍ້າທາ",
+//   "ອຸດົມໄຊ",
+//   "ຜົ້ງສາລີ",
+//   "ບໍ່ແກ້ວ",
+//   "ໄຊຍະບູລີ",
+//   "ຫົວພັນ",
+//   "ຊຽງຂວາງ",
+//   "ບໍລິຄຳໄຊ",
+//   "ຄຳມ່ວນ",
+//   "ສະຫວັນນະເຂດ",
+//   "ສາລະວັນ",
+//   "ເຊກອງ",
+//   "ຈຳປາສັກ",
+//   "ອັດຕະປື",
+//   "ໄຊສົມບູນ"
+// ];
+// const color = [
+//   "ແດງ",
+//   "ດຳ",
+//   "ຂາວ",
+//   "ເທົາ",
+//   "ນໍ້າຕານ",
+// ];
+
+
+ const provinces = [
   "ນະຄອນຫຼວງວຽງຈັນ",
   "ແຂວງວຽງຈັນ",
   "ຫຼວງພະບາງ",
@@ -23,9 +52,10 @@ const provinces = [
   "ເຊກອງ",
   "ຈຳປາສັກ",
   "ອັດຕະປື",
-  "ໄຊສົມບູນ"
+  "ໄຊສົມບູນ",
 ];
-const colors = [
+
+ const colors = [
   "ແດງ",
   "ດຳ",
   "ຂາວ",

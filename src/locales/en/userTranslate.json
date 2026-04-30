@@ -46,6 +46,11 @@
   "user_phone_number": "Phone",
   "user_village": "Village",
   "user_province": "Province",
-  "point": "Point"
-
+  "point": "Point",
+  "min_length_6": "Must be at least 6 characters",
+  "password_mismatch": "Password confirmation does not match",
+  "change_password": "Change Password",
+  "new_password": "New Password",
+  "confirm_password": "Confirm Password",
+  "update_success": "Password changed successfully"
 }

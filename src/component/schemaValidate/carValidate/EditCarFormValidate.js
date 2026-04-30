@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 
 
 const editCarSchema = (t) => z.object({
-    // userId: z.string().min(2, t("min_length_2")),
+    userId: z.string().optional(),
     model: z.string().min(2, t("min_length_2")),
     engineNumber: z.string().min(2, t("min_length_2")),
     frameNumber: z.string().min(2, t("min_length_2")),
@@ -25,8 +25,8 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
     const [car, setCar] = useState([]);
     const [search, setSearch] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
-    const dropdownRef = useRef(null);
-    const { register, handleSubmit, reset,getValues, formState: { errors }, } = useForm({
+    const dropdownRef = useRef();
+    const { register, handleSubmit, reset, getValues, formState: { errors }, } = useForm({
 
         resolver: zodResolver(editCarSchema(t))
     });
@@ -44,17 +44,17 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
 
                 // ตั้งค่า default values ของ form ให้ตรงกับข้อมูลรถ
                 const carData = carResponse?.data?.data;
-                // console.log("car data : ",carData);
+                console.log("car data : ", carData);
                 setCar(carData);
                 if (carData) {
                     reset({
-                        userId: String(carData?.userId) || "",
+                        userId: String(carData?.user?.username) || "",
                         model: carData?.model,
                         engineNumber: carData?.engineNumber,
                         frameNumber: carData?.frameNumber,
-                        plateNumber: carData?.plateNumber ,
-                        province: carData?.province ,
-                        color: carData?.color.trim() || "",
+                        plateNumber: carData?.plateNumber,
+                        province: carData?.province,
+                        color: carData?.color,
                     });
                 }
             })
@@ -78,6 +78,7 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
 
     // submit form
     const submitForm = async (data) => {
+        console.log("submit data : ", data);
         try {
             await axiosInstance.put(APIPath.UPDATE_CAR(carId), data);
             handleFetchCar();

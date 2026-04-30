@@ -13,10 +13,12 @@ import { useNavigate } from "react-router-dom";
 import useServerFilterPagination from "../../utils/useServerFilterPagination";
 import ExportExcelPopup from "../../utils/exportExelPopup";
 import DownloadButton from "../../utils/DownloadButton";
+import { toSafeString } from "../../utils/toSafeString";
 
 const CarList = () => {
   const { t } = useTranslation("car");
   const navigate = useNavigate();
+
 
   // Popup
   const [showAddCarForm, setShowAddCarForm] = useState(false);
@@ -53,26 +55,6 @@ const CarList = () => {
   });
 
 
-  console.log("car :", car);
-
-  // ===============================
-  // Export (ถ้ายังต้องใช้)
-  // ===============================
-  // const exportedData = car?.map((item) => ({
-  //   "ລະຫັດ": item.userId,
-  //   "ຊື່ລົດ": item.model,
-  //   "ປ້າຍທະບຽນ": item.plateNumber,
-  //   "ເລກຖັງ": item.frameNumber,
-  //   "ເລກຈັກ": item.engineNumber,
-  //   "ແຂວງ": item.province,
-  //   "ສີ": item.color,
-  // }));
-  // console.log("car :",  totalPage);
-
-
-  // ===============================
-  // Delete
-  // ===============================
 
   const handleDelete = async (id) => {
     const confirmDelete = await DeleteAlert(
@@ -113,21 +95,21 @@ const CarList = () => {
         <ImportExcel
           apiPath={APIPath.CREATE_CAR}
           requiredFields={[
-            "ຊື່ລົດ",
-            "ປ້າຍທະບຽນ",
-            "ເລກຖັງ",
-            "ເລກຈັກ",
-            "ແຂວງ",
-            "ສີ",
+            "model",
+            "plateNumber",
+            "frameNumber",
+            "engineNumber",
+            "province",
+            "color",
           ]}
           transformData={(item) => ({
             userId: null,
-            model: item["ຊື່ລົດ"]?.trim(),
-            plateNumber: item["ປ້າຍທະບຽນ"]?.trim(),
-            frameNumber: item["ເລກຖັງ"]?.trim(),
-            engineNumber: item["ເລກຈັກ"]?.trim(),
-            province: item["ແຂວງ"]?.trim(),
-            color: item["ສີ"]?.trim(),
+            model: toSafeString(item["model"]),
+            plateNumber: toSafeString(item["plateNumber"]),
+            frameNumber: toSafeString(item["frameNumber"]),
+            engineNumber: toSafeString(item["engineNumber"]),
+            province: toSafeString(item["province"]),
+            color: toSafeString(item["color"]),
           })}
           onUploadSuccess={() =>
             fetchData()

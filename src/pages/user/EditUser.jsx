@@ -3,6 +3,7 @@ import { SuccessAlert } from '../../utils/handleAlert/SuccessAlert';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
+
 const EditUser = ({ show, onClose, customerId, handleFetch }) => {
     const { t } = useTranslation("user");
     const { register, handleSubmit, formState: { errors }, submitForm } = useEditUserForm({ customerId, handleFetch, onClose });

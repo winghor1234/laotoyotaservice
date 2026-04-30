@@ -45,7 +45,11 @@
   "user_phone_number": "ເບີໂທ",
   "user_village": "ບ້ານ",
   "user_province": "ແຂວງ",
-  "point": "ຄະແນນ"
-
-
+  "point": "ຄະແນນ",
+  "min_length_6": "ຕ້ອງມີຄ່າຢ່າງນ້ອຍ 6 ໂຕ",
+  "password_mismatch": "ລະຫັດຢືນຢັນບໍ່ກົງກັນ",
+  "change_password": "ປ່ຽນລະຫັດ",
+  "new_password": "ລະຫັດໃໝ່",
+  "confirm_password": "ຢືນຢັນລະຫັດໃໝ່",
+  "update_success": "ປ່ຽນລະຫັດສຳເລັດ"
 }

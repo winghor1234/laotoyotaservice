@@ -44,7 +44,7 @@
   "view_history": "View History",
   "latest_booking": "Latest Bookings",
   "approve_status": "Awaiting Approval",
-  "user": "User",
+  "user": "Customer",
   "phone": "Phone",
   "date": "Date",
   "time": "Time",
@@ -57,5 +57,10 @@
   "cancel": "Cancel",
   "submit": "Submit",
   "fix_success": "Fix car successfully",
-  "car_detail": "Car Details"
+  "car_detail": "Car Details",
+  "email": "Email",
+  "district": "District",
+  "village": "Village"
+
+
 }
