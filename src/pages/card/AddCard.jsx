@@ -1,7 +1,7 @@
 import Spinner from "../../utils/Loading";
 import { useTranslation } from "react-i18next";
 import { Controller } from "react-hook-form";
-import { useAddCardForm } from "../../component/schemaValidate/cardValidate/AddCardvalidate";
+import { useAddCardForm } from "../../component/schemaValidate/cardValidate/AddCardValidate";
 
 
 const AddCard = ({ show, onClose, handleFetchCard }) => {
