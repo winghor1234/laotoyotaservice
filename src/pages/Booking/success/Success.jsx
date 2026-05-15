@@ -60,26 +60,20 @@ const Success = () => {
         }
     }, [role, branch_id]);
 
-
-
-    // Export Data 
-    // const exportData = booking
-    //     ?.filter((item) => item.bookingStatus === "success")
-    //     .map((item) => ({
-    //         [t("car_model")]: item?.car?.model,
-    //         [t("username")]: item?.user?.username,
-    //         [t("phone")]: item?.user?.phoneNumber,
-    //         [t("plate_number")]: item?.car?.plateNumber,
-    //         [t("date_label")]: item?.time?.date,
-    //         [t("time_label")]: item?.time?.time,
-    //     }));
-
-
-    const SuccessDetail = (id) => {
-        const fixId = fix.find((f) => f.bookingId === id)?.fix_id;
-        if (!fixId) return;
-        navigate(`/user/successDetail/${fixId}`);
+    const SuccessDetail = async(id) => {
+        // const fixId = fix.find((f) => f.bookingId === id)?.fix_id;
+        // if (!fixId) return;
+        try {
+            const fixId = await axiosInstance.get(APIPath.SELECT_FIX_BY_BOOKING(id));
+            console.log("fix id : ",fixId);
+            navigate(`/user/successDetail/${fixId?.data?.fix_id}`);
+        } catch (error) {
+            console.log(error);
+        }
+        
     };
+
+    console.log("fix data ; ",fix);
 
     return (
         <div>

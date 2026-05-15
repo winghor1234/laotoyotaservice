@@ -11,19 +11,19 @@ import { useTranslation } from "react-i18next";
 export const EmployeeSchema = (t) => z.object({
     userId: z
         .string()
-        .min(2, { message: t("min_length_2") })
-        .max(500, { message: t("max_length_500") }),
+        .min(2)
+        .max(200),
     branchId: z
         .string()
-        .min(5, { message: t("min_length_5") })
-        .max(500, { message: t("max_length_500") }),
+        .min(2)
+        .max(200),
     employee_name: z
         .string()
-        .min(5, { message: t("min_length_5") })
-        .max(500, { message: t("max_length_500") }),
+        .min(2)
+        .max(200),
     position: z
         .string()
-        .min(5, { message: t("min_length_5") })
+        .min(2)
         .optional()
 });
 

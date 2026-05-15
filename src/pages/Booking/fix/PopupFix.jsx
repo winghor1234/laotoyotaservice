@@ -6,11 +6,20 @@ import CurrencyInput from "react-currency-input-field";
 
 const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
   const { t } = useTranslation("booking");
-  const { register, handleSubmit, errors, submitForm, setValue, watch } = useFixForm({ bookingId, timeId });
+  const { register, handleSubmit, errors, submitForm, setValue, watch, cards } = useFixForm({ bookingId, timeId });
 
-  const fixCarPrice = watch("fixCarPrice") || 0;
-  const carPartPrice = watch("carPartPrice") || 0;
-  const totalPrice = Number(fixCarPrice) + Number(carPartPrice);
+  const labour_total = watch("labour_total") || 0;
+  const part_total = watch("part_total") || 0;
+  const totalPrice = Number(labour_total) + Number(part_total);
+
+  const payment_currency = watch("payment_currency");
+  const currencyText =
+    payment_currency === "THB"
+      ? "฿"
+      : payment_currency === "USD"
+        ? "$"
+        : t("kip_text");
+
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -23,6 +32,34 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
         </h2>
 
         <div className="space-y-4 sm:space-y-6">
+          {/* card number */}
+          <div className="flex flex-col">
+            <select
+              {...register('card_number')}
+              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+            >
+              <option value="">{t("select_card")}</option>
+              {(cards || []).map((card) => (
+                <option key={card.card_id} value={card.card_number}>
+                  {card.card_number} : {card.vip_number}
+                </option>
+              ))}
+            </select>
+            <div className="h-6">{errors.card_number && <p className="text-red-500 text-sm">{errors.card_number.message}</p>}</div>
+          </div>
+          {/* payment type */}
+          <div className="flex flex-col">
+            <select
+              {...register('payment_type')}
+              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+            >
+              <option value="">{t("select_payment_type")}</option>
+                <option value="Cash">{t("cash")}</option>
+                <option value="Transfer">{t("transfer")}</option>
+
+            </select>
+            <div className="h-6">{errors.payment_type && <p className="text-red-500 text-sm">{errors.payment_type.message}</p>}</div>
+          </div>
           {/* KM Last & KM Next */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {/* KM Last */}
@@ -64,79 +101,193 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
             {/* <div className="h-6">{errors.detailFix && <p className="text-red-500 text-sm">{errors.detailFix.message}</p>}</div> */}
           </div>
 
-          {/* Prices */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            {/* fixCarPrice */}
-            <div className="flex flex-col relative">
-              <CurrencyInput
-                {...register("fixCarPrice")}
-                placeholder={t("fixCarPrice")}
-                groupSeparator=","
-                decimalsLimit={0}
-                min={0}
-                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
-                onValueChange={(value) => setValue("fixCarPrice", Number(value) || 0)}
-              />
-              <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
-                {t("kip_text")}
-              </span>
-              <div className="h-6">{errors.fixCarPrice && <p className="text-red-500 text-sm">{errors.fixCarPrice.message}</p>}</div>
-            </div>
 
-            {/* carPartPrice */}
+
+
+
+          {/* Payment Currency */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+
+            {/* Currency */}
+            <div className="flex flex-col">
+              <select
+                {...register("payment_currency")}
+                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none"
+              >
+                <option value="LAK">{t("LAK")}</option>
+
+                <option value="THB">{t("THB")}</option>
+
+                <option value="USD">{t("USD")}</option>
+              </select>
+            </div>
+            {/* Exchange Rate */}
             <div className="flex flex-col relative">
               <CurrencyInput
-                {...register("carPartPrice")}
-                placeholder={t("carPartPrice")}
+                value={
+                  watch("payment_currency") === "LAK"
+                    ? ""
+                    : watch("exchange_rate")
+                }
+
+                disabled={
+                  watch("payment_currency") === "LAK"
+                }
+
+                placeholder={
+                  watch("payment_currency") === "LAK"
+                    ? t("no_exchange_Rate")
+                    : t("exchange_Rate")
+                }
+
                 groupSeparator=","
-                decimalsLimit={0}
-                min={0}
-                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
-                onValueChange={(value) => setValue("carPartPrice", Number(value) || 0)}
+                decimalsLimit={2}
+                className={`w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg outline-none  ${watch("payment_currency") === "LAK"
+                  ? "bg-gray-200 cursor-not-allowed text-gray-500"
+                  : "border-gray-300"
+                  }`}
+
+                onValueChange={(value) =>
+                  setValue(
+                    "exchange_rate",
+                    value ? Number(value) : ""
+                  )
+                }
               />
-              <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
-                {t("kip_text")}
-              </span>
-              <div className="h-6">{errors.carPartPrice && <p className="text-red-500 text-sm">{errors.carPartPrice.message}</p>}</div>
+
             </div>
           </div>
 
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            {/* totalPrice */}
+          {/* ---------------------------------------------------------------------------------------------- */}
+          {/* Prices */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 ">
+            {/* labour_total */}
             <div className="flex flex-col relative">
               <CurrencyInput
-                value={totalPrice}
-                readOnly
-                placeholder={t("totalPrice")}
+                {...register("labour_total")}
+                placeholder={t("labour_total_placholder")}
                 groupSeparator=","
                 decimalsLimit={0}
+                min={0}
                 className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
-                onValueChange={(value) => setValue("totalPrice", Number(value) || 0)}
+                onValueChange={(value) => setValue("labour_total", Number(value) || 0)}
               />
               <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
-                {t("kip_text")}
+                {currencyText}
               </span>
-              <div className="h-6">{errors.totalPrice && <p className="text-red-500 text-sm">{errors.totalPrice.message}</p>}</div>
+              <div className="h-6">{errors.labour_total && <p className="text-red-500 text-sm">{errors.labour_total.message}</p>}</div>
             </div>
 
-            {/* point */}
+            {/* labour_point */}
             <div className="flex flex-col relative">
               <CurrencyInput
-                value={watch("totalPoint") }
-                {...register("totalPoint")}
-                placeholder={t("point")}
+                value={watch("labour_point")}
+                {...register("labour_point")}
+                placeholder={t("labour_point_placholder")}
                 groupSeparator=","
                 decimalsLimit={0}
+                min={0}
                 className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
-                onValueChange={(value) => setValue("totalPoint", Number(value) || 0)}
+                onValueChange={(value) => setValue("labour_point", value ? Number(value) : "")}
               />
               <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
                 {t("point_text")}
               </span>
-              <div className="h-6">{errors.totalPoint && <p className="text-red-500 text-sm">{errors.totalPoint.message}</p>}</div>
+              <div className="h-6">{errors.labour_point && <p className="text-red-500 text-sm">{errors.labour_point.message}</p>}</div>
             </div>
           </div>
+
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 ">
+            {/* part total */}
+            <div className="flex flex-col relative">
+              <CurrencyInput
+                value={watch("part_total")}
+                {...register("part_total")}
+                placeholder={t("part_total_placholder")}
+                groupSeparator=","
+                decimalsLimit={0}
+                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                onValueChange={(value) => setValue("part_total", Number(value) || 0)}
+              />
+              <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
+                {currencyText}
+              </span>
+              <div className="h-6">{errors.part_total && <p className="text-red-500 text-sm">{errors.part_total.message}</p>}</div>
+            </div>
+            {/*part point */}
+            <div className="flex flex-col relative">
+              <CurrencyInput
+                value={watch("part_point")}
+                {...register("part_point")}
+                placeholder={t("part_point_placholder")}
+                groupSeparator=","
+                decimalsLimit={0}
+                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                onValueChange={(value) => setValue("part_point", value ? Number(value) : "")}
+              />
+              <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
+                {t("point_text")}
+              </span>
+              <div className="h-6">{errors.part_point && <p className="text-red-500 text-sm">{errors.part_point.message}</p>}</div>
+            </div>
+          </div>
+          {/* totalPrice */}
+          <div className="flex flex-col relative">
+            <h2 className="text-xl text-gray-600">{t("totalPrice")}</h2>
+            <CurrencyInput
+              value={totalPrice}
+              readOnly
+              placeholder={t("totalPrice")}
+              groupSeparator=","
+              decimalsLimit={0}
+              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+              onValueChange={(value) => setValue("totalPrice", Number(value) || 0)}
+            />
+            <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
+              {currencyText}
+            </span>
+            {/* <div className="h-6">{errors.totalPrice && <p className="text-red-500 text-sm">{errors.totalPrice.message}</p>}</div> */}
+          </div>
+          {/* total Point */}
+          <div className="flex flex-col relative">
+            <h2 className="text-xl text-gray-600">{t("totalPoint")}</h2>
+            <CurrencyInput
+              value={watch("totalPoint")}
+              readOnly
+              placeholder={t("totalPoint")}
+              groupSeparator=","
+              decimalsLimit={0}
+              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+              onValueChange={(value) => setValue("totalPoint", Number(value) || 0)}
+            />
+            <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
+              {t("point_text")}
+            </span>
+            {/* <div className="h-6">{errors.totalPrice && <p className="text-red-500 text-sm">{errors.totalPrice.message}</p>}</div> */}
+          </div>
+
+          {/* Total LAK */}
+          <div className="flex flex-col relative">
+            <h2 className="text-xl text-gray-600">{t("total_price_lak")}</h2>
+
+            <CurrencyInput
+              value={watch("total_price_lak")}
+              readOnly
+              placeholder="Total LAK"
+              groupSeparator=","
+              decimalsLimit={0}
+              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg bg-gray-100 outline-none"
+            />
+            <span className="absolute right-4 inset-y-0 translate-y-0 flex items-center text-gray-500 text-base sm:text-lg">
+              {t("kip_text")}
+            </span>
+
+          </div>
+
+
+
+
         </div>
 
         {/* Buttons */}

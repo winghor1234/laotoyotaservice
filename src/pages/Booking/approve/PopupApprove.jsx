@@ -6,25 +6,24 @@ import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useEffect, useState } from 'react';
 import { useTranslation } from "react-i18next";
 import { formatDates } from '../../../utils/FormatDate';
+import { generateBillId } from '../../../utils/BillGenerate';
 
-const PopupApprove = ({ setShowPopup, bookingId, fetchBooking }) => {
+const PopupApprove = ({ setShowPopup, bookingId, fetchBooking, cardNumber }) => {
   const { t } = useTranslation("booking"); // namespace booking
   const navigate = useNavigate();
   const [booking, setBooking] = useState([]);
-  console.log("bookingId in PopupApprove: ", bookingId);
-
-
 
 
   const handleChangeStatus = async () => {
     try {
-      const fixData = {
-        bookingId: bookingId,
+      const fixForm = {
+        bookingId,
+        invoice_number: generateBillId(),
+        card_number: cardNumber,
       }
 
-
       await Promise.all([
-        axiosInstance.post(APIPath.CREATE_FIX, fixData), 
+        axiosInstance.post(APIPath.CREATE_FIX, fixForm),
         axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId), { bookingStatus: "fix" }),
         axiosInstance.post(APIPath.SEND_NOTIFICATION, {
           deviceToken: "DEVICE_TOKEN",
@@ -45,7 +44,6 @@ const PopupApprove = ({ setShowPopup, bookingId, fetchBooking }) => {
     try {
       const res = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingId));
       setBooking(res?.data?.data);
-      // console.log("time data:",res?.data?.data);
     } catch (error) {
       console.log(error);
     }
@@ -54,6 +52,7 @@ const PopupApprove = ({ setShowPopup, bookingId, fetchBooking }) => {
   useEffect(() => {
     handleFetchBooking();
   }, []);
+
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">

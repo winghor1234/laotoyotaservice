@@ -57,14 +57,18 @@ import branchLo from "./locales/lo/branchTranslate.json";
 import employeeEn from "./locales/en/employeeTranslate.json";
 import employeeLo from "./locales/lo/employeeTranslate.json";
 
+// card
+import cardEn from "./locales/en/cardTranslate.json";
+import cardLo from "./locales/lo/cardTranslate.json";
+
 
 // โหลดค่าภาษาเก่าจาก localStorage
 const savedLang = localStorage.getItem("appLang") || "lo";
 
 i18n.use(initReactI18next).init({
     resources: {
-        en: { auth: authEn, booking: bookingEn, car: carEn, dashboard: dashboardEn, gift: giftEn, promotion: promotionEn, report: reportEn, service: serviceEn, timeZone: timeZoneEn, user: userEn, headerSidebar: headerSidebarEn, util: utilEn, branch: branchEn, employee: employeeEn },
-        lo: { auth: authLo, booking: bookingLo, car: carLo, dashboard: dashboardLo, gift: giftLo, promotion: promotionLo, report: reportLo, service: serviceLo, timeZone: timeZoneLo, user: userLo, headerSidebar: headerSidebarLo, util: utilLo, branch: branchLo, employee: employeeLo },
+        en: { auth: authEn, booking: bookingEn, car: carEn, dashboard: dashboardEn, gift: giftEn, promotion: promotionEn, report: reportEn, service: serviceEn, timeZone: timeZoneEn, user: userEn, headerSidebar: headerSidebarEn, util: utilEn, branch: branchEn, employee: employeeEn, card: cardEn },
+        lo: { auth: authLo, booking: bookingLo, car: carLo, dashboard: dashboardLo, gift: giftLo, promotion: promotionLo, report: reportLo, service: serviceLo, timeZone: timeZoneLo, user: userLo, headerSidebar: headerSidebarLo, util: utilLo, branch: branchLo, employee: employeeLo, card: cardLo },
     },
     lng: savedLang, // default จาก localStorage
     fallbackLng: "lo",

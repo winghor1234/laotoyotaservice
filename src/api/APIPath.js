@@ -12,7 +12,6 @@ export default class APIPath {
     static GET_PROFILE = `${this.BASE_URL}/user/profile`;
     static GET_ALL_USER = `${this.BASE_URL}/user/getAll`;
     static EXPORT_CUSTOMER = `${this.BASE_URL}/user/exportCustomer`;
-    static EXPORT_EMPLOYEE = `${this.BASE_URL}/user/exportEmployee`;
     static EXPORT_ADMIN = `${this.BASE_URL}/user/exportAdmin`;
     static FORGOT = `${this.BASE_URL}/user/forgot`;
     static CHANGE_PASSWORD = `${this.BASE_URL}/user/changePassword`;
@@ -50,6 +49,7 @@ export default class APIPath {
     static SELECT_ALL_FIX = `${this.BASE_URL}/fix/selAll`;
     static SEARCH_FIX = `${this.BASE_URL}/fix/search`;
     static SELECT_ONE_FIX(id) { return `${this.BASE_URL}/fix/selOne/${id}` }
+    static SELECT_FIX_BY_BOOKING(id) { return `${this.BASE_URL}/fix/selByBooking/${id}`}
     static SELECT_FIX_BY_STATUS = `${this.BASE_URL}/fix/selByStatus`;
     static GET_ALL_FIX = `${this.BASE_URL}/fix/getAll`;
     static GET_ALL_FIX_BY_BRANCH(branch_id) { return `${this.BASE_URL}/fix/getAllByBranch/${branch_id}` };
@@ -155,6 +155,7 @@ export default class APIPath {
     static SELECT_ALL_EMPLOYEE = `${this.BASE_URL}/employee/selAll`
     static SELECT_ONE_EMPLOYEE(id) { return `${this.BASE_URL}/employee/selOne/${id}` }
     static GET_ALL_EMPLOYEE = `${this.BASE_URL}/employee/getAll`
+    static EXPORT_EMPLOYEE = `${this.BASE_URL}/employee/export`
     static CREATE_EMPLOYEE = `${this.BASE_URL}/employee/insert`
     static UPDATE_EMPLOYEE(id) { return `${this.BASE_URL}/employee/update/${id}` }
     static DELETE_EMPLOYEE(id) { return `${this.BASE_URL}/employee/delete/${id}` }
@@ -172,6 +173,16 @@ export default class APIPath {
 
     // notification 
     static SEND_NOTIFICATION = `${this.BASE_URL}/noti/send`;
+
+
+    // card 
+    static SELECT_ALL_CARD = `${this.BASE_URL}/card/selAll`;
+    static SELECT_ONE_CARD(id) { return `${this.BASE_URL}/card/selOne/${id}` }
+    static GET_ALL_CARD = `${this.BASE_URL}/card/getAll`;
+    static EXPORT_CARD = `${this.BASE_URL}/card/export`;
+    static CREATE_CARD = `${this.BASE_URL}/card/insert`;
+    static UPDATE_CARD(id) { return `${this.BASE_URL}/card/update/${id}` }
+    static DELETE_CARD(id) { return `${this.BASE_URL}/card/delete/${id}` }
 
 
 }

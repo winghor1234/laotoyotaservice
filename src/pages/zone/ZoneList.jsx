@@ -88,16 +88,16 @@ const ZoneList = () => {
                     searchValue={search}
                     onSearchChange={handleSearch}
                     onDateChange={handleDateChange}
-                    placeholder={t("timeSearchPlaceholder")}
-                    apiPath={APIPath.GET_ALL_TIME}
-                    fileName={"time-report.xlsx"}
+                    placeholder={t("zoneSearchPlaceholder")}
+                    apiPath={APIPath.GET_ALL_ZONE}
+                    fileName={"zone-report.xlsx"}
                 />
                 {/* download button */}
                 <DownloadButton open={open} setOpen={setOpen} />
                 {open && (
                     <ExportExcelPopup
-                        apiUrl={APIPath.EXPORT_TIME}
-                        fileName="time-report.xlsx"
+                        apiUrl={APIPath.EXPORT_ZONE}
+                        fileName="zone-report.xlsx"
                         onClose={() => setOpen(false)}
                     />
                 )}

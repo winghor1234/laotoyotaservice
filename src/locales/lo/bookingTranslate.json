@@ -109,10 +109,21 @@
   "edit_success": "ແກ້ໄຂສຳເລັດແລ້ວ",
   "no_service": "ບໍ່ມີບໍລິການ",
   "select_time_required": "ກະລຸນາເລືອກເວລາ",
-  "select_zone_required": "ກະລຸນາເລືອກໂຊນ"
-
-
-  
-
-  
+  "select_zone_required": "ກະລຸນາເລືອກໂຊນ",
+  "select_card": "ກະລຸນາເລືອກບັດ",
+  "labour_total_placholder": "ຄ່າແຮງງານ",
+  "part_total_placholder": "ຄ່າອາໄຫຼ່",
+  "labour_point-placholder": "ຄະແນນຄ່າເເຮງງານ",
+  "part_point-placholder": "ຄະແນນຄ່າເເຮງງານ",
+  "LAK": "ສະກຸນເງິນກີບ",
+  "THB": "ສະກຸນເງິນບາດ",
+  "USD": "ສະກຸນເງິນໂດລາ",
+  "no_exchange_Rate": "ສະກຸນເງິນກີບບໍ່ຈຳເປັນ",
+  "exchange_Rate": "ໃສ່ເລກອັດຕາແລກປ່ຽນ",
+  "totalPoint": "ຄະແນນລວມ",
+  "total_price_lak": "ລາຄາລວມ (ກີບ)",
+  "cash": "ເງີນສົດ",
+  "transfer": "ເງິນໂອນ",
+  "select_payment_type": "ເລືອກປະເພດການຊໍາລະ"
+ 
 }

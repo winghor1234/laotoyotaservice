@@ -5,7 +5,7 @@ import { useExchangeGiftForm } from "../../../component/schemaValidate/giftValid
 
 const ExchangeGift = ({ show, onClose, handleFetch }) => {
     const { t } = useTranslation("gift");
-    const { register, handleSubmit, formState: { errors }, submitForm, loading, users, giftCards } = useExchangeGiftForm({ onClose, handleFetch });
+    const { register, handleSubmit, formState: { errors }, submitForm, loading, users, giftCards, cards } = useExchangeGiftForm({ onClose, handleFetch });
     if (!show) return null;
 
     return (
@@ -15,7 +15,7 @@ const ExchangeGift = ({ show, onClose, handleFetch }) => {
                 onClick={onClose}
             />
 
-            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl bg-white rounded-2xl shadow-lg p-4 sm:p-6 text-sm transition-all">
+            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-4xl bg-white rounded-2xl shadow-lg p-4 sm:p-6 text-sm transition-all">
                 <h2 className="text-lg sm:text-xl font-bold text-center mb-4">{t("exchange_gift")}</h2>
 
                 <form onSubmit={handleSubmit(submitForm)} className="space-y-3 sm:space-y-4">
@@ -37,13 +37,27 @@ const ExchangeGift = ({ show, onClose, handleFetch }) => {
                         </div>
                         <div className="flex flex-col">
                             <select
+                                {...register('cardId')}
+                                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                            >
+                                <option value="">{t("select_card")}</option>
+                                {(cards || []).map((card) => (
+                                    <option key={card.card_id} value={card.card_id}>
+                                        {card.card_number} - {card.vip_number} : {card.discount}
+                                    </option>
+                                ))}
+                            </select>
+                            <div className="h-6">{errors.cardId && <p className="text-red-500 text-sm">{errors.cardId.message}</p>}</div>
+                        </div>
+                        <div className="flex flex-col">
+                            <select
                                 {...register('giftcardId')}
                                 className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
                             >
                                 <option value="">{t("select_gift")}</option>
                                 {(giftCards || []).map((giftCard) => (
                                     <option key={giftCard.giftcard_id} value={giftCard.giftcard_id}>
-                                        {giftCard.name} : {giftCard.point}
+                                        {giftCard.gift_Name} : {giftCard.gift_Point}
 
                                     </option>
                                 ))}

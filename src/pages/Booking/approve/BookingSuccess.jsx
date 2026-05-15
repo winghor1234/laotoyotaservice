@@ -5,8 +5,9 @@ import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import html2pdf from "html2pdf.js";
 import { useTranslation } from "react-i18next";
-import { generateBillId } from "../../../utils/BillGenerate";
+// import { generateBillId } from "../../../utils/BillGenerate";
 import logo from "../../../assets/logo.jpg";
+import {  formatDates } from "../../../utils/FormatDate";
 
 const BookingSuccess = () => {
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ const BookingSuccess = () => {
     const [booking, setBooking] = useState(null);
     const printRef = useRef();
     const { t } = useTranslation("booking");
-    const [billId, setBillId] = useState("");
+    // const [billId, setBillId] = useState("");
     const [bookingDetail, setBookingDetail] = useState([]);
     useEffect(() => {
         const init = async () => {
@@ -26,16 +27,6 @@ const BookingSuccess = () => {
                 const bookingDetailRes = await axiosInstance.get(APIPath.SELECT_BOOKING_DETAIL_BY(id));
                 setBookingDetail(bookingDetailRes?.data?.data || []);
 
-                // Generate Bill ID
-                const storedBillId = localStorage.getItem(`billId-${id}`);
-                if (storedBillId) {
-                    setBillId(storedBillId);
-                } else {
-                    const newBillId = generateBillId();
-                    localStorage.setItem(`billId-${id}`, newBillId);
-                    setBillId(newBillId);
-                }
-
             } catch (error) {
                 console.log(error);
             }
@@ -43,6 +34,8 @@ const BookingSuccess = () => {
 
         init();
     }, [id]);
+
+    console.log("booking", booking);
 
     const handleExportPDF = () => {
         if (!printRef.current) return;
@@ -59,6 +52,9 @@ const BookingSuccess = () => {
     };
 
     // if (!booking) return null;
+    const invoiceNumber = booking?.Fix?.map((fix) => fix.bookingId === booking?.booking_id && fix.invoice_number);
+    const invoiceDate = booking?.Fix?.map((fix) => fix.bookingId === booking?.booking_id && fix.invoice_date);
+    // console.log("invoiceNumber", invoiceNumber);
 
     return (
         <div style={{ background: "#f3f4f6", padding: "40px 0" }}>
@@ -99,8 +95,8 @@ const BookingSuccess = () => {
                     {/* RIGHT: Invoice Info */}
                     <div style={{ textAlign: "right" }}>
                         {/* <h2 style={{ margin: 0 }}>{t("bill")}</h2> */}
-                        <p><strong>{t("billId")}:</strong> {billId}</p>
-                        <p><strong>{t("date_bill")}:</strong> {booking?.time?.date}</p>
+                        <p><strong>{t("billId")}:</strong> {invoiceNumber}</p>
+                        <p><strong>{t("date_bill")}:</strong> {formatDates(invoiceDate)}</p>
                         <p><strong>{t("time_label")}:</strong> {booking?.time?.time}</p>
                     </div>
                 </div>

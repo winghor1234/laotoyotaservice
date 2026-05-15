@@ -20,5 +20,6 @@
   "zone_time_management": "Tie Zone Time",
   "general_management": "General",
   "backend_management": "Backend",
-  "time_zone": "Tie Time Zone"
+  "time_zone": "Tie Time Zone",
+  "card_info": "Card"
 }

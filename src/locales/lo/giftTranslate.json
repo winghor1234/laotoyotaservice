@@ -39,5 +39,8 @@
   "total_point": "ຄະແນນທັງໝົດ",
   "exchange_gift_success": "ແລກລາງວັນສຳເລັດ",
   "return_score_gift": "ຄືນຄະແນນລາງວັນ",
-  "return_score_gift_success": "ຄືນຄະແນນລາງວັນສຳເລັດ"
+  "return_score_gift_success": "ຄືນຄະແນນລາງວັນສຳເລັດ",
+  "gift_code": "ລະຫັດລາງວັນ",
+  "select_card": "ເລືອກບັດ"
+
 }

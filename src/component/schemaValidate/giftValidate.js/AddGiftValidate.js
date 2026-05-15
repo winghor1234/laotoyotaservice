@@ -8,8 +8,8 @@ import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useTranslation } from "react-i18next";
 
 const addGiftSchema = (t) => z.object({
-    name: z.string().min(1, t("min_length_1")),
-    point: z.string().min(1, t("min_length_1")),
+    gift_Name: z.string().min(1, t("min_length_1")),
+    gift_Point: z.string().min(1, t("min_length_1")),
     amount: z.string().min(1, t("min_length_1")),
     image: z.any().optional(),
 });
@@ -23,17 +23,17 @@ export const useAddGiftForm = ({ onClose, handleFetch,  }) => {
         setLoading(true);
         try {
             const dataForm = new FormData();
-            dataForm.append("name", data.name);
+            dataForm.append("gift_Name", data.gift_Name);
             dataForm.append("amount", data.amount);
-            dataForm.append("point", data.point);
+            dataForm.append("gift_Point", data.gift_Point);
             if (data.image && data.image[0] instanceof File) {
                 dataForm.append("files", data.image[0]);
             }
             await axiosInstance.post(APIPath.CREATE_GIFT, dataForm);
             handleFetch();
             onClose();
-            setValue("name", "");
-            setValue("point", "");
+            setValue("gift_Name", "");
+            setValue("gift_Point", "");
             setValue("amount", "");
             setValue("image", null);
             SuccessAlert(t("add_success"))

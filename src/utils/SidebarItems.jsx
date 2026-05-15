@@ -1,6 +1,7 @@
 import {
     Home, Users, Gift, Car, Settings, Clock,
-    MapPin, ShieldUser, MapPinHouse, CalendarCog, MapPinPlus
+    MapPin, ShieldUser, MapPinHouse, CalendarCog, MapPinPlus,
+    IdCard
 } from "lucide-react";
 import { LiaGiftsSolid } from "react-icons/lia";
 import { FaPeopleArrows } from "react-icons/fa";
@@ -76,6 +77,12 @@ export const getSidebarItems = (t, role) => [
                 icon: Users,
                 label: t("customer_info"),
                 path: "/user/user",
+            },
+            {
+                id: "card",
+                icon: IdCard,
+                label: t("card_info"),
+                path: "/user/card",
             },
             ...(role === "super_admin"
                 ? [

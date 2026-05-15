@@ -131,15 +131,15 @@ const SuccessDetail = () => {
             <tbody>
               <tr>
                 <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{t("fixCarPrice")}</td>
-                <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{FormatNumber(data?.fixCarPrice)} ກີບ</td>
+                <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{FormatNumber(data?.labour_total)} ກີບ</td>
               </tr>
               <tr>
                 <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{t("carPartPrice")}</td>
-                <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{FormatNumber(data?.carPartPrice)} ກີບ</td>
+                <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{FormatNumber(data?.part_total)} ກີບ</td>
               </tr>
               <tr>
                 <td style={{ border: "1px solid #e5e7eb", padding: "8px", fontWeight: "600", color: "#16a34a" }} colSpan={2} align="center">
-                  {t("totalPrice")}: {FormatNumber(data?.totalPrice)} ກີບ
+                  {t("totalPrice")}: {FormatNumber(data?.labour_total + data?.part_total)} ກີບ
                 </td>
               </tr>
             </tbody>

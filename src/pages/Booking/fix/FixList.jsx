@@ -15,6 +15,7 @@ import { formatDates } from "../../../utils/FormatDate";
 import PopupFix from "./PopupFix";
 
 
+
 const FixList = () => {
   const { t } = useTranslation("booking");
   const navigate = useNavigate();
@@ -22,14 +23,9 @@ const FixList = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [bookingId, setBookingId] = useState("");
   const [timeId, setTimeId] = useState("");
-  // const [bookings, setBookings] = useState([]);
-  // const [fixes, setFixes] = useState([]);
-  // const [exportData, setExportData] = useState([]);
   const role = useCheckRole();
   const branch_id = useEmployeeBranchId();
-  // console.log("branch id:", branch_id);
-  // console.log("role:", role);
-  // console.log("booking id :", bookingId);
+
 
 
 

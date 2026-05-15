@@ -27,7 +27,7 @@ const AddGift = ({ show, onClose, handleFetch }) => {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <div className="flex flex-col">
               <input
-                {...register("name")}
+                {...register("gift_Name")}
                 placeholder={t("gift_name")}
                 className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
               />
@@ -43,7 +43,7 @@ const AddGift = ({ show, onClose, handleFetch }) => {
             </div>
             <div className="flex flex-col">
               <input
-                {...register("point")}
+                {...register("gift_Point")}
                 placeholder={t("point")}
                 className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
               />

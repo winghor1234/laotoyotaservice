@@ -108,7 +108,22 @@
   "edit_success": "Edit Success",
   "no_service": "No service",
   "select_time_required": "Please select time",
-  "select_zone_required": "Please select zone"
+  "select_zone_required": "Please select zone",
+  "select_card": "Please select card",
+  "labour_total_placholder": "Labor Cost",
+  "part_total_placholder": "Car Parts Cost",
+  "labour_point-placholder": "Labor Point",
+  "part_point-placholder": "Car Parts Point",
+  "LAK": "LAK",
+  "THB":"THB",
+  "USD":"USD",
+  "no_exchange_Rate": "LAK no need exchange rate",
+  "exchange_Rate": "Enter Exchange Rate number",
+  "totalPoint": "Total Point",
+  "total_price_lak": "Total Price (LAK)",
+  "cash": "Cash",
+  "transfer": "Transfer",
+  "select_payment_type": "Select Payment Type"
 
 
 

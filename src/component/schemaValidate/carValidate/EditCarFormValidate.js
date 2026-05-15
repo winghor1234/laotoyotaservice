@@ -39,12 +39,9 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose }) => {
             axiosInstance.get(APIPath.SELECT_ALL_USER),
         ])
             .then(([carResponse, usersResponse]) => {
-                // ตั้งค่า users state สำหรับ select dropdown
                 setUsers(usersResponse?.data?.data || []);
 
-                // ตั้งค่า default values ของ form ให้ตรงกับข้อมูลรถ
                 const carData = carResponse?.data?.data;
-                console.log("car data : ", carData);
                 setCar(carData);
                 if (carData) {
                     reset({

@@ -13,6 +13,7 @@ export const getIncomes = async () => {
   try {
     const res = await axiosInstance.get(APIPath.SELECT_ALL_FIX);
     const data = res?.data?.data || [];
+    console.log("data: ",data);
 
     const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     const monthlyData = months.map(month => ({ name: month, value: 0 }));

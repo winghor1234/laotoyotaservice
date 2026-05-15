@@ -113,10 +113,10 @@ const GiftList = () => {
                                 </div>
                             )}
                             <div className="flex-1 min-w-0">
-                                <h3 className="font-medium text-gray-900 line-clamp-2 mb-1">{item.name}</h3>
+                                <h3 className="font-medium text-gray-900 line-clamp-2 mb-1">{item.gift_Name}</h3>
                                 <div className="flex items-center gap-2">
                                     <span className="text-sm text-gray-600">{t("point")}:</span>
-                                    <span className="text-sm font-medium text-blue-600">{item.point}</span>
+                                    <span className="text-sm font-medium text-blue-600">{item.gift_Point}</span>
                                 </div>
                             </div>
                         </div>
@@ -127,10 +127,12 @@ const GiftList = () => {
             {/* Desktop/Tablet Table */}
             <div className="hidden md:block bg-white rounded-lg shadow-sm overflow-hidden w-full">
                 <div className="w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
-                    <div className="grid grid-cols-5 gap-3 md:gap-8 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-sm md:text-base lg:text-lg">
+                    <div className="grid grid-cols-7 gap-3 md:gap-8 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-sm md:text-base lg:text-lg">
                         <div className="flex justify-center items-center">{t("serial")}</div>
                         <div className="flex justify-center items-center">{t("image")}</div>
+                        <div className="flex justify-center items-center">{t("gift_code")}</div>
                         <div className="flex justify-center items-center">{t("gift_name")}</div>
+                        <div className="flex justify-center items-center">{t("gift_amount")}</div>
                         <div className="flex justify-center items-center">{t("point")}</div>
                         <div className="flex justify-center items-center">{t("actions")}</div>
                     </div>
@@ -138,21 +140,23 @@ const GiftList = () => {
 
                 <div className="divide-y divide-gray-200 overflow-auto max-h-[400px]">
                     {gift?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
-                        <div key={index} className="grid grid-cols-5 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
+                        <div key={index} className="grid grid-cols-7 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                                 {index + 1}
                             </div>
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                                 {item.image ? (
-                                    <img src={item.image} alt={item.name} className="w-10 h-10 md:w-12 md:h-12 object-cover rounded-full" />
+                                    <img src={item.image} alt={item.gift_Name} className="w-10 h-10 md:w-12 md:h-12 object-cover rounded-full" />
                                 ) : (
                                     <div className="w-10 h-10 md:w-12 md:h-12 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
                                         <GiftIcon className="text-gray-600 w-5 h-5 md:w-6 md:h-6" />
                                     </div>
                                 )}
                             </div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2 ">{item.name}</div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.point}</div>
+                            <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2 ">{item.gift_Code}</div>
+                            <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2 ">{item.gift_Name}</div>
+                            <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2 ">{item.amount}</div>
+                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">{item.gift_Point}</div>
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-3 md:gap-6">
                                 <Eye onClick={() => handleToDetailGift(item.giftcard_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                                 <Edit className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" onClick={(e) => { e.stopPropagation(); setShowEditReward(true); setGiftId(item.giftcard_id); }} />

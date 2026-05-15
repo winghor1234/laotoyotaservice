@@ -59,21 +59,6 @@ const TimeList = () => {
         navigate(`/user/time-detail/${id}`);
     };
 
-    // const handleToggleStatus = async (item) => {
-    //     try {
-    //         const newStatus = !item.timeStatus;
-
-    //         await axiosInstance.put(
-    //             APIPath.UPDATE_TIME_STATUS(item.time_id),
-    //             { timeStatus: String(newStatus) }
-    //         );
-
-    //         fetchData();
-    //     } catch (error) {
-    //         console.error("Error updating status:", error);
-    //     }
-    // };
-
     const handleToggleStatus = async (item) => {
         if (item.timeStatus === false) {
             setSelectedItem(item.time_id);

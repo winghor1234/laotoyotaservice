@@ -23,7 +23,9 @@
     "cancel": "Cancel",
     "min_length_2": "Must be at least 2 characters",
     "selectBranch": "Select Branch",
-    "selectUser": "Select User"
+    "selectUser": "Select employee",
+    "no_data": "No employee data",
+    "noBranch": "No Branch"
     
 
 }

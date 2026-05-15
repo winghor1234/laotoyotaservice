@@ -8,8 +8,9 @@ import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useTranslation } from "react-i18next";
 
 const editGiftSchema = (t) => z.object({
-  name: z.string().min(1, t("min_length_1")),
-  point: z.coerce.number().min(1, t("min_length_1")),
+  gift_Name: z.string().min(1, t("min_length_1")),
+  amount: z.coerce.number().min(1, t("min_length_1")),
+  gift_Point: z.coerce.number().min(1, t("min_length_1")),
   image: z.any().optional(),
 });
 
@@ -25,8 +26,9 @@ export const useEditForm = ({ onClose, handleFetch, giftId }) => {
       const res = await axiosInstance.get(APIPath.SELECT_ONE_GIFT(giftId));
       const resData = res?.data?.data;
 
-      setValue("name", resData.name);
-      setValue("point", resData.point);
+      setValue("gift_Name", resData.gift_Name);
+      setValue("amount", resData.amount);
+      setValue("gift_Point", resData.gift_Point);
       setValue("image", resData.image); // string URL
     };
     handleFetchGiftId();
@@ -36,8 +38,9 @@ export const useEditForm = ({ onClose, handleFetch, giftId }) => {
     setLoading(true);
     try {
       const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("point", data.point);
+      formData.append("gift_Name", data.gift_Name);
+      formData.append("amount", data.amount);
+      formData.append("gift_Point", data.gift_Point);
 
       if (data.image && data.image[0] instanceof File) {
         formData.append("image", data.image[0]);

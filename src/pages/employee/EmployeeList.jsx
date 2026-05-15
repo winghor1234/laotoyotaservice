@@ -139,7 +139,7 @@ const EmployeeList = () => {
             {/* Desktop/Tablet Table */}
             <div className="hidden md:block bg-white rounded-lg shadow-sm overflow-hidden w-full">
                 <div className="w-full h-12 md:h-12 lg:h-14 bg-[#E52020] text-white">
-                    <div className="grid grid-cols-6 gap-3 md:gap-8 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-sm md:text-sm lg:text-base">
+                    <div className="grid grid-cols-5 gap-3 md:gap-8 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-sm md:text-sm lg:text-base">
                         <div className="flex justify-center items-center">{t("index")}</div>
                         <div className="flex justify-center items-center">{t("employee_code")}</div>
                         <div className="flex justify-center items-center">{t("employee_name")}</div>
@@ -156,7 +156,7 @@ const EmployeeList = () => {
                             .map((item, index) => (
                                 <div
                                     key={item.employee_id || index}
-                                    className="grid grid-cols-6 gap-3 md:gap-4 px-2 md:px-3 lg:px-4 py-2 md:py-3 lg:py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors"
+                                    className="grid grid-cols-5 gap-3 md:gap-4 px-2 md:px-3 lg:px-4 py-2 md:py-3 lg:py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors"
                                 >
                                     <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2">
                                         {index + 1}

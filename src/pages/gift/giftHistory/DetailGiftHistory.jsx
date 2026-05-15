@@ -65,7 +65,7 @@ const DetailGiftHistory = () => {
                                 <div>
                                     <p className="text-base text-gray-500">{t("gift_title")} :</p>
                                     <p className="text-base text-gray-900 font-semibold">
-                                        {giftHistoryData.giftcard.name}
+                                        {giftHistoryData.giftcard.gift_Name}
                                     </p>
                                 </div>
                                 <div>
@@ -74,7 +74,7 @@ const DetailGiftHistory = () => {
                                 </div>
                                 <div>
                                     <p className="text-base text-gray-500">{t("gift_one_point")} :</p>
-                                    <p className="text-base text-gray-800">{giftHistoryData.giftcard.point}</p>
+                                    <p className="text-base text-gray-800">{giftHistoryData.giftcard.gift_Point}</p>
                                 </div>
                                 <div>
                                     <p className="text-base text-gray-500">{t("gift_user_name")} :</p>
@@ -111,7 +111,7 @@ const DetailGiftHistory = () => {
                         <div className="bg-gray-50 p-4 rounded-md shadow-inner space-y-3">
                             <div>
                                 <span className="text-base text-gray-500 block">{t("detail_history_title")}:</span>
-                                <span className="text-base font-medium text-gray-900">{giftHistoryData?.giftcard?.name}</span>
+                                <span className="text-base font-medium text-gray-900">{giftHistoryData?.giftcard?.gift_Name}</span>
                             </div>
                             <div>
                                 <span className="text-base text-gray-500 block">{t("gift_amount")}:</span>
@@ -119,7 +119,7 @@ const DetailGiftHistory = () => {
                             </div>
                             <div>
                                 <span className="text-base text-gray-500 block">{t("gift_one_point")}:</span>
-                                <span className="text-base font-medium text-gray-800">{giftHistoryData?.giftcard?.point}</span>
+                                <span className="text-base font-medium text-gray-800">{giftHistoryData?.giftcard?.gift_Point}</span>
                             </div>
                             <div>
                                 <span className="text-base text-gray-500 block">{t("gift_user_name")}:</span>

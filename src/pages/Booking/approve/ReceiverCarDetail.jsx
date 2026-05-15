@@ -17,11 +17,9 @@ const ReceiverCarDetail = () => {
 
   const [booking, setBooking] = useState(null);
   const [bookingDetail, setBookingDetail] = useState([]);
-  // const [timeFixData, setTimeFixData] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [rejectZone, setRejectZone] = useState(false);
   const [edit, setEdit] = useState(false);
-  // const [selectedTimeId, setSelectedTimeId] = useState(null);
   const navigate = useNavigate();
   // console.log("bookingId: ", bookingId);
 
@@ -53,6 +51,10 @@ const ReceiverCarDetail = () => {
   useEffect(() => {
     loadAllData();
   }, [loadAllData]);
+
+  const cardNumber = booking?.user?.Card?.[0]?.card_number;
+
+
 
   return (
     <div className="relative min-h-screen bg-gray-50 p-4">
@@ -295,6 +297,7 @@ const ReceiverCarDetail = () => {
           bookingId={bookingId}
           userId={booking?.userId}
           fetchBooking={loadAllData}
+          cardNumber={cardNumber}
         />
       )}
 

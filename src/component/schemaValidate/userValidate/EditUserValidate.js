@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 
 const schema = (t) => z.object({
     username: z.string().min(1, t("min_length_1")),
-    phoneNumber: z.string().min(8, t("phone_min_length")).regex(/^\d+$/, "ເບີໂທຕ້ອງເປັນຕົວເລກ"),
+    phoneNumber: z.string().min(8, t("phone_min_length")),
     village: z.string().min(2, t("min_length_1")),
     district: z.string().min(2, t("min_length_1")),
     province: z.string().min(2, t("min_length_1")),
@@ -27,7 +27,7 @@ export const useEditUserForm = ({ customerId, handleFetch, onClose }) => {
                 const res = await axiosInstance.get(APIPath.SELECT_ONE_USER(customerId));
                 reset({
                     username: res?.data?.data?.username || "",
-                    phoneNumber: res?.data?.data?.phoneNumber?.toString() || "",
+                    phoneNumber: res?.data?.data?.phoneNumber || "",
                     province: res?.data?.data?.province || "",
                     district: res?.data?.data?.district || "",
                     village: res?.data?.data?.village || "",
@@ -45,7 +45,6 @@ export const useEditUserForm = ({ customerId, handleFetch, onClose }) => {
         try {
             const payload = {
                 ...formData,
-                phoneNumber: parseInt(formData.phoneNumber, 10),
                 email: formData.email === "" ? null : formData.email,
             };
 

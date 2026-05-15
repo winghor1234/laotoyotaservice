@@ -41,5 +41,7 @@
   "exchange_gift_cancel": "Cancelled exchange gift",
   "total_point": "Total Point",
   "return_score_gift": "Return Score Gift",
-  "return_score_gift_success": "Return score gift successfully"
+  "return_score_gift_success": "Return score gift successfully",
+  "gift_code": "Gift Code",
+  "select_card": "Select Card"
 }

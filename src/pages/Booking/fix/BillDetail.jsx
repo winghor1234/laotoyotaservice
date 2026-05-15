@@ -6,19 +6,8 @@ import APIPath from "../../../api/APIPath";
 import { useTranslation } from "react-i18next";
 import html2pdf from "html2pdf.js";
 import logo from "../../../assets/logo.jpg";
-import { formatNewDate } from "../../../utils/formatNewDate";
 import { formatDates } from "../../../utils/FormatDate";
-
-
-// ฟังก์ชัน generate Bill ID แบบมาตรฐาน
-const generateBillId = (bookingId) => {
-    const now = new Date();
-    const yyyy = now.getFullYear();
-    const mm = String(now.getMonth() + 1).padStart(2, '0');
-    const dd = String(now.getDate()).padStart(2, '0');
-    const random = Math.floor(1000 + Math.random() * 9000);
-    return `TMC-${bookingId}-${yyyy}${mm}${dd}-${random}`;
-};
+import { FormatNumber } from "../../../utils/FormatNumber";
 
 const BillDetail = () => {
     const { id } = useParams();
@@ -28,8 +17,6 @@ const BillDetail = () => {
 
     const [data, setData] = useState({});
     const [booking, setBooking] = useState({});
-    const [zone, setZone] = useState({});
-    const [billId, setBillId] = useState("");
 
     useEffect(() => {
         const fetchBillData = async () => {
@@ -44,23 +31,12 @@ const BillDetail = () => {
 
                 // ดึงข้อมูล booking และ zone
                 if (bookingId || zoneId) {
-                    const [bookingRes, zoneRes] = await Promise.all([
+                    const [bookingRes] = await Promise.all([
                         bookingId ? axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingId)) : Promise.resolve(null),
                         zoneId ? axiosInstance.get(APIPath.SELECT_ONE_ZONE(zoneId)) : Promise.resolve(null),
                     ]);
                     if (bookingRes) setBooking(bookingRes?.data?.data);
-                    if (zoneRes) setZone(zoneRes?.data?.data);
-                }
-
-                // ตรวจสอบ localStorage ก่อน ถ้ามีใช้เลย ถ้าไม่มีก็ generate ใหม่
-                const storageKey = `billId-${bookingId}`;
-                const storedBillId = localStorage.getItem(storageKey);
-                if (storedBillId) {
-                    setBillId(storedBillId);
-                } else {
-                    const newBillId = generateBillId(bookingId);
-                    localStorage.setItem(storageKey, newBillId);
-                    setBillId(newBillId);
+                    // if (zoneRes) setZone(zoneRes?.data?.data);
                 }
 
             } catch (error) {
@@ -72,9 +48,12 @@ const BillDetail = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
+    const invoiceNumber = booking?.Fix?.map((fix) => fix.bookingId === booking?.booking_id && fix.invoice_number);
+    const invoiceDate = booking?.Fix?.map((fix) => fix.bookingId === booking?.booking_id && fix.invoice_date);
+
     const handleExportPDF = () => {
         const element = billRef.current;
-        const filename = `Bill_${booking?.user?.username || "Customer"}_${billId}.pdf`;
+        const filename = `Bill_${booking?.user?.username || "Customer"}_${invoiceNumber}.pdf`;
         const opt = {
             margin: 0.5,
             filename,
@@ -132,8 +111,8 @@ const BillDetail = () => {
                         <div><strong>{t("branch_label")}</strong>: {booking?.branch?.branch_name}</div>
                     </div>
                     <div>
-                        <p>{t("date_bill")}: {formatNewDate}</p>
-                        <p>{t("billId")}: {billId}</p>
+                        <p>{t("date_bill")}: {formatDates(invoiceDate)}</p>
+                        <p>{t("billId")}: {invoiceNumber}</p>
                     </div>
                 </div>
 
@@ -142,7 +121,7 @@ const BillDetail = () => {
                     <div><strong>{t("phone")}</strong>: {booking?.user?.phoneNumber}</div>
                     <div><strong>{t("plateNumber")}</strong>: {booking?.car?.plateNumber}</div>
                     <div><strong>{t("carModel")}</strong>: {booking?.car?.model}</div>
-                    <div><strong>{t("zone_label")}</strong>: {zone?.zoneName}</div>
+                    <div><strong>{t("zone_label")}</strong>: {booking?.zone?.zoneName}</div>
                     <div><strong>{t("date_label")}</strong>: {formatDates(booking?.day)}</div>
                 </div>
 
@@ -160,12 +139,12 @@ const BillDetail = () => {
                             <tr>
                                 <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>1</td>
                                 <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>{t("fixCarPrice")}</td>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>{data?.fixCarPrice?.toLocaleString()}</td>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>{data?.labour_total?.toLocaleString()}</td>
                             </tr>
                             <tr>
                                 <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>2</td>
                                 <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>{t("carPartPrice")}</td>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>{data?.carPartPrice?.toLocaleString()}</td>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>{data?.part_total?.toLocaleString()}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -174,7 +153,7 @@ const BillDetail = () => {
                 <div className="mt-4 flex justify-end">
                     <div style={{ textAlign: "right" }}>
                         <h3 style={{ fontSize: "1.25rem", fontWeight: "600", color: "#15803d" }}>
-                            {t("totalPrice")}: {data?.totalPrice?.toLocaleString()} ກີບ
+                            {t("totalPrice")}: {FormatNumber(data?.labour_total + data?.part_total)} ກີບ
                         </h3>
                     </div>
                 </div>

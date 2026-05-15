@@ -8,7 +8,7 @@ import { UploadIMG } from "../../../utils/UploadIMG";
 
 const EditGift = ({ show, onClose, giftId, handleFetch }) => {
   const { t } = useTranslation('gift');
-  const { register, handleSubmit, errors, submitForm, loading,  control } = useEditForm({ onClose, handleFetch, giftId });
+  const { register, handleSubmit, errors, submitForm, loading, control } = useEditForm({ onClose, handleFetch, giftId });
 
   if (!show) return null;
 
@@ -27,17 +27,25 @@ const EditGift = ({ show, onClose, giftId, handleFetch }) => {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <div className="flex flex-col">
               <input
-                {...register("name")}
+                {...register("gift_Name")}
                 placeholder={t("gift_name")}
-                className="w-full py-2 px-3 border border-gray-300 rounded-lg outline-none"
+                className="w-full py-2 px-3 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
               />
               <div className="h-6">{errors.name && <p className="text-red-500">{errors.name.message}</p>}</div>
             </div>
             <div className="flex flex-col">
               <input
-                {...register("point")}
+                {...register("amount")}
+                placeholder={t("amount")}
+                className="w-full py-2 px-3 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+              />
+              <div className="h-6">{errors.amount && <p className="text-red-500 text-sm">{errors.amount.message}</p>}</div>
+            </div>
+            <div className="flex flex-col">
+              <input
+                {...register("gift_Point")}
                 placeholder={t("point")}
-                className="w-full py-2 px-3 border border-gray-300 rounded-lg outline-none"
+                className="w-full py-2 px-3 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
               />
               <div className="h-6">{errors.point && <p className="text-red-500">{errors.point.message}</p>}</div>
             </div>

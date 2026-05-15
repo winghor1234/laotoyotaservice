@@ -49,6 +49,8 @@ import TimeList from "../pages/time/TimeList";
 import TimeDetail from "../pages/time/TimeDetail";
 import TimeFixList from "../pages/timeFix/TimeFixList";
 import TimeFixDerail from "../pages/timeFix/TimeFixDetail";
+import CardList from "../pages/card/CardList";
+import CardDetail from "../pages/card/CardDetail";
 
 
 const router = createBrowserRouter([
@@ -264,6 +266,14 @@ const router = createBrowserRouter([
         path: "user-detail/:id",
         element: <DetailUser />,
       },
+      {
+        path: "card",
+        element: <CardList/>
+      },
+      {
+        path: "card-detail/:id",
+        element: <CardDetail/>
+      }
     ],
   },
 ]);
