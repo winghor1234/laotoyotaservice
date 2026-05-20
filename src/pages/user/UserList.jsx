@@ -18,12 +18,8 @@ import { FaWhatsappSquare } from "react-icons/fa";
 import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
 // import { decryptData } from "../../utils/decript";
 
-const formatPhoneForWhatsApp = (
-    phone
-) => {
-
+const formatPhoneForWhatsApp = (phone) => {
     if (!phone) return "";
-
     return phone
         .replace(/\+/g, "")
         .replace(/\s/g, "")
@@ -37,7 +33,6 @@ const UserList = () => {
     const [showChangePassword, setShowChangePassword] = useState(false);
     const [customerId, setCustomerId] = useState(null);
     const [open, setOpen] = useState(false);
-    // const [newPassword, setNewPassword] = useState(null);
     const navigate = useNavigate();
 
 

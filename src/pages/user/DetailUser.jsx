@@ -14,7 +14,6 @@ const DetailUser = () => {
     const { id } = useParams();
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
-    // const [hashpasword, setHashpasword] = useState();
     
 
     useEffect(() => {
@@ -39,11 +38,6 @@ const DetailUser = () => {
             </div>
         );
     }
-    // let hashPassword = async() => {
-    //     const decryptPassword = await DecryptData(userData.password);
-    //     setHashpasword(decryptPassword);
-       
-    // }
 
     if (!userData) {
         return (

@@ -1,85 +1,50 @@
-
-
-
 import { useEditUserForm } from "../../component/schemaValidate/userValidate/EditUserValidate";
 import { FaArrowLeft } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import Select from "react-select";
 
-const EditUser = ({
-    show,
-    onClose,
-    customerId,
-    handleFetch,
-}) => {
-    const { t } =
-        useTranslation("user");
-
+const EditUser = ({ show, onClose, customerId, handleFetch }) => {
+    const { t } = useTranslation("user");
     const {
         register,
         handleSubmit,
-        errors,
+        formState: { errors },
         submitForm,
         loading,
-
         provinceOptions,
         districtOptions,
-
         selectedProvince,
         selectedDistrict,
-
         handleProvinceChange,
         handleDistrictChange,
-    } = useEditUserForm({
-        customerId,
-        handleFetch,
-        onClose,
-    });
+    } = useEditUserForm({ customerId, handleFetch, onClose });
 
     return (
         <>
             {/* Overlay */}
             <div
-                className={`fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity duration-300 ${show
-                        ? "opacity-100 pointer-events-auto"
-                        : "opacity-0 pointer-events-none"
-                    }`}
+                className={`fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity duration-300 ${show ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
                 onClick={onClose}
             />
 
             {/* Modal */}
             <div
-                className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 
-                
-                w-[95%] sm:w-[90%] md:w-full 
-                max-w-2xl 
-                max-h-[95vh] overflow-y-auto
-                
-                bg-gray-50 rounded-2xl shadow-lg 
-                p-3 sm:p-4 md:p-6 
-                
-                transition-all duration-300 text-base ${show
+                className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50   w-[95%] sm:w-[90%] md:w-full   max-w-2xl   max-h-[95vh] overflow-y-auto    bg-gray-50 rounded-2xl shadow-lg   p-3 sm:p-4 md:p-6    transition-all duration-300 text-base ${show
                         ? "scale-100 opacity-100"
                         : "scale-90 opacity-0 pointer-events-none"
                     }`}
             >
                 {/* Header */}
                 <div className="flex flex-row items-center justify-between gap-2 sm:gap-3">
-
                     {/* Back Button */}
                     <div
-                        onClick={() =>
-                            onClose()
-                        }
+                        onClick={() => onClose()}
                         className="inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-xl cursor-pointer transition-colors"
                     >
                         <button className="flex items-center gap-2 text-gray-700 hover:text-black">
                             <FaArrowLeft className="text-sm sm:text-base" />
-
                             <span className="font-medium text-sm sm:text-lg lg:text-xl">
-                                {t(
-                                    "back"
-                                )}
+                                {t("back")}
                             </span>
                         </button>
                     </div>
@@ -89,40 +54,27 @@ const EditUser = ({
 
                 {/* Form */}
                 <form
-                    onSubmit={handleSubmit(
-                        submitForm
-                    )}
+                    onSubmit={handleSubmit(submitForm)}
                     className="flex flex-col justify-center gap-4 sm:gap-6"
                 >
                     {/* Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 max-w-full w-full p-2 sm:p-3">
-
                         {/* Username */}
                         <div className="flex flex-col w-full">
                             <label className="text-sm sm:text-base font-medium mb-1">
-                                {t(
-                                    "username"
-                                )}
+                                {t("username")}
                             </label>
 
                             <input
-                                {...register(
-                                    "username"
-                                )}
+                                {...register("username")}
                                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-blue-500 focus:border-blue-500 transition-colors"
-                                placeholder={t(
-                                    "usernamePlaceholder"
-                                )}
+                                placeholder={t("username_placeholder")}
                             />
 
                             <div className="h-5 sm:h-6">
                                 {errors.username && (
                                     <span className="text-red-500 text-xs sm:text-sm">
-                                        {
-                                            errors
-                                                .username
-                                                .message
-                                        }
+                                        {errors.username.message}
                                     </span>
                                 )}
                             </div>
@@ -131,60 +83,35 @@ const EditUser = ({
                         {/* Province */}
                         <div className="flex flex-col w-full">
                             <label className="text-sm sm:text-base font-medium mb-1">
-                                {t(
-                                    "province"
-                                )}
+                                {t("province")}
                             </label>
 
                             <Select
-                                options={
-                                    provinceOptions
-                                }
-                                value={
-                                    selectedProvince
-                                }
-                                onChange={
-                                    handleProvinceChange
-                                }
-                                placeholder={t(
-                                    "provincePlaceholder"
-                                )}
+                                options={provinceOptions}
+                                value={selectedProvince}
+                                onChange={handleProvinceChange}
+                                placeholder={t("provincePlaceholder")}
                                 isSearchable
                                 className="text-sm sm:text-base"
-                                menuPortalTarget={
-                                    document.body
-                                }
+                                menuPortalTarget={document.body}
                                 styles={{
-                                    menuPortal:
-                                        (
-                                            base
-                                        ) => ({
-                                            ...base,
-                                            zIndex:
-                                                9999,
-                                        }),
+                                    menuPortal: (base) => ({
+                                        ...base,
+                                        zIndex: 9999,
+                                    }),
 
-                                    control:
-                                        (
-                                            base
-                                        ) => ({
-                                            ...base,
-                                            minHeight:
-                                                42,
-                                            borderRadius:
-                                                8,
-                                        }),
+                                    control: (base) => ({
+                                        ...base,
+                                        minHeight: 42,
+                                        borderRadius: 8,
+                                    }),
                                 }}
                             />
 
                             <div className="h-5 sm:h-6">
                                 {errors.province && (
                                     <span className="text-red-500 text-xs sm:text-sm">
-                                        {
-                                            errors
-                                                .province
-                                                .message
-                                        }
+                                        {errors.province.message}
                                     </span>
                                 )}
                             </div>
@@ -193,29 +120,19 @@ const EditUser = ({
                         {/* Phone */}
                         <div className="flex flex-col w-full">
                             <label className="text-sm sm:text-base font-medium mb-1">
-                                {t(
-                                    "phoneNumber"
-                                )}
+                                {t("phoneNumber")}
                             </label>
 
                             <input
-                                {...register(
-                                    "phoneNumber"
-                                )}
+                                {...register("phoneNumber")}
                                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-blue-500 focus:border-blue-500 transition-colors"
-                                placeholder={t(
-                                    "phonePlaceholder"
-                                )}
+                                placeholder={t("phonePlaceholder")}
                             />
 
                             <div className="h-5 sm:h-6">
                                 {errors.phoneNumber && (
                                     <span className="text-red-500 text-xs sm:text-sm">
-                                        {
-                                            errors
-                                                .phoneNumber
-                                                .message
-                                        }
+                                        {errors.phoneNumber.message}
                                     </span>
                                 )}
                             </div>
@@ -224,63 +141,36 @@ const EditUser = ({
                         {/* District */}
                         <div className="flex flex-col w-full">
                             <label className="text-sm sm:text-base font-medium mb-1">
-                                {t(
-                                    "district"
-                                )}
+                                {t("district")}
                             </label>
 
                             <Select
-                                options={
-                                    districtOptions
-                                }
-                                value={
-                                    selectedDistrict
-                                }
-                                onChange={
-                                    handleDistrictChange
-                                }
-                                placeholder={t(
-                                    "districtPlaceholder"
-                                )}
+                                options={districtOptions}
+                                value={selectedDistrict}
+                                onChange={handleDistrictChange}
+                                placeholder={t("districtPlaceholder")}
                                 isSearchable
-                                isDisabled={
-                                    !selectedProvince
-                                }
+                                isDisabled={!selectedProvince}
                                 className="text-sm sm:text-base"
-                                menuPortalTarget={
-                                    document.body
-                                }
+                                menuPortalTarget={document.body}
                                 styles={{
-                                    menuPortal:
-                                        (
-                                            base
-                                        ) => ({
-                                            ...base,
-                                            zIndex:
-                                                9999,
-                                        }),
+                                    menuPortal: (base) => ({
+                                        ...base,
+                                        zIndex: 9999,
+                                    }),
 
-                                    control:
-                                        (
-                                            base
-                                        ) => ({
-                                            ...base,
-                                            minHeight:
-                                                42,
-                                            borderRadius:
-                                                8,
-                                        }),
+                                    control: (base) => ({
+                                        ...base,
+                                        minHeight: 42,
+                                        borderRadius: 8,
+                                    }),
                                 }}
                             />
 
                             <div className="h-5 sm:h-6">
                                 {errors.district && (
                                     <span className="text-red-500 text-xs sm:text-sm">
-                                        {
-                                            errors
-                                                .district
-                                                .message
-                                        }
+                                        {errors.district.message}
                                     </span>
                                 )}
                             </div>
@@ -293,23 +183,15 @@ const EditUser = ({
                             </label>
 
                             <input
-                                {...register(
-                                    "email"
-                                )}
+                                {...register("email")}
                                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-blue-500 focus:border-blue-500 transition-colors"
-                                placeholder={t(
-                                    "emailPlaceholder"
-                                )}
+                                placeholder={t("emailPlaceholder")}
                             />
 
                             <div className="h-5 sm:h-6">
                                 {errors.email && (
                                     <span className="text-red-500 text-xs sm:text-sm">
-                                        {
-                                            errors
-                                                .email
-                                                .message
-                                        }
+                                        {errors.email.message}
                                     </span>
                                 )}
                             </div>
@@ -318,29 +200,19 @@ const EditUser = ({
                         {/* Village */}
                         <div className="flex flex-col w-full">
                             <label className="text-sm sm:text-base font-medium mb-1">
-                                {t(
-                                    "village"
-                                )}
+                                {t("village")}
                             </label>
 
                             <input
-                                {...register(
-                                    "village"
-                                )}
+                                {...register("village")}
                                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-blue-500 focus:border-blue-500 transition-colors"
-                                placeholder={t(
-                                    "villagePlaceholder"
-                                )}
+                                placeholder={t("villagePlaceholder")}
                             />
 
                             <div className="h-5 sm:h-6">
                                 {errors.village && (
                                     <span className="text-red-500 text-xs sm:text-sm">
-                                        {
-                                            errors
-                                                .village
-                                                .message
-                                        }
+                                        {errors.village.message}
                                     </span>
                                 )}
                             </div>
@@ -349,35 +221,22 @@ const EditUser = ({
 
                     {/* Buttons */}
                     <div className="flex flex-col-reverse sm:flex-row justify-center gap-3 sm:gap-6 pt-4">
-
                         {/* Cancel */}
                         <button
                             type="button"
-                            onClick={() =>
-                                onClose()
-                            }
+                            onClick={() => onClose()}
                             className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg w-full sm:w-32 h-[42px] sm:h-10 cursor-pointer transition-colors text-sm sm:text-base"
                         >
-                            {t(
-                                "cancel"
-                            )}
+                            {t("cancel")}
                         </button>
 
                         {/* Submit */}
                         <button
-                            disabled={
-                                loading
-                            }
+                            disabled={loading}
                             type="submit"
                             className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg w-full sm:w-32 h-[42px] sm:h-10 cursor-pointer transition-colors text-sm sm:text-base disabled:opacity-70"
                         >
-                            {loading
-                                ? t(
-                                    "loading"
-                                )
-                                : t(
-                                    "confirm"
-                                )}
+                            {loading ? t("loading") : t("confirm")}
                         </button>
                     </div>
                 </form>
