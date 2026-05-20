@@ -78,6 +78,10 @@ const DetailAdmin = () => {
                                     <p className="text-base text-gray-800">{adminData?.province}</p>
                                 </div>
                                 <div>
+                                    <p className="text-base text-gray-500">{t("district")} :</p>
+                                    <p className="text-base text-gray-800">{adminData?.district}</p>
+                                </div>
+                                <div>
                                     <p className="text-base text-gray-500">{t("admin_village")} :</p>
                                     <p className="text-base text-gray-800">{adminData?.village}</p>
                                 </div>

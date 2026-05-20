@@ -124,6 +124,12 @@
   "total_price_lak": "ລາຄາລວມ (ກີບ)",
   "cash": "ເງີນສົດ",
   "transfer": "ເງິນໂອນ",
-  "select_payment_type": "ເລືອກປະເພດການຊໍາລະ"
+  "select_payment_type": "ເລືອກປະເພດການຊໍາລະ",
+  "labour_point_placholder": "ຄະແນນຄ່າເເຮງງານ",
+  "part_point_placholder": "ຄະແນນຄ່າອາໄຫຼ່",
+  "Please_select_card": "ກະລຸນາເລືອກບັດ",
+  "Please_select_payment_type": "ກະລຸນາເລືອກປະເພດການຊໍາລະ"
+  
+
  
 }

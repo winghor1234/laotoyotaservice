@@ -120,7 +120,7 @@ const BranchList = () => {
                             className="bg-white rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition-shadow"
                         >
                             <div className="flex items-center justify-between mb-3">
-                                <div className="text-sm font-medium text-gray-600">#{index + 1}</div>
+                                <div className="text-sm font-semibold text-gray-800">{t("index")}: {index + 1}</div>
                                 <div className="flex items-center gap-3">
                                     <Eye  onClick={() => handleToDetailBranch(item.branch_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                                     <Edit

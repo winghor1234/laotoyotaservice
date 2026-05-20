@@ -75,7 +75,6 @@ const CardList = () => {
         navigate(`/user/card-detail/${id}`);
     };
 
-    console.log("cards: ", cards);
 
     return (
         <div>
@@ -97,12 +96,14 @@ const CardList = () => {
                     />
                 )}
 
-                <button
-                    onClick={() => setShowAddCard(true)}
-                    className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base"
-                >
-                    {t("add")}
-                </button>
+                <div className="flex gap-2 ">
+                    <button
+                        onClick={() => setShowAddCard(true)}
+                        className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base"
+                    >
+                        {t("add")}
+                    </button>
+                </div>
             </div>
 
             {/* Mobile */}
@@ -283,8 +284,8 @@ const CardList = () => {
                     onClick={() => handlePageChange(page - 1)}
                     disabled={page === 1}
                     className={`px-3 py-1 rounded ${page === 1
-                            ? "bg-gray-100 text-gray-400"
-                            : "bg-gray-200 hover:bg-gray-300"
+                        ? "bg-gray-100 text-gray-400"
+                        : "bg-gray-200 hover:bg-gray-300"
                         }`}
                 >
                     ‹
@@ -295,8 +296,8 @@ const CardList = () => {
                         key={p}
                         onClick={() => handlePageChange(p)}
                         className={`px-3 py-1 rounded ${page === p
-                                ? "bg-blue-500 text-white"
-                                : "bg-gray-200 hover:bg-gray-300"
+                            ? "bg-blue-500 text-white"
+                            : "bg-gray-200 hover:bg-gray-300"
                             }`}
                     >
                         {p}
@@ -307,8 +308,8 @@ const CardList = () => {
                     onClick={() => handlePageChange(page + 1)}
                     disabled={page === totalPage || totalPage === 0}
                     className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
-                            ? "bg-gray-100 text-gray-400"
-                            : "bg-gray-200 hover:bg-gray-300"
+                        ? "bg-gray-100 text-gray-400"
+                        : "bg-gray-200 hover:bg-gray-300"
                         }`}
                 >
                     ›
@@ -320,7 +321,7 @@ const CardList = () => {
                 onClose={() => setShowEditCard(false)}
                 cardId={selectedCard}
                 handleFetchCard={fetchData}
-                
+
             />
 
             <AddCard

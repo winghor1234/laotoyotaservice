@@ -20,6 +20,7 @@ export default class APIPath {
     static UPDATE_PROFILE = `${this.BASE_URL}/user/update`;
     static UPDATE_CUSTOMER(id) { return `${this.BASE_URL}/user/update/${id}` };
     static UPDATE_POINT = `${this.BASE_URL}/user/updatePoint`;
+    static RESET_CUSTOMER_PASSWORD(id) { return `${this.BASE_URL}/user/resetCutomerPassword/${id}` }
     static DELETE_USER = `${this.BASE_URL}/user/delete`;
     static DELETE_CUSTOMER(id) { return `${this.BASE_URL}/user/delete/${id}` };
 

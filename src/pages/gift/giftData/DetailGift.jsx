@@ -64,7 +64,7 @@ const DetailGift = () => {
                                 <div>
                                     <p className="text-base text-gray-500">{t("gift_title")} :</p>
                                     <p className="text-base text-gray-900 font-semibold">
-                                        {giftData.name}
+                                        {giftData.gift_Name}
                                     </p>
                                 </div>
                                 <div>
@@ -73,7 +73,7 @@ const DetailGift = () => {
                                 </div>
                                 <div>
                                     <p className="text-base text-gray-500">{t("gift_point")} :</p>
-                                    <p className="text-base text-gray-800">{giftData.point}</p>
+                                    <p className="text-base text-gray-800">{giftData.gift_Point}</p>
                                 </div>
                             </div>
                         </div>
@@ -94,15 +94,15 @@ const DetailGift = () => {
                         <div className="bg-gray-50 p-4 rounded-md shadow-inner space-y-3">
                             <div>
                                 <span className="text-base text-gray-500 block">{t("gift_title")}:</span>
-                                <span className="text-base font-medium text-gray-900">{giftData.name}</span>
+                                <span className="text-base font-medium text-gray-900">{giftData.gift_Name}</span>
                             </div>
                             <div>
                                 <span className="text-base text-gray-500 block">{t("gift_amount")}:</span>
                                 <span className="text-base font-medium text-gray-800">{giftData.amount}</span>
                             </div>
                             <div>
-                                <span className="text-base text-gray-500 block">{t("gift_detail")}:</span>
-                                <span className="text-base font-medium text-gray-800">{giftData.point}</span>
+                                <span className="text-base text-gray-500 block">{t("gift_point")}:</span>
+                                <span className="text-base font-medium text-gray-800">{giftData.gift_Point}</span>
                             </div>
                         </div>
                         {giftData.image && (

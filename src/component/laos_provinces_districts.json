@@ -1,0 +1,704 @@
+{
+  "provinces": [
+    {
+      "name_en": "Vientiane Prefecture",
+      "name_lao": "ນະຄອນຫຼວງວຽງຈັນ",
+      "districts": [
+        {
+          "name_en": "Chanthabuly",
+          "name_lao": "ເມືອງຈັນທະບູລີ"
+        },
+        {
+          "name_en": "Sikhottabong",
+          "name_lao": "ເມືອງສີໂຄດຕະບອງ"
+        },
+        {
+          "name_en": "Xaysetha",
+          "name_lao": "ເມືອງໄຊເສດຖາ"
+        },
+        {
+          "name_en": "Sisattanak",
+          "name_lao": "ເມືອງສີສັດຕະນາກ"
+        },
+        {
+          "name_en": "Naxaithong",
+          "name_lao": "ເມືອງນາຊາຍທອງ"
+        },
+        {
+          "name_en": "Xaythany",
+          "name_lao": "ເມືອງໄຊທານີ"
+        },
+        {
+          "name_en": "Hadxayfong",
+          "name_lao": "ເມືອງຫາດຊາຍຟອງ"
+        },
+        {
+          "name_en": "Sangthong",
+          "name_lao": "ເມືອງສັງທອງ"
+        },
+        {
+          "name_en": "Mayparkngum",
+          "name_lao": "ເມືອງປາກງື່ມ"
+        }
+      ]
+    },
+    {
+      "name_en": "Phongsaly Province",
+      "name_lao": "ແຂວງຜົ້ງສາລີ",
+      "districts": [
+        {
+          "name_en": "Phongsaly",
+          "name_lao": "ເມືອງຜົ້ງສາລີ"
+        },
+        {
+          "name_en": "May",
+          "name_lao": "ເມືອງໃໝ່"
+        },
+        {
+          "name_en": "Khoua",
+          "name_lao": "ເມືອງຂວາ"
+        },
+        {
+          "name_en": "Samphanh",
+          "name_lao": "ເມືອງສຳພັນ"
+        },
+        {
+          "name_en": "Boun Neua",
+          "name_lao": "ເມືອງບຸນເໜືອ"
+        },
+        {
+          "name_en": "Yot Ou",
+          "name_lao": "ເມືອງຍອດອູ"
+        },
+        {
+          "name_en": "Boun Tay",
+          "name_lao": "ເມືອງບຸນໃຕ້"
+        }
+      ]
+    },
+    {
+      "name_en": "Luang Namtha Province",
+      "name_lao": "ແຂວງຫຼວງນໍ້າທາ",
+      "districts": [
+        {
+          "name_en": "Namtha",
+          "name_lao": "ເມືອງຫຼວງນໍ້າທາ"
+        },
+        {
+          "name_en": "Sing",
+          "name_lao": "ເມືອງສີງ"
+        },
+        {
+          "name_en": "Long",
+          "name_lao": "ເມືອງລອງ"
+        },
+        {
+          "name_en": "Viengphoukha",
+          "name_lao": "ເມືອງວຽງພູຄາ"
+        },
+        {
+          "name_en": "Na Le",
+          "name_lao": "ເມືອງນາແລ"
+        }
+      ]
+    },
+    {
+      "name_en": "Oudomxay Province",
+      "name_lao": "ແຂວງອຸດົມໄຊ",
+      "districts": [
+        {
+          "name_en": "Xay",
+          "name_lao": "ເມືອງໄຊ"
+        },
+        {
+          "name_en": "La",
+          "name_lao": "ເມືອງຫຼາ"
+        },
+        {
+          "name_en": "Na Mo",
+          "name_lao": "ເມືອງນາໝໍ້"
+        },
+        {
+          "name_en": "Nga",
+          "name_lao": "ເມືອງງາ"
+        },
+        {
+          "name_en": "Beng",
+          "name_lao": "ເມືອງແບ່ງ"
+        },
+        {
+          "name_en": "Houne",
+          "name_lao": "ເມືອງຮຸນ"
+        },
+        {
+          "name_en": "Pak Beng",
+          "name_lao": "ເມືອງປາກແບ່ງ"
+        }
+      ]
+    },
+    {
+      "name_en": "Bokeo Province",
+      "name_lao": "ແຂວງບໍ່ແກ້ວ",
+      "districts": [
+        {
+          "name_en": "Houayxay",
+          "name_lao": "ເມືອງຫ້ວຍຊາຍ"
+        },
+        {
+          "name_en": "Ton Pheung",
+          "name_lao": "ເມືອງຕົ້ນເຜິ້ງ"
+        },
+        {
+          "name_en": "Meung",
+          "name_lao": "ເມືອງເມິງ"
+        },
+        {
+          "name_en": "Pha Oudom",
+          "name_lao": "ເມືອງຜາອຸດົມ"
+        },
+        {
+          "name_en": "Pak Tha",
+          "name_lao": "ເມືອງປາກທາ"
+        }
+      ]
+    },
+    {
+      "name_en": "Luang Prabang Province",
+      "name_lao": "ແຂວງຫຼວງພະບາງ",
+      "districts": [
+        {
+          "name_en": "Luang Prabang",
+          "name_lao": "ເມືອງຫຼວງພະບາງ"
+        },
+        {
+          "name_en": "Xiengngeun",
+          "name_lao": "ເມືອງຊຽງເງິນ"
+        },
+        {
+          "name_en": "Nane",
+          "name_lao": "ເມືອງນານ"
+        },
+        {
+          "name_en": "Pak Ou",
+          "name_lao": "ເມືອງປາກອູ"
+        },
+        {
+          "name_en": "Nam Bak",
+          "name_lao": "ເມືອງນ້ຳບາກ"
+        },
+        {
+          "name_en": "Ngoy",
+          "name_lao": "ເມືອງງອຍ"
+        },
+        {
+          "name_en": "Pak Seng",
+          "name_lao": "ເມືອງປາກແຊງ"
+        },
+        {
+          "name_en": "Phonxay",
+          "name_lao": "ເມືອງໂພນໄຊ"
+        },
+        {
+          "name_en": "Chomphet",
+          "name_lao": "ເມືອງຈອມເພັດ"
+        },
+        {
+          "name_en": "Viengkham",
+          "name_lao": "ເມືອງວຽງຄຳ"
+        },
+        {
+          "name_en": "Phoukhoune",
+          "name_lao": "ເມືອງພູຄູນ"
+        },
+        {
+          "name_en": "Phonthong",
+          "name_lao": "ເມືອງໂພນທອງ"
+        }
+      ]
+    },
+    {
+      "name_en": "Houaphanh Province",
+      "name_lao": "ແຂວງຫົວພັນ",
+      "districts": [
+        {
+          "name_en": "Xam Neua",
+          "name_lao": "ເມືອງຊຳເໜືອ"
+        },
+        {
+          "name_en": "Xiengkho",
+          "name_lao": "ເມືອງຊຽງຄໍ້"
+        },
+        {
+          "name_en": "Hiam",
+          "name_lao": "ເມືອງຮ້ຽມ"
+        },
+        {
+          "name_en": "Viengxay",
+          "name_lao": "ເມືອງວຽງໄຊ"
+        },
+        {
+          "name_en": "Houameuang",
+          "name_lao": "ເມືອງຫົວເມືອງ"
+        },
+        {
+          "name_en": "Samtay",
+          "name_lao": "ເມືອງຊຳໃຕ້"
+        },
+        {
+          "name_en": "Sop Bao",
+          "name_lao": "ເມືອງສົບເບົາ"
+        },
+        {
+          "name_en": "Et",
+          "name_lao": "ເມືອງແອດ"
+        },
+        {
+          "name_en": "Kuan",
+          "name_lao": "ເມືອງກວັນ"
+        },
+        {
+          "name_en": "Xon",
+          "name_lao": "ເມືອງຊ່ອນ"
+        }
+      ]
+    },
+    {
+      "name_en": "Sainyabuli Province",
+      "name_lao": "ແຂວງໄຊຍະບູລີ",
+      "districts": [
+        {
+          "name_en": "Sainyabuli",
+          "name_lao": "ເມືອງໄຊຍະບູລີ"
+        },
+        {
+          "name_en": "Khop",
+          "name_lao": "ເມືອງຄອບ"
+        },
+        {
+          "name_en": "Hongsa",
+          "name_lao": "ເມືອງຫົງສາ"
+        },
+        {
+          "name_en": "Ngeun",
+          "name_lao": "ເມືອງເງິນ"
+        },
+        {
+          "name_en": "Xienghone",
+          "name_lao": "ເມືອງຊຽງຮ່ອນ"
+        },
+        {
+          "name_en": "Phiang",
+          "name_lao": "ເມືອງພຽງ"
+        },
+        {
+          "name_en": "Parklai",
+          "name_lao": "ເມືອງປາກລາຍ"
+        },
+        {
+          "name_en": "Kenethao",
+          "name_lao": "ເມືອງແກ່ນທ້າວ"
+        },
+        {
+          "name_en": "Botene",
+          "name_lao": "ເມືອງບໍ່ແຕນ"
+        },
+        {
+          "name_en": "Thongmyxay",
+          "name_lao": "ເມືອງທົ່ງມີໄຊ"
+        },
+        {
+          "name_en": "Xaisathan",
+          "name_lao": "ເມືອງໄຊສະຖານ"
+        }
+      ]
+    },
+    {
+      "name_en": "Xiangkhouang Province",
+      "name_lao": "ແຂວງຊຽງຂວາງ",
+      "districts": [
+        {
+          "name_en": "Pek",
+          "name_lao": "ເມືອງແປກ"
+        },
+        {
+          "name_en": "Kham",
+          "name_lao": "ເມືອງຄຳ"
+        },
+        {
+          "name_en": "Nong Het",
+          "name_lao": "ເມືອງໜອງແຮດ"
+        },
+        {
+          "name_en": "Khoune",
+          "name_lao": "ເມືອງຄູນ"
+        },
+        {
+          "name_en": "Mok May",
+          "name_lao": "ເມືອງໝອກໃໝ່"
+        },
+        {
+          "name_en": "Phou Kout",
+          "name_lao": "ເມືອງພູກູດ"
+        },
+        {
+          "name_en": "Phaxay",
+          "name_lao": "ເມືອງຜາໄຊ"
+        }
+      ]
+    },
+    {
+      "name_en": "Vientiane Province",
+      "name_lao": "ແຂວງວຽງຈັນ",
+      "districts": [
+        {
+          "name_en": "Phonhong",
+          "name_lao": "ເມືອງໂພນໂຮງ"
+        },
+        {
+          "name_en": "Thoulakhom",
+          "name_lao": "ເມືອງທຸລະຄົມ"
+        },
+        {
+          "name_en": "Keo Oudom",
+          "name_lao": "ເມືອງແກ້ວອຸດົມ"
+        },
+        {
+          "name_en": "Kasy",
+          "name_lao": "ເມືອງກາສີ"
+        },
+        {
+          "name_en": "Vangvieng",
+          "name_lao": "ເມືອງວັງວຽງ"
+        },
+        {
+          "name_en": "Feuang",
+          "name_lao": "ເມືອງເຟືອງ"
+        },
+        {
+          "name_en": "Xanakharm",
+          "name_lao": "ເມືອງຊະນະຄາມ"
+        },
+        {
+          "name_en": "Mad",
+          "name_lao": "ເມືອງແມດ"
+        },
+        {
+          "name_en": "Viengkham",
+          "name_lao": "ເມືອງວຽງຄໍາ"
+        },
+        {
+          "name_en": "Hinhurp",
+          "name_lao": "ເມືອງຫີນເຫີບ"
+        },
+        {
+          "name_en": "Meun",
+          "name_lao": "ເມືອງໝື່ນ"
+        }
+      ]
+    },
+    {
+      "name_en": "Bolikhamsai Province",
+      "name_lao": "ແຂວງບໍລິຄຳໄຊ",
+      "districts": [
+        {
+          "name_en": "Pakxan",
+          "name_lao": "ເມືອງປາກຊັນ"
+        },
+        {
+          "name_en": "Thaphabat",
+          "name_lao": "ເມືອງທ່າພະບາດ"
+        },
+        {
+          "name_en": "Pakkading",
+          "name_lao": "ເມືອງປາກກະດິງ"
+        },
+        {
+          "name_en": "Borikhane",
+          "name_lao": "ເມືອງບໍລິຄັນ"
+        },
+        {
+          "name_en": "Khamkeut",
+          "name_lao": "ເມືອງຄຳເກີດ"
+        },
+        {
+          "name_en": "Viengthong",
+          "name_lao": "ເມືອງວຽງທອງ"
+        },
+        {
+          "name_en": "Xaichamphon",
+          "name_lao": "ເມືອງໄຊຈຳພອນ"
+        }
+      ]
+    },
+    {
+      "name_en": "Khammouane Province",
+      "name_lao": "ແຂວງຄຳມ່ວນ",
+      "districts": [
+        {
+          "name_en": "Thakhek",
+          "name_lao": "ເມືອງທ່າແຂກ"
+        },
+        {
+          "name_en": "Mahaxay",
+          "name_lao": "ເມືອງມະຫາໄຊ"
+        },
+        {
+          "name_en": "Nong Bok",
+          "name_lao": "ເມືອງໜອງບົກ"
+        },
+        {
+          "name_en": "Hineboune",
+          "name_lao": "ເມືອງຫີນບູນ"
+        },
+        {
+          "name_en": "Yommalath",
+          "name_lao": "ເມືອງຍົມມະລາດ"
+        },
+        {
+          "name_en": "Boualapha",
+          "name_lao": "ເມືອງບົວລະພາ"
+        },
+        {
+          "name_en": "Nakai",
+          "name_lao": "ເມືອງນາກາຍ"
+        },
+        {
+          "name_en": "Sebangphay",
+          "name_lao": "ເມືອງເຊບັ້ງໄຟ"
+        },
+        {
+          "name_en": "Xaibouathong",
+          "name_lao": "ເມືອງໄຊບົວທອງ"
+        },
+        {
+          "name_en": "Kounkham",
+          "name_lao": "ເມືອງຄູນຄຳ"
+        }
+      ]
+    },
+    {
+      "name_en": "Savannakhet Province",
+      "name_lao": "ແຂວງສະຫວັນນະເຂດ",
+      "districts": [
+        {
+          "name_en": "Kaysone Phomvihane",
+          "name_lao": "ເມືອງໄກສອນພົມວິຫານ"
+        },
+        {
+          "name_en": "Outhoumphon",
+          "name_lao": "ເມືອງອຸທຸມພອນ"
+        },
+        {
+          "name_en": "Atsaphangthong",
+          "name_lao": "ເມືອງອາດສະພັງທອງ"
+        },
+        {
+          "name_en": "Phin",
+          "name_lao": "ເມືອງພິນ"
+        },
+        {
+          "name_en": "Sepone",
+          "name_lao": "ເມືອງເຊໂປນ"
+        },
+        {
+          "name_en": "Nong",
+          "name_lao": "ເມືອງໜອງ"
+        },
+        {
+          "name_en": "Thapangthong",
+          "name_lao": "ເມືອງທ່າປາງທອງ"
+        },
+        {
+          "name_en": "Songkhone",
+          "name_lao": "ເມືອງສອງຄອນ"
+        },
+        {
+          "name_en": "Champhone",
+          "name_lao": "ເມືອງຈຳໂຟນ"
+        },
+        {
+          "name_en": "Xaibouli",
+          "name_lao": "ເມືອງໄຊບູລີ"
+        },
+        {
+          "name_en": "Vilabuly",
+          "name_lao": "ເມືອງວິລະບູລີ"
+        },
+        {
+          "name_en": "Xonnabouli",
+          "name_lao": "ເມືອງຊົນນະບູລີ"
+        },
+        {
+          "name_en": "Phalanxay",
+          "name_lao": "ເມືອງຜາລານໄຊ"
+        },
+        {
+          "name_en": "Atsaphone",
+          "name_lao": "ເມືອງອາດສະໂພນ"
+        },
+        {
+          "name_en": "Xayphouthong",
+          "name_lao": "ເມືອງໄຊພູທອງ"
+        }
+      ]
+    },
+    {
+      "name_en": "Salavan Province",
+      "name_lao": "ແຂວງສາລະວັນ",
+      "districts": [
+        {
+          "name_en": "Salavan",
+          "name_lao": "ເມືອງສາລະວັນ"
+        },
+        {
+          "name_en": "Ta Oy",
+          "name_lao": "ເມືອງຕາໂອ້ຍ"
+        },
+        {
+          "name_en": "Toomlarn",
+          "name_lao": "ເມືອງຕຸ້ມລານ"
+        },
+        {
+          "name_en": "Lakhonpheng",
+          "name_lao": "ເມືອງລະຄອນເພັງ"
+        },
+        {
+          "name_en": "Vapi",
+          "name_lao": "ເມືອງວາປີ"
+        },
+        {
+          "name_en": "Khong Sedone",
+          "name_lao": "ເມືອງຄອງເຊດອນ"
+        },
+        {
+          "name_en": "Laongam",
+          "name_lao": "ເມືອງລາວງາມ"
+        },
+        {
+          "name_en": "Samouay",
+          "name_lao": "ເມືອງສາມອ້ວຍ"
+        }
+      ]
+    },
+    {
+      "name_en": "Sekong Province",
+      "name_lao": "ແຂວງເຊກອງ",
+      "districts": [
+        {
+          "name_en": "Lamam",
+          "name_lao": "ເມືອງລະມາມ"
+        },
+        {
+          "name_en": "Kaleum",
+          "name_lao": "ເມືອງກະລຶມ"
+        },
+        {
+          "name_en": "Dakcheung",
+          "name_lao": "ເມືອງດາກຈຶງ"
+        },
+        {
+          "name_en": "Thateng",
+          "name_lao": "ເມືອງທາແຕງ"
+        }
+      ]
+    },
+    {
+      "name_en": "Champasak Province",
+      "name_lao": "ແຂວງຈຳປາສັກ",
+      "districts": [
+        {
+          "name_en": "Pakse",
+          "name_lao": "ເມືອງປາກເຊ"
+        },
+        {
+          "name_en": "Sanasomboun",
+          "name_lao": "ເມືອງສະໜາມສົມບູນ"
+        },
+        {
+          "name_en": "Bachiangchaleunsook",
+          "name_lao": "ເມືອງບາຈຽງຈະເລີນສຸກ"
+        },
+        {
+          "name_en": "Paksong",
+          "name_lao": "ເມືອງປາກຊ່ອງ"
+        },
+        {
+          "name_en": "Pathoumphone",
+          "name_lao": "ເມືອງປະທຸມໂພນ"
+        },
+        {
+          "name_en": "Phonthong",
+          "name_lao": "ເມືອງໂພນທອງ"
+        },
+        {
+          "name_en": "Champasak",
+          "name_lao": "ເມືອງຈຳປາສັກ"
+        },
+        {
+          "name_en": "Soukhouma",
+          "name_lao": "ເມືອງສຸຂຸມາ"
+        },
+        {
+          "name_en": "Mounlapamok",
+          "name_lao": "ເມືອງໝື່ນລະພາໂມກ"
+        },
+        {
+          "name_en": "Khong",
+          "name_lao": "ເມືອງຄອງ"
+        }
+      ]
+    },
+    {
+      "name_en": "Attapeu Province",
+      "name_lao": "ແຂວງອັດຕະປື",
+      "districts": [
+        {
+          "name_en": "Samakkhixay",
+          "name_lao": "ເມືອງສາມັກຄີໄຊ"
+        },
+        {
+          "name_en": "Sanamxay",
+          "name_lao": "ເມືອງສະໜາມໄຊ"
+        },
+        {
+          "name_en": "Sanxay",
+          "name_lao": "ເມືອງສານໄຊ"
+        },
+        {
+          "name_en": "Phouvong",
+          "name_lao": "ເມືອງພູວົງ"
+        },
+        {
+          "name_en": "Saysetha",
+          "name_lao": "ເມືອງໄຊເສດຖາ"
+        }
+      ]
+    },
+    {
+      "name_en": "Xaisomboun Province",
+      "name_lao": "ແຂວງໄຊສົມບູນ",
+      "districts": [
+        {
+          "name_en": "Anouvong",
+          "name_lao": "ເມືອງອານຸວົງ"
+        },
+        {
+          "name_en": "Longchaeng",
+          "name_lao": "ເມືອງລ້ອງແຈ້ງ"
+        },
+        {
+          "name_en": "Hom",
+          "name_lao": "ເມືອງຫົມ"
+        },
+        {
+          "name_en": "Thathom",
+          "name_lao": "ເມືອງທາໂທມ"
+        },
+        {
+          "name_en": "Phun",
+          "name_lao": "ເມືອງພູນ"
+        }
+      ]
+    }
+  ]
+}

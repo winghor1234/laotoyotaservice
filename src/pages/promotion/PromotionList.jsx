@@ -87,7 +87,7 @@ const PromotionList = () => {
     return (
         <div>
             {/* Search + Date + Export or download */}
-            <div className=" flex justify-end items-center mb-6">
+            <div className="flex justify-end items-center mb-6">
                 <SelectDate
                     searchValue={search}
                     onSearchChange={handleSearch}
@@ -102,9 +102,11 @@ const PromotionList = () => {
                         onClose={() => setOpen(false)}
                     />
                 )}
-                <button onClick={() => setShowAddPromotion(true)} className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base">
-                    {t("add")}
-                </button>
+                <div className="flex gap-2">
+                    <button onClick={() => setShowAddPromotion(true)} className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base">
+                        {t("add")}
+                    </button>
+                </div>
             </div>
 
             {/* Mobile Card Layout */}
@@ -117,9 +119,9 @@ const PromotionList = () => {
                         className="bg-white rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition-shadow"
                     >
                         <div className="flex items-center justify-between mb-3">
-                            <div className="text-sm font-medium text-gray-600">#{index + 1}</div>
+                            <div className="text-sm font-semibold text-gray-800">{t("index")}: {index + 1}</div>
                             <div className="flex items-center gap-3">
-                                <Eye  onClick={() => handleToDetailPromotion(item.promotion_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                <Eye onClick={() => handleToDetailPromotion(item.promotion_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                                 <Edit className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" onClick={(e) => {
                                     e.stopPropagation();
                                     setShowEditPromotion(true);
@@ -172,7 +174,7 @@ const PromotionList = () => {
                             <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2 ">{item.title}</div>
                             <div className="text-xs md:text-sm lg:text-base font-medium text-center line-clamp-2 ">{item.detail}</div>
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-3 md:gap-6">
-                                <Eye  onClick={() => handleToDetailPromotion(item.promotion_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                <Eye onClick={() => handleToDetailPromotion(item.promotion_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                                 <Edit className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" onClick={(e) => {
                                     e.stopPropagation();
                                     setShowEditPromotion(true);

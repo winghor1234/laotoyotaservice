@@ -81,7 +81,7 @@ const FixList = () => {
   //   }
   // };
 
-    const handleSubmit = (bookingId, timeId) => {
+  const handleSubmit = (bookingId, timeId) => {
     setShowPopup(true);
     setBookingId(bookingId);
     setTimeId(timeId);
@@ -90,7 +90,7 @@ const FixList = () => {
     fetchData();
   }, [role, branch_id]);
 
-console.log("Booking data for fix list:", booking);
+  console.log("Booking data for fix list:", booking);
   return (
     <div>
       {/* Search + Date + Export or download */}
@@ -144,95 +144,97 @@ console.log("Booking data for fix list:", booking);
               <div className="text-center">{item?.time?.time}</div>
               <div className="flex justify-center items-center gap-4">
                 <Eye onClick={() => fixDetail(item.booking_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
-                <button onClick={() => handleSubmit(item.booking_id, item.timeId) } className="bg-green-500 px-3 py-1 text-white rounded-xl cursor-pointer hover:bg-green-600">{t("success_fix_button")}</button>
-            </div>
+                <button onClick={() => handleSubmit(item.booking_id, item.timeId)} className="bg-green-500 px-3 py-1 text-white rounded-xl cursor-pointer hover:bg-green-600">{t("success_fix_button")}</button>
+              </div>
             </div>
           ))}
-      </div>
+        </div>
 
-      {/* Mobile Card Layout */}
-      <div className="md:hidden divide-y divide-gray-200">
-        {booking?.filter((item) => item.bookingStatus === "fix").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
-          <div
-            key={index}
-            className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
+        {/* Mobile Card Layout */}
+        <div className="md:hidden divide-y divide-gray-200">
+          {booking?.filter((item) => item.bookingStatus === "fix").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
+            <div
+              key={index}
+              className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
             // onClick={() => fixDetail(item.booking_id)}
-          >
-            <div className="flex items-center justify-between mb-2">
-              <span className="bg-green-500 px-3 py-1 text-black rounded-xl text-xs font-semibold">
-                {t("approved")}
-              </span>
-              <span className="text-sm font-medium text-gray-800 line-clamp-1">{item?.car?.model}</span>
+            >
+              <div className="flex items-center justify-between mb-2">
+                <span className="bg-green-500 px-3 py-1 text-black rounded-xl text-xs font-semibold">
+                  {t("approved")}
+                </span>
+                <span className="text-sm font-medium text-gray-800 line-clamp-1">{item?.car?.model}</span>
+              </div>
+              <div className="grid grid-cols-1 gap-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-500">{t("customer_name")}:</span>
+                  <span className="text-gray-900 line-clamp-1">{item?.user?.username}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">{t("customer_phone")}:</span>
+                  <span className="text-gray-900 line-clamp-1">{item?.user?.phoneNumber}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">{t("plate_number")}:</span>
+                  <span className="text-gray-900 line-clamp-1">{item?.car?.plateNumber}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">{t("date_label")}:</span>
+                  <span className="text-gray-900 line-clamp-1">{item?.time?.date}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">{t("time_label")}:</span>
+                  <span className="text-gray-900 line-clamp-1">{item?.time?.time}</span>
+                </div>
+                <div className="flex justify-between">
+                  <Eye onClick={() => fixDetail(item.booking_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                  <button onClick={() => handleSubmit(item.booking_id, item.timeId)} className="bg-green-500 px-3 py-1 text-white rounded-xl cursor-pointer hover:bg-green-600">{t("success_fix_button")}</button>
+
+                </div>
+              </div>
             </div>
-            <div className="grid grid-cols-1 gap-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-gray-500">{t("customer_name")}:</span>
-                <span className="text-gray-900 line-clamp-1">{item?.user?.username}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-500">{t("customer_phone")}:</span>
-                <span className="text-gray-900 line-clamp-1">{item?.user?.phoneNumber}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-500">{t("plate_number")}:</span>
-                <span className="text-gray-900 line-clamp-1">{item?.car?.plateNumber}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-500">{t("date_label")}:</span>
-                <span className="text-gray-900 line-clamp-1">{item?.time?.date}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-500">{t("time_label")}:</span>
-                <span className="text-gray-900 line-clamp-1">{item?.time?.time}</span>
-              </div>
-              <div className="flex justify-between">
-                <Eye onClick={() => fixDetail(item.booking_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
-              </div>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-      {/* Pagination (แก้ไขให้โชว์แค่บางช่วงหน้า) */ }
-  <div className="flex justify-end mt-4 gap-2 items-center">
-    {/* ปุ่มย้อนกลับ */}
-    <button
-      onClick={() => handlePageChange(page - 1)}
-      disabled={page === 1}
-      className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
-        }`}
-    >
-      ‹
-    </button>
+      {/* Pagination (แก้ไขให้โชว์แค่บางช่วงหน้า) */}
+      <div className="flex justify-end mt-4 gap-2 items-center">
+        {/* ปุ่มย้อนกลับ */}
+        <button
+          onClick={() => handlePageChange(page - 1)}
+          disabled={page === 1}
+          className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
+            }`}
+        >
+          ‹
+        </button>
 
-    {getPageNumbers().map((p) => (
-      <button
-        key={p}
-        onClick={() => handlePageChange(p)}
-        className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
-          }`}
-      >
-        {p}
-      </button>
-    ))}
+        {getPageNumbers().map((p) => (
+          <button
+            key={p}
+            onClick={() => handlePageChange(p)}
+            className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
+              }`}
+          >
+            {p}
+          </button>
+        ))}
 
-    {/* ปุ่มถัดไป */}
-    <button
-      onClick={() => handlePageChange(page + 1)}
-      disabled={page === totalPage || totalPage === 0}
-      className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
-        ? "bg-gray-100 text-gray-400"
-        : "bg-gray-200 hover:bg-gray-300"
-        }`}
-    >
-      ›
-    </button>
-  </div>
-  {
-    showPopup && (
-      <PopupFix setShowPopup={setShowPopup} bookingId={bookingId} timeId={timeId} />
-    )
-  }
+        {/* ปุ่มถัดไป */}
+        <button
+          onClick={() => handlePageChange(page + 1)}
+          disabled={page === totalPage || totalPage === 0}
+          className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
+            ? "bg-gray-100 text-gray-400"
+            : "bg-gray-200 hover:bg-gray-300"
+            }`}
+        >
+          ›
+        </button>
+      </div>
+      {
+        showPopup && (
+          <PopupFix setShowPopup={setShowPopup} bookingId={bookingId} timeId={timeId} />
+        )
+      }
 
     </div >
   );

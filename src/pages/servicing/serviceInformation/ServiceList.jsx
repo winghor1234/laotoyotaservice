@@ -73,13 +73,6 @@ const ServiceList = () => {
     };
 
 
-    // const handleRefresh = (e) => {
-    //     e.preventDefault();
-    //     setSearch("");
-    //     setStartDate(null);
-    //     setEndDate(null);
-    // };
-
     return (
         <div>
             <div className="mb-6 flex justify-end items-center">
@@ -97,12 +90,14 @@ const ServiceList = () => {
                         onClose={() => setOpen(false)}
                     />
                 )}
-                <button
-                    onClick={() => setShowAddService(true)}
-                    className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base"
-                >
-                    {t("add")}
-                </button>
+                <div className="flex ">
+                    <button
+                        onClick={() => setShowAddService(true)}
+                        className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base"
+                    >
+                        {t("add")}
+                    </button>
+                </div>
             </div>
 
             {/* Data Table */}
@@ -138,7 +133,7 @@ const ServiceList = () => {
                             <div className="text-center line-clamp-1">{item.serviceName}</div>
                             <div className="text-center line-clamp-2 ">{item.description}</div>
                             <div className="flex justify-center gap-4">
-                                <Eye  onClick={() => handleToDetailService(item.service_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                <Eye onClick={() => handleToDetailService(item.service_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                                 <Edit
                                     className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                                     onClick={(e) => {
@@ -168,6 +163,7 @@ const ServiceList = () => {
                         >
                             <div className="flex items-center gap-3 mb-3">
                                 <div className="flex-1">
+                                    <h2>{t("table.index")}: {index + 1}</h2>
                                     <h3 className="font-semibold text-base text-gray-900 line-clamp-1">
                                         {item.serviceName}
                                     </h3>

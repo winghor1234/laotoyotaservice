@@ -47,27 +47,7 @@ const AdminList = () => {
     },
   });
 
-  // const handleFetchUser = async () => {
-  //   try {
-  //     // const role = await CheckRole();
-  //     // setRole(role);
-  //     const res = await axiosInstance.get(APIPath.SELECT_ALL_USER);
-  //     setUsers(res?.data?.data);
-  //     setExportedData(
-  //       res?.data?.data?.filter((item) => item.role === "admin").map((item) => ({
-  //         ຊື່: item.username,
-  //         ເບີໂທ: item.phoneNumber,
-  //         ອີເມວ: item.email,
-  //         ບ້ານ: item.village,
-  //         ເມືອງ: item.district,
-  //         ແຂວງ: item.province,
-  //         ສະຖານະ: item.role,
-  //       }))
-  //     );
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+
 
   const handleToDetailAdmin = (id) => {
     navigate(`/user/admin-detail/${id}`);
@@ -188,6 +168,7 @@ const AdminList = () => {
           >
             <div className="flex items-center gap-3 mb-3">
               <div className="flex-1">
+                <h2>{t("index")}: {index + 1}</h2>
                 <h3 className="font-semibold text-base text-gray-900 line-clamp-1">
                   {item.username}
                 </h3>

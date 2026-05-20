@@ -3,7 +3,7 @@ import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
 import AddUser from "./AddUser";
 import SelectDate from "../../utils/SelectDate";
-import { Car, Edit, Lock, Trash, UserLock } from "lucide-react";
+import { Car, Edit, Eye, Lock, Trash, UserLock } from "lucide-react";
 import EditUser from "./EditUser";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
 import { useTranslation } from "react-i18next";
@@ -14,6 +14,21 @@ import DownloadButton from "../../utils/DownloadButton";
 import ImportExcel from "../../utils/ImportExel";
 import { toSafeString } from "../../utils/toSafeString";
 import ChangePassword from "./ChangePassword";
+import { FaWhatsappSquare } from "react-icons/fa";
+import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
+// import { decryptData } from "../../utils/decript";
+
+const formatPhoneForWhatsApp = (
+    phone
+) => {
+
+    if (!phone) return "";
+
+    return phone
+        .replace(/\+/g, "")
+        .replace(/\s/g, "")
+        .replace(/-/g, "");
+};
 
 const UserList = () => {
     const { t } = useTranslation("user");
@@ -22,6 +37,7 @@ const UserList = () => {
     const [showChangePassword, setShowChangePassword] = useState(false);
     const [customerId, setCustomerId] = useState(null);
     const [open, setOpen] = useState(false);
+    // const [newPassword, setNewPassword] = useState(null);
     const navigate = useNavigate();
 
 
@@ -50,23 +66,36 @@ const UserList = () => {
         },
     });
 
-    const handleDelete = async (customerId) => {
-        try {
-            const confirmDelete = await DeleteAlert(
-                t("delete_confirm"),
-                t("delete_success")
-            );
-            if (confirmDelete) {
-                await axiosInstance.delete(APIPath.DELETE_CUSTOMER(customerId));
-                fetchData();
-            }
-        } catch (error) {
-            console.error("Failed to delete user:", error);
-        }
-    };
-
     const handleToDetailUser = (id) => {
         navigate(`/user/user-detail/${id}`);
+    };
+
+    const handleResetPassword = async (item) => {
+        const id = item.user_id
+        try {
+            const res = await axiosInstance.put(APIPath.RESET_CUSTOMER_PASSWORD(id));
+            const newPassword = res?.data?.temporaryPassword
+            const whatsappMessage =
+                `ສະບາຍດີ ${item.username},
+
+ລະຫັດຜ່ານບັນຊີຂອງທ່ານໄດ້ຖືກຣີເຊັດແລ້ວ
+
+📱 ເບີໂທ:
+${item.phoneNumber}
+
+🔐 ລະຫັດຜ່ານໃໝ່:
+${newPassword}
+
+ກະລຸນາປ່ຽນລະຫັດຜ່ານຫຼັງຈາກເຂົ້າລະບົບ
+
+ຂອບໃຈ 🙏`;
+
+            const whatsappUrl = `https://wa.me/${formatPhoneForWhatsApp(item.phoneNumber)}?text=${encodeURIComponent(whatsappMessage)}`;
+            window.open(whatsappUrl, "_blank");
+            SuccessAlert(t("reset_password_success"));
+        } catch (error) {
+            console.error("Error sending password to WhatsApp:", error);
+        }
     };
 
     useEffect(() => {
@@ -142,7 +171,6 @@ const UserList = () => {
             <div className="hidden md:block divide-y divide-gray-200 bg-gray-50 overflow-auto max-h-[400px]">
                 {customer.filter((item) => item.role === "general").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
                     <div
-                        onClick={() => handleToDetailUser(item.user_id)}
                         key={index}
                         className="grid grid-cols-11 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors text-xs md:text-sm lg:text-base"
                     >
@@ -153,41 +181,49 @@ const UserList = () => {
                         <div className="text-center line-clamp-1">{item.district}</div>
                         <div className="text-center line-clamp-1">{item.province}</div>
                         <div className="text-center line-clamp-1">{item.phoneNumber}</div>
-                        <div className="wrap-anywhere text-center">
-                            {item.email ? (
-                                <a
-                                    href={`mailto:${item.email}`}
-                                    className="text-blue-500 hover:underline"
-                                >
-                                    {item.email}
-                                </a>
+                        <div className="wrap-anywhere text-center line-clamp-1">
+                            {item.email ? (<a href={`mailto:${item.email}`}
+                                className="text-blue-500 hover:underline"
+                            >
+                                {item.email}
+                            </a>
                             ) : (
                                 "-"
                             )}
                         </div>
                         <div className="text-center">{item.role}</div>
                         <div className="text-center">{item.point}</div>
-                        <div className="text-center flex justify-center items-center gap-4">
+                        <div className=" flex justify-center items-center gap-3 min-w-[100px]">
+                            <Eye
+                                onClick={() =>
+                                    handleToDetailUser(item.user_id)
+                                }
+                                className="text-gray-600 cursor-pointer h-7 w-7 hover:text-gray-800"
+                            />
+
                             <Edit
-                                className="cursor-pointer"
+                                className="cursor-pointer h-7 w-7"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setShowEdit(true);
                                     setCustomerId(item.user_id);
                                 }}
                             />
-                            <Trash
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleDelete(item.user_id);
-                                }}
-                            />
+
                             <UserLock
-                                className="cursor-pointer"
+                                className="cursor-pointer h-7 w-7"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setShowChangePassword(true);
                                     setCustomerId(item.user_id);
+                                }}
+                            />
+
+                            <FaWhatsappSquare
+                                className="cursor-pointer h-7 w-7 text-green-500"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleResetPassword(item);
                                 }}
                             />
                         </div>
@@ -199,50 +235,161 @@ const UserList = () => {
             <div className="md:hidden divide-y divide-gray-200">
                 {customer.map((item, index) => (
                     <div
-                        onClick={() => handleToDetailUser(item.user_id)}
+                        onClick={() =>
+                            handleToDetailUser(
+                                item.user_id
+                            )
+                        }
                         key={index}
                         className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
                     >
+                        {/* Header */}
                         <div className="flex items-center gap-3 mb-3">
                             <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
                                 <Car className="text-gray-600 w-6 h-6" />
                             </div>
+
                             <div className="flex-1">
                                 <h3 className="font-semibold text-base text-gray-900 line-clamp-1">
                                     {item.username}
                                 </h3>
+
                                 <p className="text-gray-600 text-sm line-clamp-1">
-                                    {item.customer_number}
+                                    {
+                                        item.customer_number
+                                    }
                                 </p>
                             </div>
                         </div>
+
+                        {/* Info */}
                         <div className="grid grid-cols-1 gap-2 text-sm">
                             <div className="flex justify-between py-1">
-                                <span className="text-gray-500 font-medium">{t("phone")}:</span>
-                                <span className="text-gray-900 line-clamp-1">{item.phoneNumber}</span>
-                            </div>
-                            <div className="flex justify-between py-1">
-                                <span className="text-gray-500 font-medium">{t("village")}:</span>
-                                <span className="text-gray-900 line-clamp-1">{item.village}</span>
-                            </div>
-                            <div className="flex justify-between py-1">
-                                <span className="text-gray-500 font-medium">{t("district")}:</span>
-                                <span className="text-gray-900 line-clamp-1">{item.district}</span>
-                            </div>
-                            <div className="flex justify-between py-1">
-                                <span className="text-gray-500 font-medium">{t("province")}:</span>
-                                <span className="text-gray-900 line-clamp-1">{item.province}</span>
-                            </div>
-                            <div className="flex justify-between py-1">
-                                <span className="text-gray-500 font-medium">{t("email")}:</span>
-                                <span className="text-blue-500">
-                                    {item.email || "-"}
+                                <span className="text-gray-500 font-medium">
+                                    {t("phone")}:
+                                </span>
+
+                                <span className="text-gray-900 line-clamp-1">
+                                    {
+                                        item.phoneNumber
+                                    }
                                 </span>
                             </div>
+
                             <div className="flex justify-between py-1">
-                                <span className="text-gray-500 font-medium">{t("status")}:</span>
-                                <span className="text-gray-900 line-clamp-1">{item.role}</span>
+                                <span className="text-gray-500 font-medium">
+                                    {t("village")}:
+                                </span>
+
+                                <span className="text-gray-900 line-clamp-1">
+                                    {item.village}
+                                </span>
                             </div>
+
+                            <div className="flex justify-between py-1">
+                                <span className="text-gray-500 font-medium">
+                                    {t("district")}:
+                                </span>
+
+                                <span className="text-gray-900 line-clamp-1">
+                                    {
+                                        item.district
+                                    }
+                                </span>
+                            </div>
+
+                            <div className="flex justify-between py-1">
+                                <span className="text-gray-500 font-medium">
+                                    {t("province")}:
+                                </span>
+
+                                <span className="text-gray-900 line-clamp-1">
+                                    {
+                                        item.province
+                                    }
+                                </span>
+                            </div>
+
+                            <div className="flex justify-between py-1">
+                                <span className="text-gray-500 font-medium">
+                                    {t("email")}:
+                                </span>
+
+                                <span className="text-blue-500 line-clamp-1">
+                                    {item.email ||
+                                        "-"}
+                                </span>
+                            </div>
+
+                            <div className="flex justify-between py-1">
+                                <span className="text-gray-500 font-medium">
+                                    {t("status")}:
+                                </span>
+
+                                <span className="text-gray-900 line-clamp-1">
+                                    {item.role}
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex justify-center items-center gap-5 pt-4 mt-4 border-t border-gray-200">
+
+                            {/* Detail */}
+                            <Eye
+                                onClick={(e) => {
+                                    e.stopPropagation();
+
+                                    handleToDetailUser(
+                                        item.user_id
+                                    );
+                                }}
+                                className="text-gray-600 cursor-pointer h-6 w-6 hover:text-gray-800 transition-colors"
+                            />
+
+                            {/* Edit */}
+                            <Edit
+                                className="cursor-pointer h-6 w-6 text-blue-500 hover:text-blue-700 transition-colors"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+
+                                    setShowEdit(
+                                        true
+                                    );
+
+                                    setCustomerId(
+                                        item.user_id
+                                    );
+                                }}
+                            />
+
+                            {/* Change Password */}
+                            <UserLock
+                                className="cursor-pointer h-6 w-6 text-orange-500 hover:text-orange-700 transition-colors"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+
+                                    setShowChangePassword(
+                                        true
+                                    );
+
+                                    setCustomerId(
+                                        item.user_id
+                                    );
+                                }}
+                            />
+
+                            {/* WhatsApp */}
+                            <FaWhatsappSquare
+                                className="cursor-pointer h-6 w-6 text-green-500 hover:text-green-700 transition-colors"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+
+                                    handleResetPassword(
+                                        item
+                                    );
+                                }}
+                            />
                         </div>
                     </div>
                 ))}
@@ -302,7 +449,7 @@ const UserList = () => {
                 customerId={customerId}
                 handleFetch={fetchData}
             />
-        </div>
+        </div >
     );
 };
 

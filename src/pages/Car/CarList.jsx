@@ -56,15 +56,7 @@ const CarList = () => {
 
 
 
-  const handleDelete = async (id) => {
-    const confirmDelete = await DeleteAlert(
-      t("delete_confirm"),
-      t("delete_success")
-    );
-    if (!confirmDelete) return;
-    await axiosInstance.delete(APIPath.DELETE_CAR(id));
-    fetchData(); // refresh list
-  };
+
 
   const handleToDetailCar = (id) =>
     navigate(`/user/car-detail/${id}`);
@@ -119,7 +111,7 @@ const CarList = () => {
 
       {/* Desktop Card Layout */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
-        <div className="w-full h-10 md:h-12 lg:h-14 bg-[#E52020] text-white">
+        <div className="w-full h-10 md:h-12 lg:h-14 bg-[#E52020] text-white hidden md:block">
           <div className="grid grid-cols-8 gap-3 md:gap-8 px-3 md:px-4 lg:px-8 py-3 md:py-4 font-medium text-sm md:text-sm lg:text-base">
             <div className="flex justify-center items-center">{t("index")}</div>
             <div className="flex justify-center items-center">{t("car_model")}</div>
@@ -156,70 +148,130 @@ const CarList = () => {
                     setShowEditCarForm(true);
                   }}
                 />
-                <Trash
-                  className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(item.car_id);
-                  }}
-                />
               </div>
             </div>
           ))}
         </div>
         {/* Mobile Card Layout */}
-        <div>
+        <div className="md:hidden divide-y divide-gray-200">
           {car?.map((item, index) => (
             <div
               key={index}
-              className="md:hidden flex flex-col gap-1">
-              <div className="flex justify-between">
-                <span className="font-semibold">{t("no")}:</span>
-                <span>{(page - 1) * limit + index + 1}</span>
+              className="p-4 hover:bg-gray-50 transition-colors"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <p className="text-sm text-gray-800 font-semibold">
+                    {t("index")}:{(page - 1) * limit + index + 1}
+                  </p>
+                </div>
               </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">{t("model")}:</span>
-                <span>{item.model}</span>
+
+              {/* Information */}
+              <div className="grid grid-cols-1 gap-2 text-sm">
+
+                {/* Model */}
+                <div className="flex justify-between gap-3">
+                  <span className="font-medium text-gray-500">
+                    {t("model")}:
+                  </span>
+
+                  <span className="text-gray-800 text-right break-all">
+                    {item.model}
+                  </span>
+                </div>
+
+                {/* Plate */}
+                <div className="flex justify-between gap-3">
+                  <span className="font-medium text-gray-500">
+                    {t("plate")}:
+                  </span>
+
+                  <span className="text-gray-800 text-right break-all">
+                    {item.plateNumber}
+                  </span>
+                </div>
+
+                {/* Color */}
+                <div className="flex justify-between gap-3">
+                  <span className="font-medium text-gray-500">
+                    {t("color")}:
+                  </span>
+
+                  <span className="text-gray-800 text-right break-all">
+                    {item.color}
+                  </span>
+                </div>
+
+                {/* Engine */}
+                <div className="flex justify-between gap-3">
+                  <span className="font-medium text-gray-500">
+                    {t("engine")}:
+                  </span>
+
+                  <span className="text-gray-800 text-right break-all">
+                    {item.engineNumber}
+                  </span>
+                </div>
+
+                {/* Frame */}
+                <div className="flex justify-between gap-3">
+                  <span className="font-medium text-gray-500">
+                    {t("frame")}:
+                  </span>
+
+                  <span className="text-gray-800 text-right break-all">
+                    {item.frameNumber}
+                  </span>
+                </div>
+
+                {/* Province */}
+                <div className="flex justify-between gap-3">
+                  <span className="font-medium text-gray-500">
+                    {t("province")}:
+                  </span>
+
+                  <span className="text-gray-800 text-right break-all">
+                    {item.province}
+                  </span>
+                </div>
               </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">{t("plate")}:</span>
-                <span>{item.plateNumber}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">{t("color")}:</span>
-                <span>{item.color}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">{t("engine")}:</span>
-                <span>{item.engineNumber}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">{t("frame")}:</span>
-                <span>{item.frameNumber}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">{t("province")}:</span>
-                <span>{item.province}</span>
-              </div>
-              <div className="flex gap-4 mt-2">
-                <Eye onClick={() => handleToDetailCar(item.car_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
-                <Edit
-                  className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
+
+              {/* Actions */}
+              <div className="flex items-center justify-end gap-4 mt-4 pt-3 border-t border-gray-200">
+
+                {/* Detail */}
+                <button
+                  onClick={() =>
+                    handleToDetailCar(
+                      item.car_id
+                    )
+                  }
+                  className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+                >
+                  <Eye className="w-5 h-5 text-gray-700" />
+                </button>
+
+                {/* Edit */}
+                <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    setCarId(item.car_id);
-                    setShowEditCarForm(true);
+
+                    setCarId(
+                      item.car_id
+                    );
+
+                    setShowEditCarForm(
+                      true
+                    );
                   }}
-                />
-                <Trash
-                  className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(item.car_id);
-                  }}
-                />
+                  className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 hover:bg-blue-200 transition-colors"
+                >
+                  <Edit className="w-5 h-5 text-blue-700" />
+                </button>
+
               </div>
-              <hr />
             </div>
           ))}
         </div>

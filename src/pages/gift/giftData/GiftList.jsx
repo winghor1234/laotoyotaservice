@@ -68,13 +68,13 @@ const GiftList = () => {
 
     return (
         <div>
-            <div className="flex justify-end items-center mb-6">
+            <div className="flex  justify-center items-center mb-4">
                 <SelectDate
                     searchValue={search}
                     onSearchChange={handleSearch}
                     onDateChange={handleDateChange}
                 />
-                <button onClick={() => setShowExchangeGift(true)} className="bg-green-600 hover:bg-green-700 transition-colors w-full sm:w-auto px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base">
+                <button onClick={() => setShowExchangeGift(true)} className="bg-green-600 hover:bg-green-700 transition-colors  sm:w-auto px-2 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base">
                     {t("exchange_gift_button")}
                 </button>
                 {/* download button */}
@@ -86,17 +86,19 @@ const GiftList = () => {
                         onClose={() => setOpen(false)}
                     />
                 )}
-                <button onClick={() => setShowAddReward(true)} className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base">
-                    {t("add_reward_button")}
-                </button>
+                <div className="flex gap-2">
+                    <button onClick={() => setShowAddReward(true)} className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base">
+                        {t("add_reward_button")}
+                    </button>
+                </div>
             </div>
 
             {/* Mobile Card Layout */}
             <div className="md:hidden space-y-4 mb-6">
                 {gift?.map((item, index) => (
                     <div key={index} className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
-                        <div  className="flex items-center justify-between mb-3">
-                            <div  className="text-sm font-medium text-gray-600">{index + 1}</div>
+                        <div className="flex items-center justify-between mb-3">
+                            <div className="text-sm font-medium text-gray-600">{t("serial")}: {index + 1}</div>
                             <div className="flex items-center gap-3">
                                 <Eye onClick={() => handleToDetailGift(item.giftcard_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                                 <Edit className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" onClick={(e) => { e.stopPropagation(); setShowEditReward(true); setGiftId(item.giftcard_id); }} />

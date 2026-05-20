@@ -5,7 +5,6 @@ import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import html2pdf from "html2pdf.js";
 import { useTranslation } from "react-i18next";
-// import { generateBillId } from "../../../utils/BillGenerate";
 import logo from "../../../assets/logo.jpg";
 import {  formatDates } from "../../../utils/FormatDate";
 
@@ -35,7 +34,6 @@ const BookingSuccess = () => {
         init();
     }, [id]);
 
-    console.log("booking", booking);
 
     const handleExportPDF = () => {
         if (!printRef.current) return;

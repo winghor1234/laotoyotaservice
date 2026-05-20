@@ -121,6 +121,8 @@ const BillDetail = () => {
                     <div><strong>{t("phone")}</strong>: {booking?.user?.phoneNumber}</div>
                     <div><strong>{t("plateNumber")}</strong>: {booking?.car?.plateNumber}</div>
                     <div><strong>{t("carModel")}</strong>: {booking?.car?.model}</div>
+                    {/* <div><strong>{t("frameNumber")}</strong>: {booking?.car?.frameNumber}</div>
+                    <div><strong>{t("engineNumber")}</strong>: {booking?.car?.engineNumber}</div> */}
                     <div><strong>{t("zone_label")}</strong>: {booking?.zone?.zoneName}</div>
                     <div><strong>{t("date_label")}</strong>: {formatDates(booking?.day)}</div>
                 </div>

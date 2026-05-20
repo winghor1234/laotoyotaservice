@@ -8,11 +8,14 @@ import Spinner from "../../utils/Loading";
 import { BackButton } from "../../utils/BackButton";
 
 
+
 const DetailUser = () => {
     const { t } = useTranslation("user");
     const { id } = useParams();
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
+    // const [hashpasword, setHashpasword] = useState();
+    
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -36,6 +39,11 @@ const DetailUser = () => {
             </div>
         );
     }
+    // let hashPassword = async() => {
+    //     const decryptPassword = await DecryptData(userData.password);
+    //     setHashpasword(decryptPassword);
+       
+    // }
 
     if (!userData) {
         return (
@@ -64,6 +72,10 @@ const DetailUser = () => {
                         <div className="flex gap-6 items-center justify-start p-4 rounded-lg shadow-sm">
                             <div className="flex flex-col gap-2 text-left">
                                 <div>
+                                    <p className="text-base text-gray-500">ລະຫັດລູກຄ້າ :</p>
+                                    <p className="text-base text-gray-900 font-semibold">{userData?.customer_number}</p>
+                                </div>
+                                <div>
                                     <p className="text-base text-gray-500">{t("user_name")} :</p>
                                     <p className="text-base text-gray-900 font-semibold">{userData?.username}</p>
                                 </div>
@@ -78,6 +90,10 @@ const DetailUser = () => {
                                 <div>
                                     <p className="text-base text-gray-500">{t("user_province")} :</p>
                                     <p className="text-base text-gray-800">{userData?.province}</p>
+                                </div>
+                                <div>
+                                    <p className="text-base text-gray-500">{t("district")} :</p>
+                                    <p className="text-base text-gray-800">{userData?.district}</p>
                                 </div>
                                 <div>
                                     <p className="text-base text-gray-500">{t("user_village")} :</p>
@@ -105,6 +121,10 @@ const DetailUser = () => {
                             <div>
                                 <span className="text-base text-gray-500 block">{t("user_province")} :</span>
                                 <span className="text-base font-medium text-gray-800">{userData?.province}</span>
+                            </div>
+                            <div>
+                                <span className="text-base text-gray-500 block">{t("district")} :</span>
+                                <span className="text-base font-medium text-gray-800">{userData?.district}</span>
                             </div>
                             <div>
                                 <span className="text-base text-gray-500 block">{t("user_village")} :</span>

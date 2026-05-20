@@ -10,11 +10,10 @@ import ExportExcelPopup from "../../../utils/exportExelPopup";
 import useServerFilterPagination from "../../../utils/useServerFilterPagination";
 import DownloadButton from "../../../utils/DownloadButton";
 import { formatDates } from "../../../utils/FormatDate";
+import { Eye } from "lucide-react";
 
 const Cancel = () => {
-    const { t } = useTranslation("booking"); // ใช้ namespace "booking"
-    // const [booking, setBooking] = useState([]);
-    // const [exportData, setExportData] = useState([]);
+    const { t } = useTranslation("booking");
     const role = useCheckRole();
     const branch_id = useEmployeeBranchId();
     const navigate = useNavigate();
@@ -140,7 +139,7 @@ const Cancel = () => {
                                 <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center line-clamp-1">
                                     <Eye
                                         className={`cursor-pointer text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800`}
-                                        onClick={() => CancelDetail(item.bookingId)}
+                                        onClick={() => CancelDetail(item.booking_id)}
                                     />
                                 </div>
                             </div>
@@ -184,7 +183,7 @@ const Cancel = () => {
                                         <span className="text-gray-500">{t("action_label")}:</span>
                                         <Eye
                                             className={`cursor-pointer text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800`}
-                                            onClick={() => CancelDetail(item.bookingId)}
+                                            onClick={() => CancelDetail(item.booking_id)}
                                         />
                                     </div>
                                 </div>

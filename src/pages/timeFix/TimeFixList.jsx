@@ -1,6 +1,6 @@
 
 import { useEffect } from "react";
-import { TimerIcon, Edit, Trash, MapPinned, MapPin, Eye } from "lucide-react";
+import { TimerIcon, Edit, Trash, MapPinned, MapPin, Eye, Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useServerFilterPagination from "../../utils/useServerFilterPagination";
 import { useTranslation } from "react-i18next";
@@ -8,6 +8,8 @@ import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
 import SelectDate from "../../utils/SelectDate";
+import { formatDates } from "../../utils/FormatDate";
+import { parseDate } from "../../utils/parseDate";
 const TimeFixList = () => {
     const { t } = useTranslation("timeZone");
     const navigate = useNavigate();
@@ -54,6 +56,28 @@ const TimeFixList = () => {
             fetchData();
         }
     };
+
+
+    // ================= CHECK TOMORROW =================
+
+    const isTomorrow = (date) => {
+        const itemDate = parseDate(date);
+        if (!itemDate) return false;
+        const tomorrow = new Date();
+        tomorrow.setHours(0, 0, 0, 0);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        itemDate.setHours(0, 0, 0, 0);
+        return (itemDate.getTime() === tomorrow.getTime());
+    };
+
+    // ================= CARD COLOR =================
+
+    const getCardColor = (date) => {
+        return isTomorrow(date)
+            ? "bg-orange-500"
+            : "bg-[#E52020]";
+    };
+
     // console.log("time fix : ",timeFix);
 
     return (
@@ -73,8 +97,7 @@ const TimeFixList = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
                 {timeFix?.map((item) => (
                     <div key={item.timefix_id} className="flex hover:shadow-xl">
-                        <div
-                            className={` text-white cursor-pointer w-full  bg-[#E52020] px-4 py-3 rounded-l shadow`}>
+                        <div className={`text-white cursor-pointer w-full px-4 py-3 rounded-l shadow ${getCardColor(item?.time?.date)}`} >
                             <div className="flex items-center gap-2">
                                 <TimerIcon />
                                 {item?.time?.time}
@@ -87,10 +110,19 @@ const TimeFixList = () => {
                                 <MapPin />
                                 {item?.branch?.branch_name}
                             </div>
+                            <div className="mt-2 flex items-center gap-2 font-semibold">
+                                <Calendar />
+                                {item?.time?.date || formatDates(item?.time?.date)}
+                            </div>
 
                         </div>
 
-                        <div className={`flex flex-col items-center w-24 gap-2 px-2 rounded-r bg-[#E52020] text-white`}>
+                        <div
+                            className={`flex flex-col items-center w-24 gap-2 px-2 rounded-r text-white ${isTomorrow(item?.time?.date)
+                                ? "bg-orange-500"
+                                : "bg-[#E52020]"
+                                }`}
+                        >
                             <Eye
                                 className="mt-2 cursor-pointer"
                                 onClick={() => handleToDetailTime(item.timefix_id)}

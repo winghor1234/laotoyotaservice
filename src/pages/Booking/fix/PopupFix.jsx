@@ -6,7 +6,7 @@ import CurrencyInput from "react-currency-input-field";
 
 const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
   const { t } = useTranslation("booking");
-  const { register, handleSubmit, errors, submitForm, setValue, watch, cards } = useFixForm({ bookingId, timeId });
+  const { register, handleSubmit, errors, submitForm, setValue, watch, cards, setIsManualPartPoint, setIsManualLabourPoint } = useFixForm({ bookingId, timeId });
 
   const labour_total = watch("labour_total") || 0;
   const part_total = watch("part_total") || 0;
@@ -54,9 +54,8 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
               className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
             >
               <option value="">{t("select_payment_type")}</option>
-                <option value="Cash">{t("cash")}</option>
-                <option value="Transfer">{t("transfer")}</option>
-
+              <option value="Cash">{t("cash")}</option>
+              <option value="Transfer">{t("transfer")}</option>
             </select>
             <div className="h-6">{errors.payment_type && <p className="text-red-500 text-sm">{errors.payment_type.message}</p>}</div>
           </div>
@@ -188,7 +187,15 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
                 decimalsLimit={0}
                 min={0}
                 className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
-                onValueChange={(value) => setValue("labour_point", value ? Number(value) : "")}
+                // onValueChange={(value) => setValue("labour_point", value ? Number(value) : "")}
+                //new
+                onValueChange={(value) => {
+                  setIsManualLabourPoint(true);
+                  setValue(
+                    "labour_point",
+                    value ? Number(value) : ""
+                  );
+                }}
               />
               <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
                 {t("point_text")}
@@ -202,13 +209,12 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
             {/* part total */}
             <div className="flex flex-col relative">
               <CurrencyInput
-                value={watch("part_total")}
                 {...register("part_total")}
                 placeholder={t("part_total_placholder")}
                 groupSeparator=","
                 decimalsLimit={0}
                 className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
-                onValueChange={(value) => setValue("part_total", Number(value) || 0)}
+                onValueChange={(value) => setValue("part_total", Number(value) || "")}
               />
               <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
                 {currencyText}
@@ -224,7 +230,15 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
                 groupSeparator=","
                 decimalsLimit={0}
                 className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
-                onValueChange={(value) => setValue("part_point", value ? Number(value) : "")}
+                // onValueChange={(value) => setValue("part_point", value ? Number(value) : "")}
+                //new
+                onValueChange={(value) => {
+                  setIsManualPartPoint(true);
+                  setValue(
+                    "part_point",
+                    value ? Number(value) : ""
+                  );
+                }}
               />
               <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
                 {t("point_text")}

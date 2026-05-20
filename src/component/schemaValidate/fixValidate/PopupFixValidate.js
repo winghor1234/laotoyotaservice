@@ -21,15 +21,16 @@ const fixSchema = (t) =>
     total_price_lak: z.coerce.number().optional(),
     exchange_rate: z.coerce.number().optional(),
     payment_currency: z.string(),
-    payment_type: z.string().min(1, "Please select payment type"),
-    card_number: z.string().min(1, "Please select card"),
+    payment_type: z.string().min(1, t("Please_select_payment_type")),
+    card_number: z.string().min(1, t("Please_select_card")),
   });
 
 export const useFixForm = ({ bookingId }) => {
   const { t } = useTranslation("auth");
   const navigate = useNavigate();
   const [fixes, setFixes] = useState([]);
-  // const [cards, setCards] = useState([]);
+  const [isManualLabourPoint, setIsManualLabourPoint] = useState(false); //new
+  const [isManualPartPoint, setIsManualPartPoint] = useState(false);  //new
   const [booking, setBooking] = useState({});
   const { register, handleSubmit, formState: { errors }, setValue, watch, } = useForm({
     resolver: zodResolver(fixSchema(t)),
@@ -51,6 +52,8 @@ export const useFixForm = ({ bookingId }) => {
 
   const labour_total = Number(watch("labour_total")) || 0;
   const part_total = Number(watch("part_total")) || 0;
+  const labour_point = Number(watch("labour_point")) || 0;  //new
+  const part_point = Number(watch("part_point")) || 0; //new
   const payment_currency = watch("payment_currency") || "LAK";
   const exchange_rate = Number(watch("exchange_rate")) || 1;
 
@@ -58,13 +61,11 @@ export const useFixForm = ({ bookingId }) => {
 
   const fetchData = async () => {
     try {
-      const [fixRes, bookingRes, ] = await Promise.all([
+      const [fixRes, bookingRes,] = await Promise.all([
         axiosInstance.get(APIPath.SELECT_FIX_BY_BOOKING(bookingId)),
-        // axiosInstance.get(APIPath.SELECT_ALL_CARD),
         axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingId)),
       ]);
       setFixes(fixRes?.data?.data || []);
-      // setCards(cardRes?.data?.data || []);
       setBooking(bookingRes?.data?.data || {});
     } catch (error) {
       console.log(error);
@@ -83,6 +84,7 @@ export const useFixForm = ({ bookingId }) => {
     let labour_total_lak = labour_total;
     let part_total_lak = part_total;
 
+
     // THB / USD convert to LAK
 
     if (
@@ -97,14 +99,25 @@ export const useFixForm = ({ bookingId }) => {
 
     // ================= POINT =================
 
-    const labour_point = Math.floor(labour_total_lak / 10000);
-    const part_point = Math.floor(part_total_lak / 10000);
+    // const labour_point = Math.floor(labour_total_lak / 100000);
+    // const part_point = Math.floor(part_total_lak / 100000);
+    const autoLabourPoint = Math.floor(labour_total_lak / 100000);  //new
+    const autoPartPoint = Math.floor(part_total_lak / 100000);   //new
     const totalPoint = labour_point + part_point;
+    setValue("totalPoint", totalPoint);  //new
+
 
     // ================= SET VALUE =================
 
-    setValue("labour_point", labour_point);
-    setValue("part_point", part_point);
+    // setValue("labour_point", labour_point);
+    // setValue("part_point", part_point);
+    if (!isManualLabourPoint) {
+      setValue("labour_point", autoLabourPoint); //new
+    }
+
+    if (!isManualPartPoint) {
+      setValue("part_point", autoPartPoint);  //new
+    }
     setValue("totalPoint", totalPoint);
     setValue("total_price_lak", total_price_lak);
     // reset exchange
@@ -116,6 +129,8 @@ export const useFixForm = ({ bookingId }) => {
   }, [
     labour_total,
     part_total,
+    labour_point,  //new
+    part_point,  //new
     payment_currency,
     exchange_rate,
     setValue,
@@ -175,5 +190,5 @@ export const useFixForm = ({ bookingId }) => {
     }
   };
 
-  return { register, handleSubmit, errors, submitForm, setValue, watch, cards };
+  return { register, handleSubmit, errors, submitForm, setValue, watch, cards, setIsManualLabourPoint, setIsManualPartPoint, };
 };

@@ -65,20 +65,16 @@ const Success = () => {
         // if (!fixId) return;
         try {
             const fixId = await axiosInstance.get(APIPath.SELECT_FIX_BY_BOOKING(id));
-            console.log("fix id : ",fixId);
-            navigate(`/user/successDetail/${fixId?.data?.fix_id}`);
+            navigate(`/user/successDetail/${fixId?.data?.data?.fix_id}`);
         } catch (error) {
             console.log(error);
         }
         
     };
 
-    console.log("fix data ; ",fix);
 
     return (
         <div>
-            {/* <BookingSearch onSearch={handleSearch} exportData={exportData} setExportData={setExportData} fetchBooking={fetchData} /> */}
-            {/* Search + Date + Export or download */}
             <div className="flex justify-end items-center mb-6">
                 <SelectDate
                     searchValue={search}
@@ -169,7 +165,7 @@ const Success = () => {
                                 <div className="flex justify-between">
                                     <span className="text-gray-500 line-clamp-1">{t("action_label")}:</span>
                                     <span className="text-gray-900 line-clamp-1">
-                                        <Eye onClick={() => SuccessDetail(item.booking_id)} className="text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                        <Eye onClick={() => SuccessDetail(item.booking.booking_id) } className="text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                                     </span>
                                 </div>
                             </div>
