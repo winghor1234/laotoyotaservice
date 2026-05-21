@@ -1,8 +1,4 @@
-import {
-    Home, Users, Gift, Car, Settings, Clock,
-    MapPin, ShieldUser, MapPinHouse, CalendarCog, MapPinPlus,
-    IdCard
-} from "lucide-react";
+import { Home, Users, Gift, Car, Settings, Clock, MapPin, ShieldUser, MapPinHouse, CalendarCog, MapPinPlus, IdCard} from "lucide-react";
 import { LiaGiftsSolid } from "react-icons/lia";
 import { FaPeopleArrows } from "react-icons/fa";
 import { TbReportAnalytics } from "react-icons/tb";

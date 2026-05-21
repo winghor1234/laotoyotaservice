@@ -42,6 +42,8 @@
   "add_time_fix_title": "Add Fix Time",
   "noTime": "No Time",
   "selectTime": "Select Time",
-  "branchLabel": "Branch"
-
+  "branchLabel": "Branch",
+  "today": "Today",
+  "tomorrow": "Tomorrow",
+  "otherday": "Other Day"
 }

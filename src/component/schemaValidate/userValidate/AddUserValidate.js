@@ -12,7 +12,7 @@ import laoProvinceDistrict from "../../laos_provinces_districts.json";
 const UserSchema = (t) => z.object({
     username: z.string().min(1, { message: t("min_length_1"), }).max(30),
     phoneNumber: z.string().min(8, { message: t("phone_min_length"), }),
-    password: z.string().min(6, { message: t("min_length"), }).max(20),
+    // password: z.string().min(6, { message: t("min_length"), }).max(20),
     province: z.string().min(1, { message: t("min_length_1"), }),
     district: z.string().min(1, { message: t("min_length_1"), }),
     village: z.string().min(1, { message: t("min_length_1"), }),
@@ -30,7 +30,7 @@ export const useAddUserForm = ({ handleFetch, onClose, }) => {
         defaultValues: {
             username: "",
             phoneNumber: "",
-            password: "",
+            // password: "",
             province: "",
             district: "",
             village: "",

@@ -128,7 +128,25 @@
   "labour_point_placholder": "ຄະແນນຄ່າເເຮງງານ",
   "part_point_placholder": "ຄະແນນຄ່າອາໄຫຼ່",
   "Please_select_card": "ກະລຸນາເລືອກບັດ",
-  "Please_select_payment_type": "ກະລຸນາເລືອກປະເພດການຊໍາລະ"
+  "Please_select_payment_type": "ກະລຸນາເລືອກປະເພດການຊໍາລະ",
+  "labour_discount_placholder": "ສ່ວນຫຼຸດຄ່າແຮງງານ",
+  "part_discount_placholder": "ສ່ວນຫຼຸດຄ່າອາໄຫຼ່",
+  "total_price_text": "ລາຄາລວມ",
+  "total_point_text": "ຄະແນນລວມ",
+  "payment_type_text": "ປະເພດການຊໍາລະ",
+  "card_number_text": "ເລືອກບັດ",
+  "kmLast_text": "ໄລຍະທາງກ່ອນໜ້າ (KM)",
+  "kmNext_text": "ໄລຍະທາງຫຼັງ (KM)",
+  "labour_discount_text": "ສ່ວນຫຼຸດຄ່າແຮງງານ",
+  "part_discount_text": "ສ່ວນຫຼຸດຄ່າອາໄຫຼ່",
+  "labour_point_text": "ຄະແນນຄ່າເເຮງງານ",
+  "part_point_text": "ຄະແນນຄ່າອາໄຫຼ່",
+  "labour_text": "ຄ່າແຮງງານ",
+  "part_total_text": "ຄ່າອາໄຫຼ່",
+  "exchange_rate_text": "ອັດຕາແລກປ່ຽນ",
+  "payment_currency_text": "ສະກຸນເງິນທີ່ຈ່າຍ"
+  
+
   
 
  

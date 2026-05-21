@@ -23,6 +23,9 @@ const fixSchema = (t) =>
     payment_currency: z.string(),
     payment_type: z.string().min(1, t("Please_select_payment_type")),
     card_number: z.string().min(1, t("Please_select_card")),
+    discount: z.coerce.number().min(0).optional(),
+    labour_discount: z.coerce.number().min(0).max(99).optional(),
+    part_discount: z.coerce.number().min(0).max(99).optional(),
   });
 
 export const useFixForm = ({ bookingId }) => {
@@ -43,6 +46,9 @@ export const useFixForm = ({ bookingId }) => {
       part_point: 0,
       totalPoint: 0,
       total_price_lak: 0,
+
+      labour_discount: 0,
+      part_discount: 0,
     }
 
   });
@@ -52,10 +58,12 @@ export const useFixForm = ({ bookingId }) => {
 
   const labour_total = Number(watch("labour_total")) || 0;
   const part_total = Number(watch("part_total")) || 0;
-  const labour_point = Number(watch("labour_point")) || 0;  //new
-  const part_point = Number(watch("part_point")) || 0; //new
+  const labour_point = Number(watch("labour_point")) || 0;
+  const part_point = Number(watch("part_point")) || 0;
   const payment_currency = watch("payment_currency") || "LAK";
   const exchange_rate = Number(watch("exchange_rate")) || 1;
+  const labour_discount = Number(watch("labour_discount")) || 0;
+  const part_discount = Number(watch("part_discount")) || 0;
 
   // ================= FETCH =================
 
@@ -79,48 +87,63 @@ export const useFixForm = ({ bookingId }) => {
   // ================= CALCULATE =================
 
   useEffect(() => {
-    const totalPrice = labour_total + part_total;
-    let total_price_lak = totalPrice;
+
     let labour_total_lak = labour_total;
     let part_total_lak = part_total;
 
-
-    // THB / USD convert to LAK
+    // ================= CURRENCY =================
 
     if (
       payment_currency === "THB" ||
       payment_currency === "USD"
     ) {
-
       labour_total_lak = labour_total * exchange_rate;
       part_total_lak = part_total * exchange_rate;
-      total_price_lak = totalPrice * exchange_rate;
     }
 
-    // ================= POINT =================
+    // ================= DISCOUNT =================
 
-    // const labour_point = Math.floor(labour_total_lak / 100000);
-    // const part_point = Math.floor(part_total_lak / 100000);
-    const autoLabourPoint = Math.floor(labour_total_lak / 100000);  //new
-    const autoPartPoint = Math.floor(part_total_lak / 100000);   //new
-    const totalPoint = labour_point + part_point;
-    setValue("totalPoint", totalPoint);  //new
+    const labour_discount_amount = labour_discount ? labour_total_lak * (labour_discount / 100) : 0;
+    const part_discount_amount = part_discount ? part_total_lak * (part_discount / 100) : 0;
 
+    // ================= AFTER DISCOUNT =================
 
-    // ================= SET VALUE =================
+    const final_labour_total = Math.max(labour_total_lak - labour_discount_amount, 0);
+    const final_part_total = Math.max(part_total_lak - part_discount_amount, 0);
 
-    // setValue("labour_point", labour_point);
-    // setValue("part_point", part_point);
+    // ================= FINAL TOTAL =================
+
+    const final_total_lak = final_labour_total + final_part_total;
+
+    // ================= AUTO POINT =================
+
+    const autoLabourPoint = Math.floor(final_labour_total / 100000);
+    const autoPartPoint = Math.floor(final_part_total / 50000);
+
+    // ================= SET AUTO POINT =================
+
+    let finalLabourPoint = labour_point;
+    let finalPartPoint = part_point;
+
     if (!isManualLabourPoint) {
-      setValue("labour_point", autoLabourPoint); //new
+      finalLabourPoint = autoLabourPoint;
+      setValue("labour_point", autoLabourPoint);
     }
 
     if (!isManualPartPoint) {
-      setValue("part_point", autoPartPoint);  //new
+      finalPartPoint = autoPartPoint;
+      setValue("part_point", autoPartPoint);
     }
+
+    // ================= TOTAL POINT =================
+    const totalPoint = finalLabourPoint + finalPartPoint;
     setValue("totalPoint", totalPoint);
-    setValue("total_price_lak", total_price_lak);
-    // reset exchange
+
+    // ================= FINAL TOTAL =================
+    setValue("total_price_lak", final_total_lak);
+    setValue("totalPrice", final_total_lak);
+
+    // ================= RESET EXCHANGE =================
 
     if (payment_currency === "LAK") {
       setValue("exchange_rate", "");
@@ -129,10 +152,14 @@ export const useFixForm = ({ bookingId }) => {
   }, [
     labour_total,
     part_total,
-    labour_point,  //new
-    part_point,  //new
+    labour_point,
+    part_point,
+    labour_discount,
+    part_discount,
     payment_currency,
     exchange_rate,
+    isManualLabourPoint,
+    isManualPartPoint,
     setValue,
   ]);
 
@@ -174,6 +201,7 @@ export const useFixForm = ({ bookingId }) => {
             : data.exchange_rate,
 
         card_number: data.card_number,
+        discount: data.discount,
       };
 
       await axiosInstance.put(

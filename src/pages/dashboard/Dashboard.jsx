@@ -138,14 +138,14 @@ const Dashboard = () => {
                 </div>
 
                 {/* Area Chart */}
-                <div className="bg-white rounded-lg shadow-lg p-4">
+                <div className="bg-white rounded-lg shadow-lg p-4 ">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-lg font-medium">{t("income")}</h2>
                         <ExcelExportButton data={monthlyIncomes} fileName="FixRevenueReport.xlsx" />
                     </div>
                     <div className="w-full h-64">
                         <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={monthlyIncomes} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                            <AreaChart data={monthlyIncomes} margin={{ top: 10, right: 10, left: 60, bottom: 0 }}>
                                 <defs>
                                     <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#E52020" stopOpacity={0.4} />
@@ -153,7 +153,9 @@ const Dashboard = () => {
                                     </linearGradient>
                                 </defs>
                                 <XAxis dataKey="name" />
-                                <YAxis tickFormatter={FormatNumber} domain={[0, 500]} tick={{ fontSize: 11 }} />
+                                <YAxis tickFormatter={FormatNumber}
+                                    tick={{ fontSize: 11 }}
+                                    width={80} />
                                 <Tooltip formatter={(value) => FormatNumber(value)} contentStyle={{ backgroundColor: '#fff', border: '1px solid #E52020', borderRadius: 8, fontSize: 12 }} />
                                 <Area type="monotone" dataKey="value" stroke="#E52020" fill="url(#colorValue)" strokeWidth={2} />
                             </AreaChart>

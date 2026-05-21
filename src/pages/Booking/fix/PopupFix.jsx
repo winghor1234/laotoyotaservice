@@ -34,6 +34,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
         <div className="space-y-4 sm:space-y-6">
           {/* card number */}
           <div className="flex flex-col">
+            <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("card_number_text")}</label>
             <select
               {...register('card_number')}
               className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
@@ -49,6 +50,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
           </div>
           {/* payment type */}
           <div className="flex flex-col">
+            <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("payment_type_text")}</label>
             <select
               {...register('payment_type')}
               className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
@@ -63,12 +65,13 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {/* KM Last */}
             <div className="flex flex-col relative">
+              <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("kmLast_text")}</label>
               <input
                 {...register("kmLast")}
                 placeholder={t("kmLast")}
                 className=" w-full py-2 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
               />
-              <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg pointer-events-none">
+              <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg pointer-events-none">
                 {t("km_text")}
               </span>
               <div className="h-6">{errors.kmLast && <p className="text-red-500 text-sm">{errors.kmLast.message}</p>}</div>
@@ -76,12 +79,13 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
 
             {/* KM Next */}
             <div className="flex flex-col relative">
+              <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("kmNext_text")}</label>
               <input
                 {...register("kmNext")}
                 placeholder={t("kmNext")}
                 className="w-full py-2 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
               />
-              <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg pointer-events-none">
+              <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg pointer-events-none">
                 {t("km_text")}
               </span>
               <div className="h-6">{errors.kmNext && <p className="text-red-500 text-sm">{errors.kmNext.message}</p>}</div>
@@ -97,18 +101,13 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
               rows={3}
               className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors resize-none"
             />
-            {/* <div className="h-6">{errors.detailFix && <p className="text-red-500 text-sm">{errors.detailFix.message}</p>}</div> */}
           </div>
-
-
-
-
 
           {/* Payment Currency */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-
             {/* Currency */}
             <div className="flex flex-col">
+              <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("payment_currency_text")}</label>
               <select
                 {...register("payment_currency")}
                 className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none"
@@ -122,6 +121,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
             </div>
             {/* Exchange Rate */}
             <div className="flex flex-col relative">
+              <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("exchange_rate_text")}</label>
               <CurrencyInput
                 value={
                   watch("payment_currency") === "LAK"
@@ -162,6 +162,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 ">
             {/* labour_total */}
             <div className="flex flex-col relative">
+              <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("labour_text")}</label>
               <CurrencyInput
                 {...register("labour_total")}
                 placeholder={t("labour_total_placholder")}
@@ -171,36 +172,70 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
                 className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
                 onValueChange={(value) => setValue("labour_total", Number(value) || 0)}
               />
-              <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
+              <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
                 {currencyText}
               </span>
               <div className="h-6">{errors.labour_total && <p className="text-red-500 text-sm">{errors.labour_total.message}</p>}</div>
             </div>
 
-            {/* labour_point */}
-            <div className="flex flex-col relative">
-              <CurrencyInput
-                value={watch("labour_point")}
-                {...register("labour_point")}
-                placeholder={t("labour_point_placholder")}
-                groupSeparator=","
-                decimalsLimit={0}
-                min={0}
-                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
-                // onValueChange={(value) => setValue("labour_point", value ? Number(value) : "")}
-                //new
-                onValueChange={(value) => {
-                  setIsManualLabourPoint(true);
-                  setValue(
-                    "labour_point",
-                    value ? Number(value) : ""
-                  );
-                }}
-              />
-              <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
-                {t("point_text")}
-              </span>
-              <div className="h-6">{errors.labour_point && <p className="text-red-500 text-sm">{errors.labour_point.message}</p>}</div>
+            <div className="flex  items-center justify-center gap-4">
+              {/* labour_point */}
+              <div className="flex flex-col relative">
+                <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("labour_point_text")}</label>
+                <CurrencyInput
+                  value={watch("labour_point")}
+                  {...register("labour_point")}
+                  placeholder={t("labour_point_placholder")}
+                  groupSeparator=","
+                  decimalsLimit={0}
+                  min={0}
+                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                  onValueChange={(value) => {
+                    setIsManualLabourPoint(true);
+                    setValue(
+                      "labour_point",
+                      value ? Number(value) : ""
+                    );
+                  }}
+                />
+                <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
+                  {t("point_text")}
+                </span>
+                <div className="h-6">{errors.labour_point && <p className="text-red-500 text-sm">{errors.labour_point.message}</p>}</div>
+              </div>
+              {/*labour discount */}
+              <div className="flex flex-col relative">
+                <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("labour_discount_text")}</label>
+                <CurrencyInput
+                  value={watch("labour_discount")}
+                  {...register("labour_discount")}
+                  placeholder={t("labour_discount_placholder")}
+                  groupSeparator=","
+                  decimalsLimit={0}
+                  min={0}
+                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                  decimalsLimit={0}
+                  onKeyDown={(e) => {
+                    const input = e.currentTarget;
+                    // allow control keys
+                    if (["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(e.key)) { return; }
+                    // selected text
+                    const selected = input.value.substring(input.selectionStart, input.selectionEnd);
+                    // allow replace selected text
+                    if (selected.length > 0) { return }
+                    // block if already 2 digits
+                    const rawValue = input.value.replace(/,/g, "");
+                    if (rawValue.length >= 2) { e.preventDefault(); }
+                  }}
+                  onValueChange={(value) => {
+                    setValue("labour_discount", value ? Number(value) : "");
+                  }}
+                />
+                <span className="absolute right-2 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
+                  %
+                </span>
+                <div className="h-6">{errors.labour_discount && <p className="text-red-500 text-sm">{errors.labour_discount.message}</p>}</div>
+              </div>
             </div>
           </div>
 
@@ -208,6 +243,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 ">
             {/* part total */}
             <div className="flex flex-col relative">
+              <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_total_text")}</label>
               <CurrencyInput
                 {...register("part_total")}
                 placeholder={t("part_total_placholder")}
@@ -216,34 +252,70 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
                 className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
                 onValueChange={(value) => setValue("part_total", Number(value) || "")}
               />
-              <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
+              <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
                 {currencyText}
               </span>
               <div className="h-6">{errors.part_total && <p className="text-red-500 text-sm">{errors.part_total.message}</p>}</div>
             </div>
-            {/*part point */}
-            <div className="flex flex-col relative">
-              <CurrencyInput
-                value={watch("part_point")}
-                {...register("part_point")}
-                placeholder={t("part_point_placholder")}
-                groupSeparator=","
-                decimalsLimit={0}
-                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
-                // onValueChange={(value) => setValue("part_point", value ? Number(value) : "")}
-                //new
-                onValueChange={(value) => {
-                  setIsManualPartPoint(true);
-                  setValue(
-                    "part_point",
-                    value ? Number(value) : ""
-                  );
-                }}
-              />
-              <span className="absolute right-4 inset-y-0 -translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
-                {t("point_text")}
-              </span>
-              <div className="h-6">{errors.part_point && <p className="text-red-500 text-sm">{errors.part_point.message}</p>}</div>
+            <div className="flex  items-center justify-center gap-4">
+              {/*part point */}
+              <div className="flex flex-col relative">
+                <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_point_text")}</label>
+                <CurrencyInput
+                  value={watch("part_point")}
+                  {...register("part_point")}
+                  placeholder={t("part_point_placholder")}
+                  groupSeparator=","
+                  decimalsLimit={0}
+                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                  //new
+                  onValueChange={(value) => {
+                    setIsManualPartPoint(true);
+                    setValue(
+                      "part_point",
+                      value ? Number(value) : ""
+                    );
+                  }}
+                />
+                <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
+                  {t("point_text")}
+                </span>
+                <div className="h-6">{errors.part_point && <p className="text-red-500 text-sm">{errors.part_point.message}</p>}</div>
+              </div>
+              {/* part discount */}
+              <div className="flex flex-col relative">
+                <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_discount_text")}</label>
+                <CurrencyInput
+                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                  value={watch("part_discount")}
+                  {...register("part_discount")}
+                  placeholder={t("part_discount_placholder")}
+                  decimalsLimit={0}
+                  onKeyDown={(e) => {
+                    const input = e.currentTarget;
+                    // allow control keys
+                    if (["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(e.key)) { return; }
+                    // selected text
+                    const selected = input.value.substring(input.selectionStart, input.selectionEnd);
+                    // allow replace selected text
+                    if (selected.length > 0) { return }
+                    // block if already 2 digits
+                    const rawValue = input.value.replace(/,/g, "");
+                    if (rawValue.length >= 2) { e.preventDefault(); }
+                  }}
+                  onValueChange={(value) => {
+                    setValue("part_discount", value ? Number(value) : "");
+                  }}
+                />
+                <span className="absolute right-2 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
+                  %
+                </span>
+                <div className="h-6">
+                  {errors.part_discount && (
+                    <p className="text-red-500 text-sm">{errors.part_discount.message}</p>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
           {/* totalPrice */}
@@ -261,7 +333,6 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
             <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
               {currencyText}
             </span>
-            {/* <div className="h-6">{errors.totalPrice && <p className="text-red-500 text-sm">{errors.totalPrice.message}</p>}</div> */}
           </div>
           {/* total Point */}
           <div className="flex flex-col relative">
@@ -278,13 +349,11 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
             <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
               {t("point_text")}
             </span>
-            {/* <div className="h-6">{errors.totalPrice && <p className="text-red-500 text-sm">{errors.totalPrice.message}</p>}</div> */}
           </div>
 
           {/* Total LAK */}
           <div className="flex flex-col relative">
             <h2 className="text-xl text-gray-600">{t("total_price_lak")}</h2>
-
             <CurrencyInput
               value={watch("total_price_lak")}
               readOnly

@@ -43,6 +43,8 @@
   "add_time_fix_title": "ເພີ່ມຂໍ້ມູນຜູກເວລາ ແລະ ໂຊນ",
   "noTime": "ບໍ່ມີເວລາ",
   "selectTime": "ເລືອກເວລາ",
-  "branchLabel": "ສາຂາ"
-
+  "branchLabel": "ສາຂາ",
+  "today": "ມື້ນີ້",
+  "tomorrow": "ມື້ອື່ນ",
+  "otherday": "ມື້ຕໍ່ໆໄປ"
 }

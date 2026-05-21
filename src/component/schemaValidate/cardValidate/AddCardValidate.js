@@ -15,6 +15,22 @@ const cardSchema = (t) =>
         card_number: z.string().min(2, { message: t("min_length_2") }),
         vip_number: z.string().min(1, { message: t("required") }),
         discount: z.coerce.number().min(0, { message: t("required"), }),
+        card_type: z.string().max(1).optional(),
+        goldIssued: z.coerce.date().optional(),
+        received: z.string().max(1).optional(),
+        issued_date: z.coerce.date().optional(),
+        expiration_date: z.coerce.date().optional(),
+        plate_number: z.string().max(10).optional(),
+        vehicle_model: z.string().max(30).optional(),
+        color: z.string().max(20).optional(),
+        frame_number: z.string().max(30).optional(),
+        engine_number: z.string().max(30).optional(),
+        active_point: z.coerce.number().optional(),
+        total_point: z.coerce.number().optional(),
+        running_part: z.coerce.number().optional(),
+        running_labour: z.coerce.number().optional(),
+        countCard: z.coerce.number().optional(),
+
     });
 
 export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
@@ -42,13 +58,13 @@ export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
         setLoading(true);
         try {
             await axiosInstance.post(
-                APIPath.CREATE_CARD,
-                {
-                    userId: data.userId,
-                    card_number: data.card_number,
-                    vip_number: data.vip_number,
-                    discount: data.discount,
-                }
+                APIPath.CREATE_CARD,data
+                // {
+                //     userId: data.userId,
+                //     card_number: data.card_number,
+                //     vip_number: data.vip_number,
+                //     discount: data.discount,
+                // }
             );
             handleFetchCard();
             SuccessAlert(t("add_success"));
@@ -59,6 +75,21 @@ export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
             setValue("card_number", "");
             setValue("vip_number", "");
             setValue("discount", "");
+            setValue("card_type", "");
+            setValue("goldIssued", "");
+            setValue("received", "");
+            setValue("issued_date", "");
+            setValue("expiration_date", "");
+            setValue("plate_number", "");
+            setValue("vehicle_model", "");
+            setValue("color", "");
+            setValue("frame_number", "");
+            setValue("engine_number", "");
+            setValue("active_point", "");
+            setValue("total_point", "");
+            setValue("running_part", "");
+            setValue("running_labour", "");
+            setValue("countCard", "");
         } catch (error) {
             SuccessAlert(t("add_failed"), 1500, "warning");
             console.error("create card failed:", error);

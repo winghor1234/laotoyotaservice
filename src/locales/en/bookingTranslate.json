@@ -127,5 +127,21 @@
   "labour_point_placholder": "labour Point",
   "part_point_placholder": "part Point",
   "Please_select_card": "Please select card",
-  "Please_select_payment_type": "Please select payment type"
+  "Please_select_payment_type": "Please select payment type",
+  "labour_discount_placholder": "Labour Discount",
+  "part_discount_placholder": "Car Parts Discount",
+  "total_price_text": "Total Price",
+  "total_point_text": "Total Point",
+  "payment_type_text": "Payment Type",
+  "card_number_text": "Card Number",
+  "kmLast_text": "Previous KM (KM)",
+  "kmNext_text": "Latest KM (KM)",
+  "labour_discount_text": "Labour Discount",
+  "part_discount_text": "Car Parts Discount",
+  "labour_point_text": "labour Point",
+  "part_point_text": "part Point",
+  "labour_text": "Labor Cost",
+  "part_total_text": "Car Parts Cost",
+  "exchange_rate_text": "Exchange Rate",
+  "payment_currency_text": "Payment Currency"
 }

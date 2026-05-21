@@ -1,5 +1,5 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { TimerIcon, Edit, Trash, MapPinned, MapPin, Eye, Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useServerFilterPagination from "../../utils/useServerFilterPagination";
@@ -13,6 +13,7 @@ import { parseDate } from "../../utils/parseDate";
 const TimeFixList = () => {
     const { t } = useTranslation("timeZone");
     const navigate = useNavigate();
+    const [filterType, setFilterType] = useState("today");
     // ✅ ใช้ Server Pagination
     const {
         data: timeFix,
@@ -58,6 +59,17 @@ const TimeFixList = () => {
     };
 
 
+    // ================= CHECK TODAY =================
+
+    const isToday = (date) => {
+        const itemDate = parseDate(date);
+        if (!itemDate) return false;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        itemDate.setHours(0, 0, 0, 0);
+        return (itemDate.getTime() === today.getTime());
+    };
+
     // ================= CHECK TOMORROW =================
 
     const isTomorrow = (date) => {
@@ -73,12 +85,31 @@ const TimeFixList = () => {
     // ================= CARD COLOR =================
 
     const getCardColor = (date) => {
-        return isTomorrow(date)
-            ? "bg-orange-500"
-            : "bg-[#E52020]";
+        if (isTomorrow(date)) { return "bg-red-600"; }
+        if (isToday(date)) { return "bg-green-600"; }
+        return "bg-orange-500";
     };
 
-    // console.log("time fix : ",timeFix);
+
+    // ================= FILTER DATA =================
+
+    const filteredTimeFix =
+        timeFix?.filter((item) => {
+            const date = item?.time?.date;
+            if (filterType === "today") {
+                return isToday(date);
+            }
+            if (filterType === "tomorrow") {
+                return isTomorrow(date);
+            }
+            if (filterType === "other") {
+                return (
+                    !isToday(date) &&
+                    !isTomorrow(date)
+                );
+            }
+            return true;
+        });
 
     return (
         <div>
@@ -93,9 +124,45 @@ const TimeFixList = () => {
                 />
                 {/* download button */}
             </div>
+            {/* Filter Buttons */}
+            <div className="flex gap-3 mb-6">
+                {/* today */}
+                <button
+                    onClick={() => setFilterType("today")}
+                    className={`px-4 py-2 rounded text-white cursor-pointer ${filterType === "today"
+                        ? "bg-green-700"
+                        : "bg-green-500"
+                        }`}
+                >
+                    {t("today")}
+                </button>
+
+                {/* tomorrow */}
+                <button
+                    onClick={() => setFilterType("tomorrow")}
+                    className={`px-4 py-2 rounded text-white cursor-pointer ${filterType === "tomorrow"
+                        ? "bg-red-700"
+                        : "bg-red-500"
+                        }`}
+                >
+                    {t("tomorrow")}
+                </button>
+
+                {/* other */}
+                <button
+                    onClick={() => setFilterType("other")}
+                    className={`px-4 py-2 rounded text-white cursor-pointer ${filterType === "other"
+                        ? "bg-orange-700"
+                        : "bg-orange-500"
+                        }`}
+                >
+                    {t("otherday")}
+                </button>
+
+            </div>
             {/* Time Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
-                {timeFix?.map((item) => (
+                {filteredTimeFix?.map((item) => (
                     <div key={item.timefix_id} className="flex hover:shadow-xl">
                         <div className={`text-white cursor-pointer w-full px-4 py-3 rounded-l shadow ${getCardColor(item?.time?.date)}`} >
                             <div className="flex items-center gap-2">
@@ -118,10 +185,7 @@ const TimeFixList = () => {
                         </div>
 
                         <div
-                            className={`flex flex-col items-center w-24 gap-2 px-2 rounded-r text-white ${isTomorrow(item?.time?.date)
-                                ? "bg-orange-500"
-                                : "bg-[#E52020]"
-                                }`}
+                            className={`flex flex-col items-center w-24 gap-2 px-2 rounded-r text-white ${getCardColor(item?.time?.date)}`}
                         >
                             <Eye
                                 className="mt-2 cursor-pointer"
