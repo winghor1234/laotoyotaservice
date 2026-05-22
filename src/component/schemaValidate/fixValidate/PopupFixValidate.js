@@ -31,11 +31,21 @@ const fixSchema = (t) =>
 export const useFixForm = ({ bookingId }) => {
   const { t } = useTranslation("auth");
   const navigate = useNavigate();
-  const [fixes, setFixes] = useState([]);
-  const [isManualLabourPoint, setIsManualLabourPoint] = useState(false); //new
-  const [isManualPartPoint, setIsManualPartPoint] = useState(false);  //new
+
+  const [fixes, setFixes] = useState({});
   const [booking, setBooking] = useState({});
-  const { register, handleSubmit, formState: { errors }, setValue, watch, } = useForm({
+
+  const [isManualLabourPoint, setIsManualLabourPoint] = useState(false);
+  const [isManualPartPoint, setIsManualPartPoint] = useState(false);
+
+  // 🔥 store computed values (IMPORTANT FIX)
+  const [calculated, setCalculated] = useState({
+    labour: 0,
+    part: 0,
+    total: 0,
+  });
+
+  const { register, handleSubmit, formState: { errors }, setValue, watch,} = useForm({
     resolver: zodResolver(fixSchema(t)),
     defaultValues: {
       payment_currency: "LAK",
@@ -46,34 +56,32 @@ export const useFixForm = ({ bookingId }) => {
       part_point: 0,
       totalPoint: 0,
       total_price_lak: 0,
-
       labour_discount: 0,
       part_discount: 0,
-    }
-
+    },
   });
 
-
   // ================= WATCH =================
-
   const labour_total = Number(watch("labour_total")) || 0;
   const part_total = Number(watch("part_total")) || 0;
   const labour_point = Number(watch("labour_point")) || 0;
   const part_point = Number(watch("part_point")) || 0;
+
   const payment_currency = watch("payment_currency") || "LAK";
   const exchange_rate = Number(watch("exchange_rate")) || 1;
+
   const labour_discount = Number(watch("labour_discount")) || 0;
   const part_discount = Number(watch("part_discount")) || 0;
 
   // ================= FETCH =================
-
   const fetchData = async () => {
     try {
-      const [fixRes, bookingRes,] = await Promise.all([
+      const [fixRes, bookingRes] = await Promise.all([
         axiosInstance.get(APIPath.SELECT_FIX_BY_BOOKING(bookingId)),
         axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingId)),
       ]);
-      setFixes(fixRes?.data?.data || []);
+
+      setFixes(fixRes?.data?.data || {});
       setBooking(bookingRes?.data?.data || {});
     } catch (error) {
       console.log(error);
@@ -82,94 +90,62 @@ export const useFixForm = ({ bookingId }) => {
 
   const cards = booking?.user?.Card || [];
 
-
-
-  // ================= CALCULATE =================
-
+  // ================= CALCULATION (SOURCE OF TRUTH) =================
   useEffect(() => {
+    let labour = labour_total;
+    let part = part_total;
 
-    let labour_total_lak = labour_total;
-    let part_total_lak = part_total;
-
-    // ================= CURRENCY =================
-
-    if (
-      payment_currency === "THB" ||
-      payment_currency === "USD"
-    ) {
-      labour_total_lak = labour_total * exchange_rate;
-      part_total_lak = part_total * exchange_rate;
+    if (payment_currency === "THB" || payment_currency === "USD") {
+      labour *= exchange_rate;
+      part *= exchange_rate;
     }
 
-    // ================= DISCOUNT =================
+    const labourDiscount = labour * (labour_discount / 100);
+    const partDiscount = part * (part_discount / 100);
 
-    const labour_discount_amount = labour_discount ? labour_total_lak * (labour_discount / 100) : 0;
-    const part_discount_amount = part_discount ? part_total_lak * (part_discount / 100) : 0;
+    const finalLabour = Math.max(labour - labourDiscount, 0);
+    const finalPart = Math.max(part - partDiscount, 0);
 
-    // ================= AFTER DISCOUNT =================
+    const autoLabourPoint = Math.floor(finalLabour / 100000);
+    const autoPartPoint = Math.floor(finalPart / 50000);
 
-    const final_labour_total = Math.max(labour_total_lak - labour_discount_amount, 0);
-    const final_part_total = Math.max(part_total_lak - part_discount_amount, 0);
+    const labourPointFinal = isManualLabourPoint ? labour_point : autoLabourPoint;
+    const partPointFinal = isManualPartPoint ? part_point : autoPartPoint;
 
-    // ================= FINAL TOTAL =================
+    setValue("labour_point", labourPointFinal);
+    setValue("part_point", partPointFinal);
 
-    const final_total_lak = final_labour_total + final_part_total;
+    const totalPoint = labourPointFinal + partPointFinal;
 
-    // ================= AUTO POINT =================
-
-    const autoLabourPoint = Math.floor(final_labour_total / 100000);
-    const autoPartPoint = Math.floor(final_part_total / 50000);
-
-    // ================= SET AUTO POINT =================
-
-    let finalLabourPoint = labour_point;
-    let finalPartPoint = part_point;
-
-    if (!isManualLabourPoint) {
-      finalLabourPoint = autoLabourPoint;
-      setValue("labour_point", autoLabourPoint);
-    }
-
-    if (!isManualPartPoint) {
-      finalPartPoint = autoPartPoint;
-      setValue("part_point", autoPartPoint);
-    }
-
-    // ================= TOTAL POINT =================
-    const totalPoint = finalLabourPoint + finalPartPoint;
     setValue("totalPoint", totalPoint);
+    setValue("total_price_lak", finalLabour + finalPart);
 
-    // ================= FINAL TOTAL =================
-    setValue("total_price_lak", final_total_lak);
-    setValue("totalPrice", final_total_lak);
-
-    // ================= RESET EXCHANGE =================
+    setCalculated({
+      labour: finalLabour,
+      part: finalPart,
+      total: finalLabour + finalPart,
+    });
 
     if (payment_currency === "LAK") {
       setValue("exchange_rate", "");
     }
-
   }, [
     labour_total,
     part_total,
-    labour_point,
-    part_point,
     labour_discount,
     part_discount,
     payment_currency,
     exchange_rate,
     isManualLabourPoint,
     isManualPartPoint,
-    setValue,
   ]);
 
   // ================= INIT =================
-
   useEffect(() => {
     fetchData();
   }, []);
 
-  // ================= SUBMIT =================
+  // ================= SUBMIT (USE ONLY STATE, NO RE-CALC) =================
   const submitForm = async (data) => {
     try {
       const payload = {
@@ -177,21 +153,8 @@ export const useFixForm = ({ bookingId }) => {
         kmLast: data.kmLast,
         kmNext: data.kmNext,
         detailFix: data.detailFix,
-        labour_total:
-          payment_currency === "LAK"
-            ? Number(data.labour_total)
-            : Math.floor(
-              Number(data.labour_total) *
-              Number(exchange_rate)
-            ),
-
-        part_total:
-          payment_currency === "LAK"
-            ? Number(data.part_total)
-            : Math.floor(
-              Number(data.part_total) *
-              Number(exchange_rate)
-            ),
+        labour_total: calculated.labour,
+        part_total: calculated.part,
         labour_point: data.labour_point,
         part_point: data.part_point,
         payment_type: data.payment_type,
@@ -201,22 +164,37 @@ export const useFixForm = ({ bookingId }) => {
             : data.exchange_rate,
 
         card_number: data.card_number,
-        discount: data.discount,
       };
 
       await axiosInstance.put(
-        APIPath.UPDATE_FIX_STATUS(fixes.fix_id), payload);
-      await axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId),
+        APIPath.UPDATE_FIX_STATUS(fixes.fix_id),
+        payload
+      );
+
+      await axiosInstance.put(
+        APIPath.UPDATE_BOOKING_STATUS(bookingId),
         {
           bookingStatus: "success",
         }
       );
+
       SuccessAlert(t("fix_success"));
+
       navigate(`/user/billDetail/${fixes.fix_id}`);
     } catch (error) {
       console.log(error);
     }
   };
 
-  return { register, handleSubmit, errors, submitForm, setValue, watch, cards, setIsManualLabourPoint, setIsManualPartPoint, };
+  return {
+    register,
+    handleSubmit,
+    errors,
+    submitForm,
+    setValue,
+    watch,
+    cards,
+    setIsManualLabourPoint,
+    setIsManualPartPoint,
+  };
 };
