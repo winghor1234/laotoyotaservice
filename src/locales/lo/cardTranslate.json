@@ -21,12 +21,17 @@
     "color": "ສີ",
     "frame_number": "ເລກຖັງ",
     "engine_number": "ເລກຈັກ",
-    "active_point": "ຄະແນນ",
+    "active_point": "ຄະແນນທີ່ໃຊ້ໄດ້",
     "total_point": "ຄະແນນທັງຫມົດ",
-    "issued_date": "ອອກບັດ",
-    "expiration_date": "ໜົດອາຍຸບັດ",
-    "goldIssued": "ອອກບັດ Gold",
+    "issued_date": "ວັນທີອອກບັດ",
+    "expiration_date": "ວັນໝົດອາຍຸບັດ",
+    "goldIssued": "ວັນທີອອກບັດຄໍາ",
     "delete_confirm": "ທ່ານຕ້ອງການລົບຂໍ້ມູນນີ້ບໍ?",
     "delete_success": "ການລົບສຳເລັດ",
-    "delete_error": "ການລົບບໍ່ສຳເລັດ"
+    "delete_error": "ການລົບບໍ່ສຳເລັດ",
+    "count_card": "ຈຳນວນບັດ",
+    "running_part": "ຄ່າອາໄຫຼ່",
+    "running_labour": "ຄ່າແຮງງານ",
+    "received": "ໄດ້ຮັບແລ້ວ"
+
 }

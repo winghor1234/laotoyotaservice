@@ -28,5 +28,10 @@
     "goldIssued": "Gold Issued",
     "delete_confirm": "Do you want to delete this card?",
     "delete_success": "Card deleted successfully",
-    "delete_error": "Failed to delete card"
+    "delete_error": "Failed to delete card",
+    "count_card": "Count Card",
+    "running_part": "Running Part",
+    "running_labour": "Running Labour",
+    "received": "Received"
+
 }
