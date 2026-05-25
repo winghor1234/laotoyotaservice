@@ -108,7 +108,6 @@ const Approve = () => {
         {/* Desktop List */}
         <div className="hidden md:block divide-y divide-gray-200 max-h-[400px] overflow-y-auto">
           {booking
-            ?.filter((item) => item.bookingStatus === "await")
             ?.map((item, index) => (
               <div
                 key={index}

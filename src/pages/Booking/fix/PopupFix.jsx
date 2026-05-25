@@ -185,16 +185,14 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
                 <CurrencyInput
                   value={watch("labour_point")}
                   {...register("labour_point")}
-                  placeholder={t("labour_point_placholder")}
+                  // placeholder={t("labour_point_placholder")}
                   groupSeparator=","
                   decimalsLimit={0}
                   min={0}
                   className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
                   onValueChange={(value) => {
                     setIsManualLabourPoint(true);
-                    setValue(
-                      "labour_point",
-                      value ? Number(value) : ""
+                    setValue("labour_point", value ? Number(value) : ""
                     );
                   }}
                 />
@@ -214,7 +212,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
                   decimalsLimit={0}
                   min={0}
                   className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
-                  decimalsLimit={0}
+                  // decimalsLimit={0}
                   onKeyDown={(e) => {
                     const input = e.currentTarget;
                     // allow control keys
@@ -264,17 +262,14 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
                 <CurrencyInput
                   value={watch("part_point")}
                   {...register("part_point")}
-                  placeholder={t("part_point_placholder")}
+                  // placeholder={t("part_point_placholder")}
                   groupSeparator=","
                   decimalsLimit={0}
                   className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
                   //new
                   onValueChange={(value) => {
                     setIsManualPartPoint(true);
-                    setValue(
-                      "part_point",
-                      value ? Number(value) : ""
-                    );
+                    setValue("part_point", value ? Number(value) : "");
                   }}
                 />
                 <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">

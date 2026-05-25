@@ -93,8 +93,7 @@ const TimeFixList = () => {
 
     // ================= FILTER DATA =================
 
-    const filteredTimeFix =
-        timeFix?.filter((item) => {
+    const filteredTimeFix = timeFix?.filter((item) => {
             const date = item?.time?.date;
             if (filterType === "today") {
                 return isToday(date);

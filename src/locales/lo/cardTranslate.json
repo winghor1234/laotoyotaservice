@@ -25,7 +25,7 @@
     "total_point": "ຄະແນນທັງຫມົດ",
     "issued_date": "ວັນທີອອກບັດ",
     "expiration_date": "ວັນໝົດອາຍຸບັດ",
-    "goldIssued": "ວັນທີອອກບັດຄໍາ",
+    "gold_issued": "ວັນທີອອກບັດຄໍາ",
     "delete_confirm": "ທ່ານຕ້ອງການລົບຂໍ້ມູນນີ້ບໍ?",
     "delete_success": "ການລົບສຳເລັດ",
     "delete_error": "ການລົບບໍ່ສຳເລັດ",

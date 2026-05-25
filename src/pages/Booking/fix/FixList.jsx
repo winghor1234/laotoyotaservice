@@ -7,12 +7,12 @@ import { useTranslation } from "react-i18next";
 import { useCheckRole } from "../../../utils/checkRole";
 import { useEmployeeBranchId } from "../../../utils/useEmployeeBranchId";
 import { Eye } from "lucide-react";
-import useServerFilterPagination from "../../../utils/useServerFilterPagination";
 import ExportExcelPopup from "../../../utils/exportExelPopup";
 import SelectDate from "../../../utils/SelectDate";
 import DownloadButton from "../../../utils/DownloadButton";
 import { formatDates } from "../../../utils/FormatDate";
 import PopupFix from "./PopupFix";
+import useServerFilterPagination from "../../../utils/useServerFilterPagination";
 
 
 
@@ -42,7 +42,8 @@ const FixList = () => {
     getPageNumbers,
   } = useServerFilterPagination({
     enabled: isReady,
-    apiCall: ({ page, limit, search, startDate, endDate }) => {
+    status: "fix",
+    apiCall: ({ page, limit, search, startDate, endDate,status }) => {
       const apiPath =
         role === "super_admin"
           ? APIPath.GET_ALL_BOOKING
@@ -54,7 +55,7 @@ const FixList = () => {
           search: search || undefined,
           startDate: startDate?.toISOString(),
           endDate: endDate?.toISOString(),
-          status: "fix",
+          status,
         },
       });
     },
@@ -126,7 +127,7 @@ const FixList = () => {
 
         {/* Desktop/Tablet Body */}
         <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
-          {booking?.filter((item) => item.bookingStatus === "fix").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
+          {booking?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
             <div
               key={index}
               className="grid grid-cols-7 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 transition-colors cursor-pointer text-xs md:text-sm lg:text-base"
@@ -152,7 +153,7 @@ const FixList = () => {
 
         {/* Mobile Card Layout */}
         <div className="md:hidden divide-y divide-gray-200">
-          {booking?.filter((item) => item.bookingStatus === "fix").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
+          {booking?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
             <div
               key={index}
               className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"

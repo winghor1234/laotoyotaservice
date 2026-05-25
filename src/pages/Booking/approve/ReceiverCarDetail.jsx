@@ -53,6 +53,9 @@ const ReceiverCarDetail = () => {
   }, [loadAllData]);
 
   const cardNumber = booking?.user?.Card?.[0]?.card_number;
+  // console.log("cardNumber : ", cardNumber);
+  // console.log("booking : ", booking?.user);
+
 
 
 

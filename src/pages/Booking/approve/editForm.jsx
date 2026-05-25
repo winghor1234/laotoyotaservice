@@ -38,7 +38,7 @@ const EditForm = ({ setShowEdit, bookingId, fetchBooking }) => {
         setTime(timeRes?.data?.data);
 
         const branchRes = await axiosInstance.get(APIPath.SELECT_ALL_BRANCH);
-        console.log("branch : ",branchRes?.data?.data);
+        // console.log("branch : ",branchRes?.data?.data);
         setBranch(branchRes?.data?.data);
 
       } catch (error) {
@@ -48,7 +48,7 @@ const EditForm = ({ setShowEdit, bookingId, fetchBooking }) => {
 
     if (booking?.time?.time_id) {
       reset({
-        zoneId: booking.zoneId || "",
+        zoneId: booking.zoneId,
         timeId: booking.time.time_id, // ✅ ค่าเดิม
       });
     }

@@ -123,6 +123,7 @@ export default class APIPath {
     static CREATE_TIME = `${this.BASE_URL}/time/insert`;
     static UPDATE_TIME(id) { return `${this.BASE_URL}/time/update/${id}` }
     static UPDATE_TIME_STATUS(id) { return `${this.BASE_URL}/time/updateStatus/${id}` }
+    static UPDATE_TIME_QTY(id) { return `${this.BASE_URL}/time/updateQty/${id}` }
     static DELETE_TIME(id) { return `${this.BASE_URL}/time/delete/${id}` }
 
 

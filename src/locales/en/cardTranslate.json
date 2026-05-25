@@ -25,7 +25,7 @@
     "total_point": "Total Point",
     "issued_date": "Issued Date",
     "expiration_date": "Expiration Date",
-    "goldIssued": "Gold Issued",
+    "gold_issued": "Gold Issued",
     "delete_confirm": "Do you want to delete this card?",
     "delete_success": "Card deleted successfully",
     "delete_error": "Failed to delete card",

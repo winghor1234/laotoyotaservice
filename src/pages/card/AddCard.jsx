@@ -38,13 +38,14 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
 
                         {/* User */}
                         <div>
+                            <label>{t("select_user")}</label>
                             <select
                                 {...register("userId")}
                                 className="w-full py-3 px-4 border border-gray-300 rounded-lg"
                             >
                                 <option value="">{t("select_user")}</option>
 
-                                {users?.map((item) => (
+                                {users?.filter((item) => item.role === "general").map((item) => (
                                     <option key={item.user_id} value={item.user_id}>
                                         {item.customer_number} : {item.username}
                                     </option>
@@ -62,6 +63,7 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
 
                         {/* Discount */}
                         <div>
+                            <label>{t("discount")}</label>
                             <input
                                 type="number"
                                 placeholder={t("discount")}
@@ -83,6 +85,7 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
                         <div>
+                            <label>{t("card_number")}</label>
                             <input
                                 type="text"
                                 placeholder={t("card_number")}
@@ -99,6 +102,7 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
                         </div>
 
                         <div>
+                            <label>{t("vip_number")}</label>
                             <input
                                 type="text"
                                 placeholder={t("vip_number")}
@@ -117,131 +121,174 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
 
                     {/* ================= ROW 3 ================= */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label>{t("card_type")}</label>
+                            <input
+                                type="text"
+                                placeholder={t("card_type")}
+                                {...register("card_type")}
+                                className="w-full py-3 px-4 border border-gray-300 rounded-lg"
+                            />
+                        </div>
+                        <div>
+                            <label>{t("received")}</label>
+                            <input
+                                type="text"
+                                placeholder={t("received")}
+                                {...register("received")}
+                                className="w-full py-3 px-4 border border-gray-300 rounded-lg"
+                            />
+                        </div>
 
-                        <input
-                            type="text"
-                            placeholder={t("card_type")}
-                            {...register("card_type")}
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg"
-                        />
-
-                        <input
-                            type="text"
-                            placeholder={t("received")}
-                            {...register("received")}
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg"
-                        />
-
-                        <input
-                            type="text"
-                            placeholder={t("plate_number")}
-                            {...register("plate_number")}
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg"
-                        />
+                        <div>
+                            <label>{t("plate_number")}</label>
+                            <input
+                                type="text"
+                                placeholder={t("plate_number")}
+                                {...register("plate_number")}
+                                className="w-full py-3 px-4 border border-gray-300 rounded-lg"
+                            />
+                        </div>
                     </div>
 
                     {/* ================= ROW 4 ================= */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
-                        <input
-                            type="text"
-                            placeholder={t("vehicle_model")}
-                            {...register("vehicle_model")}
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg"
-                        />
+                        <div>
+                            <label>{t("vehicle_model")}</label>
+                            <input
+                                type="text"
+                                placeholder={t("vehicle_model")}
+                                {...register("vehicle_model")}
+                                className="w-full py-3 px-4 border border-gray-300 rounded-lg"
+                            />
+                        </div>
 
-                        <input
-                            type="text"
-                            placeholder={t("color")}
-                            {...register("color")}
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg"
-                        />
+                        <div>
+                            <label>{t("color")}</label>
+                            <input
+                                type="text"
+                                placeholder={t("color")}
+                                {...register("color")}
+                                className="w-full py-3 px-4 border border-gray-300 rounded-lg"
+                            />
+                        </div>
 
-                        <input
-                            type="text"
-                            placeholder={t("frame_number")}
-                            {...register("frame_number")}
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg"
-                        />
+                        <div>
+                            <label>{t("frame_number")}</label>
+                            <input
+                                type="text"
+                                placeholder={t("frame_number")}
+                                {...register("frame_number")}
+                                className="w-full py-3 px-4 border border-gray-300 rounded-lg"
+                            />
+                        </div>
                     </div>
 
                     {/* ================= ROW 5 ================= */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-                        <input
-                            type="text"
-                            placeholder={t("engine_number")}
-                            {...register("engine_number")}
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg"
-                        />
+                        <div>
+                            <label>{t("engine_number")}</label>
+                            <input
+                                type="text"
+                                placeholder={t("engine_number")}
+                                {...register("engine_number")}
+                                className="w-full py-3 px-4 border border-gray-300 rounded-lg"
+                            />
+                        </div>
 
-                        <input
-                            type="number"
-                            placeholder={t("count_card")}
-                            {...register("countCard")}
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg"
-                        />
+                        <div>
+                            <label>{t("count_card")}</label>
+                            <input
+                                type="number"
+                                placeholder={t("count_card")}
+                                {...register("countCard")}
+                                className="w-full py-3 px-4 border border-gray-300 rounded-lg"
+                            />
+                        </div>
                     </div>
 
                     {/* ================= ROW 6 ================= */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
-                        <input
-                            type="number"
-                            placeholder={t("active_point")}
-                            {...register("active_point")}
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg"
-                        />
+                        <div>
+                            <label>{t("active_point")}</label>
+                            <input
+                                type="number"
+                                placeholder={t("active_point")}
+                                {...register("active_point")}
+                                className="w-full py-3 px-4 border border-gray-300 rounded-lg"
+                            />
+                        </div>
+                        <div>
+                            <label>{t("total_point")}</label>
+                            <input
+                                type="number"
+                                placeholder={t("total_point")}
+                                {...register("total_point")}
+                                className="w-full py-3 px-4 border border-gray-300 rounded-lg"
+                            />
+                        </div>
 
-                        <input
-                            type="number"
-                            placeholder={t("total_point")}
-                            {...register("total_point")}
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg"
-                        />
-
-                        <input
-                            type="number"
-                            placeholder={t("running_part")}
-                            {...register("running_part")}
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg"
-                        />
+                        <div>
+                            <label>{t("running_part")}</label>
+                            <input
+                                type="number"
+                                placeholder={t("running_part")}
+                                {...register("running_part")}
+                                className="w-full py-3 px-4 border border-gray-300 rounded-lg"
+                            />
+                        </div>
                     </div>
 
                     {/* ================= ROW 7 ================= */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-                        <input
-                            type="number"
-                            placeholder={t("running_labour")}
-                            {...register("running_labour")}
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg"
-                        />
+                        <div>
+                            <label>{t("running_labour")}</label>
+                            <input
+                                type="number"
+                                placeholder={t("running_labour")}
+                                {...register("running_labour")}
+                                className="w-full py-3 px-4 border border-gray-300 rounded-lg"
+                            />
+                        </div>
+                        
 
-                        <input
-                            type="date"
-                            placeholder={t("gold_issued")}
-                            {...register("goldIssued")}
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg"
-                        />
+                        <div>
+                            <label>{t("gold_issued")}</label>
+                            <input
+                                type="date"
+                                placeholder={t("gold_issued")}
+                                {...register("goldIssued")}
+                                className="w-full py-3 px-4 border border-gray-300 rounded-lg"
+                            />
+                        </div>
                     </div>
 
                     {/* ================= ROW 8 ================= */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-                        <input
-                            type="date"
-                            placeholder={t("issued_date")}
-                            {...register("issued_date")}
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg"
-                        />
+                        <div>
+                            <label>{t("issued_date")}</label>
+                            <input
+                                type="date"
+                                placeholder={t("issued_date")}
+                                {...register("issued_date")}
+                                className="w-full py-3 px-4 border border-gray-300 rounded-lg"
+                            />
+                        </div>
 
-                        <input
-                            type="date"
-                            placeholder={t("expiration_date")}
-                            {...register("expiration_date")}
-                            className="w-full py-3 px-4 border border-gray-300 rounded-lg"
-                        />
+                        <div>
+                            <label>{t("expiration_date")}</label>
+                            <input
+                                type="date"
+                                placeholder={t("expiration_date")}
+                                {...register("expiration_date")}
+                                className="w-full py-3 px-4 border border-gray-300 rounded-lg"
+                            />
+                        </div>
                     </div>
 
                     {/* ================= BUTTONS ================= */}

@@ -6,7 +6,7 @@ import APIPath from "../../../api/APIPath";
 import html2pdf from "html2pdf.js";
 import { useTranslation } from "react-i18next";
 import logo from "../../../assets/logo.jpg";
-import {  formatDates } from "../../../utils/FormatDate";
+import { formatMultipleDatesString } from "../../../utils/FormatDate";
 
 const BookingSuccess = () => {
     const navigate = useNavigate();
@@ -53,6 +53,7 @@ const BookingSuccess = () => {
     const invoiceNumber = booking?.Fix?.map((fix) => fix.bookingId === booking?.booking_id && fix.invoice_number);
     const invoiceDate = booking?.Fix?.map((fix) => fix.bookingId === booking?.booking_id && fix.invoice_date);
     // console.log("invoiceNumber", invoiceNumber);
+    // console.log("invoiceDate", invoiceDate);
 
     return (
         <div style={{ background: "#f3f4f6", padding: "40px 0" }}>
@@ -94,7 +95,7 @@ const BookingSuccess = () => {
                     <div style={{ textAlign: "right" }}>
                         {/* <h2 style={{ margin: 0 }}>{t("bill")}</h2> */}
                         <p><strong>{t("billId")}:</strong> {invoiceNumber}</p>
-                        <p><strong>{t("date_bill")}:</strong> {formatDates(invoiceDate)}</p>
+                        <p><strong>{t("date_bill")}:</strong> {formatMultipleDatesString(invoiceDate)}</p>
                         <p><strong>{t("time_label")}:</strong> {booking?.time?.time}</p>
                     </div>
                 </div>

@@ -18,7 +18,7 @@ const EditTimeStatus = ({ show, onClose, timeId, fetchTime }) => {
                 </h2>
                 <form onSubmit={handleSubmit(submitForm)} className="space-y-3 sm:space-y-4">
                     <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                        <div className=" hidden w-full">
+                        {/* <div className=" hidden w-full">
                             <input
                                 type="text"
                                 placeholder={t("timeLabel")}
@@ -26,7 +26,7 @@ const EditTimeStatus = ({ show, onClose, timeId, fetchTime }) => {
                                 // value={fetchTime?.time}
                                 className="w-full py-2 sm:py-3.5 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
                             />
-                        </div>
+                        </div> */}
 
 
                         <div className="w-full ">
