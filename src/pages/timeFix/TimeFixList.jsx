@@ -87,14 +87,14 @@ const TimeFixList = () => {
     const getCardColor = (date) => {
         if (isTomorrow(date)) { return "bg-red-600"; }
         if (isToday(date)) { return "bg-green-600"; }
-        return "bg-orange-500";
+        return "bg-orange-600";
     };
 
 
     // ================= FILTER DATA =================
 
     const filteredTimeFix = timeFix?.filter((item) => {
-            const date = item?.time?.date;
+            const date = item?.date;
             if (filterType === "today") {
                 return isToday(date);
             }
@@ -109,6 +109,7 @@ const TimeFixList = () => {
             }
             return true;
         });
+        
 
     return (
         <div>
@@ -163,7 +164,7 @@ const TimeFixList = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
                 {filteredTimeFix?.map((item) => (
                     <div key={item.timefix_id} className="flex hover:shadow-xl">
-                        <div className={`text-white cursor-pointer w-full px-4 py-3 rounded-l shadow ${getCardColor(item?.time?.date)}`} >
+                        <div className={`text-white cursor-pointer w-full px-4 py-3 rounded-l shadow ${getCardColor(item?.date)}`} >
                             <div className="flex items-center gap-2">
                                 <TimerIcon />
                                 {item?.time?.time}
@@ -178,13 +179,13 @@ const TimeFixList = () => {
                             </div>
                             <div className="mt-2 flex items-center gap-2 font-semibold">
                                 <Calendar />
-                                {item?.time?.date || formatDates(item?.time?.date)}
+                                {formatDates(item?.date)}
                             </div>
 
                         </div>
 
                         <div
-                            className={`flex flex-col items-center w-24 gap-2 px-2 rounded-r text-white ${getCardColor(item?.time?.date)}`}
+                            className={`flex flex-col items-center w-24 gap-2 px-2 rounded-r text-white ${getCardColor(item?.date)}`}
                         >
                             <Eye
                                 className="mt-2 cursor-pointer"
