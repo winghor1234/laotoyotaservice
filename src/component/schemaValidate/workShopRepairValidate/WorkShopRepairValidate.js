@@ -8,10 +8,8 @@ import APIPath from "../../../api/APIPath";
 import axiosInstance from "../../../utils/AxiosInstance";
 import { useTranslation } from "react-i18next";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-import { usePoints } from "../../../utils/PointContext";
 
-
-const fixSchema = (t) =>
+const workShopRepairSchema = (t) =>
   z.object({
     kmNext: z.coerce.number().min(1, t("min_length_1")),
     kmLast: z.coerce.number().min(1, t("min_length_1")),
@@ -30,7 +28,7 @@ const fixSchema = (t) =>
     part_discount: z.coerce.number().min(0).max(99).optional(),
   });
 
-export const useFixForm = ({ bookingId }) => {
+export const useWorkShopRepair = ({ bookingId }) => {
   const { t } = useTranslation("auth");
   const navigate = useNavigate();
 
@@ -40,16 +38,15 @@ export const useFixForm = ({ bookingId }) => {
   const [isManualLabourPoint, setIsManualLabourPoint] = useState(false);
   const [isManualPartPoint, setIsManualPartPoint] = useState(false);
 
+  // 🔥 store computed values (IMPORTANT FIX)
   const [calculated, setCalculated] = useState({
     labour: 0,
     part: 0,
     total: 0,
   });
 
-  const { pointSettings } = usePoints();
-
-  const { register, handleSubmit, formState: { errors }, setValue, watch, } = useForm({
-    resolver: zodResolver(fixSchema(t)),
+  const { register, handleSubmit, formState: { errors }, setValue, watch,} = useForm({
+    resolver: zodResolver(workShopRepairSchema(t)),
     defaultValues: {
       payment_currency: "LAK",
       exchange_rate: "",
@@ -63,11 +60,6 @@ export const useFixForm = ({ bookingId }) => {
       part_discount: 0,
     },
   });
-
-
-
-
-
 
   // ================= WATCH =================
   const labour_total = Number(watch("labour_total")) || 0;
@@ -114,26 +106,11 @@ export const useFixForm = ({ bookingId }) => {
     const finalLabour = Math.max(labour - labourDiscount, 0);
     const finalPart = Math.max(part - partDiscount, 0);
 
+    const autoLabourPoint = Math.floor(finalLabour / 100000);
+    const autoPartPoint = Math.floor(finalPart / 50000);
 
-    // new
-    const autoLabourPoint = pointSettings.labour_amount > 0
-      ? Math.floor(finalLabour / pointSettings.labour_amount) * pointSettings.labour_point
-      : 0;
-
-    const autoPartPoint = pointSettings.part_amount > 0
-      ? Math.floor(finalPart / pointSettings.part_amount) * pointSettings.part_point
-      : 0;
-    // const autoLabourPoint = Math.floor(finalLabour / 100000);
-    // const autoPartPoint = Math.floor(finalPart / 50000);
-
-
-    // new
-    // อัปเดตลงฟอร์ม
-    const labourPointFinal = isManualLabourPoint ? watch("labour_point") : autoLabourPoint;
-    const partPointFinal = isManualPartPoint ? watch("part_point") : autoPartPoint;
-
-    // const labourPointFinal = isManualLabourPoint ? labour_point : autoLabourPoint;
-    // const partPointFinal = isManualPartPoint ? part_point : autoPartPoint;
+    const labourPointFinal = isManualLabourPoint ? labour_point : autoLabourPoint;
+    const partPointFinal = isManualPartPoint ? part_point : autoPartPoint;
 
     setValue("labour_point", labourPointFinal);
     setValue("part_point", partPointFinal);
@@ -165,9 +142,6 @@ export const useFixForm = ({ bookingId }) => {
     exchange_rate,
     isManualLabourPoint,
     isManualPartPoint,
-    // new 
-    pointSettings,
-
   ]);
 
   // ================= INIT =================

@@ -6,8 +6,6 @@
 // import CustomerSearch from "./CustomerSearch";
 // import { useState } from "react";
 
-
-
 // const provinces = [
 //   "ນະຄອນຫຼວງວຽງຈັນ",
 //   "ແຂວງວຽງຈັນ",
@@ -249,10 +247,6 @@
 
 // export default EditCarFormPopup;
 
-
-
-
-
 import { Car } from "lucide-react";
 import { FaArrowLeft } from "react-icons/fa";
 import { useEditCarForm } from "../../component/schemaValidate/carValidate/EditCarFormValidate";
@@ -279,22 +273,10 @@ const provinces = [
   "ໄຊສົມບູນ",
 ];
 
-const colors = [
-  "ແດງ",
-  "ດຳ",
-  "ຂາວ",
-  "ເທົາ",
-  "ນໍ້າຕານ",
-];
+const colors = ["ແດງ", "ດຳ", "ຂາວ", "ເທົາ", "ນໍ້າຕານ"];
 
-const EditCarFormPopup = ({
-  show,
-  onClose,
-  carId,
-  handleFetchCar,
-}) => {
-  const { t } =
-    useTranslation("car");
+const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
+  const { t } = useTranslation("car");
 
   const {
     register,
@@ -326,10 +308,11 @@ const EditCarFormPopup = ({
     <>
       {/* Background */}
       <div
-        className={`fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity duration-300 ${show
+        className={`fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity duration-300 ${
+          show
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
-          }`}
+        }`}
         onClick={onClose}
       />
 
@@ -347,23 +330,20 @@ const EditCarFormPopup = ({
                 
                 p-3 sm:p-4 md:p-6
                 
-                text-sm transition-all duration-300 ${show
-            ? "scale-100 opacity-100"
-            : "scale-90 opacity-0 pointer-events-none"
-          }`}
+                text-sm transition-all duration-300 ${
+                  show
+                    ? "scale-100 opacity-100"
+                    : "scale-90 opacity-0 pointer-events-none"
+                }`}
       >
         {/* Header */}
         <div className="flex flex-row items-center justify-between gap-2 sm:gap-3">
-
           {/* Back */}
           <div
-            onClick={() =>
-              onClose()
-            }
+            onClick={() => onClose()}
             className="inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-xl cursor-pointer transition-colors"
           >
             <button className="flex items-center gap-2 text-gray-700 hover:text-black">
-
               <FaArrowLeft className="text-sm sm:text-base" />
 
               <span className="font-medium text-sm sm:text-lg lg:text-xl">
@@ -377,34 +357,25 @@ const EditCarFormPopup = ({
 
         {/* Form */}
         <form
-          onSubmit={handleSubmit(
-            submitForm
-          )}
+          onSubmit={handleSubmit(submitForm)}
           className="flex flex-col lg:flex-row justify-center lg:justify-around gap-6 lg:gap-4"
         >
           {/* Left */}
           <div className="flex flex-col items-center lg:items-start">
-
             {/* Image */}
             <div className="w-full max-w-[250px] h-[150px] sm:h-[180px] lg:h-[200px] bg-gray-200 rounded-lg flex items-center justify-center">
-
               <Car className="w-[100px] h-[100px] sm:w-[140px] sm:h-[140px] lg:w-[160px] lg:h-[160px] text-gray-600" />
             </div>
 
             {/* Buttons */}
             <div className="flex flex-col gap-2 my-3 w-full max-w-[250px]">
-
               {/* Cancel */}
               <button
                 type="button"
-                onClick={
-                  onClose
-                }
+                onClick={onClose}
                 className="w-full py-2 border cursor-pointer border-gray-300 rounded-lg text-sm hover:bg-gray-100 transition-colors"
               >
-                {t(
-                  "cancel_edit"
-                )}
+                {t("cancel_edit")}
               </button>
 
               {/* Save */}
@@ -412,293 +383,165 @@ const EditCarFormPopup = ({
                 type="submit"
                 className="w-full py-2 border cursor-pointer border-red-500 rounded-lg text-sm bg-red-500 text-white hover:bg-[#E32121] transition-colors"
               >
-                {t(
-                  "save_edit"
-                )}
+                {t("save_edit")}
               </button>
             </div>
           </div>
 
           {/* Right */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-full lg:max-w-[400px]">
-
             {/* Customer */}
-            <div
-              className="flex flex-col sm:col-span-2"
-              ref={
-                dropdownRef
-              }
-            >
+            <div className="flex flex-col sm:col-span-2" ref={dropdownRef}>
               <div className="flex flex-col relative">
-
                 <label className="text-sm sm:text-base font-medium mb-1">
-                  {t(
-                    "customer_id"
-                  )}
+                  {t("customer_id")}
                 </label>
 
                 <input
                   type="text"
-                  value={
-                    search
-                  }
-                  placeholder={t(
-                    "select_customer"
-                  )}
-                  onChange={(
-                    e
-                  ) => {
-                    setSearch(
-                      e
-                        .target
-                        .value
-                    );
+                  value={search}
+                  placeholder={t("select_customer")}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
 
-                    setShowDropdown(
-                      true
-                    );
+                    setShowDropdown(true);
 
-                    setSelectedUser(
-                      null
-                    );
+                    setSelectedUser(null);
                   }}
                   onFocus={() => {
-                    if (
-                      !selectedUser
-                    ) {
-                      setShowDropdown(
-                        true
-                      );
+                    if (!selectedUser) {
+                      setShowDropdown(true);
                     }
                   }}
                   className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
                 />
 
                 {/* Hidden Input */}
-                <input
-                  type="hidden"
-                  {...register(
-                    "userId"
-                  )}
-                />
+                <input type="hidden" {...register("userId")} />
 
                 {/* Dropdown */}
-                {showDropdown &&
-                  !selectedUser && (
-                    <div className="absolute z-10 top-[68px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
-
-                      {users
-                        .filter(
-                          (
-                            user
-                          ) =>
-                            `${user.customer_number} ${user.username}`
-                              .toLowerCase()
-                              .includes(
-                                search.toLowerCase()
-                              )
-                        )
-                        .map(
-                          (
-                            user
-                          ) => (
-                            <div
-                              key={
-                                user.user_id
-                              }
-                              onClick={() =>
-                                handleSelectUser(
-                                  user
-                                )
-                              }
-                              className="px-3 py-2 text-sm cursor-pointer hover:bg-blue-100"
-                            >
-                              {
-                                user.customer_number
-                              }{" "}
-                              {
-                                user.username
-                              }
-                            </div>
-                          )
-                        )}
-                    </div>
-                  )}
+                {showDropdown && !selectedUser && (
+                  <div className="absolute z-10 top-[68px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
+                    {users
+                      .filter((user) =>
+                        `${user.customer_number} ${user.username}`
+                          .toLowerCase()
+                          .includes(search.toLowerCase()),
+                      )
+                      .map((user) => (
+                        <div
+                          key={user.user_id}
+                          onClick={() => handleSelectUser(user)}
+                          className="px-3 py-2 text-sm cursor-pointer hover:bg-blue-100"
+                        >
+                          {user.customer_number} {user.username}
+                        </div>
+                      ))}
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Model */}
             <div className="flex flex-col">
-
               <label className="text-sm sm:text-base font-medium mb-1">
-                {t(
-                  "car_model"
-                )}
+                {t("car_model")}
               </label>
 
               <input
-                {...register(
-                  "model"
-                )}
+                {...register("model")}
                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
-                placeholder={t(
-                  "car_model_placeholder"
-                )}
+                placeholder={t("car_model_placeholder")}
               />
             </div>
 
             {/* Engine */}
             <div className="flex flex-col">
-
               <label className="text-sm sm:text-base font-medium mb-1">
                 {t("engine")}
               </label>
 
               <input
-                {...register(
-                  "engineNumber"
-                )}
+                {...register("engineNumber")}
                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
-                placeholder={t(
-                  "engine_placeholder"
-                )}
+                placeholder={t("engine_placeholder")}
               />
             </div>
 
             {/* Frame */}
             <div className="flex flex-col">
-
               <label className="text-sm sm:text-base font-medium mb-1">
                 {t("frame")}
               </label>
 
               <input
-                {...register(
-                  "frameNumber"
-                )}
+                {...register("frameNumber")}
                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
-                placeholder={t(
-                  "frame_placeholder"
-                )}
+                placeholder={t("frame_placeholder")}
               />
             </div>
 
             {/* Plate */}
             <div className="flex flex-col">
-
               <label className="text-sm sm:text-base font-medium mb-1">
                 {t("plate")}
               </label>
 
               <input
-                {...register(
-                  "plateNumber"
-                )}
+                {...register("plateNumber")}
                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
-                placeholder={t(
-                  "plate_placeholder"
-                )}
+                placeholder={t("plate_placeholder")}
               />
             </div>
 
             {/* Province */}
             <div className="flex flex-col">
-
               <label className="text-sm sm:text-base font-medium mb-1">
-                {t(
-                  "province"
-                )}
+                {t("province")}
               </label>
 
               <select
-                {...register(
-                  "province"
-                )}
+                {...register("province")}
                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
               >
-                <option value="">
-                  {t(
-                    "province_placeholder"
-                  )}
-                </option>
+                <option value="">{t("province_placeholder")}</option>
 
-                {provinces.map(
-                  (
-                    p
-                  ) => (
-                    <option
-                      key={
-                        p
-                      }
-                      value={
-                        p
-                      }
-                    >
-                      {
-                        p
-                      }
-                    </option>
-                  )
-                )}
+                {provinces.map((p) => (
+                  <option key={p} value={p}>
+                    {p}
+                  </option>
+                ))}
               </select>
 
               {errors?.province && (
                 <span className="text-red-500 text-xs sm:text-sm mt-1">
-                  {
-                    errors
-                      .province
-                      .message
-                  }
+                  {errors.province.message}
                 </span>
               )}
             </div>
 
             {/* Color */}
             <div className="flex flex-col">
-
               <label className="text-sm sm:text-base font-medium mb-1">
                 {t("color")}
               </label>
 
               <select
-                {...register(
-                  "color"
-                )}
+                {...register("color")}
                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
               >
-                <option value="">
-                  {t(
-                    "color_placeholder"
-                  )}
-                </option>
+                <option value="">{t("color_placeholder")}</option>
 
-                {colors.map(
-                  (
-                    c
-                  ) => (
-                    <option
-                      key={
-                        c
-                      }
-                      value={
-                        c
-                      }
-                    >
-                      {
-                        c
-                      }
-                    </option>
-                  )
-                )}
+                {colors.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
               </select>
 
               {errors?.color && (
                 <span className="text-red-500 text-xs sm:text-sm mt-1">
-                  {
-                    errors
-                      .color
-                      .message
-                  }
+                  {errors.color.message}
                 </span>
               )}
             </div>

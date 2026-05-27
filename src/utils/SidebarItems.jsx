@@ -1,4 +1,4 @@
-import { Home, Users, Gift, Car, Settings, Clock, MapPin, ShieldUser, MapPinHouse, CalendarCog, MapPinPlus, IdCard} from "lucide-react";
+import { Home, Users, Gift, Car, Settings, Clock, MapPin, ShieldUser, MapPinHouse, CalendarCog, MapPinPlus, IdCard, House, Wrench } from "lucide-react";
 import { LiaGiftsSolid } from "react-icons/lia";
 import { FaPeopleArrows } from "react-icons/fa";
 import { TbReportAnalytics } from "react-icons/tb";
@@ -12,11 +12,42 @@ export const getSidebarItems = (t, role) => [
         path: "/user/dashboard",
     },
     {
-        id: "appointment",
-        icon: FaPeopleArrows,
-        label: t("appointment"),
-        path: "/user/booking",
+        id: "fix_management",
+        icon: Wrench,
+        label: "ແປງລົດ",
+        children: [
+            {
+                id: "appointment",
+                icon: FaPeopleArrows,
+                label: t("appointment"),
+                path: "/user/booking",
+            },
+            {
+                id: "workshop-repair",
+                icon: House,
+                label: "ແປງຢູ່ໜ້າຮ້ານ",
+                path: "/user/workshop-repair",
+            },
+            {
+                id: "setting-point",
+                icon: Settings,
+                label: "ຕັ້ງຄ່າຄະແນນ",
+                path: "/user/setting-point",
+            },
+        ],
     },
+    // {
+    //     id: "appointment",
+    //     icon: FaPeopleArrows,
+    //     label: t("appointment"),
+    //     path: "/user/booking",
+    // },
+    // {
+    //     id: "workshop-repair",
+    //     icon: House,
+    //     label: "ແປງຢູ່ໜ້າຮ້ານ",
+    //     path: "/user/workshop-repair",
+    // },
 
     {
         id: "zone_time",

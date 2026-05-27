@@ -6,7 +6,7 @@ import CurrencyInput from "react-currency-input-field";
 
 const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
   const { t } = useTranslation("booking");
-  const { register, handleSubmit, errors, submitForm, setValue, watch, cards, setIsManualPartPoint, setIsManualLabourPoint } = useFixForm({ bookingId, timeId });
+  const { register, handleSubmit, errors, submitForm, setValue, watch, cards } = useFixForm({ bookingId, timeId });
 
   const labour_total = watch("labour_total") || 0;
   const part_total = watch("part_total") || 0;
@@ -183,15 +183,16 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
               <div className="flex flex-col relative">
                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("labour_point_text")}</label>
                 <CurrencyInput
+                  readOnly
                   value={watch("labour_point")}
                   {...register("labour_point")}
                   // placeholder={t("labour_point_placholder")}
                   groupSeparator=","
                   decimalsLimit={0}
                   min={0}
-                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
                   onValueChange={(value) => {
-                    setIsManualLabourPoint(true);
+                    // setIsManualLabourPoint(true);
                     setValue("labour_point", value ? Number(value) : ""
                     );
                   }}
@@ -247,7 +248,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
                 placeholder={t("part_total_placholder")}
                 groupSeparator=","
                 decimalsLimit={0}
-                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm  hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-colors pr-12"
                 onValueChange={(value) => setValue("part_total", Number(value) || "")}
               />
               <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
@@ -260,15 +261,15 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
               <div className="flex flex-col relative">
                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_point_text")}</label>
                 <CurrencyInput
+                  readOnly
                   value={watch("part_point")}
                   {...register("part_point")}
-                  // placeholder={t("part_point_placholder")}
                   groupSeparator=","
                   decimalsLimit={0}
-                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
-                  //new
+                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
+
                   onValueChange={(value) => {
-                    setIsManualPartPoint(true);
+                    // setIsManualPartPoint(true);
                     setValue("part_point", value ? Number(value) : "");
                   }}
                 />
@@ -281,7 +282,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
               <div className="flex flex-col relative">
                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_discount_text")}</label>
                 <CurrencyInput
-                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
                   value={watch("part_discount")}
                   {...register("part_discount")}
                   placeholder={t("part_discount_placholder")}
@@ -322,7 +323,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
               placeholder={t("totalPrice")}
               groupSeparator=","
               decimalsLimit={0}
-              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
               onValueChange={(value) => setValue("totalPrice", Number(value) || 0)}
             />
             <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
@@ -338,7 +339,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
               placeholder={t("totalPoint")}
               groupSeparator=","
               decimalsLimit={0}
-              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
               onValueChange={(value) => setValue("totalPoint", Number(value) || 0)}
             />
             <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">

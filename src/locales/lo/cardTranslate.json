@@ -3,7 +3,6 @@
     "card_number": "ລະຫັດບັດ",
     "customer_number": "ລະຫັດລູກຄ້າ",
     "vip_number": "ລະຫັດ VIP",
-    "discount": "ສ່ວນຫຼຸດ",
     "action": "ດຳເນີນການ",
     "add": "ເພີ່ມຂໍ້ມູນ",
     "edit": "ແກ້ໄຂຂໍ້ມູນ",
@@ -12,7 +11,7 @@
     "cancel": "ຍົກເລີກ",
     "edit_card": "ແກ້ໄຂຂໍ້ມູນບັດ",
     "add_card": "ເພີ່ມຂໍ້ມູນບັດ",
-    "select_user": "ເລືອກລູກຄ້າ",
+    "select_car": "ເລືອກລົດ",
     "card": "ບັດ",
     "card_detail": "ລາຍລະອຽດຂໍ້ມູນບັດ",
     "card_type": "ປະເພດບັດ",
@@ -32,6 +31,8 @@
     "count_card": "ຈຳນວນບັດ",
     "running_part": "ຄ່າອາໄຫຼ່",
     "running_labour": "ຄ່າແຮງງານ",
-    "received": "ໄດ້ຮັບແລ້ວ"
+    "received": "ໄດ້ຮັບແລ້ວ",
+    "goldIssued": "ວັນທີອອກບັດຄໍາ",
+    "update_card": "ອັບເດດຂໍ້ມູນບັດ"
 
 }

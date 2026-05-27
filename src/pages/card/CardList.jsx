@@ -54,7 +54,7 @@ const CardList = () => {
     }, []);
 
     const handleDeleteCard = async (cardId) => {
-        console.log("cardId: ", cardId);
+        // console.log("cardId: ", cardId);
         try {
             const confirmDelete = await DeleteAlert(
                 t("delete_confirm"),
@@ -75,6 +75,8 @@ const CardList = () => {
         navigate(`/user/card-detail/${id}`);
     };
 
+
+    // console.log("cards: ", cards);
 
     return (
         <div>
@@ -164,7 +166,7 @@ const CardList = () => {
                                     <p className="text-xs text-gray-500">
                                         {t("customer_number")}
                                     </p>
-                                    <p>{item.customer_number}</p>
+                                    <p>{item?.car?.user?.customer_number}</p>
                                 </div>
 
                                 <div>
@@ -176,9 +178,9 @@ const CardList = () => {
 
                                 <div>
                                     <p className="text-xs text-gray-500">
-                                        {t("discount")}
+                                        {t("card_type")}
                                     </p>
-                                    <p>{item.discount}%</p>
+                                    <p>{item.card_type}</p>
                                 </div>
                             </div>
                         </div>
@@ -207,7 +209,7 @@ const CardList = () => {
                         </div>
 
                         <div className="flex justify-center items-center">
-                            {t("discount")}
+                            {t("card_type")}
                         </div>
 
                         <div className="flex justify-center items-center">
@@ -237,7 +239,7 @@ const CardList = () => {
                                 </div>
 
                                 <div className="text-center">
-                                    {item.customer_number}
+                                    {item?.car?.user?.customer_number}
                                 </div>
 
                                 <div className="text-center">
@@ -245,7 +247,7 @@ const CardList = () => {
                                 </div>
 
                                 <div className="text-center">
-                                    {item.discount}%
+                                    {item.card_type}
                                 </div>
 
                                 <div className="flex justify-center items-center gap-4">

@@ -51,6 +51,8 @@ import TimeFixList from "../pages/timeFix/TimeFixList";
 import TimeFixDerail from "../pages/timeFix/TimeFixDetail";
 import CardList from "../pages/card/CardList";
 import CardDetail from "../pages/card/CardDetail";
+import WorkShopRepair from "../pages/workshopRepair/WorkShopRepair";
+import PointSetting from "../pages/SettingPoint/SettinggPoints";
 
 
 const router = createBrowserRouter([
@@ -117,6 +119,14 @@ const router = createBrowserRouter([
             element: <Success />,
           },
         ],
+      },
+      {
+        path: "workshop-repair",
+        element: <WorkShopRepair />,
+      },
+      {
+        path: "setting-point",
+        element: <PointSetting />,
       },
       {
         path: "receiverCarDetail/:id",

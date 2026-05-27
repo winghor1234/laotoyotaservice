@@ -48,6 +48,8 @@ const CardDetail = () => {
         );
     }
 
+    console.log("Card Detail Data: ", cardData);
+
     return (
         <div className="min-h-screen bg-gray-50 p-2 sm:p-4">
             <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
@@ -86,7 +88,7 @@ const CardDetail = () => {
                                     </p>
 
                                     <p className="text-base text-gray-800">
-                                        {cardData.customer_number || "-"}
+                                        {cardData?.car?.user?.customer_number || "-"}
                                     </p>
                                 </div>
 
@@ -100,15 +102,6 @@ const CardDetail = () => {
                                     </p>
                                 </div>
 
-                                <div>
-                                    <p className="text-gray-500 text-sm">
-                                        {t("discount")}
-                                    </p>
-
-                                    <p className="text-base text-gray-800">
-                                        {cardData.discount || 0}%
-                                    </p>
-                                </div>
 
                                 <div>
                                     <p className="text-gray-500 text-sm">
@@ -126,7 +119,7 @@ const CardDetail = () => {
                                     </p>
 
                                     <p className="text-base text-gray-800">
-                                        {cardData.plate_number || "-"}
+                                        {cardData?.car?.plateNumber || "-"}
                                     </p>
                                 </div>
                             </div>
@@ -139,7 +132,7 @@ const CardDetail = () => {
                                     </p>
 
                                     <p className="text-base text-gray-800">
-                                        {cardData.vehicle_model || "-"}
+                                        {cardData?.car?.model || "-"}
                                     </p>
                                 </div>
 
@@ -149,7 +142,7 @@ const CardDetail = () => {
                                     </p>
 
                                     <p className="text-base text-gray-800">
-                                        {cardData.color || "-"}
+                                        {cardData?.car?.color || "-"}
                                     </p>
                                 </div>
 
@@ -159,7 +152,7 @@ const CardDetail = () => {
                                     </p>
 
                                     <p className="text-base text-gray-800 break-all">
-                                        {cardData.frame_number || "-"}
+                                        {cardData?.car?.frameNumber || "-"}
                                     </p>
                                 </div>
 
@@ -169,7 +162,7 @@ const CardDetail = () => {
                                     </p>
 
                                     <p className="text-base text-gray-800 break-all">
-                                        {cardData.engine_number || "-"}
+                                        {cardData?.car?.engineNumber || "-"}
                                     </p>
                                 </div>
 
@@ -251,17 +244,12 @@ const CardDetail = () => {
 
                             <DetailItem
                                 label={t("customer_number")}
-                                value={cardData.customer_number}
+                                value={cardData?.car?.user?.customer_number || "-"}
                             />
 
                             <DetailItem
                                 label={t("vip_number")}
                                 value={cardData.vip_number}
-                            />
-
-                            <DetailItem
-                                label={t("discount")}
-                                value={`${cardData.discount || 0}%`}
                             />
 
                             <DetailItem
@@ -271,37 +259,37 @@ const CardDetail = () => {
 
                             <DetailItem
                                 label={t("plate_number")}
-                                value={cardData.plate_number}
+                                value={cardData?.car?.plateNumber || "-"}
                             />
 
                             <DetailItem
                                 label={t("vehicle_model")}
-                                value={cardData.vehicle_model}
+                                value={cardData?.car?.model || "-"}
                             />
 
                             <DetailItem
                                 label={t("color")}
-                                value={cardData.color}
+                                value={cardData?.car?.color || "-"}
                             />
 
                             <DetailItem
                                 label={t("frame_number")}
-                                value={cardData.frame_number}
+                                value={cardData?.car?.frameNumber || "-"}
                             />
 
                             <DetailItem
                                 label={t("engine_number")}
-                                value={cardData.engine_number}
+                                value={cardData?.car?.engineNumber || "-"}
                             />
 
                             <DetailItem
                                 label={t("active_point")}
-                                value={cardData.active_point}
+                                value={cardData.active_point || 0}
                             />
 
                             <DetailItem
                                 label={t("total_point")}
-                                value={cardData.total_point}
+                                value={cardData.total_point || 0}
                             />
                         </div>
                     </div>

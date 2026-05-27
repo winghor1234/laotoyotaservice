@@ -3,7 +3,6 @@
     "card_number": "Card Number",
     "customer_number": "Customer Number",
     "vip_number": "Vip Number",
-    "discount": "Discount",
     "action": "Action",
     "add": "Add",
     "edit": "Edit",
@@ -12,7 +11,7 @@
     "cancel": "Cancel",
     "edit_card": "Edit Card",
     "add_card": "Add Card",
-    "select_user": "Select User",
+    "select_car": "Select Car",
     "card": "Card",
     "card_detail": "Card Detail",
     "card_type": "Card Type",
@@ -32,6 +31,8 @@
     "count_card": "Count Card",
     "running_part": "Running Part",
     "running_labour": "Running Labour",
-    "received": "Received"
+    "received": "Received",
+    "goldIssued": "Gold Issued",
+    "update_card": "Update Card"
 
 }
