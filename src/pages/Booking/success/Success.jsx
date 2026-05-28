@@ -61,8 +61,7 @@ const Success = () => {
     }, [role, branch_id]);
 
     const SuccessDetail = async(id) => {
-        // const fixId = fix.find((f) => f.bookingId === id)?.fix_id;
-        // if (!fixId) return;
+
         try {
             const fixId = await axiosInstance.get(APIPath.SELECT_FIX_BY_BOOKING(id));
             navigate(`/user/successDetail/${fixId?.data?.data?.fix_id}`);

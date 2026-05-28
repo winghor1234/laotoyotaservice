@@ -11,7 +11,15 @@ const EditCard = ({ show, onClose, cardId, handleFetchCard }) => {
         loading,
         formState: { errors },
         cars,
-        currentCarId,
+        search,
+        setSearch,
+        showDropdown,
+        setShowDropdown,
+        dropdownRef,
+        handleSelectCar,
+        selectedCar,
+        setSelectedCar,
+        currentCarId
     } = useEditCardForm({ onClose, handleFetchCard, cardId });
 
     if (!show) return null;
@@ -36,7 +44,7 @@ const EditCard = ({ show, onClose, cardId, handleFetchCard }) => {
                     {/* ================= ROW 1: Car & Core Info ================= */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         {/* Select Car */}
-                        <div>
+                        {/* <div>
                             <label className="block mb-1.5 font-semibold text-gray-700">{t("select_car")}</label>
                             <select
                                 {...register("carId")}
@@ -52,6 +60,69 @@ const EditCard = ({ show, onClose, cardId, handleFetchCard }) => {
                             </select>
                             <div className="h-5 mt-1">
                                 {errors.carId && <p className="text-red-500 text-xs">{errors.carId.message}</p>}
+                            </div>
+                        </div> */}
+
+                        <div className="flex flex-col sm:col-span-2" ref={dropdownRef}>
+                            <div className="flex flex-col relative">
+                                <label className="text-sm sm:text-base font-medium mb-1">
+                                    {t("select_car")}
+                                </label>
+
+                                <input
+                                    type="text"
+                                    value={search}
+                                    placeholder={t("select_car")}
+                                    onChange={(e) => {
+                                        setSearch(e.target.value);
+                                        setShowDropdown(true);
+                                        setSelectedCar(null);
+                                    }}
+                                    onFocus={() => {
+                                        if (!selectedCar) {
+                                            setShowDropdown(true);
+                                        }
+                                    }}
+                                    className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
+                                />
+
+                                {/* Hidden Input */}
+                                <input type="hidden" {...register("carId")} />
+
+                                {/* Dropdown */}
+                                {showDropdown && !selectedCar && (
+                                    <div className="absolute z-10 top-[68px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
+                                        {/* {cars
+                                            .filter((car) => `${car.engineNumber} ${car.frameNumber}`.toLowerCase().includes(search.toLowerCase()),
+                                            )
+                                            .map((car) => (
+                                                <div
+                                                    key={car.car_id}
+                                                    onClick={() => handleSelectCar(car)}
+                                                    className="px-3 py-2 text-sm cursor-pointer hover:bg-blue-100"
+                                                >
+                                                    {car.engineNumber} {car.frameNumber} - {car.model}
+                                                </div>
+                                            ))} */}
+                                        {cars
+                                            .filter((car) => {
+                                                const matchesSearch = `${car.engineNumber} ${car.frameNumber}`.toLowerCase().includes(search.toLowerCase());
+
+                                                // เงื่อนไข: แสดงรถที่ยังไม่มีบัตร (car.card === null) 
+                                                // หรือ เป็นรถคันที่กำลังแก้ไขอยู่ (car.car_id === currentCarId)
+                                                const isCurrentCar = car.car_id === currentCarId;
+                                                const isAvailable = !car.card || isCurrentCar;
+
+                                                return matchesSearch && isAvailable;
+                                            })
+                                            .map((car) => (
+                                                <div  className="px-3 py-2 text-sm cursor-pointer hover:bg-red-100" key={car.car_id} onClick={() => handleSelectCar(car)}>
+                                                    {car.engineNumber} {car.frameNumber} - {car.model}
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                )}
                             </div>
                         </div>
 

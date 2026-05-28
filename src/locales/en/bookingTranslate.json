@@ -133,7 +133,7 @@
   "total_price_text": "Total Price",
   "total_point_text": "Total Point",
   "payment_type_text": "Payment Type",
-  "card_number_text": "Card Number",
+  "card_id_text": "Card Number",
   "kmLast_text": "Previous KM (KM)",
   "kmNext_text": "Latest KM (KM)",
   "labour_discount_text": "Labour Discount",

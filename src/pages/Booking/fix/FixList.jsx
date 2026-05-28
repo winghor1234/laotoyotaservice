@@ -91,7 +91,7 @@ const FixList = () => {
     fetchData();
   }, [role, branch_id]);
 
-  console.log("Booking data for fix list:", booking);
+  // console.log("Booking data for fix list:", booking);
   return (
     <div>
       {/* Search + Date + Export or download */}

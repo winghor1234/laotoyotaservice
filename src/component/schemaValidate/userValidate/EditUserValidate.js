@@ -148,14 +148,14 @@ export const useEditUserForm = ({ customerId, handleFetch, onClose, }) => {
                 try {
                     const res = await axiosInstance.get(APIPath.SELECT_ONE_USER(customerId));
                     const user = res?.data?.data;
+                    console.log("Fetched user:", user);
                     reset({
                         username: user?.username || "",
                         phoneNumber: user?.phoneNumber || "",
                         province: user?.province || "",
                         district: user?.district || "",
                         village: user?.village || "",
-                        email: user?.email ||
-                            "",
+                        email: user?.email || "",
                     });
 
                     // =====================================

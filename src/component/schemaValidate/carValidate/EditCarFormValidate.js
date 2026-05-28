@@ -113,27 +113,16 @@ const editCarSchema = (t) =>
         color: z.string().min(2, t("min_length_2")),
     });
 
-export const useEditCarForm = ({
-    carId,
-    handleFetchCar,
-    onClose,
-}) => {
-
+export const useEditCarForm = ({ carId, handleFetchCar, onClose, }) => {
     const { t } = useTranslation("auth");
-
     const [users, setUsers] = useState([]);
     const [car, setCar] = useState(null);
-
     // search text for input display
     const [search, setSearch] = useState("");
-
     // selected user object
     const [selectedUser, setSelectedUser] = useState(null);
-
     const [showDropdown, setShowDropdown] = useState(false);
-
     const dropdownRef = useRef();
-
     const {
         register,
         handleSubmit,
@@ -141,37 +130,23 @@ export const useEditCarForm = ({
         setValue,
         getValues,
         formState: { errors },
-    } = useForm({
-        resolver: zodResolver(editCarSchema(t)),
-    });
+    } = useForm({ resolver: zodResolver(editCarSchema(t)) });
 
     // fetch data
     useEffect(() => {
-
         if (!carId) return;
-
         Promise.all([
             axiosInstance.get(APIPath.SELECT_ONE_CAR(carId)),
             axiosInstance.get(APIPath.SELECT_ALL_USER),
         ])
             .then(([carResponse, usersResponse]) => {
-
-                const usersData =
-                    usersResponse?.data?.data || [];
-
+                const usersData = usersResponse?.data?.data || [];
                 setUsers(usersData);
-
-                const carData =
-                    carResponse?.data?.data;
-
+                const carData = carResponse?.data?.data;
                 setCar(carData);
-
                 if (carData) {
-
                     // set search text
-                    setSearch(
-                        `${carData?.user?.customer_number || ""} ${carData?.user?.username || ""}`
-                    );
+                    setSearch(`${carData?.user?.customer_number || ""} ${carData?.user?.username || ""}`);
 
                     // set selected user
                     setSelectedUser(carData?.user);
@@ -180,105 +155,57 @@ export const useEditCarForm = ({
                     reset({
                         userId: String(carData?.user?.user_id || ""),
                         model: carData?.model || "",
-                        engineNumber:
-                            carData?.engineNumber || "",
-                        frameNumber:
-                            carData?.frameNumber || "",
-                        plateNumber:
-                            carData?.plateNumber || "",
-                        province:
-                            carData?.province || "",
-                        color:
-                            carData?.color || "",
+                        engineNumber: carData?.engineNumber || "",
+                        frameNumber: carData?.frameNumber || "",
+                        plateNumber: carData?.plateNumber || "",
+                        province: carData?.province || "",
+                        color: carData?.color || "",
                     });
                 }
             })
             .catch((error) => {
-                console.error(
-                    "Error fetching car details:",
-                    error
-                );
+                console.error("Error fetching car details:", error);
             });
 
     }, [carId, reset]);
 
     // close dropdown outside
     useEffect(() => {
-
         const handleClickOutside = (event) => {
-
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(event.target)
-            ) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setShowDropdown(false);
             }
         };
 
-        document.addEventListener(
-            "mousedown",
-            handleClickOutside
-        );
-
+        document.addEventListener("mousedown", handleClickOutside);
         return () => {
-            document.removeEventListener(
-                "mousedown",
-                handleClickOutside
-            );
+            document.removeEventListener("mousedown", handleClickOutside);
         };
 
     }, []);
 
     // select user
     const handleSelectUser = (user) => {
-
         setSelectedUser(user);
-
-        setSearch(
-            `${user.customer_number} ${user.username}`
-        );
-
+        setSearch(`${user.customer_number} ${user.username}`);
         // IMPORTANT
         // save real userId into form
-        setValue(
-            "userId",
-            String(user.user_id)
-        );
-
+        setValue("userId", String(user.user_id));
         setShowDropdown(false);
     };
 
     // submit form
     const submitForm = async (data) => {
-
-        console.log("submit data:", data);
+        // console.log("submit data:", data);
 
         try {
-
-            await axiosInstance.put(
-                APIPath.UPDATE_CAR(carId),
-                data
-            );
-
+            await axiosInstance.put(APIPath.UPDATE_CAR(carId), data);
             handleFetchCar();
-
-            SuccessAlert(
-                t("update_success")
-            );
-
+            SuccessAlert(t("update_success"));
             onClose();
-
         } catch (error) {
-
-            SuccessAlert(
-                t("update_failed"),
-                1500,
-                "warning"
-            );
-
-            console.error(
-                "Error updating car:",
-                error
+            SuccessAlert(t("update_failed"), 1500, "warning");
+            console.error("Error updating car:", error
             );
         }
     };
@@ -290,7 +217,6 @@ export const useEditCarForm = ({
         users,
         reset,
         car,
-
         // search
         search,
         setSearch,
@@ -310,6 +236,6 @@ export const useEditCarForm = ({
         getValues,
 
         // error
-        errors,
+        formState: { errors }
     };
 };

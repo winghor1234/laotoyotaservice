@@ -185,7 +185,7 @@ const EditUser = ({ show, onClose, customerId, handleFetch }) => {
                             <input
                                 {...register("email")}
                                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-blue-500 focus:border-blue-500 transition-colors"
-                                placeholder={t("emailPlaceholder")}
+                                placeholder={t("email_placeholder")}
                             />
 
                             <div className="h-5 sm:h-6">

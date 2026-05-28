@@ -1,13 +1,15 @@
 import Spinner from "../../utils/Loading";
 import { useTranslation } from "react-i18next";
 import { useAddCardForm } from "../../component/schemaValidate/cardValidate/AddCardValidate";
+import { useState } from "react";
 
 const AddCard = ({ show, onClose, handleFetchCard }) => {
+    const [selectedCar, setSelectedCar] = useState(null);
     const { t } = useTranslation("card");
-    const { register, handleSubmit, loading, onSubmit, formState: { errors }, cars, } = useAddCardForm({ onClose, handleFetchCard });
+    const { register, handleSubmit, loading, onSubmit, setValue ,formState: { errors }, cars, search, setSearch, showDropdown, setShowDropdown } = useAddCardForm({ onClose, handleFetchCard });
     if (!show) return null;
     return (
-        <>,
+        <>
             {/* Backdrop */}
             <div
                 className="fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity"
@@ -21,27 +23,61 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
                 </h2>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        {/* Car */}
-                        <div>
-                            <label>{t("select_car")}</label>
-                            <select
-                                {...register("carId")}
-                                className="w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
-                            >
-                                <option value="">{t("select_car")}</option>
-                                {cars?.filter((item) => !item.card).map((item) => (
-                                    <option key={item.car_id} value={item.car_id}>
-                                        {item.frameNumber} : {item.engineNumber} - {item.model}
-                                    </option>
-                                ))}
-                            </select>
-                            <div className="h-5 mt-1">
-                                {errors.carId && (
-                                    <p className="text-red-500 text-sm">
-                                        {errors.carId.message}
-                                    </p>
-                                )}
-                            </div>
+                        <div className="flex flex-col relative">
+                            <label className="text-sm font-medium mb-1">
+                                {t("select_car")}
+                            </label>
+                            <input type="hidden" {...register("carId")} />
+
+                            {/* input search */}
+                            <input
+                                type="text"
+                                value={search}
+                                placeholder={t("select_car")}
+                                onChange={(e) => {
+                                    setSearch(e.target.value);
+                                    setSelectedCar(null);
+                                    setShowDropdown(true);
+                                }}
+                                onFocus={() => {
+                                    if (!selectedCar) {
+                                        setShowDropdown(true);
+                                    }
+                                }}
+                                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
+                            />
+
+                            {/* dropdown */}
+                            {showDropdown && !selectedCar && (
+                                <div className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
+                                    {cars
+                                        .filter((car) =>
+                                            !car.card && `${car.engineNumber} ${car.frameNumber}`
+                                                .toLowerCase()
+                                                .includes(search.toLowerCase())
+                                        )
+                                        .map((car) => (
+                                            <div
+                                                key={car.car_id}
+                                                onClick={() => {
+                                                    setSearch(`${car.engineNumber} ${car.frameNumber}`);
+                                                    setSelectedCar(car);
+                                                    // const currentValues = getValues();
+                                                    // reset({
+                                                    //     ...currentValues,
+                                                    //     carId: car.car_id,
+                                                    // });
+                                                    setValue("carId", car.car_id);
+
+                                                    setShowDropdown(false);
+                                                }}
+                                                className="px-3 py-2 text-sm cursor-pointer hover:bg-blue-100"
+                                            >
+                                                {car.engineNumber} {car.frameNumber}
+                                            </div>
+                                        ))}
+                                </div>
+                            )}
                         </div>
 
                         {/* Card Number */}
@@ -133,54 +169,8 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
                         </div>
                     </div>
 
-                    {/* GROUP 3: Points System (จัดเรียง 4 คอลัมน์บนจอใหญ่) */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {/* Active Point */}
-                        {/* <div>
-                            <label>{t("active_point")}</label>
-                            <input
-                                type="number"
-                                placeholder={t("active_point")}
-                                {...register("active_point")}
-                                className="w-full py-3 px-4 border border-gray-300 rounded-lg  focus:outline-none focus:border-red-500"
-                            />
-                        </div> */}
-
-                        {/* Total Point */}
-                        {/* <div>
-                            <label>{t("total_point")}</label>
-                            <input
-                                type="number"
-                                placeholder={t("total_point")}
-                                {...register("total_point")}
-                                className="w-full py-3 px-4 border border-gray-300 rounded-lg  focus:outline-none focus:border-red-500"
-                            />
-                        </div> */}
-
-                        {/* Running Part */}
-                        {/* <div>
-                            <label>{t("running_part")}</label>
-                            <input
-                                type="number"
-                                placeholder={t("running_part")}
-                                {...register("running_part")}
-                                className="w-full py-3 px-4 border border-gray-300 rounded-lg  focus:outline-none focus:border-red-500"
-                            />
-                        </div> */}
-
-                        {/* Running Labour */}
-                        {/* <div>
-                            <label>{t("running_labour")}</label>
-                            <input
-                                type="number"
-                                placeholder={t("running_labour")}
-                                {...register("running_labour")}
-                                className="w-full py-3 px-4 border border-gray-300 rounded-lg  focus:outline-none focus:border-red-500"
-                            />
-                        </div> */}
                     </div>
-
-                    {/* GROUP 4: Dates & Timelines (จัดเรียง 3 คอลัมน์บนจอใหญ่) */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         {/* Gold Issued */}
                         <div>

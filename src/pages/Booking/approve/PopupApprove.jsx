@@ -8,10 +8,11 @@ import { useTranslation } from "react-i18next";
 import { formatDates } from '../../../utils/FormatDate';
 import { generateBillId } from '../../../utils/BillGenerate';
 
-const PopupApprove = ({ setShowPopup, bookingId, fetchBooking, cardNumber }) => {
+const PopupApprove = ({ setShowPopup, bookingId, fetchBooking, cardId }) => {
   const { t } = useTranslation("booking"); // namespace booking
   const navigate = useNavigate();
   const [booking, setBooking] = useState([]);
+
 
 
   const handleChangeStatus = async () => {
@@ -19,7 +20,7 @@ const PopupApprove = ({ setShowPopup, bookingId, fetchBooking, cardNumber }) => 
       const fixForm = {
         bookingId,
         invoice_number: generateBillId(),
-        card_number: cardNumber,
+        cardId: cardId,
       }
 
       await Promise.all([

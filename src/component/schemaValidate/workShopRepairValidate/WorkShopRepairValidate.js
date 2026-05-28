@@ -8,6 +8,7 @@ import APIPath from "../../../api/APIPath";
 import axiosInstance from "../../../utils/AxiosInstance";
 import { useTranslation } from "react-i18next";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
+import { usePoints } from "../../../utils/PointContext";
 
 const workShopRepairSchema = (t) =>
   z.object({
@@ -22,7 +23,7 @@ const workShopRepairSchema = (t) =>
     exchange_rate: z.coerce.number().optional(),
     payment_currency: z.string(),
     payment_type: z.string().min(1, t("Please_select_payment_type")),
-    card_number: z.string().min(1, t("Please_select_card")),
+    cardId: z.string().min(1, t("Please_select_card")),
     discount: z.coerce.number().min(0).optional(),
     labour_discount: z.coerce.number().min(0).max(99).optional(),
     part_discount: z.coerce.number().min(0).max(99).optional(),
@@ -32,8 +33,8 @@ export const useWorkShopRepair = ({ bookingId }) => {
   const { t } = useTranslation("auth");
   const navigate = useNavigate();
 
-  const [fixes, setFixes] = useState({});
-  const [booking, setBooking] = useState({});
+  // const [fixes, setFixes] = useState({});
+  const [cards, setCards] = useState([]);
 
   const [isManualLabourPoint, setIsManualLabourPoint] = useState(false);
   const [isManualPartPoint, setIsManualPartPoint] = useState(false);
@@ -44,8 +45,9 @@ export const useWorkShopRepair = ({ bookingId }) => {
     part: 0,
     total: 0,
   });
+  const { pointSettings } = usePoints();
 
-  const { register, handleSubmit, formState: { errors }, setValue, watch,} = useForm({
+  const { register, handleSubmit, formState: { errors }, setValue, watch, } = useForm({
     resolver: zodResolver(workShopRepairSchema(t)),
     defaultValues: {
       payment_currency: "LAK",
@@ -60,6 +62,7 @@ export const useWorkShopRepair = ({ bookingId }) => {
       part_discount: 0,
     },
   });
+  // console.log("card", cards);
 
   // ================= WATCH =================
   const labour_total = Number(watch("labour_total")) || 0;
@@ -76,19 +79,20 @@ export const useWorkShopRepair = ({ bookingId }) => {
   // ================= FETCH =================
   const fetchData = async () => {
     try {
-      const [fixRes, bookingRes] = await Promise.all([
-        axiosInstance.get(APIPath.SELECT_FIX_BY_BOOKING(bookingId)),
-        axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingId)),
+      const [ cardRes] = await Promise.all([
+        axiosInstance.get(APIPath.SELECT_ALL_CARD),
+        // axiosInstance.get(APIPath.SELECT_FIX_BY_BOOKING(bookingId)),
       ]);
 
-      setFixes(fixRes?.data?.data || {});
-      setBooking(bookingRes?.data?.data || {});
+      // setFixes(fixRes?.data?.data || {});
+      setCards(cardRes?.data?.data || []);
+      // console.log("fixes", fixRes?.data?.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const cards = booking?.user?.Card || [];
+  // const cards = booking?.user?.Card || [];
 
   // ================= CALCULATION (SOURCE OF TRUTH) =================
   useEffect(() => {
@@ -106,8 +110,17 @@ export const useWorkShopRepair = ({ bookingId }) => {
     const finalLabour = Math.max(labour - labourDiscount, 0);
     const finalPart = Math.max(part - partDiscount, 0);
 
-    const autoLabourPoint = Math.floor(finalLabour / 100000);
-    const autoPartPoint = Math.floor(finalPart / 50000);
+
+    const autoLabourPoint = pointSettings.labour_amount > 0
+      ? Math.floor(finalLabour / pointSettings.labour_amount) * pointSettings.labour_point
+      : 0;
+
+    const autoPartPoint = pointSettings.part_amount > 0
+      ? Math.floor(finalPart / pointSettings.part_amount) * pointSettings.part_point
+      : 0;
+
+    // const autoLabourPoint = Math.floor(finalLabour / 100000);
+    // const autoPartPoint = Math.floor(finalPart / 50000);
 
     const labourPointFinal = isManualLabourPoint ? labour_point : autoLabourPoint;
     const partPointFinal = isManualPartPoint ? part_point : autoPartPoint;
@@ -142,6 +155,7 @@ export const useWorkShopRepair = ({ bookingId }) => {
     exchange_rate,
     isManualLabourPoint,
     isManualPartPoint,
+    pointSettings,
   ]);
 
   // ================= INIT =================
@@ -162,12 +176,11 @@ export const useWorkShopRepair = ({ bookingId }) => {
         labour_point: data.labour_point,
         part_point: data.part_point,
         payment_type: data.payment_type,
+        cardId: data.cardId,
         exchange_rate:
           payment_currency === "LAK"
             ? 0
             : data.exchange_rate,
-
-        card_number: data.card_number,
       };
 
       await axiosInstance.put(

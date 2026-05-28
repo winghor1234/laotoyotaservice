@@ -34,19 +34,19 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
         <div className="space-y-4 sm:space-y-6">
           {/* card number */}
           <div className="flex flex-col">
-            <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("card_number_text")}</label>
+            <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("card_id_text")}</label>
             <select
-              {...register('card_number')}
+              {...register('cardId')}
               className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
             >
               <option value="">{t("select_card")}</option>
               {(cards || []).map((card) => (
-                <option key={card.card_id} value={card.card_number}>
+                <option key={card.card_id} value={card.card_id}>
                   {card.card_number} : {card.vip_number}
                 </option>
               ))}
             </select>
-            <div className="h-6">{errors.card_number && <p className="text-red-500 text-sm">{errors.card_number.message}</p>}</div>
+            <div className="h-6">{errors.cardId && <p className="text-red-500 text-sm">{errors.cardId.message}</p>}</div>
           </div>
           {/* payment type */}
           <div className="flex flex-col">

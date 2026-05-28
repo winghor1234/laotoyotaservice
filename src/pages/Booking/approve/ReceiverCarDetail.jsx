@@ -52,8 +52,8 @@ const ReceiverCarDetail = () => {
     loadAllData();
   }, [loadAllData]);
 
-  const cardNumber = booking?.user?.Card?.[0]?.card_number;
-  // console.log("cardNumber : ", cardNumber);
+  const cardId = booking?.user?.Card?.[0]?.card_id;
+  // console.log("cardId : ", cardId);
   // console.log("booking : ", booking?.user);
 
 
@@ -300,7 +300,7 @@ const ReceiverCarDetail = () => {
           bookingId={bookingId}
           userId={booking?.userId}
           fetchBooking={loadAllData}
-          cardNumber={cardNumber}
+          cardId={cardId}
         />
       )}
 

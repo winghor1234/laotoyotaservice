@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import CurrencyInput from "react-currency-input-field";
 import { useWorkShopRepair } from "../../component/schemaValidate/workShopRepairValidate/WorkShopRepairValidate";
 
-const WorkShopRepair = ({ setShowPopup, bookingId, timeId, }) => {
+const WorkShopRepair = ({ bookingId, timeId, }) => {
     const { t } = useTranslation("booking");
     const { register, handleSubmit, errors, submitForm, setValue, watch, cards, setIsManualPartPoint, setIsManualLabourPoint } = useWorkShopRepair({ bookingId, timeId });
 
@@ -33,19 +33,19 @@ const WorkShopRepair = ({ setShowPopup, bookingId, timeId, }) => {
                 <div className="space-y-4 sm:space-y-6">
                     {/* card number */}
                     <div className="flex flex-col">
-                        <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("card_number_text")}</label>
+                        <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("card_id_text")}</label>
                         <select
-                            {...register('card_number')}
+                            {...register('cardId')}
                             className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
                         >
                             <option value="">{t("select_card")}</option>
                             {(cards || []).map((card) => (
-                                <option key={card.card_id} value={card.card_number}>
+                                <option key={card.card_id} value={card.card_id}>
                                     {card.card_number} : {card.vip_number}
                                 </option>
                             ))}
                         </select>
-                        <div className="h-6">{errors.card_number && <p className="text-red-500 text-sm">{errors.card_number.message}</p>}</div>
+                        <div className="h-6">{errors.cardId && <p className="text-red-500 text-sm">{errors.cardId.message}</p>}</div>
                     </div>
                     {/* payment type */}
                     <div className="flex flex-col">
@@ -182,13 +182,14 @@ const WorkShopRepair = ({ setShowPopup, bookingId, timeId, }) => {
                             <div className="flex flex-col relative">
                                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("labour_point_text")}</label>
                                 <CurrencyInput
+                                    readOnly
                                     value={watch("labour_point")}
                                     {...register("labour_point")}
                                     // placeholder={t("labour_point_placholder")}
                                     groupSeparator=","
                                     decimalsLimit={0}
                                     min={0}
-                                    className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                                    className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
                                     onValueChange={(value) => {
                                         setIsManualLabourPoint(true);
                                         setValue("labour_point", value ? Number(value) : ""
@@ -259,12 +260,13 @@ const WorkShopRepair = ({ setShowPopup, bookingId, timeId, }) => {
                             <div className="flex flex-col relative">
                                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_point_text")}</label>
                                 <CurrencyInput
+                                    readOnly
                                     value={watch("part_point")}
                                     {...register("part_point")}
                                     // placeholder={t("part_point_placholder")}
                                     groupSeparator=","
                                     decimalsLimit={0}
-                                    className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                                    className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
                                     //new
                                     onValueChange={(value) => {
                                         setIsManualPartPoint(true);
@@ -316,12 +318,13 @@ const WorkShopRepair = ({ setShowPopup, bookingId, timeId, }) => {
                     <div className="flex flex-col relative">
                         <h2 className="text-xl text-gray-600">{t("totalPrice")}</h2>
                         <CurrencyInput
+                            readOnly
                             value={totalPrice}
                             readOnly
                             placeholder={t("totalPrice")}
                             groupSeparator=","
                             decimalsLimit={0}
-                            className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                            className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
                             onValueChange={(value) => setValue("totalPrice", Number(value) || 0)}
                         />
                         <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
@@ -332,12 +335,13 @@ const WorkShopRepair = ({ setShowPopup, bookingId, timeId, }) => {
                     <div className="flex flex-col relative">
                         <h2 className="text-xl text-gray-600">{t("totalPoint")}</h2>
                         <CurrencyInput
+
                             value={watch("totalPoint")}
                             readOnly
                             placeholder={t("totalPoint")}
                             groupSeparator=","
                             decimalsLimit={0}
-                            className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                            className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
                             onValueChange={(value) => setValue("totalPoint", Number(value) || 0)}
                         />
                         <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
@@ -371,7 +375,7 @@ const WorkShopRepair = ({ setShowPopup, bookingId, timeId, }) => {
                 <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 pt-4">
                     <button
                         type="button"
-                        onClick={() => setShowPopup(false)}
+                        // onClick={() => Back}
                         className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg w-full sm:w-32 h-12 cursor-pointer transition-colors text-sm sm:text-base"
                     >
                         {t("cancel")}

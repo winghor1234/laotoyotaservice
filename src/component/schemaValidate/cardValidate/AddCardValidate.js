@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -27,6 +27,9 @@ export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
     const [loading, setLoading] = useState(false);
     const [cars, setCars] = useState([]);
     const { t } = useTranslation("auth");
+    const [search, setSearch] = useState("");
+    const [showDropdown, setShowDropdown] = useState(false);
+    const dropdownRef = useRef(null);
     const form = useForm({ resolver: zodResolver(cardSchema()), });
     const { register, handleSubmit, setValue, control, formState: { errors }, } = form;
 
@@ -44,6 +47,22 @@ export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
             })
 
     }, []);
+
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowDropdown(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+
     const onSubmit = async (data) => {
         const payload = {
             carId: data.carId,
@@ -56,7 +75,6 @@ export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
             expiration_date: data.expiration_date.toISOString(),
             countCard: data.countCard,
         }
-        console.log(payload);
         setLoading(true);
         try {
             await axiosInstance.post(APIPath.CREATE_CARD, payload);
@@ -81,5 +99,5 @@ export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
         }
     };
 
-    return { register, handleSubmit, control, loading, onSubmit, formState: { errors }, cars };
+    return { register, handleSubmit, control, loading, onSubmit, formState: { errors }, cars, showDropdown, setShowDropdown, search, setSearch, setValue };
 };

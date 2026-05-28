@@ -128,7 +128,7 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
                 <div className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
                   {users
                     .filter((user) =>
-                      `${user.customer_number} ${user.username}`
+                      user.role === "general" && `${user.customer_number} ${user.username}`
                         .toLowerCase()
                         .includes(search.toLowerCase())
                     )

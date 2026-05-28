@@ -1,13 +1,11 @@
 
-
-
 import { z } from "zod";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 // ================= SCHEMA =================
@@ -29,8 +27,12 @@ export const cardSchema = () =>
 
 export const useEditCardForm = ({ onClose, cardId, handleFetchCard, }) => {
     const { t } = useTranslation("auth");
+    const [search, setSearch] = useState("");
+    const [showDropdown, setShowDropdown] = useState(false);
+    const dropdownRef = useRef(null);
     const [loading, setLoading] = useState(false);
     const [cars, setCars] = useState([]);
+    const [selectedCar, setSelectedCar] = useState(null);
     const {
         register,
         handleSubmit,
@@ -52,19 +54,27 @@ export const useEditCardForm = ({ onClose, cardId, handleFetchCard, }) => {
         ])
             .then(([cardRes, carRes]) => {
                 const cardData = cardRes?.data?.data;
-                const carData = carRes?.data?.data || [];
-                setCars(carData);
-                reset({
-                    carId: cardData?.carId,
-                    card_number: cardData?.card_number ,
-                    vip_number: cardData?.vip_number ,
-                    card_type: cardData?.card_type ,
-                    goldIssued: cardData?.goldIssued?.split("T")[0] ,
-                    received: cardData?.received ,
-                    issued_date: cardData?.issued_date?.split("T")[0] ,
-                    expiration_date: cardData?.expiration_date?.split("T")[0] ,
-                    countCard: cardData?.countCard || 0,
-                });
+                const allCars = carRes?.data?.data || [];
+                setCars(allCars);
+                if (cardData) {
+                    const matchedCar = allCars.find((car) => car.car_id === cardData.carId);
+
+                    if (matchedCar) {
+                        setSelectedCar(matchedCar);
+                        setSearch(`${matchedCar.engineNumber} ${matchedCar.frameNumber}`);
+                    }
+                    reset({
+                        carId: String(cardData?.carId || ""),
+                        card_number: cardData?.card_number || "",
+                        vip_number: cardData?.vip_number || "",
+                        card_type: cardData?.card_type || "",
+                        goldIssued: cardData?.goldIssued ? new Date(cardData.goldIssued) : null,
+                        received: cardData?.received || "",
+                        issued_date: cardData?.issued_date ? new Date(cardData.issued_date) : null,
+                        expiration_date: cardData?.expiration_date ? new Date(cardData.expiration_date) : null,
+                        countCard: cardData?.countCard || 0,
+                    });
+                }
             })
             .catch((error) => {
                 console.error("Error fetching card:", error);
@@ -73,8 +83,34 @@ export const useEditCardForm = ({ onClose, cardId, handleFetchCard, }) => {
                 setLoading(false);
             });
 
-    }, [cardId]);
+    }, [cardId, setValue]);
 
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target)
+            ) {
+                setShowDropdown(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+
+    // select car
+    const handleSelectCar = (car) => {
+        setSelectedCar(car);
+        setSearch(`${car.engineNumber} ${car.frameNumber}`);
+        setValue("carId", String(car.car_id));
+        setShowDropdown(false);
+    };
     // ================= SUBMIT =================
 
     const submitForm = async (data) => {
@@ -112,5 +148,14 @@ export const useEditCardForm = ({ onClose, cardId, handleFetchCard, }) => {
         control,
         cars,
         currentCarId,
+        showDropdown,
+        setShowDropdown,
+        search,
+        setSearch,
+        dropdownRef,
+        handleSelectCar,
+        reset,
+        selectedCar,
+        setSelectedCar,
     };
 };

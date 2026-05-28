@@ -24,7 +24,7 @@ const fixSchema = (t) =>
     exchange_rate: z.coerce.number().optional(),
     payment_currency: z.string(),
     payment_type: z.string().min(1, t("Please_select_payment_type")),
-    card_number: z.string().min(1, t("Please_select_card")),
+    cardId: z.string().min(1, t("Please_select_card")),
     discount: z.coerce.number().min(0).optional(),
     labour_discount: z.coerce.number().min(0).max(99).optional(),
     part_discount: z.coerce.number().min(0).max(99).optional(),
@@ -188,28 +188,17 @@ export const useFixForm = ({ bookingId }) => {
         labour_point: data.labour_point,
         part_point: data.part_point,
         payment_type: data.payment_type,
+        cardId: data.cardId,
         exchange_rate:
           payment_currency === "LAK"
             ? 0
             : data.exchange_rate,
 
-        card_number: data.card_number,
       };
 
-      await axiosInstance.put(
-        APIPath.UPDATE_FIX_STATUS(fixes.fix_id),
-        payload
-      );
-
-      await axiosInstance.put(
-        APIPath.UPDATE_BOOKING_STATUS(bookingId),
-        {
-          bookingStatus: "success",
-        }
-      );
-
+      await axiosInstance.put(APIPath.UPDATE_FIX_STATUS(fixes.fix_id), payload);
+      await axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId), { bookingStatus: "success", });
       SuccessAlert(t("fix_success"));
-
       navigate(`/user/billDetail/${fixes.fix_id}`);
     } catch (error) {
       console.log(error);
