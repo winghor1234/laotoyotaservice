@@ -13,14 +13,9 @@ const cardSchema = () =>
     z.object({
         carId: z.string(),
         card_number: z.string(),
-        vip_number: z.string(),
         card_type: z.string(),
-        goldIssued: z.coerce.date(),
         received: z.string(),
-        issued_date: z.coerce.date(),
         expiration_date: z.coerce.date(),
-        countCard: z.coerce.number(),
-
     });
 
 export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
@@ -48,32 +43,31 @@ export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
 
     }, []);
 
-
     useEffect(() => {
         const handleClickOutside = (event) => {
+            // ตรวจสอบว่าจุดที่คลิก อยู่นอกพื้นที่ของขอบเขตที่เรากำหนดไว้ใน ref หรือไม่
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setShowDropdown(false);
             }
         };
 
+        // ลงทะเบียน Event
         document.addEventListener("mousedown", handleClickOutside);
+
+        // คืนทรัพยากร (Cleanup)
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, []);
+    }, []); // [] หมายความว่าให้ทำงานเฉพาะตอน Component mount ครั้งแรกเท่านั้น
 
 
     const onSubmit = async (data) => {
         const payload = {
             carId: data.carId,
             card_number: data.card_number,
-            vip_number: data.vip_number,
             card_type: data.card_type,
             received: data.received,
-            goldIssued: data.goldIssued.toISOString(),
-            issued_date: data.issued_date.toISOString(),
             expiration_date: data.expiration_date.toISOString(),
-            countCard: data.countCard,
         }
         setLoading(true);
         try {
@@ -84,13 +78,9 @@ export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
             // reset
             setValue("carId", "");
             setValue("card_number", "");
-            setValue("vip_number", "");
             setValue("card_type", "");
-            setValue("goldIssued", "");
             setValue("received", "");
-            setValue("issued_date", "");
             setValue("expiration_date", "");
-            setValue("countCard", "");
         } catch (error) {
             SuccessAlert(t("add_failed"), 1500, "warning");
             console.error("create card failed:", error);
@@ -99,5 +89,5 @@ export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
         }
     };
 
-    return { register, handleSubmit, control, loading, onSubmit, formState: { errors }, cars, showDropdown, setShowDropdown, search, setSearch, setValue };
+    return { register, handleSubmit, control, loading, onSubmit, formState: { errors }, cars, showDropdown, setShowDropdown, search, setSearch, setValue, dropdownRef };
 };

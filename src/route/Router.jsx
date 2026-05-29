@@ -51,8 +51,10 @@ import TimeFixList from "../pages/timeFix/TimeFixList";
 import TimeFixDerail from "../pages/timeFix/TimeFixDetail";
 import CardList from "../pages/card/CardList";
 import CardDetail from "../pages/card/CardDetail";
-import WorkShopRepair from "../pages/workshopRepair/WorkShopRepair";
 import PointSetting from "../pages/SettingPoint/SettinggPoints";
+import WorkShopFixList from "../pages/workshopRepair/WorkShopFixlList";
+import FixBillDetail from "../pages/workshopRepair/FixBillDetail";
+import WorkShopFixDetail from "../pages/workshopRepair/WorkShopFixDetail";
 
 
 const router = createBrowserRouter([
@@ -121,8 +123,16 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "workshop-repair",
-        element: <WorkShopRepair />,
+        path: "workshop-fix",
+        element: <WorkShopFixList/>,
+      },
+      {
+        path: "workshop-fix-bill-detail/:id",
+        element: <FixBillDetail/>,
+      },
+      {
+        path: "WorkShopFixDetail/:id",
+        element: <WorkShopFixDetail/>,
       },
       {
         path: "setting-point",

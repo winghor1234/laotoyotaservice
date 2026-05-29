@@ -19,22 +19,9 @@ const PromotionList = () => {
 
     const [showEditPromotion, setShowEditPromotion] = useState(false);
     const [showAddPromotion, setShowAddPromotion] = useState(false);
-    // const [promotions, setPromotions] = useState([]);
     const [selectedPromotion, setSelectedPromotion] = useState(null);
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
-    // const [search, setSearch] = useState("");
-    // const [startDate, setStartDate] = useState(null);
-    // const [endDate, setEndDate] = useState(null);
-
-    // const handleFetchPromotion = async () => {
-    //     try {
-    //         const res = await axiosInstance.get(APIPath.SELECT_ALL_PROMOTION);
-    //         setPromotions(res?.data?.data);
-    //     } catch (error) {
-    //         console.error("Failed to fetch promotions:", error);
-    //     }
-    // };
 
 
     const {

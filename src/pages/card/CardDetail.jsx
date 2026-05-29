@@ -92,7 +92,7 @@ const CardDetail = () => {
                                     </p>
                                 </div>
 
-                                <div>
+                                {/* <div>
                                     <p className="text-gray-500 text-sm">
                                         {t("vip_number")}
                                     </p>
@@ -100,7 +100,7 @@ const CardDetail = () => {
                                     <p className="text-base text-gray-800">
                                         {cardData.vip_number || "-"}
                                     </p>
-                                </div>
+                                </div> */}
 
 
                                 <div>
@@ -165,7 +165,7 @@ const CardDetail = () => {
                                         {cardData?.car?.engineNumber || "-"}
                                     </p>
                                 </div>
-
+{/* 
                                 <div>
                                     <p className="text-gray-500 text-sm">
                                         {t("active_point")}
@@ -174,7 +174,7 @@ const CardDetail = () => {
                                     <p className="text-base text-gray-800">
                                         {cardData.active_point || 0}
                                     </p>
-                                </div>
+                                </div> */}
 
                                 <div>
                                     <p className="text-gray-500 text-sm">

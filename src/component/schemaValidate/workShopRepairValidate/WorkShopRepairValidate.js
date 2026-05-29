@@ -3,12 +3,13 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import APIPath from "../../../api/APIPath";
 import axiosInstance from "../../../utils/AxiosInstance";
 import { useTranslation } from "react-i18next";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { usePoints } from "../../../utils/PointContext";
+import { generateBillId } from "../../../utils/BillGenerate";
+import { useNavigate } from "react-router-dom";
 
 const workShopRepairSchema = (t) =>
   z.object({
@@ -29,13 +30,12 @@ const workShopRepairSchema = (t) =>
     part_discount: z.coerce.number().min(0).max(99).optional(),
   });
 
-export const useWorkShopRepair = ({ bookingId }) => {
+export const useWorkShopRepair = () => {
   const { t } = useTranslation("auth");
   const navigate = useNavigate();
-
   // const [fixes, setFixes] = useState({});
+  // const [booking, setBooking] = useState({});
   const [cards, setCards] = useState([]);
-
   const [isManualLabourPoint, setIsManualLabourPoint] = useState(false);
   const [isManualPartPoint, setIsManualPartPoint] = useState(false);
 
@@ -79,7 +79,7 @@ export const useWorkShopRepair = ({ bookingId }) => {
   // ================= FETCH =================
   const fetchData = async () => {
     try {
-      const [ cardRes] = await Promise.all([
+      const [cardRes] = await Promise.all([
         axiosInstance.get(APIPath.SELECT_ALL_CARD),
         // axiosInstance.get(APIPath.SELECT_FIX_BY_BOOKING(bookingId)),
       ]);
@@ -167,7 +167,6 @@ export const useWorkShopRepair = ({ bookingId }) => {
   const submitForm = async (data) => {
     try {
       const payload = {
-        bookingId,
         kmLast: data.kmLast,
         kmNext: data.kmNext,
         detailFix: data.detailFix,
@@ -177,27 +176,30 @@ export const useWorkShopRepair = ({ bookingId }) => {
         part_point: data.part_point,
         payment_type: data.payment_type,
         cardId: data.cardId,
+        invoice_number: generateBillId(),
         exchange_rate:
           payment_currency === "LAK"
             ? 0
             : data.exchange_rate,
       };
+      console.log(payload);
 
-      await axiosInstance.put(
-        APIPath.UPDATE_FIX_STATUS(fixes.fix_id),
-        payload
-      );
 
-      await axiosInstance.put(
-        APIPath.UPDATE_BOOKING_STATUS(bookingId),
-        {
-          bookingStatus: "success",
-        }
-      );
+      const res = await axiosInstance.post(APIPath.WORKSHOP_FIX, payload);
+      const FixId = res.data.data.fix_id;
+
+
+
+      // await axiosInstance.put(
+      //   APIPath.UPDATE_BOOKING_STATUS(bookingId),
+      //   {
+      //     bookingStatus: "success",
+      //   }
+      // );
 
       SuccessAlert(t("fix_success"));
 
-      navigate(`/user/billDetail/${fixes.fix_id}`);
+      navigate(`/user/workshop-fix-bill-detail/${FixId}`);
     } catch (error) {
       console.log(error);
     }

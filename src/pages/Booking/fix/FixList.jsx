@@ -73,14 +73,7 @@ const FixList = () => {
   };
 
 
-  // const handleSearch = async ({ searchText }) => {
-  //   try {
-  //     const res = await axiosInstance.get(`${APIPath.SEARCH_BOOKING}?search=${searchText}`);
-  //     setBookings(res?.data?.data || []);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+
 
   const handleSubmit = (bookingId, timeId) => {
     setShowPopup(true);
@@ -91,7 +84,6 @@ const FixList = () => {
     fetchData();
   }, [role, branch_id]);
 
-  // console.log("Booking data for fix list:", booking);
   return (
     <div>
       {/* Search + Date + Export or download */}

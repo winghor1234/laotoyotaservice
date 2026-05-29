@@ -33,6 +33,9 @@
     "running_labour": "ຄ່າແຮງງານ",
     "received": "ໄດ້ຮັບແລ້ວ",
     "goldIssued": "ວັນທີອອກບັດຄໍາ",
-    "update_card": "ອັບເດດຂໍ້ມູນບັດ"
+    "update_card": "ອັບເດດຂໍ້ມູນບັດ",
+    "select_card_type": "ເລືອກປະເພດບັດ",
+    "gold_card": "ບັດຄໍາ",
+    "silver_card": "ບັດເງີນ"
 
 }

@@ -1,74 +1,66 @@
+
+
 import Spinner from "../../utils/Loading";
 import { useTranslation } from "react-i18next";
 import { useEditCardForm } from "../../component/schemaValidate/cardValidate/EditCardValidate";
+import { X } from "lucide-react";
+import { formatCardNumber } from "../../utils/GenerateCardNumber";
 
 const EditCard = ({ show, onClose, cardId, handleFetchCard }) => {
     const { t } = useTranslation("card");
     const {
-        register,
-        handleSubmit,
-        submitForm,
-        loading,
-        formState: { errors },
-        cars,
-        search,
-        setSearch,
-        showDropdown,
-        setShowDropdown,
-        dropdownRef,
-        handleSelectCar,
-        selectedCar,
-        setSelectedCar,
-        currentCarId
+        register, handleSubmit, submitForm, loading,
+        formState: { errors }, cars, search, setSearch,
+        showDropdown, setShowDropdown, dropdownRef,
+        handleSelectCar, currentCarId, setValue
     } = useEditCardForm({ onClose, handleFetchCard, cardId });
 
+    const handleGenerateCode = () => {
+        let maxNumber = 0;
+
+        if (cars && cars.length > 0) {
+            const numbers = cars
+                .map(c => {
+                    // ต้องดึงจาก c.card.card_number เพราะ Card เป็น relation ของ Car
+                    const rawCardNumber = c.card?.card_number;
+
+                    if (rawCardNumber && typeof rawCardNumber === 'string' && rawCardNumber.startsWith('VLTS')) {
+                        const numStr = rawCardNumber.replace('VLTS', '');
+                        const num = parseInt(numStr, 10);
+                        return isNaN(num) ? 0 : num;
+                    }
+                    return 0;
+                });
+
+            if (numbers.length > 0) {
+                maxNumber = Math.max(...numbers);
+            }
+        }
+
+        const formattedCode = formatCardNumber(maxNumber);
+        setValue("card_number", formattedCode, { shouldValidate: true });
+    };
     if (!show) return null;
 
     return (
         <>
             {/* Backdrop */}
-            <div
-                className="fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity"
-                onClick={onClose}
-            />
+            <div className="fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity" onClick={onClose} />
 
-            {/* Modal */}
+            {/* Modal Body */}
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-5xl bg-white rounded-2xl shadow-lg p-4 sm:p-6 text-sm overflow-y-auto max-h-[95vh]">
 
-                <h2 className="text-lg sm:text-xl font-bold text-center mb-6">
-                    {t("edit_card")}
-                </h2>
+                <h2 className="text-lg sm:text-xl font-bold text-center mb-4">{t("edit_card")}</h2>
 
-                <form onSubmit={handleSubmit(submitForm)} className="space-y-5">
+                <form onSubmit={handleSubmit(submitForm)} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                    {/* ================= ROW 1: Car & Core Info ================= */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        {/* Select Car */}
-                        {/* <div>
-                            <label className="block mb-1.5 font-semibold text-gray-700">{t("select_car")}</label>
-                            <select
-                                {...register("carId")}
-                                className={`w-full py-2.5 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500/20 ${errors.carId ? "border-red-500" : "border-gray-300 focus:border-red-500"
-                                    }`}
-                            >
-                                <option value="">{t("select_car")}</option>
-                                {cars?.filter((item) => { return !item.card || item.car_id === currentCarId }).map((item) => (
-                                    <option key={item.car_id} value={item.car_id}>
-                                        {item.frameNumber} : {item.engineNumber} - {item.model}
-                                    </option>
-                                ))}
-                            </select>
-                            <div className="h-5 mt-1">
-                                {errors.carId && <p className="text-red-500 text-xs">{errors.carId.message}</p>}
-                            </div>
-                        </div> */}
+                        {/* --- แถวที่ 1: การเลือกเลขรถ และเลขบัตร --- */}
+                        <div ref={dropdownRef} className="md:col-span-2 flex flex-col relative">
+                            <label className="text-sm font-medium mb-1 block">{t("select_car")}</label>
+                            <input type="hidden" {...register("carId")} />
 
-                        <div className="flex flex-col sm:col-span-2" ref={dropdownRef}>
-                            <div className="flex flex-col relative">
-                                <label className="text-sm sm:text-base font-medium mb-1">
-                                    {t("select_car")}
-                                </label>
-
+                            <div className="relative flex items-center">
                                 <input
                                     type="text"
                                     value={search}
@@ -76,183 +68,124 @@ const EditCard = ({ show, onClose, cardId, handleFetchCard }) => {
                                     onChange={(e) => {
                                         setSearch(e.target.value);
                                         setShowDropdown(true);
-                                        setSelectedCar(null);
                                     }}
-                                    onFocus={() => {
-                                        if (!selectedCar) {
-                                            setShowDropdown(true);
-                                        }
-                                    }}
-                                    className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
+                                    onFocus={() => setShowDropdown(true)}
+                                    className="w-full h-[48px] rounded-lg text-sm border border-gray-300 pl-3 pr-10 outline-none hover:border-red-500 focus:border-red-500 transition-all"
                                 />
 
-                                {/* Hidden Input */}
-                                <input type="hidden" {...register("carId")} />
-
-                                {/* Dropdown */}
-                                {showDropdown && !selectedCar && (
-                                    <div className="absolute z-10 top-[68px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
-                                        {/* {cars
-                                            .filter((car) => `${car.engineNumber} ${car.frameNumber}`.toLowerCase().includes(search.toLowerCase()),
-                                            )
-                                            .map((car) => (
-                                                <div
-                                                    key={car.car_id}
-                                                    onClick={() => handleSelectCar(car)}
-                                                    className="px-3 py-2 text-sm cursor-pointer hover:bg-blue-100"
-                                                >
-                                                    {car.engineNumber} {car.frameNumber} - {car.model}
-                                                </div>
-                                            ))} */}
-                                        {cars
-                                            .filter((car) => {
-                                                const matchesSearch = `${car.engineNumber} ${car.frameNumber}`.toLowerCase().includes(search.toLowerCase());
-
-                                                // เงื่อนไข: แสดงรถที่ยังไม่มีบัตร (car.card === null) 
-                                                // หรือ เป็นรถคันที่กำลังแก้ไขอยู่ (car.car_id === currentCarId)
-                                                const isCurrentCar = car.car_id === currentCarId;
-                                                const isAvailable = !car.card || isCurrentCar;
-
-                                                return matchesSearch && isAvailable;
-                                            })
-                                            .map((car) => (
-                                                <div  className="px-3 py-2 text-sm cursor-pointer hover:bg-red-100" key={car.car_id} onClick={() => handleSelectCar(car)}>
-                                                    {car.engineNumber} {car.frameNumber} - {car.model}
-                                                </div>
-                                            ))
-                                        }
-                                    </div>
+                                {/* ปุ่มสำหรับลบข้อมูล (แสดงเมื่อมีค่าใน search เท่านั้น) */}
+                                {search && (
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setSearch("");
+                                            setValue("carId", "");
+                                            setShowDropdown(false);
+                                        }}
+                                        className="absolute right-3 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                                    >
+                                        <X />
+                                    </button>
                                 )}
                             </div>
+
+                            {showDropdown && (
+                                <div className="absolute z-20 top-[75px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow-lg">
+                                    {cars?.filter((car) => {
+                                        const matchesSearch = `${car.engineNumber} ${car.frameNumber}`.toLowerCase().includes(search.toLowerCase());
+                                        const hasOwner = !!car.userId;
+                                        const isCurrentCar = car.car_id === currentCarId;
+                                        const isAvailable = !car.card || isCurrentCar;
+
+                                        return matchesSearch && hasOwner && isAvailable;
+                                    }).map((car) => (
+                                        <div
+                                            key={car.car_id}
+                                            onClick={() => handleSelectCar(car)}
+                                            className="px-3 py-3 text-sm cursor-pointer hover:bg-red-50 border-b last:border-none"
+                                        >
+                                            {car.engineNumber} | {car.frameNumber}
+                                        </div>
+                                    ))}
+
+                                    {/* กรณีไม่พบข้อมูล */}
+                                    {cars?.filter(car => `${car.engineNumber} ${car.frameNumber}`.toLowerCase().includes(search.toLowerCase()) && !!car.userId).length === 0 && (
+                                        <div className="px-3 py-3 text-sm text-gray-500 text-center">
+                                            {t("no_data_found")}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
 
-                        {/* Card Number */}
-                        <div>
-                            <label className="block mb-1.5 font-semibold text-gray-700">{t("card_number")}</label>
-                            <input
-                                type="text"
-                                placeholder={t("card_number")}
-                                {...register("card_number")}
-                                className="w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
-                            />
-                            <div className="h-5 mt-1">
-                                {errors.card_number && <p className="text-red-500 text-xs">{errors.card_number.message}</p>}
+                        {/* ช่องกรอกเลขบัตร + ปุ่ม GEN */}
+                        <div className="flex flex-col">
+                            <label className="text-sm font-medium mb-1 block">{t("card_number")}</label>
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    placeholder={t("card_number")}
+                                    {...register("card_number")}
+                                    className={`flex-grow h-[48px] px-4 border rounded-lg focus:outline-none transition-all ${errors.card_number ? 'border-red-500' : 'border-gray-300 focus:border-blue-500'
+                                        }`}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={handleGenerateCode}
+                                    className="h-[48px] px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition-all active:scale-95"
+                                >
+                                    GEN
+                                </button>
                             </div>
+                            {errors.card_number && <p className="text-red-500 text-xs mt-1">{errors.card_number.message}</p>}
                         </div>
 
-                        {/* VIP Number */}
-                        <div>
-                            <label className="block mb-1.5 font-semibold text-gray-700">{t("vip_number")}</label>
-                            <input
-                                type="text"
-                                placeholder={t("vip_number")}
-                                {...register("vip_number")}
-                                className="w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
-                            />
-                            <div className="h-5 mt-1">
-                                {errors.vip_number && <p className="text-red-500 text-xs">{errors.vip_number.message}</p>}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* ================= ROW 2: Card Details ================= */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {/* Card Type */}
-                        <div>
-                            <label className="block mb-1.5 font-semibold text-gray-700">{t("card_type")}</label>
-                            <input
-                                type="text"
-                                placeholder={t("card_type")}
+                        {/* --- แถวที่ 2: ข้อมูลประเภทและสถานะ --- */}
+                        <div className="flex flex-col">
+                            <label className="text-sm font-medium mb-1 block">{t("card_type")}</label>
+                            <select
                                 {...register("card_type")}
-                                className="w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
-                            />
+                                className="w-full h-[48px] px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 bg-white"
+                            >
+                                <option value="">{t("select_card_type")}</option>
+                                <option value="Gold">{t("gold_card")}</option>
+                                <option value="Silver">{t("silver_card")}</option>
+                            </select>
                         </div>
 
-                        {/* Received Status */}
-                        <div>
-                            <label className="block mb-1.5 font-semibold text-gray-700">{t("received")}</label>
-                            <div className="flex items-center justify-around h-[46px] border border-gray-300 rounded-lg bg-gray-50/50">
+                        <div className="flex flex-col">
+                            <label className="text-sm font-medium mb-1 block">{t("received")}</label>
+                            <div className="flex items-center justify-around h-[48px] border border-gray-300 rounded-lg bg-gray-50/50">
                                 <label className="flex items-center gap-2 cursor-pointer group">
-                                    <input
-                                        type="radio"
-                                        value="yes"
-                                        {...register("received")}
-                                        className="w-4 h-4 accent-red-600"
-                                    />
-                                    <span className="group-hover:text-red-600 transition-colors">{t("yes")}</span>
+                                    <input type="radio" value="yes" {...register("received")} className="w-4 h-4 accent-red-600" />
+                                    <span className="text-sm group-hover:text-red-600 transition-colors">{t("yes")}</span>
                                 </label>
                                 <label className="flex items-center gap-2 cursor-pointer group">
-                                    <input
-                                        type="radio"
-                                        value="no"
-                                        {...register("received")}
-                                        className="w-4 h-4 accent-red-600"
-                                    />
-                                    <span className="group-hover:text-red-600 transition-colors">{t("no")}</span>
+                                    <input type="radio" value="no" {...register("received")} className="w-4 h-4 accent-red-600" />
+                                    <span className="text-sm group-hover:text-red-600 transition-colors">{t("no")}</span>
                                 </label>
                             </div>
                         </div>
 
-                        {/* Count Card */}
-                        <div>
-                            <label className="block mb-1.5 font-semibold text-gray-700">{t("count_card")}</label>
-                            <input
-                                type="number"
-                                placeholder={t("count_card")}
-                                {...register("countCard")}
-                                className="w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
-                            />
-                        </div>
-                    </div>
-
-                    {/* ================= ROW 3: Date Settings ================= */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div>
-                            <label className="block mb-1.5 font-semibold text-gray-700">{t("gold_issued")}</label>
-                            <input
-                                type="date"
-                                {...register("goldIssued")}
-                                className="w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
-                            />
-                        </div>
-                        <div>
-                            <label className="block mb-1.5 font-semibold text-gray-700">{t("issued_date")}</label>
-                            <input
-                                type="date"
-                                {...register("issued_date")}
-                                className="w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
-                            />
-                        </div>
-                        <div>
-                            <label className="block mb-1.5 font-semibold text-gray-700">{t("expiration_date")}</label>
+                        <div className="flex flex-col">
+                            <label className="text-sm font-medium mb-1 block">{t("expiration_date")}</label>
                             <input
                                 type="date"
                                 {...register("expiration_date")}
-                                className="w-full py-2.5 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+                                className="w-full h-[48px] px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
                             />
                         </div>
                     </div>
 
-                    {/* ================= ACTION BUTTONS ================= */}
-                    <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-8">
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded-lg w-full sm:w-36 h-11 transition-all"
-                            disabled={loading}
-                        >
+                    {/* Action Buttons */}
+                    <div className="flex flex-col sm:flex-row justify-center gap-4 pt-6 border-t">
+                        <button type="button" onClick={onClose} className="order-2 sm:order-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-8 py-2.5 rounded-lg font-medium transition-colors">
                             {t("cancel")}
                         </button>
-
-                        <button
-                            type="submit"
-                            className="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded-lg w-full sm:w-36 h-11 flex items-center justify-center gap-2 shadow-md transition-all active:scale-95"
-                            disabled={loading}
-                        >
+                        <button type="submit" className="order-1 sm:order-2 bg-red-600 hover:bg-red-700 text-white px-8 py-2.5 rounded-lg font-medium shadow-sm transition-all flex items-center justify-center gap-2">
                             {loading ? <Spinner size="5" color="white" /> : t("update_card")}
                         </button>
                     </div>
-
                 </form>
             </div>
         </>

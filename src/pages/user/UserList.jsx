@@ -147,7 +147,7 @@ ${newPassword}
             </div>
             {/* Table Header */}
             <div className="hidden md:block w-full h-12 md:h-12 lg:h-14 rounded-t-lg bg-[#E52020] text-white">
-                <div className="grid grid-cols-11 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
+                <div className="grid grid-cols-10 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
                     <div className="flex justify-center items-center">{t("index")}</div>
                     <div className="flex justify-center items-center">{t("code")}</div>
                     <div className="flex justify-center items-center">{t("username")}</div>
@@ -157,7 +157,7 @@ ${newPassword}
                     <div className="flex justify-center items-center">{t("phone")}</div>
                     <div className="flex justify-center items-center">{t("email")}</div>
                     <div className="flex justify-center items-center">{t("status")}</div>
-                    <div className="flex justify-center items-center">{t("point")}</div>
+                    {/* <div className="flex justify-center items-center">{t("point")}</div> */}
                     <div className="flex justify-center items-center">{t("action")}</div>
                 </div>
             </div>
@@ -167,7 +167,7 @@ ${newPassword}
                 {customer.filter((item) => item.role === "general").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
                     <div
                         key={index}
-                        className="grid grid-cols-11 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors text-xs md:text-sm lg:text-base"
+                        className="grid grid-cols-10 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors text-xs md:text-sm lg:text-base"
                     >
                         <div className="text-center">{index + 1}</div>
                         <div className="text-center line-clamp-1">{item.customer_number}</div>
@@ -187,7 +187,7 @@ ${newPassword}
                             )}
                         </div>
                         <div className="text-center">{item.role}</div>
-                        <div className="text-center">{item.point}</div>
+                        {/* <div className="text-center">{item.point}</div> */}
                         <div className=" flex justify-center items-center gap-3 min-w-[100px]">
                             <Eye
                                 onClick={() =>

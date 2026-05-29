@@ -2,12 +2,41 @@ import Spinner from "../../utils/Loading";
 import { useTranslation } from "react-i18next";
 import { useAddCardForm } from "../../component/schemaValidate/cardValidate/AddCardValidate";
 import { useState } from "react";
+import { formatCardNumber } from "../../utils/GenerateCardNumber";
+import { X } from "lucide-react";
 
 const AddCard = ({ show, onClose, handleFetchCard }) => {
     const [selectedCar, setSelectedCar] = useState(null);
     const { t } = useTranslation("card");
-    const { register, handleSubmit, loading, onSubmit, setValue ,formState: { errors }, cars, search, setSearch, showDropdown, setShowDropdown } = useAddCardForm({ onClose, handleFetchCard });
+    const { register, handleSubmit, loading, onSubmit, setValue, formState: { errors }, cars, search, setSearch, showDropdown, setShowDropdown, dropdownRef } = useAddCardForm({ onClose, handleFetchCard });
+
+    const handleGenerateCode = () => {
+        let maxNumber = 0;
+
+        if (cars && cars.length > 0) {
+            const numbers = cars
+                .map(c => {
+                    // ต้องดึงจาก c.card.card_number เพราะ Card เป็น relation ของ Car
+                    const rawCardNumber = c.card?.card_number;
+
+                    if (rawCardNumber && typeof rawCardNumber === 'string' && rawCardNumber.startsWith('VLTS')) {
+                        const numStr = rawCardNumber.replace('VLTS', '');
+                        const num = parseInt(numStr, 10);
+                        return isNaN(num) ? 0 : num;
+                    }
+                    return 0;
+                });
+
+            if (numbers.length > 0) {
+                maxNumber = Math.max(...numbers);
+            }
+        }
+
+        const formattedCode = formatCardNumber(maxNumber);
+        setValue("card_number", formattedCode, { shouldValidate: true });
+    };
     if (!show) return null;
+    // console.log(cars);
     return (
         <>
             {/* Backdrop */}
@@ -22,37 +51,50 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
                     {t("add_card")}
                 </h2>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div className="flex flex-col relative">
-                            <label className="text-sm font-medium mb-1">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                        {/* --- แถวที่ 1 --- */}
+                        {/* เลือกพนักงาน/รถ (ให้กว้าง 2 ส่วนบนจอใหญ่) */}
+                        <div ref={dropdownRef} className="md:col-span-2 flex flex-col relative">
+                            <label className="text-sm font-medium mb-1 block">
                                 {t("select_car")}
                             </label>
                             <input type="hidden" {...register("carId")} />
-
-                            {/* input search */}
-                            <input
-                                type="text"
-                                value={search}
-                                placeholder={t("select_car")}
-                                onChange={(e) => {
-                                    setSearch(e.target.value);
-                                    setSelectedCar(null);
-                                    setShowDropdown(true);
-                                }}
-                                onFocus={() => {
-                                    if (!selectedCar) {
+                            <div className="relative flex items-center">
+                                <input
+                                    type="text"
+                                    value={search}
+                                    placeholder={t("select_car")}
+                                    onChange={(e) => {
+                                        setSearch(e.target.value);
+                                        setSelectedCar(null);
                                         setShowDropdown(true);
-                                    }
-                                }}
-                                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
-                            />
+                                    }}
+                                    onFocus={() => !selectedCar && setShowDropdown(true)}
+                                    className="w-full h-[48px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500 transition-all"
+                                />
+                                {/* ปุ่มสำหรับลบข้อมูล (แสดงเมื่อมีค่าใน search เท่านั้น) */}
+                                {search && (
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setSearch("");
+                                            setValue("carId", "");
+                                            setShowDropdown(false);
+                                        }}
+                                        className="absolute right-3 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                                    >
+                                        <X />
+                                    </button>
+                                )}
+                            </div>
 
-                            {/* dropdown */}
+                            {/* Dropdown */}
                             {showDropdown && !selectedCar && (
-                                <div className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
+                                <div className="absolute z-20 top-[75px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow-lg">
                                     {cars
                                         .filter((car) =>
-                                            !car.card && `${car.engineNumber} ${car.frameNumber}`
+                                            !car.card && car.userId && `${car.engineNumber} ${car.frameNumber}`
                                                 .toLowerCase()
                                                 .includes(search.toLowerCase())
                                         )
@@ -62,156 +104,108 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
                                                 onClick={() => {
                                                     setSearch(`${car.engineNumber} ${car.frameNumber}`);
                                                     setSelectedCar(car);
-                                                    // const currentValues = getValues();
-                                                    // reset({
-                                                    //     ...currentValues,
-                                                    //     carId: car.car_id,
-                                                    // });
                                                     setValue("carId", car.car_id);
-
                                                     setShowDropdown(false);
                                                 }}
-                                                className="px-3 py-2 text-sm cursor-pointer hover:bg-blue-100"
+                                                className="px-3 py-3 text-sm cursor-pointer hover:bg-red-50 border-b last:border-none"
                                             >
-                                                {car.engineNumber} {car.frameNumber}
+                                                {car.engineNumber} | {car.frameNumber}
                                             </div>
                                         ))}
                                 </div>
                             )}
                         </div>
 
-                        {/* Card Number */}
-                        <div>
-                            <label>{t("card_number")}</label>
-                            <input
-                                type="text"
-                                placeholder={t("card_number")}
-                                {...register("card_number")}
-                                className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
-                            />
-                            <div className="h-5 mt-1">
-                                {errors.card_number && (
-                                    <p className="text-red-500 text-sm">
-                                        {errors.card_number.message}
-                                    </p>
-                                )}
+                        {/* ช่องกรอกเลขบัตร + ปุ่ม GEN */}
+                        <div className="flex flex-col">
+                            <label className="text-sm font-medium mb-1 block">{t("card_number")}</label>
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    placeholder={t("card_number")}
+                                    {...register("card_number")}
+                                    className={`flex-grow h-[48px] px-4 border rounded-lg focus:outline-none transition-all ${errors.card_number ? 'border-red-500' : 'border-gray-300 focus:border-red-500'
+                                        }`}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={handleGenerateCode}
+                                    className="h-[48px] px-4 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold transition-all active:scale-95"
+                                >
+                                    GEN
+                                </button>
                             </div>
+                            {errors.card_number && <p className="text-red-500 text-xs mt-1">{errors.card_number.message}</p>}
                         </div>
 
-                        {/* VIP Number */}
-                        <div>
-                            <label>{t("vip_number")}</label>
-                            <input
-                                type="text"
-                                placeholder={t("vip_number")}
-                                {...register("vip_number")}
-                                className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
-                            />
-                            <div className="h-5 mt-1">
-                                {errors.vip_number && (
-                                    <p className="text-red-500 text-sm">
-                                        {errors.vip_number.message}
-                                    </p>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {/* Card Type */}
-                        <div>
-                            <label>{t("card_type")}</label>
-                            <input
-                                type="text"
-                                placeholder={t("card_type")}
+                        {/* --- แถวที่ 2 --- */}
+                        {/* ประเภทบัตร (Card Type) */}
+                        <div className="flex flex-col">
+                            <label className="text-sm font-medium mb-1 block">
+                                {t("card_type")}
+                            </label>
+                            <select
                                 {...register("card_type")}
-                                className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
-                            />
-                            <div className="h-5 mt-1"></div>
+                                className={`w-full h-[48px] px-4 border rounded-lg focus:outline-none transition-all bg-white appearance-none ${errors.card_type ? 'border-red-500' : 'border-gray-300 focus:border-red-500'
+                                    }`}
+                            >
+                                {/* ตัวเลือกเริ่มต้น (Placeholder) */}
+                                <option value="">{t("select_card_type")}</option>
+
+                                {/* รายการประเภทบัตร - คุณสามารถปรับเปลี่ยน value ตาม Database ของคุณ */}
+                                <option value="Gold">{t("gold_card")}</option>
+                                <option value="Silver">{t("silver_card")}</option>
+                            </select>
+
+                            {/* แสดง Error Message (ถ้ามี) */}
+                            {errors.card_type && (
+                                <p className="text-red-500 text-xs mt-1">{errors.card_type.message}</p>
+                            )}
                         </div>
 
-                        {/* Received */}
-                        <div>
-                            <label className="block">{t("received")}</label>
-                            <div className="flex items-center justify-center gap-8 h-12 border border-gray-300 rounded-lg"> {/* ความสูง h-12 เพื่อให้บาลานซ์กับช่อง Input ข้างๆ */}
-                                <label className="flex items-center gap-2 cursor-pointer">
+                        {/* สถานะการรับ */}
+                        <div className="flex flex-col">
+                            <label className="text-sm font-medium mb-1 block">{t("received")}</label>
+                            <div className="flex items-center justify-around h-[48px] border border-gray-300 rounded-lg bg-gray-50/50">
+                                <label className="flex items-center gap-2 cursor-pointer group">
                                     <input
                                         type="radio"
                                         value="yes"
                                         {...register("received")}
                                         className="w-4 h-4 accent-red-600"
                                     />
-                                    <span>ໄດ້ຮັບແລ້ວ</span>
+                                    <span className="text-sm group-hover:text-red-600 transition-colors">ໄດ້ຮັບແລ້ວ</span>
                                 </label>
 
-                                <label className="flex items-center gap-2 cursor-pointer">
+                                <label className="flex items-center gap-2 cursor-pointer group">
                                     <input
                                         type="radio"
                                         value="no"
                                         {...register("received")}
                                         className="w-4 h-4 accent-red-600"
                                     />
-                                    <span>ຍັງບໍ່ໄດ້ຮັບ</span>
+                                    <span className="text-sm group-hover:text-red-600 transition-colors">ຍັງບໍ່ໄດ້ຮັບ</span>
                                 </label>
                             </div>
-                            <div className="h-5 mt-1"></div>
                         </div>
 
-                        {/* Count Card */}
-                        <div>
-                            <label>{t("count_card")}</label>
-                            <input
-                                type="number"
-                                placeholder={t("count_card")}
-                                {...register("countCard")}
-                                className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
-                            />
-                            <div className="h-5 mt-1"></div>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        {/* Gold Issued */}
-                        <div>
-                            <label>{t("gold_issued")}</label>
+                        {/* วันหมดอายุ */}
+                        <div className="flex flex-col">
+                            <label className="text-sm font-medium mb-1 block">{t("expiration_date")}</label>
                             <input
                                 type="date"
-                                placeholder={t("gold_issued")}
-                                {...register("goldIssued")}
-                                className="w-full py-3 px-4 border border-gray-300 rounded-lg  focus:outline-none focus:border-red-500"
-                            />
-                        </div>
-
-                        {/* Issued Date */}
-                        <div>
-                            <label>{t("issued_date")}</label>
-                            <input
-                                type="date"
-                                placeholder={t("issued_date")}
-                                {...register("issued_date")}
-                                className="w-full py-3 px-4 border border-gray-300 rounded-lg  focus:outline-none focus:border-red-500"
-                            />
-                        </div>
-
-                        {/* Expiration Date */}
-                        <div>
-                            <label>{t("expiration_date")}</label>
-                            <input
-                                type="date"
-                                placeholder={t("expiration_date")}
                                 {...register("expiration_date")}
-                                className="w-full py-3 px-4 border border-gray-300 rounded-lg  focus:outline-none focus:border-red-500"
+                                className="w-full h-[48px] px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 transition-all"
                             />
                         </div>
                     </div>
 
                     {/* ================= BUTTONS ================= */}
-                    <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 pt-4">
+                    <div className="flex flex-col sm:flex-row justify-center gap-4 pt-6 border-t">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg w-full sm:w-28 h-10"
+                            className="order-2 sm:order-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-8 py-2.5 rounded-lg font-medium transition-colors"
                             disabled={loading}
                         >
                             {t("cancel")}
@@ -219,13 +213,12 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
 
                         <button
                             type="submit"
-                            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg w-full sm:w-28 h-10 flex items-center justify-center gap-2"
+                            className="order-1 sm:order-2 bg-red-600 hover:bg-red-700 text-white px-8 py-2.5 rounded-lg font-medium shadow-sm transition-all flex items-center justify-center gap-2"
                             disabled={loading}
                         >
                             {loading ? <Spinner size="5" color="white" /> : t("submit")}
                         </button>
                     </div>
-
                 </form>
             </div>
         </>

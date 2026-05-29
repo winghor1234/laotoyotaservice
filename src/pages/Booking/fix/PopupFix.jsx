@@ -42,7 +42,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
               <option value="">{t("select_card")}</option>
               {(cards || []).map((card) => (
                 <option key={card.card_id} value={card.card_id}>
-                  {card.card_number} : {card.vip_number}
+                  {card.card_number} {card.card_type}
                 </option>
               ))}
             </select>
@@ -363,9 +363,6 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
             </span>
 
           </div>
-
-
-
 
         </div>
 

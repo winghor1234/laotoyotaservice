@@ -143,5 +143,7 @@
   "labour_text": "Labor Cost",
   "part_total_text": "Car Parts Cost",
   "exchange_rate_text": "Exchange Rate",
-  "payment_currency_text": "Payment Currency"
+  "payment_currency_text": "Payment Currency",
+  "add": "Add Fix"
+  
 }

@@ -55,7 +55,9 @@ export default class APIPath {
     static GET_ALL_FIX = `${this.BASE_URL}/fix/getAll`;
     static GET_ALL_FIX_BY_BRANCH(branch_id) { return `${this.BASE_URL}/fix/getAllByBranch/${branch_id}` };
     static EXPORT_FIX = `${this.BASE_URL}/fix/export`;
+    static EXPORT_WORKSHOP_FIX = `${this.BASE_URL}/fix/exportWorkshopFix`;
     static CREATE_FIX = `${this.BASE_URL}/fix/insert`;
+    static WORKSHOP_FIX = `${this.BASE_URL}/fix/workshop`;
     static UPDATE_FIX(id) { return `${this.BASE_URL}/fix/update/${id}` }
     static UPDATE_FIX_STATUS(id) { return `${this.BASE_URL}/fix/updateStatus/${id}` }
     static DELETE_FIX(id) { return `${this.BASE_URL}/fix/delete/${id}` }

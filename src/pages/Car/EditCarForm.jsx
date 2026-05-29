@@ -25,7 +25,7 @@ const provinces = [
   "ໄຊສົມບູນ",
 ];
 
-const colors = ["ແດງ", "ດຳ", "ຂາວ", "ເທົາ", "ນໍ້າຕານ"];
+const colors = ["ແດງ", "ດຳ", "ຂາວ", "ເທົາ"];
 
 const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
   const { t } = useTranslation("car");

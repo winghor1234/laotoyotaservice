@@ -23,10 +23,10 @@ export const getSidebarItems = (t, role) => [
                 path: "/user/booking",
             },
             {
-                id: "workshop-repair",
+                id: "workshop-fix",
                 icon: House,
                 label: "ແປງຢູ່ໜ້າຮ້ານ",
-                path: "/user/workshop-repair",
+                path: "/user/workshop-fix",
             },
             {
                 id: "setting-point",
@@ -36,18 +36,7 @@ export const getSidebarItems = (t, role) => [
             },
         ],
     },
-    // {
-    //     id: "appointment",
-    //     icon: FaPeopleArrows,
-    //     label: t("appointment"),
-    //     path: "/user/booking",
-    // },
-    // {
-    //     id: "workshop-repair",
-    //     icon: House,
-    //     label: "ແປງຢູ່ໜ້າຮ້ານ",
-    //     path: "/user/workshop-repair",
-    // },
+
 
     {
         id: "zone_time",

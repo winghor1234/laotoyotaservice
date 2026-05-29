@@ -1,25 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axiosInstance from "../../../utils/AxiosInstance";
-import APIPath from "../../../api/APIPath";
-// import BookingSearch from "../../../utils/BookingSearch";
-import logo from "../../../assets/corrects.png";
-import { useTranslation } from "react-i18next";
-import { useCheckRole } from "../../../utils/checkRole";
-import { useEmployeeBranchId } from "../../../utils/useEmployeeBranchId";
-import ExportExcelPopup from "../../../utils/exportExelPopup";
-import useServerFilterPagination from "../../../utils/useServerFilterPagination";
-import SelectDate from "../../../utils/SelectDate";
-import DownloadButton from "../../../utils/DownloadButton";
-import { formatDates } from "../../../utils/FormatDate";
 import { Eye } from "lucide-react";
+import APIPath from "../../api/APIPath";
+import axiosInstance from "../../utils/AxiosInstance";
+import ExportExcelPopup from "../../utils/exportExelPopup";
+import DownloadButton from "../../utils/DownloadButton";
+import SelectDate from "../../utils/SelectDate";
+import useServerFilterPagination from "../../utils/useServerFilterPagination";
+import { useCheckRole } from "../../utils/checkRole";
+import { useEmployeeBranchId } from "../../utils/useEmployeeBranchId";
+import { formatDates } from "../../utils/FormatDate";
+import { useTranslation } from "react-i18next";
+import logo from "../../assets/corrects.png";
+import WorkShopFix from "./WorkShopFix";
 
-const Success = () => {
+const WorkShopFixList = () => {
     const navigate = useNavigate();
     const { t } = useTranslation("booking");
     const role = useCheckRole();
     const branch_id = useEmployeeBranchId();
     const [open, setOpen] = useState(false);
+    const [showAddFix, setShowAddFix] = useState(false);
+
 
     const isReady = role === "super_admin" || (!!role && !!branch_id);
 
@@ -60,18 +62,17 @@ const Success = () => {
         }
     }, [role, branch_id]);
 
-    const SuccessDetail = async(id) => {
-
+    const WorkShopFixDetail = async (id) => {
         try {
-            const fixId = await axiosInstance.get(APIPath.SELECT_FIX_BY_BOOKING(id));
-            navigate(`/user/successDetail/${fixId?.data?.data?.fix_id}`);
+            navigate(`/user/WorkShopFixDetail/${id}`);
         } catch (error) {
             console.log(error);
         }
-        
+
     };
 
 
+    // console.log("fix", fix);
     return (
         <div>
             <div className="flex justify-end items-center mb-6">
@@ -89,6 +90,11 @@ const Success = () => {
                         onClose={() => setOpen(false)}
                     />
                 )}
+                <div className="flex gap-2">
+                    <button onClick={() => setShowAddFix(true)} className="bg-blue-600 hover:bg-blue-700 transition-colors w-full sm:w-auto px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base">
+                        {t("add")}
+                    </button>
+                </div>
             </div>
 
             <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mt-4">
@@ -107,21 +113,29 @@ const Success = () => {
 
                 {/* Desktop/Tablet Body */}
                 <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
-                    {fix?.filter((item) => item.fixStatus === "success" && item.bookingId !== null).map((item, index) => (
+                    {fix?.filter((item) => item.fixStatus === "success" && item.bookingId === null).map((item, index) => (
                         <div key={index} className="grid grid-cols-7 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 transition-colors cursor-pointer text-xs md:text-sm lg:text-base">
                             <div className="flex items-center gap-2 md:gap-3">
                                 <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-gray-200 rounded-full flex items-center justify-center">
                                     <img src={logo} alt="success" className="h-full w-full object-contain" />
                                 </div>
-                                <span className="line-clamp-1">{item?.booking?.car?.model}</span>
+                                <span className="line-clamp-1">{item?.card?.car?.model}</span>
                             </div>
-                            <div className="text-center line-clamp-1">{item?.booking?.user?.username}</div>
-                            <div className="text-center line-clamp-1">{item?.booking?.user?.phoneNumber}</div>
-                            <div className="text-center line-clamp-1">{item?.booking?.car?.plateNumber}</div>
-                            <div className="text-center line-clamp-1">{formatDates(item?.booking?.day)}</div>
-                            <div className="text-center line-clamp-1">{item?.booking?.time?.time}</div>
+                            <div className="text-center line-clamp-1">{item?.card?.user?.username}</div>
+                            <div className="text-center line-clamp-1">{item?.card?.user?.phoneNumber}</div>
+                            <div className="text-center line-clamp-1">{item?.card?.car?.plateNumber}</div>
+                            <div className="text-center line-clamp-1">{formatDates(item?.createdAt)}</div>
+                            <div className="text-center line-clamp-1">
+                                {item?.createdAt
+                                    && new Date(item.createdAt).toLocaleTimeString('en-GB', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        hour12: false
+                                    })
+                                }
+                            </div>
                             <div className="flex items-center justify-center">
-                                <Eye onClick={() => SuccessDetail(item.booking.booking_id) } className="text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                <Eye onClick={() => WorkShopFixDetail(item.fix_id)} className="text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                             </div>
                         </div>
                     ))}
@@ -164,7 +178,7 @@ const Success = () => {
                                 <div className="flex justify-between">
                                     <span className="text-gray-500 line-clamp-1">{t("action_label")}:</span>
                                     <span className="text-gray-900 line-clamp-1">
-                                        <Eye onClick={() => SuccessDetail(item.booking.booking_id) } className="text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                        <Eye onClick={() => WorkShopFixDetail(item.fix_id)} className="text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                                     </span>
                                 </div>
                             </div>
@@ -207,8 +221,9 @@ const Success = () => {
                     ›
                 </button>
             </div>
+            <WorkShopFix show={showAddFix} onClose={() => setShowAddFix(false)} />
         </div>
     );
 };
 
-export default Success;
+export default WorkShopFixList;

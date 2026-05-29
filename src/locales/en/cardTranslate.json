@@ -33,6 +33,10 @@
     "running_labour": "Running Labour",
     "received": "Received",
     "goldIssued": "Gold Issued",
-    "update_card": "Update Card"
+    "update_card": "Update Card",
+    "select_card_type": "Select Card Type",
+    "gold_card": "Gold Card",
+    "silver_card": "Silver Card"
+
 
 }

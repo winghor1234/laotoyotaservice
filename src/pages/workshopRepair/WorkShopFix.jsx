@@ -3,10 +3,9 @@ import { useTranslation } from "react-i18next";
 import CurrencyInput from "react-currency-input-field";
 import { useWorkShopRepair } from "../../component/schemaValidate/workShopRepairValidate/WorkShopRepairValidate";
 
-const WorkShopRepair = ({ bookingId, timeId, }) => {
+const WorkShopFix = ({ show, onClose }) => {
     const { t } = useTranslation("booking");
-    const { register, handleSubmit, errors, submitForm, setValue, watch, cards, setIsManualPartPoint, setIsManualLabourPoint } = useWorkShopRepair({ bookingId, timeId });
-
+    const { register, handleSubmit, errors, submitForm, setValue, watch, cards, setIsManualPartPoint, setIsManualLabourPoint } = useWorkShopRepair();
     const labour_total = watch("labour_total") || 0;
     const part_total = watch("part_total") || 0;
     const totalPrice = Number(labour_total) + Number(part_total);
@@ -19,7 +18,7 @@ const WorkShopRepair = ({ bookingId, timeId, }) => {
                 ? "$"
                 : t("kip_text");
 
-
+    if (!show) return null;
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <form
@@ -41,7 +40,7 @@ const WorkShopRepair = ({ bookingId, timeId, }) => {
                             <option value="">{t("select_card")}</option>
                             {(cards || []).map((card) => (
                                 <option key={card.card_id} value={card.card_id}>
-                                    {card.card_number} : {card.vip_number}
+                                    {card.card_number} {card.card_type}
                                 </option>
                             ))}
                         </select>
@@ -60,7 +59,7 @@ const WorkShopRepair = ({ bookingId, timeId, }) => {
                         </select>
                         <div className="h-6">{errors.payment_type && <p className="text-red-500 text-sm">{errors.payment_type.message}</p>}</div>
                     </div>
-                    {/* KM Last & KM Next */}
+                    {/* car info */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         {/* KM Last */}
                         <div className="flex flex-col relative">
@@ -375,7 +374,7 @@ const WorkShopRepair = ({ bookingId, timeId, }) => {
                 <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 pt-4">
                     <button
                         type="button"
-                        // onClick={() => Back}
+                        onClick={onClose}
                         className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg w-full sm:w-32 h-12 cursor-pointer transition-colors text-sm sm:text-base"
                     >
                         {t("cancel")}
@@ -392,4 +391,4 @@ const WorkShopRepair = ({ bookingId, timeId, }) => {
     );
 };
 
-export default WorkShopRepair;
+export default WorkShopFix;
