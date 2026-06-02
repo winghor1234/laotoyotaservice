@@ -50,6 +50,8 @@ const BillDetail = () => {
 
     const invoiceNumber = booking?.Fix?.map((fix) => fix.bookingId === booking?.booking_id && fix.invoice_number);
     const invoiceDate = booking?.Fix?.map((fix) => fix.bookingId === booking?.booking_id && fix.invoice_date);
+        const totalPoint = Number(data?.labour_point || 0) + Number(data?.part_point || 0);
+
 
     const handleExportPDF = () => {
         const element = billRef.current;
@@ -121,8 +123,6 @@ const BillDetail = () => {
                     <div><strong>{t("phone")}</strong>: {booking?.user?.phoneNumber}</div>
                     <div><strong>{t("plateNumber")}</strong>: {booking?.car?.plateNumber}</div>
                     <div><strong>{t("carModel")}</strong>: {booking?.car?.model}</div>
-                    {/* <div><strong>{t("frameNumber")}</strong>: {booking?.car?.frameNumber}</div>
-                    <div><strong>{t("engineNumber")}</strong>: {booking?.car?.engineNumber}</div> */}
                     <div><strong>{t("zone_label")}</strong>: {booking?.zone?.zoneName}</div>
                     <div><strong>{t("date_label")}</strong>: {formatDates(booking?.day)}</div>
                 </div>
@@ -148,10 +148,27 @@ const BillDetail = () => {
                                 <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>{t("carPartPrice")}</td>
                                 <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>{data?.part_total?.toLocaleString()}</td>
                             </tr>
+                            <tr>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>2</td>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>{t("carPartPrice")}</td>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>{Number(data?.labour_point || 0).toFixed(2)}</td>
+                            </tr>
+                            <tr>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>2</td>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>{t("carPartPrice")}</td>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>{Number(data?.part_point || 0).toFixed(2)}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
 
+                <div className="mt-4 flex justify-end">
+                    <div style={{ textAlign: "right" }}>
+                        <h3 style={{ fontSize: "1.25rem", fontWeight: "600", color: "#15803d" }}>
+                            {t("totalPrice")}: {totalPoint.toFixed(2)} ກີບ
+                        </h3>
+                    </div>
+                </div>
                 <div className="mt-4 flex justify-end">
                     <div style={{ textAlign: "right" }}>
                         <h3 style={{ fontSize: "1.25rem", fontWeight: "600", color: "#15803d" }}>

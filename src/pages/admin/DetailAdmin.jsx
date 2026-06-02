@@ -59,32 +59,63 @@ const DetailAdmin = () => {
 
                     {/* Desktop / Tablet View */}
                     <div className="hidden md:block px-16">
-                        <div className="flex gap-6 items-center justify-start p-4 rounded-lg shadow-sm">
-                            <div className="flex flex-col gap-2 text-left">
+                        <div className="bg-white p-6 rounded-lg shadow-sm">
+                            <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("admin_name")} :</p>
-                                    <p className="text-base text-gray-900 font-semibold">{adminData?.username}</p>
+                                    <p className="text-sm text-gray-500">
+                                        {t("admin_name")}
+                                    </p>
+                                    <p className="font-semibold text-gray-900">
+                                        {adminData?.username || "-"}
+                                    </p>
                                 </div>
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("admin_email")} :</p>
-                                    <p className="text-base text-gray-900 font-semibold">{adminData?.email}</p>
+                                    <p className="text-sm text-gray-500">
+                                        {t("admin_email")}
+                                    </p>
+                                    <p className="font-semibold text-gray-900 break-all">
+                                        {adminData?.email || "-"}
+                                    </p>
                                 </div>
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("admin_phone_number")} :</p>
-                                    <p className="text-base text-gray-800">{adminData?.phoneNumber}</p>
+                                    <p className="text-sm text-gray-500">
+                                        {t("admin_phone_number")}
+                                    </p>
+                                    <p className="text-gray-800">
+                                        {adminData?.phoneNumber || "-"}
+                                    </p>
                                 </div>
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("admin_province")} :</p>
-                                    <p className="text-base text-gray-800">{adminData?.province}</p>
+                                    <p className="text-sm text-gray-500">
+                                        {t("admin_province")}
+                                    </p>
+                                    <p className="text-gray-800">
+                                        {adminData?.province || "-"}
+                                    </p>
                                 </div>
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("district")} :</p>
-                                    <p className="text-base text-gray-800">{adminData?.district}</p>
+                                    <p className="text-sm text-gray-500">
+                                        {t("district")}
+                                    </p>
+                                    <p className="text-gray-800">
+                                        {adminData?.district || "-"}
+                                    </p>
                                 </div>
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("admin_village")} :</p>
-                                    <p className="text-base text-gray-800">{adminData?.village}</p>
+                                    <p className="text-sm text-gray-500">
+                                        {t("admin_village")}
+                                    </p>
+                                    <p className="text-gray-800">
+                                        {adminData?.village || "-"}
+                                    </p>
                                 </div>
+
                             </div>
                         </div>
                     </div>

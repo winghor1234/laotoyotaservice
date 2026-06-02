@@ -52,7 +52,9 @@ export default class APIPath {
     static SELECT_ONE_FIX(id) { return `${this.BASE_URL}/fix/selOne/${id}` }
     static SELECT_FIX_BY_BOOKING(id) { return `${this.BASE_URL}/fix/selByBooking/${id}`}
     static SELECT_FIX_BY_STATUS = `${this.BASE_URL}/fix/selByStatus`;
-    static GET_ALL_FIX = `${this.BASE_URL}/fix/getAll`;
+    // static GET_ALL_FIX = `${this.BASE_URL}/fix/getAll`;
+    static GET_ALL_FIX_FROM_WORKSHOP = `${this.BASE_URL}/fix/getAllByWorkshop`;
+    static GET_ALL_FIX_FROM_BOOKING = `${this.BASE_URL}/fix/getAllByBooking`;
     static GET_ALL_FIX_BY_BRANCH(branch_id) { return `${this.BASE_URL}/fix/getAllByBranch/${branch_id}` };
     static EXPORT_FIX = `${this.BASE_URL}/fix/export`;
     static EXPORT_WORKSHOP_FIX = `${this.BASE_URL}/fix/exportWorkshopFix`;

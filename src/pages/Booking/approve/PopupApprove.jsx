@@ -12,34 +12,45 @@ const PopupApprove = ({ setShowPopup, bookingId, fetchBooking, cardId }) => {
   const { t } = useTranslation("booking"); // namespace booking
   const navigate = useNavigate();
   const [booking, setBooking] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("");
 
 
 
   const handleChangeStatus = async () => {
     try {
+      if (!booking?.zoneId) {
+        setErrorMsg(t("error_zone_required"));
+        return;
+      }
+
+      setErrorMsg(""); // เคลียร์ถ้าผ่าน
+
       const fixForm = {
         bookingId,
         invoice_number: generateBillId(),
         cardId: cardId,
-      }
+      };
 
       await Promise.all([
         axiosInstance.post(APIPath.CREATE_FIX, fixForm),
-        axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId), { bookingStatus: "fix" }),
+        axiosInstance.put(APIPath.UPDATE_BOOKING_STATUS(bookingId), {
+          bookingStatus: "fix",
+        }),
         axiosInstance.post(APIPath.SEND_NOTIFICATION, {
           deviceToken: "DEVICE_TOKEN",
           title: "Booking Confirmed",
           body: "Your car repair booking is confirmed",
-        })
+        }),
       ]);
 
       navigate("/user/bookingSuccess/" + bookingId);
       SuccessAlert(t("success_alert"));
       fetchBooking();
+
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const handleFetchBooking = async () => {
     try {
@@ -53,6 +64,13 @@ const PopupApprove = ({ setShowPopup, bookingId, fetchBooking, cardId }) => {
   useEffect(() => {
     handleFetchBooking();
   }, []);
+
+
+  const isValidBooking =
+    booking?.day &&
+    booking?.time &&
+    booking?.branch &&
+    (booking?.zone || booking?.zoneId);
 
 
   return (
@@ -86,18 +104,34 @@ const PopupApprove = ({ setShowPopup, bookingId, fetchBooking, cardId }) => {
         </div>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 pt-4">
-          <button
-            onClick={() => setShowPopup(false)}
-            className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg w-full sm:w-32 h-12 cursor-pointer transition-colors text-sm sm:text-base"
-          >
-            {t("cancel_button")}
-          </button>
-          <button
-            onClick={handleChangeStatus}
-            className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg w-full sm:w-32 h-12 cursor-pointer transition-colors text-sm sm:text-base"
-          >
-            {t("approve_button")}
-          </button>
+          <div>
+            <button
+              onClick={() => setShowPopup(false)}
+              className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg w-full sm:w-32 h-12 cursor-pointer transition-colors text-sm sm:text-base"
+            >
+              {t("cancel_button")}
+            </button>
+          </div>
+          <div>
+            <button
+              onClick={handleChangeStatus}
+              // disabled={!isValidBooking}
+              className={`px-6 py-3 rounded-lg w-full sm:w-32 h-12 transition-colors text-sm sm:text-base
+              ${isValidBooking
+                  ? "bg-green-500 hover:bg-green-600 text-white cursor-pointer"
+                  : "bg-gray-300 text-gray-500 cursor-pointer "
+                }`}
+            >
+              {t("approve_button")}
+            </button>
+            <div className="h-10 w-62 ">
+              {errorMsg && (
+                <p className="text-red-500 text-sm text-center">
+                  {errorMsg}
+                </p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

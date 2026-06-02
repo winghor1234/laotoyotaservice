@@ -8,11 +8,9 @@ import axiosInstance from "../../../utils/AxiosInstance";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 
 const exchangeGiftSchema = (t) => z.object({
-    userId: z.string().min(1, t("min_length_1")),
+    // userId: z.string().min(1, t("min_length_1")),
     giftcardId: z.string().min(1, t("min_length_1")),
     cardId: z.string().min(1, t("min_length_1")),
-    // card_number: z.string().min(1, t("min_length_1")),
-    // gift_Code: z.string().min(1, t("min_length_1")),
     amount: z.string().min(1, t("min_length_1")),
 });
 

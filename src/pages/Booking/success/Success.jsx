@@ -2,8 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
-// import BookingSearch from "../../../utils/BookingSearch";
-import logo from "../../../assets/corrects.png";
 import { useTranslation } from "react-i18next";
 import { useCheckRole } from "../../../utils/checkRole";
 import { useEmployeeBranchId } from "../../../utils/useEmployeeBranchId";
@@ -13,6 +11,7 @@ import SelectDate from "../../../utils/SelectDate";
 import DownloadButton from "../../../utils/DownloadButton";
 import { formatDates } from "../../../utils/FormatDate";
 import { Eye } from "lucide-react";
+import { FaCheckCircle } from "react-icons/fa";
 
 const Success = () => {
     const navigate = useNavigate();
@@ -20,7 +19,6 @@ const Success = () => {
     const role = useCheckRole();
     const branch_id = useEmployeeBranchId();
     const [open, setOpen] = useState(false);
-
     const isReady = role === "super_admin" || (!!role && !!branch_id);
 
     const {
@@ -35,11 +33,10 @@ const Success = () => {
         getPageNumbers,
     } = useServerFilterPagination({
         enabled: isReady,
-        apiCall: ({ page, limit, search, startDate, endDate }) => {
-            const apiPath =
-                role === "super_admin"
-                    ? APIPath.GET_ALL_FIX
-                    : APIPath.GET_ALL_FIX_BY_BRANCH(branch_id);
+        apiCall: ({ page, limit = 10, search, startDate, endDate }) => {
+            const apiPath = role === "super_admin"
+                ? APIPath.GET_ALL_FIX_FROM_BOOKING
+                : APIPath.GET_ALL_FIX_BY_BRANCH(branch_id);
             return axiosInstance.get(apiPath, {
                 params: {
                     page,
@@ -56,22 +53,19 @@ const Success = () => {
     useEffect(() => {
         if (role === "super_admin" || (role && branch_id)) {
             fetchData();
-            // handleFetch();
         }
     }, [role, branch_id]);
 
-    const SuccessDetail = async(id) => {
-
+    const SuccessDetail = async (id) => {
         try {
             const fixId = await axiosInstance.get(APIPath.SELECT_FIX_BY_BOOKING(id));
             navigate(`/user/successDetail/${fixId?.data?.data?.fix_id}`);
         } catch (error) {
             console.log(error);
         }
-        
+
     };
-
-
+    console.log(fix?.length);
     return (
         <div>
             <div className="flex justify-end items-center mb-6">
@@ -107,13 +101,13 @@ const Success = () => {
 
                 {/* Desktop/Tablet Body */}
                 <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
-                    {fix?.filter((item) => item.fixStatus === "success" && item.bookingId !== null).map((item, index) => (
+                    {fix?.filter((item) => item.bookingId !== null).map((item, index) => (
                         <div key={index} className="grid grid-cols-7 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 transition-colors cursor-pointer text-xs md:text-sm lg:text-base">
-                            <div className="flex items-center gap-2 md:gap-3">
-                                <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <img src={logo} alt="success" className="h-full w-full object-contain" />
-                                </div>
-                                <span className="line-clamp-1">{item?.booking?.car?.model}</span>
+                            <div className="flex items-center gap-2">
+                                <FaCheckCircle className="text-green-500 h-7 w-7 shrink-0" />
+                                <span className="flex-1 min-w-0 truncate">
+                                    {item?.booking?.car?.model}
+                                </span>
                             </div>
                             <div className="text-center line-clamp-1">{item?.booking?.user?.username}</div>
                             <div className="text-center line-clamp-1">{item?.booking?.user?.phoneNumber}</div>
@@ -121,7 +115,7 @@ const Success = () => {
                             <div className="text-center line-clamp-1">{formatDates(item?.booking?.day)}</div>
                             <div className="text-center line-clamp-1">{item?.booking?.time?.time}</div>
                             <div className="flex items-center justify-center">
-                                <Eye onClick={() => SuccessDetail(item.booking.booking_id) } className="text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                <Eye onClick={() => SuccessDetail(item.booking.booking_id)} className="text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                             </div>
                         </div>
                     ))}
@@ -129,16 +123,14 @@ const Success = () => {
 
                 {/* Mobile Card Layout */}
                 <div className="md:hidden divide-y divide-gray-200">
-                    {fix?.filter((item) => item.fixStatus === "success").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
+                    {fix?.map((item, index) => (
                         <div
                             key={index}
                             // onClick={() => fixDetail(item.booking_id)}
                             className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
                         >
                             <div className="flex items-center gap-3 mb-3">
-                                <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <img src={logo} alt="success" className="h-8 w-8 object-contain" />
-                                </div>
+                                <FaCheckCircle className="text-green-500 h-7 w-7 shrink-0" />
                                 <div className="flex-1">
                                     <h3 className="font-semibold text-base text-gray-900">{item?.booking?.car?.model}</h3>
                                     <p className="text-gray-600 text-sm">{item?.booking?.user?.username}</p>
@@ -164,7 +156,7 @@ const Success = () => {
                                 <div className="flex justify-between">
                                     <span className="text-gray-500 line-clamp-1">{t("action_label")}:</span>
                                     <span className="text-gray-900 line-clamp-1">
-                                        <Eye onClick={() => SuccessDetail(item.booking.booking_id) } className="text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                        <Eye onClick={() => SuccessDetail(item.booking.booking_id)} className="text-gray-600 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                                     </span>
                                 </div>
                             </div>

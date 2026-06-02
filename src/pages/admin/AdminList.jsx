@@ -11,6 +11,7 @@ import ExportExcelButton from "../../utils/ExcelExportButton";
 import { useNavigate } from "react-router-dom";
 import useServerFilterPagination from "../../utils/useServerFilterPagination";
 import ExportExcelPopup from "../../utils/exportExelPopup";
+import DownloadButton from "../../utils/DownloadButton";
 
 
 const AdminList = () => {
@@ -82,9 +83,7 @@ const AdminList = () => {
           onDateChange={handleDateChange}
         />
         {/* download button */}
-        <button onClick={() => setOpen(true)} className="flex items-center bg-gray-600 hover:bg-gray-700 text-white rounded gap-2 px-3 py-3.5 mx-2">
-          {t("export")}
-        </button>
+        <DownloadButton setOpen={setOpen} />
         {open && (
           <ExportExcelPopup
             apiUrl={APIPath.EXPORT_ADMIN}

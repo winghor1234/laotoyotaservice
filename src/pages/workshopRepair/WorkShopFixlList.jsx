@@ -11,8 +11,8 @@ import { useCheckRole } from "../../utils/checkRole";
 import { useEmployeeBranchId } from "../../utils/useEmployeeBranchId";
 import { formatDates } from "../../utils/FormatDate";
 import { useTranslation } from "react-i18next";
-import logo from "../../assets/corrects.png";
 import WorkShopFix from "./WorkShopFix";
+import { FaCheckCircle } from "react-icons/fa";
 
 const WorkShopFixList = () => {
     const navigate = useNavigate();
@@ -38,10 +38,9 @@ const WorkShopFixList = () => {
     } = useServerFilterPagination({
         enabled: isReady,
         apiCall: ({ page, limit, search, startDate, endDate }) => {
-            const apiPath =
-                role === "super_admin"
-                    ? APIPath.GET_ALL_FIX
-                    : APIPath.GET_ALL_FIX_BY_BRANCH(branch_id);
+            const apiPath = role === "super_admin"
+                ? APIPath.GET_ALL_FIX_FROM_WORKSHOP
+                : APIPath.GET_ALL_FIX_BY_BRANCH(branch_id);
             return axiosInstance.get(apiPath, {
                 params: {
                     page,
@@ -72,7 +71,8 @@ const WorkShopFixList = () => {
     };
 
 
-    // console.log("fix", fix);
+
+
     return (
         <div>
             <div className="flex justify-end items-center mb-6">
@@ -85,7 +85,7 @@ const WorkShopFixList = () => {
                 <DownloadButton open={open} setOpen={setOpen} />
                 {open && (
                     <ExportExcelPopup
-                        apiUrl={APIPath.EXPORT_BOOKING}
+                        apiUrl={APIPath.EXPORT_WORKSHOP_FIX}
                         fileName="booking-report.xlsx"
                         onClose={() => setOpen(false)}
                     />
@@ -113,12 +113,10 @@ const WorkShopFixList = () => {
 
                 {/* Desktop/Tablet Body */}
                 <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
-                    {fix?.filter((item) => item.fixStatus === "success" && item.bookingId === null).map((item, index) => (
+                    {fix?.filter((item) => item.bookingId === null).map((item, index) => (
                         <div key={index} className="grid grid-cols-7 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 transition-colors cursor-pointer text-xs md:text-sm lg:text-base">
                             <div className="flex items-center gap-2 md:gap-3">
-                                <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <img src={logo} alt="success" className="h-full w-full object-contain" />
-                                </div>
+                                    <FaCheckCircle className="text-green-500 h-7 w-7 shrink-0" />
                                 <span className="line-clamp-1">{item?.card?.car?.model}</span>
                             </div>
                             <div className="text-center line-clamp-1">{item?.card?.user?.username}</div>
@@ -143,15 +141,19 @@ const WorkShopFixList = () => {
 
                 {/* Mobile Card Layout */}
                 <div className="md:hidden divide-y divide-gray-200">
-                    {fix?.filter((item) => item.fixStatus === "success").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
+                    {fix?.filter((item) => item.bookingId === null).map((item, index) => (
                         <div
                             key={index}
                             // onClick={() => fixDetail(item.booking_id)}
                             className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
                         >
                             <div className="flex items-center gap-3 mb-3">
-                                <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <img src={logo} alt="success" className="h-8 w-8 object-contain" />
+                                <div className="flex items-center gap-3 mb-3">
+                                    <FaCheckCircle className="text-green-500 h-7 w-7 shrink-0" />
+                                    <div className="flex-1">
+                                        <h3 className="font-semibold text-base text-gray-900">{item?.booking?.car?.model}</h3>
+                                        <p className="text-gray-600 text-sm">{item?.booking?.user?.username}</p>
+                                    </div>
                                 </div>
                                 <div className="flex-1">
                                     <h3 className="font-semibold text-base text-gray-900">{item?.booking?.car?.model}</h3>

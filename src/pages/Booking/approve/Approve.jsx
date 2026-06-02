@@ -62,10 +62,7 @@ const Approve = () => {
       fetchData();
     }
   }, [role, branch_id]);
-  // console.log("Booking :", booking);
 
-
-  // console.log("Booking data:", booking);
 
   // Navigate Approve
   const handleApprove = (BookingId, timeId) => {
@@ -114,10 +111,10 @@ const Approve = () => {
                 onClick={() =>
                   handleApprove(item?.booking_id, item?.time?.time_id)
                 }
-                className="grid grid-cols-6 gap-2 px-4 py-3 items-center hover:bg-gray-50 cursor-pointer"
+                className="grid grid-cols-6 gap-2 px-4 py-3 items-center hover:bg-gray-50 cursor-pointer "
               >
                 <div className="flex items-center gap-2">
-                  <span className="bg-yellow-500 px-4 py-2 text-black rounded-xl text-xs font-semibold">
+                  <span className="bg-yellow-500 px-4 py-2 text-black rounded-xl text-sm font-semibold">
                     {t("approve_status")}
                   </span>
                   <span className="font-medium text-sm line-clamp-1">

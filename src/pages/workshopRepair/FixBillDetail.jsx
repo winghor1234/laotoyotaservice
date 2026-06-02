@@ -1,11 +1,10 @@
-import { FaArrowLeft, FaFileInvoiceDollar } from "react-icons/fa";
+import { FaArrowLeft, FaCheckCircle, FaFileInvoiceDollar } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
 import html2pdf from "html2pdf.js";
-import logo from "../../assets/corrects.png";
 import { formatDates } from "../../utils/FormatDate";
 import { FormatNumber } from "../../utils/FormatNumber";
 
@@ -31,7 +30,7 @@ const FixBillDetail = () => {
             if (fixData) {
                 setData(fixData);
                 const empId = fixData.createBy; // ดึง ID ออกมาพักไว้ในตัวแปร
-              
+
 
                 // 2. ตรวจสอบว่ามี empId ไหม ถ้ามีให้ดึงข้อมูล Employee ต่อทันที
                 if (empId) {
@@ -68,6 +67,8 @@ const FixBillDetail = () => {
         };
         html2pdf().from(element).set(opt).save();
     };
+    const totalPoint = Number(data?.labour_point || 0) + Number(data?.part_point || 0);
+
 
     return (
         <div
@@ -103,7 +104,8 @@ const FixBillDetail = () => {
             {/* เนื้อหาบิล */}
             <div ref={billRef} className="p-6 rounded-xl" style={{ backgroundColor: "#ffffff", boxShadow: "0 1px 2px rgba(0,0,0,0.1)" }}>
                 <div className="flex justify-center mb-2">
-                    <img src={logo} alt="logo" style={{ width: "80px" }} />
+                    {/* <img src={logo} alt="logo" style={{ width: "80px" }} /> */}
+                    <FaCheckCircle className="text-green-500 h-7 w-7 shrink-0" />
                 </div>
 
                 <h2 className="text-center text-2xl font-semibold mb-4">
@@ -114,7 +116,7 @@ const FixBillDetail = () => {
                 <div className="mb-4 text-sm flex justify-between items-start" style={{ color: "#4b5563" }}>
                     <div>
                         {/* <div><strong>{t("branch_label")}</strong>: {data?.branch?.branch_name}</div> */}
-                        <div><strong>{t("branch_label")}</strong>: {branch?.position}</div>
+                        <div><strong>{t("branch_label")}</strong>: {branch?.branch?.branch_name}</div>
                     </div>
                     <div>
                         <p>{t("date_bill")}: {formatDates(data?.invoice_date)}</p>
@@ -127,7 +129,7 @@ const FixBillDetail = () => {
                     <div><strong>{t("phone")}</strong>: {data?.card?.user?.phoneNumber}</div>
                     <div><strong>{t("plateNumber")}</strong>: {data?.card?.car?.plateNumber}</div>
                     <div><strong>{t("carModel")}</strong>: {data?.card?.car?.model}</div>
-                    {/* <div><strong>{t("zone_label")}</strong>: {data?.zone?.zoneName}</div> */}
+                    <div><strong>{t("zone_label")}</strong>: {data?.card?.car?.engineNumber}</div>
                     {/* <div><strong>{t("zone_label")}</strong>: kkkk</div> */}
                     <div><strong>{t("date_label")}</strong>: {formatDates(data?.createdAt)}</div>
                 </div>
@@ -145,22 +147,73 @@ const FixBillDetail = () => {
                         <tbody>
                             <tr>
                                 <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>1</td>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>{t("fixCarPrice")}</td>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>{data?.labour_total?.toLocaleString()}</td>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>
+                                    {t("fixCarPrice")}
+                                </td>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>
+                                    {data?.labour_total?.toLocaleString()}
+                                </td>
                             </tr>
+
                             <tr>
                                 <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>2</td>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>{t("carPartPrice")}</td>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>{data?.part_total?.toLocaleString()}</td>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>
+                                    {t("carPartPrice")}
+                                </td>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>
+                                    {data?.part_total?.toLocaleString()}
+                                </td>
                             </tr>
+
+                            {/* 🔥 LABOUR POINT */}
+                            <tr>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>3</td>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>
+                                    {t("labour_point-placholder")}
+                                </td>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>
+                                    {Number(data?.labour_point || 0).toFixed(2)}
+                                </td>
+                            </tr>
+
+                            {/* 🔥 PART POINT */}
+                            <tr>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>4</td>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>
+                                    {t("part_point-placholder")}
+                                </td>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>
+                                    {Number(data?.part_point || 0).toFixed(2)}
+                                </td>
+                            </tr>
+
+                            {/* 🔥 TOTAL POINT */}
+                            {/* <tr>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>5</td>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", fontWeight: 600 }}>
+                                    {t("totalPoint")}
+                                </td>
+                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right", fontWeight: 600 }}>
+                                    {totalPoint.toFixed(2)}
+                                </td>
+                            </tr> */}
                         </tbody>
                     </table>
                 </div>
 
+                {/* total point */}
+                <div className="mt-4 flex justify-end ">
+                    <div className=" w-2/7 " >
+                        <h3 style={{ fontSize: "1rem", fontWeight: "600", color: "#15803d" }}>
+                            {t("totalPoint")}: {totalPoint.toFixed(2)} {t("point_text")}
+                        </h3>
+                    </div>
+                </div>
+                {/* total price */}
                 <div className="mt-4 flex justify-end">
-                    <div style={{ textAlign: "right" }}>
+                    <div className="w-2/7" >
                         <h3 style={{ fontSize: "1.25rem", fontWeight: "600", color: "#15803d" }}>
-                            {t("totalPrice")}: {FormatNumber(data?.labour_total + data?.part_total)} ກີບ
+                            {t("totalPrice")}: {FormatNumber(data?.labour_total + data?.part_total)} {t("kip")}
                         </h3>
                     </div>
                 </div>

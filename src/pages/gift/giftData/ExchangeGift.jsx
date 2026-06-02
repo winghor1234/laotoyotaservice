@@ -5,7 +5,7 @@ import { useExchangeGiftForm } from "../../../component/schemaValidate/giftValid
 
 const ExchangeGift = ({ show, onClose, handleFetch }) => {
     const { t } = useTranslation("gift");
-    const { register, handleSubmit, formState: { errors }, submitForm, loading, users, giftCards, cards } = useExchangeGiftForm({ onClose, handleFetch });
+    const { register, handleSubmit, formState: { errors }, submitForm, loading, giftCards, cards } = useExchangeGiftForm({ onClose, handleFetch });
     if (!show) return null;
 
     return (
@@ -23,27 +23,13 @@ const ExchangeGift = ({ show, onClose, handleFetch }) => {
                     <div className="flex flex-col justify-center sm:flex-row gap-3 sm:gap-4 ">
                         <div className="flex flex-col">
                             <select
-                                {...register('userId')}
-                                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-                            >
-                                <option value="">{t("select_user")}</option>
-                                {(users || []).map((user) => (
-                                    <option key={user.user_id} value={user.user_id}>
-                                        {user.customer_number} - {user.username} : {user.point}
-                                    </option>
-                                ))}
-                            </select>
-                            <div className="h-6">{errors.userId && <p className="text-red-500 text-sm">{errors.userId.message}</p>}</div>
-                        </div>
-                        <div className="flex flex-col">
-                            <select
                                 {...register('cardId')}
                                 className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
                             >
                                 <option value="">{t("select_card")}</option>
                                 {(cards || []).map((card) => (
                                     <option key={card.card_id} value={card.card_id}>
-                                        {card.card_number} - {card.vip_number} : {card.discount}
+                                        {card.card_number} : {card.total_point || 0} {t("point")}
                                     </option>
                                 ))}
                             </select>

@@ -43,5 +43,6 @@
   "return_score_gift": "Return Score Gift",
   "return_score_gift_success": "Return score gift successfully",
   "gift_code": "Gift Code",
-  "select_card": "Select Card"
+  "select_card": "Select Card",
+  "gift_card_number": "Card Number"
 }

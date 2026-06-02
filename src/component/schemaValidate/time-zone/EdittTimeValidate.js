@@ -14,8 +14,7 @@ import { useTranslation } from "react-i18next";
 const EditTimeSchema = (t) => z.object({
     time: z.string().min(1, t("min_length_1")),
     qty: z.string().min(1, t("min_length_1")),
-    // date: z.string().min(1, t("min_length_1")),
-    // zoneId: z.string().min(1, t("min_length_1")),
+
 });
 
 export const useEditTimeForm = ({ timeId, fetchTime, onClose }) => {
@@ -30,12 +29,10 @@ export const useEditTimeForm = ({ timeId, fetchTime, onClose }) => {
             try {
                 const res = await axiosInstance.get(APIPath.SELECT_ONE_TIME(timeId));
                 const data = res?.data?.data;
-                // console.log("qty ",data?.qty);
                 if (data) {
                     reset({
                         time: data.time,
                         qty: data.qty,
-                        // date: formatDate(data.date),
                     });
                 }
             } catch (error) {
@@ -48,15 +45,12 @@ export const useEditTimeForm = ({ timeId, fetchTime, onClose }) => {
     const submitForm = async (data) => {
         setLoading(true);
         try {
-            console.log("Time data : ", data.time, data.qty);
-            console.log("Time ID : ", timeId);
             await axiosInstance.put(APIPath.UPDATE_TIME(timeId), data);
             SuccessAlert(t("update_success"));
             fetchTime();
             onClose();
             reset();
         } catch (error) {
-            SuccessAlert(t("update_failed"), 1500, "warning");
             console.error("Update time failed:", error.response?.data || error.message);
         } finally {
             setLoading(false);

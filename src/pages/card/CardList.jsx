@@ -54,7 +54,6 @@ const CardList = () => {
     }, []);
 
     const handleDeleteCard = async (cardId) => {
-        // console.log("cardId: ", cardId);
         try {
             const confirmDelete = await DeleteAlert(
                 t("delete_confirm"),
@@ -169,12 +168,12 @@ const CardList = () => {
                                     <p>{item?.car?.user?.customer_number}</p>
                                 </div>
 
-                                {/* <div>
+                                <div>
                                     <p className="text-xs text-gray-500">
-                                        {t("vip_number")}
+                                        {t("total_point")}
                                     </p>
-                                    <p>{item.vip_number}</p>
-                                </div> */}
+                                    <p>{item.total_point || 0}</p>
+                                </div>
 
                                 <div>
                                     <p className="text-xs text-gray-500">
@@ -191,7 +190,7 @@ const CardList = () => {
             {/* Desktop */}
             <div className="hidden md:block bg-white rounded-lg shadow-sm overflow-hidden w-full flex-col flex-1">
                 <div className="w-full h-14 bg-[#E52020] text-white">
-                    <div className="grid grid-cols-5 gap-4 px-4 py-4 font-medium text-base">
+                    <div className="grid grid-cols-6 gap-4 px-4 py-4 font-medium text-base">
                         <div className="flex justify-center items-center">
                             {t("index")}
                         </div>
@@ -204,12 +203,11 @@ const CardList = () => {
                             {t("customer_number")}
                         </div>
 
-                        {/* <div className="flex justify-center items-center">
-                            {t("vip_number")}
-                        </div> */}
-
                         <div className="flex justify-center items-center">
                             {t("card_type")}
+                        </div>
+                        <div className="flex justify-center items-center">
+                            {t("total_point")}
                         </div>
 
                         <div className="flex justify-center items-center">
@@ -228,7 +226,7 @@ const CardList = () => {
                         .map((item, index) => (
                             <div
                                 key={index}
-                                className="grid grid-cols-5 gap-4 px-4 py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors shadow-sm"
+                                className="grid grid-cols-6 gap-4 px-4 py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors shadow-sm"
                             >
                                 <div className="flex justify-center items-center">
                                     {index + 1}
@@ -242,12 +240,11 @@ const CardList = () => {
                                     {item?.car?.user?.customer_number}
                                 </div>
 
-                                {/* <div className="text-center">
-                                    {item.vip_number}
-                                </div> */}
-
                                 <div className="text-center">
                                     {item.card_type}
+                                </div>
+                                <div className="text-center">
+                                    {item.total_point || 0}
                                 </div>
 
                                 <div className="flex justify-center items-center gap-4">

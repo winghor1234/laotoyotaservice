@@ -60,38 +60,65 @@ const DetailGiftHistory = () => {
 
                     {/* Desktop / Tablet View */}
                     <div className="hidden md:block px-16">
-                        <div className="flex gap-6 items-center justify-start p-4 rounded-lg shadow-sm">
-                            <div className="flex flex-col gap-2 text-left">
+                        <div className="p-4 bg-white rounded-lg shadow-sm">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("gift_title")} :</p>
-                                    <p className="text-base text-gray-900 font-semibold">
-                                        {giftHistoryData.giftcard.gift_Name}
+                                    <p className="text-sm text-gray-500">{t("gift_title")}</p>
+                                    <p className="font-semibold text-gray-900">
+                                        {giftHistoryData?.giftcard?.gift_Name}
                                     </p>
                                 </div>
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("gift_amount")} :</p>
-                                    <p className="text-base text-gray-800">{giftHistoryData?.amount}</p>
+                                    <p className="text-sm text-gray-500">{t("gift_amount")}</p>
+                                    <p className="text-gray-800">
+                                        {giftHistoryData?.amount}
+                                    </p>
                                 </div>
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("gift_one_point")} :</p>
-                                    <p className="text-base text-gray-800">{giftHistoryData.giftcard.gift_Point}</p>
+                                    <p className="text-sm text-gray-500">{t("gift_one_point")}</p>
+                                    <p className="text-gray-800">
+                                        {giftHistoryData?.giftcard?.gift_Point}
+                                    </p>
                                 </div>
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("gift_user_name")} :</p>
-                                    <p className="text-base text-gray-800">{giftHistoryData?.user?.username}</p>
+                                    <p className="text-sm text-gray-500">{t("gift_user_name")}</p>
+                                    <p className="text-gray-800">
+                                        {giftHistoryData?.user?.username}
+                                    </p>
                                 </div>
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("gift_user_phone")} :</p>
-                                    <p className="text-base text-gray-800">{giftHistoryData?.user?.phoneNumber}</p>
+                                    <p className="text-sm text-gray-500">{t("gift_card_number")}</p>
+                                    <p className="text-gray-800 break-all">
+                                        {giftHistoryData?.card_number}
+                                    </p>
                                 </div>
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("gift_user_province")} :</p>
-                                    <p className="text-base text-gray-800">{giftHistoryData?.user?.province}</p>
+                                    <p className="text-sm text-gray-500">{t("gift_user_phone")}</p>
+                                    <p className="text-gray-800">
+                                        {giftHistoryData?.user?.phoneNumber}
+                                    </p>
                                 </div>
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("gift_user_village")} :</p>
-                                    <p className="text-base text-gray-800">{giftHistoryData?.user?.village}</p>
+                                    <p className="text-sm text-gray-500">{t("gift_user_province")}</p>
+                                    <p className="text-gray-800">
+                                        {giftHistoryData?.user?.province}
+                                    </p>
                                 </div>
+
+                                <div>
+                                    <p className="text-sm text-gray-500">{t("gift_user_village")}</p>
+                                    <p className="text-gray-800">
+                                        {giftHistoryData?.user?.village}
+                                    </p>
+                                </div>
+
                             </div>
                         </div>
                         {giftHistoryData.giftcard.image && (
@@ -107,7 +134,7 @@ const DetailGiftHistory = () => {
 
                     {/* Mobile View */}
                     <div className="md:hidden space-y-4">
-                       
+
                         <div className="bg-gray-50 p-4 rounded-md shadow-inner space-y-3">
                             <div>
                                 <span className="text-base text-gray-500 block">{t("detail_history_title")}:</span>

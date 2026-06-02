@@ -67,10 +67,7 @@ const TimeList = () => {
         }
         // ✅ ถ้า true → อัปเดตเลย
         // updateStatus(item);
-        await axiosInstance.put(
-                APIPath.UPDATE_TIME_STATUS(item.time_id),
-                { timeStatus: String(!item.timeStatus) }
-            );
+        await axiosInstance.put( APIPath.UPDATE_TIME_STATUS(item.time_id),  { timeStatus: String(!item.timeStatus) } );
             fetchData();
 
     };

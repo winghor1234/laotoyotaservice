@@ -41,6 +41,7 @@
   "return_score_gift": "ຄືນຄະແນນລາງວັນ",
   "return_score_gift_success": "ຄືນຄະແນນລາງວັນສຳເລັດ",
   "gift_code": "ລະຫັດລາງວັນ",
-  "select_card": "ເລືອກບັດ"
+  "select_card": "ເລືອກບັດ",
+  "gift_card_number": "ລະຫັດບັດ"
 
 }

@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 const EditTime = ({ show, onClose, timeId, fetchTime }) => {
     const { t } = useTranslation("timeZone");
     const { register, handleSubmit, formState: { errors }, loading, submitForm } = useEditTimeForm({ onClose, timeId, fetchTime });
-
     if (!show) return null;
 
     return (

@@ -3,6 +3,8 @@
 import { useFixForm } from "../../../component/schemaValidate/fixValidate/PopupFixValidate";
 import { useTranslation } from "react-i18next";
 import CurrencyInput from "react-currency-input-field";
+import { FaArrowLeft } from "react-icons/fa";
+
 
 const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
   const { t } = useTranslation("booking");
@@ -27,6 +29,14 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
         onSubmit={handleSubmit(submitForm)}
         className="bg-white flex flex-col gap-6 p-4 sm:p-6 rounded-2xl w-full max-w-[800px] max-h-[90vh] overflow-y-auto"
       >
+        {/* <div
+          onClick={() => setShowPopup(false)}
+          className="border-2 border-red-500 inline-flex items-center justify-center px-4 py-1 sm:py-2 bg-gray-200 hover:bg-gray-300 rounded-xl cursor-pointer transition-colors mb-4">
+          <button className="flex items-center gap-2 text-gray-700 hover:text-black">
+            <FaArrowLeft className="text-sm sm:text-base cursor-pointer" />
+            <span className="font-medium text-sm sm:text-lg lg:text-xl cursor-pointer">{t("back")}</span>
+          </button>
+        </div> */}
         <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center">
           {t("fix_title")}
         </h2>
@@ -184,7 +194,8 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("labour_point_text")}</label>
                 <CurrencyInput
                   readOnly
-                  value={watch("labour_point")}
+                  // value={watch("labour_point")}
+                  value={Number(watch("labour_point") || 0).toFixed(2)}
                   {...register("labour_point")}
                   // placeholder={t("labour_point_placholder")}
                   groupSeparator=","
@@ -262,7 +273,9 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_point_text")}</label>
                 <CurrencyInput
                   readOnly
-                  value={watch("part_point")}
+                  // value={watch("part_point")}
+                  value={Number(watch("part_point") || 0).toFixed(2)}
+
                   {...register("part_point")}
                   groupSeparator=","
                   decimalsLimit={0}

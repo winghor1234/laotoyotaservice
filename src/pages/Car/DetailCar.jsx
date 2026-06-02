@@ -45,6 +45,7 @@ const DetailCar = () => {
             </div>
         );
     }
+    // console.log(id);
 
     return (
         <div className="min-h-screen bg-gray-50 p-2 sm:p-4">
@@ -61,62 +62,87 @@ const DetailCar = () => {
 
                     {/* Desktop / Tablet View */}
                     <div className="hidden md:block px-16">
-                        <div className=" flex gap-6 items-start justify-between p-4 rounded-lg shadow-sm">
-                            <div className="flex flex-col gap-2 text-left">
+                        <div className="p-6 bg-white rounded-lg shadow-sm">
+                            <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+
+                                {/* Car Information */}
                                 <div>
-                                    <p className="text-base text-gray-500">{t("model")} :</p>
-                                    <p className="text-base text-gray-900 font-semibold">{carData.model}</p>
+                                    <p className="text-sm text-gray-500">{t("model")}</p>
+                                    <p className="font-semibold text-gray-900">{carData.model}</p>
                                 </div>
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("plate")} :</p>
-                                    <p className="text-base text-gray-800">{carData.plateNumber}</p>
+                                    <p className="text-sm text-gray-500">{t("user")}</p>
+                                    <p className="font-semibold text-gray-900">
+                                        {carData?.user?.username || "-"}
+                                    </p>
                                 </div>
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("color")} :</p>
-                                    <p className="text-base text-gray-800">{carData.color}</p>
+                                    <p className="text-sm text-gray-500">{t("plate")}</p>
+                                    <p className="text-gray-800">{carData.plateNumber}</p>
                                 </div>
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("engine")} :</p>
-                                    <p className="text-base text-gray-800">{carData.engineNumber}</p>
+                                    <p className="text-sm text-gray-500">{t("email")}</p>
+                                    <p className="text-gray-800 break-all">
+                                        {carData?.user?.email || "-"}
+                                    </p>
                                 </div>
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("frame")} :</p>
-                                    <p className="text-base text-gray-800">{carData.frameNumber}</p>
+                                    <p className="text-sm text-gray-500">{t("color")}</p>
+                                    <p className="text-gray-800">{carData.color}</p>
                                 </div>
+
                                 <div>
-                                    <p className="text-base text-gray-500">{t("province")} :</p>
-                                    <p className="text-base text-gray-800">{carData.province}</p>
+                                    <p className="text-sm text-gray-500">{t("phone")}</p>
+                                    <p className="text-gray-800">
+                                        {carData?.user?.phoneNumber || "-"}
+                                    </p>
                                 </div>
+
+                                <div>
+                                    <p className="text-sm text-gray-500">{t("engine")}</p>
+                                    <p className="text-gray-800 break-all">
+                                        {carData.engineNumber}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p className="text-sm text-gray-500">{t("province")}</p>
+                                    <p className="text-gray-800">
+                                        {carData?.user?.province || "-"}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p className="text-sm text-gray-500">{t("frame")}</p>
+                                    <p className="text-gray-800 break-all">
+                                        {carData.frameNumber}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p className="text-sm text-gray-500">{t("district")}</p>
+                                    <p className="text-gray-800">
+                                        {carData?.user?.district || "-"}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p className="text-sm text-gray-500">{t("province")}</p>
+                                    <p className="text-gray-800">{carData.province}</p>
+                                </div>
+
+                                <div>
+                                    <p className="text-sm text-gray-500">{t("village")}</p>
+                                    <p className="text-gray-800">
+                                        {carData?.user?.village || "-"}
+                                    </p>
+                                </div>
+
                             </div>
-                            {/* user */}
-                            {carData?.user && (
-                                <div className="flex flex-col gap-2 text-left">
-                                    <div>
-                                        <p className="text-base text-gray-500">{t("user")} :</p>
-                                        <p className="text-base text-gray-900 font-semibold">{carData?.user?.username}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-base text-gray-500">{t("email")} :</p>
-                                        <p className="text-base text-gray-800">{carData?.user?.email}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-base text-gray-500">{t("phone")} :</p>
-                                        <p className="text-base text-gray-800">{carData?.user?.phoneNumber}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-base text-gray-500">{t("province")} :</p>
-                                        <p className="text-base text-gray-800">{carData?.user?.province}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-base text-gray-500">{t("district")} :</p>
-                                        <p className="text-base text-gray-800">{carData?.user?.district}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-base text-gray-500">{t("village")} :</p>
-                                        <p className="text-base text-gray-800">{carData?.user?.village}</p>
-                                    </div>
-                                </div>
-                            )}
                         </div>
                     </div>
 

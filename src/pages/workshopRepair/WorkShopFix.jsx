@@ -182,7 +182,7 @@ const WorkShopFix = ({ show, onClose }) => {
                                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("labour_point_text")}</label>
                                 <CurrencyInput
                                     readOnly
-                                    value={watch("labour_point")}
+                                    value={Number(watch("labour_point") || 0).toFixed(2)}
                                     {...register("labour_point")}
                                     // placeholder={t("labour_point_placholder")}
                                     groupSeparator=","
@@ -260,13 +260,13 @@ const WorkShopFix = ({ show, onClose }) => {
                                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_point_text")}</label>
                                 <CurrencyInput
                                     readOnly
-                                    value={watch("part_point")}
+                                    value={Number(watch("part_point") || 0).toFixed(2)}
                                     {...register("part_point")}
                                     // placeholder={t("part_point_placholder")}
                                     groupSeparator=","
                                     decimalsLimit={0}
                                     className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
-                                    //new
+
                                     onValueChange={(value) => {
                                         setIsManualPartPoint(true);
                                         setValue("part_point", value ? Number(value) : "");

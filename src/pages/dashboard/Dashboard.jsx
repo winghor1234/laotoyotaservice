@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
-import { Users, Clock3, Car, Gift } from "lucide-react";
+import { Users, Clock3, Car, Gift, MapPinHouse } from "lucide-react";
 import { HiOutlineWrenchScrewdriver } from "react-icons/hi2";
 import { LiaGiftsSolid } from "react-icons/lia";
 import { GrUserAdmin } from "react-icons/gr";
@@ -94,7 +94,8 @@ const Dashboard = () => {
         { title: t("gift"), path: "/user/gift", value: gift.length, icon: <LiaGiftsSolid className="w-10 h-10 text-red-600" /> },
         { title: t("car_info"), path: "/user/car", value: car.length, icon: <Car className="w-10 h-10 text-red-600" /> },
         { title: t("servicing_info"), path: "/user/servicing", value: service.length, icon: <HiOutlineWrenchScrewdriver className="w-10 h-10 text-red-600" /> },
-        { title: t("zone_time"), path: "/user/time-zone", value: `${zone.length}/${time.length}`, icon: <Clock3 className="w-10 h-10 text-red-600" /> },
+        { title: t("time_info"), path: "/user/time", value: `${time.length}`, icon: <Clock3 className="w-10 h-10 text-red-600" /> },
+        { title: t("zone"), path: "/user/zone", value: `${zone.length}`, icon: <MapPinHouse className="w-10 h-10 text-red-600" /> },
         { title: t("user_permission"), path: "/user/admin", value: users.filter(user => user.role === "admin").length, icon: <GrUserAdmin className="w-10 h-10 text-red-600" /> },
     ];
 

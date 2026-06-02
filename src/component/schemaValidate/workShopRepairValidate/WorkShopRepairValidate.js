@@ -33,8 +33,6 @@ const workShopRepairSchema = (t) =>
 export const useWorkShopRepair = () => {
   const { t } = useTranslation("auth");
   const navigate = useNavigate();
-  // const [fixes, setFixes] = useState({});
-  // const [booking, setBooking] = useState({});
   const [cards, setCards] = useState([]);
   const [isManualLabourPoint, setIsManualLabourPoint] = useState(false);
   const [isManualPartPoint, setIsManualPartPoint] = useState(false);
@@ -81,18 +79,14 @@ export const useWorkShopRepair = () => {
     try {
       const [cardRes] = await Promise.all([
         axiosInstance.get(APIPath.SELECT_ALL_CARD),
-        // axiosInstance.get(APIPath.SELECT_FIX_BY_BOOKING(bookingId)),
       ]);
 
-      // setFixes(fixRes?.data?.data || {});
       setCards(cardRes?.data?.data || []);
-      // console.log("fixes", fixRes?.data?.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // const cards = booking?.user?.Card || [];
 
   // ================= CALCULATION (SOURCE OF TRUTH) =================
   useEffect(() => {
@@ -112,21 +106,19 @@ export const useWorkShopRepair = () => {
 
 
     const autoLabourPoint = pointSettings.labour_amount > 0
-      ? Math.floor(finalLabour / pointSettings.labour_amount) * pointSettings.labour_point
+      ? (finalLabour / pointSettings.labour_amount) * pointSettings.labour_point
       : 0;
 
     const autoPartPoint = pointSettings.part_amount > 0
-      ? Math.floor(finalPart / pointSettings.part_amount) * pointSettings.part_point
+      ? (finalPart / pointSettings.part_amount) * pointSettings.part_point
       : 0;
 
-    // const autoLabourPoint = Math.floor(finalLabour / 100000);
-    // const autoPartPoint = Math.floor(finalPart / 50000);
 
     const labourPointFinal = isManualLabourPoint ? labour_point : autoLabourPoint;
-    const partPointFinal = isManualPartPoint ? part_point : autoPartPoint;
+    const partPointFinal = isManualPartPoint ? part_point : autoPartPoint
+    setValue("labour_point", parseFloat(labourPointFinal.toFixed(2)));
+    setValue("part_point", parseFloat(partPointFinal.toFixed(2)));
 
-    setValue("labour_point", labourPointFinal);
-    setValue("part_point", partPointFinal);
 
     const totalPoint = labourPointFinal + partPointFinal;
 

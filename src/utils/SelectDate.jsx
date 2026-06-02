@@ -99,7 +99,7 @@ export default function SelectDate({
             <div className="flex items-center justify-between min-w-[200px] sm:w-auto lg:w-64 h-12 sm:h-14 border border-gray-300 px-3 py-2 bg-white shadow-sm rounded">
                 <div className="flex items-center gap-2 flex-1">
                     <CalendarDays className="w-4 h-4 sm:w-5 sm:h-5 text-red-600" />
-                    <span className="font-semibold text-sm sm:text-base lg:text-md">{t("date_start")}</span>
+                    <span className="font-semibold text-sm sm:text-base lg:text-md">{t("date_end")}</span>
                     <div className="relative flex-1">
                         <DatePicker
                             ref={endDateRef}

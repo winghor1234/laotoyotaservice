@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { BackButton } from "../../utils/BackButton";
 import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
+import EditTimeStatus from "./EditTimeStatus";
 
 const TimeDetail = () => {
     const { t } = useTranslation("timeZone");
@@ -25,7 +26,6 @@ const TimeDetail = () => {
     useEffect(() => {
         fetchData();
     }, []);
-
     return (
         <div className="relative h-[470px] max-h-[470px] overflow-y-auto bg-gray-50 p-2 sm:p-4 lg:p-6">
             <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
@@ -102,7 +102,7 @@ const TimeDetail = () => {
             </div>
 
             {/* Popup */}
-            <EditTime show={showEditTime} onClose={() => setShowEditTime(false)} timeId={id} />
+            <EditTime show={showEditTime} onClose={ () => setShowEditTime(false)} timeId={id} fetchTime={fetchData} />
         </div>
     );
 };

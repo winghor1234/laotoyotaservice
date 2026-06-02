@@ -115,28 +115,26 @@ export const useFixForm = ({ bookingId }) => {
     const finalPart = Math.max(part - partDiscount, 0);
 
 
-    // new
     const autoLabourPoint = pointSettings.labour_amount > 0
-      ? Math.floor(finalLabour / pointSettings.labour_amount) * pointSettings.labour_point
+      ? (finalLabour / pointSettings.labour_amount) * pointSettings.labour_point
       : 0;
 
     const autoPartPoint = pointSettings.part_amount > 0
-      ? Math.floor(finalPart / pointSettings.part_amount) * pointSettings.part_point
+      ? (finalPart / pointSettings.part_amount) * pointSettings.part_point
       : 0;
-    // const autoLabourPoint = Math.floor(finalLabour / 100000);
-    // const autoPartPoint = Math.floor(finalPart / 50000);
 
 
-    // new
+
+
     // อัปเดตลงฟอร์ม
     const labourPointFinal = isManualLabourPoint ? watch("labour_point") : autoLabourPoint;
     const partPointFinal = isManualPartPoint ? watch("part_point") : autoPartPoint;
 
-    // const labourPointFinal = isManualLabourPoint ? labour_point : autoLabourPoint;
-    // const partPointFinal = isManualPartPoint ? part_point : autoPartPoint;
 
-    setValue("labour_point", labourPointFinal);
-    setValue("part_point", partPointFinal);
+    // setValue("labour_point", labourPointFinal);
+    // setValue("part_point", partPointFinal);
+    setValue("labour_point", parseFloat(labourPointFinal.toFixed(2)));
+    setValue("part_point", parseFloat(partPointFinal.toFixed(2)));
 
     const totalPoint = labourPointFinal + partPointFinal;
 

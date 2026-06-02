@@ -21,7 +21,7 @@ const ReceiverCarDetail = () => {
   const [rejectZone, setRejectZone] = useState(false);
   const [edit, setEdit] = useState(false);
   const navigate = useNavigate();
-  // console.log("bookingId: ", bookingId);
+
 
 
 
@@ -29,18 +29,12 @@ const ReceiverCarDetail = () => {
   const loadAllData = useCallback(async () => {
     try {
       // 1️⃣ fetch booking
-      const bookingRes = await axiosInstance.get(
-        APIPath.SELECT_ONE_BOOKING(bookingId)
-      );
+      const bookingRes = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingId));
       const bookingData = bookingRes?.data?.data;
       setBooking(bookingData);
 
-
-
       // 3️⃣ fetch booking detail
-      const detailRes = await axiosInstance.get(
-        APIPath.SELECT_BOOKING_DETAIL_BY(bookingId)
-      );
+      const detailRes = await axiosInstance.get(APIPath.SELECT_BOOKING_DETAIL_BY(bookingId));
       setBookingDetail(detailRes?.data?.data);
 
     } catch (error) {

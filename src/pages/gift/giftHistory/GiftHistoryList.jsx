@@ -18,15 +18,6 @@ const GiftHistoryList = () => {
     const { t } = useTranslation("gift");
     const navigate = useNavigate();
 
-    // const fetchGifts = async () => {
-    //     try {
-    //         const res = await axiosInstance.get(APIPath.SELECT_ALL_GIFT_HISTORY);
-    //         setGifts(res?.data?.data || []);
-    //     } catch (error) {
-    //         console.error("Error fetching gifts:", error);
-    //     }
-    // };
-
     const {
         data: giftCardHistory,
         page,
@@ -55,13 +46,6 @@ const GiftHistoryList = () => {
         navigate(`/user/gift-history-detail/${id}`);
     };
 
-    // const handleReturnScore = async (id) => {
-    //     try {
-    //         await axiosInstance.post(`${APIPath.DELETE_GIFT_HISTORY}/${id}`);
-    //     } catch (error) {
-    //         console.error("Error returning score:", error);
-    //     }
-    // };
 
     useEffect(() => {
         fetchData();

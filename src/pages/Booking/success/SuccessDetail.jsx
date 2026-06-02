@@ -1,156 +1,4 @@
-// import { FaArrowLeft, FaCar } from "react-icons/fa";
-// import { useParams, useNavigate } from "react-router-dom";
-// import { useEffect, useState } from "react";
-// import axiosInstance from "../../../utils/AxiosInstance";
-// import APIPath from "../../../api/APIPath";
-// import { useTranslation } from "react-i18next";
-// import { formatDates } from "../../../utils/FormatDate";
-// import { FormatNumber } from "../../../utils/FormatNumber";
 
-// const SuccessDetail = () => {
-//   const { id } = useParams();
-//   const navigate = useNavigate();
-//   const { t } = useTranslation("booking");
-
-//   const [data, setData] = useState([]);
-//   const [booking, setBooking] = useState([]);
-//   const [service, setService] = useState([]);
-//   // const [zone, setZone] = useState([]);
-
-//   useEffect(() => {
-//     const fetchAllData = async () => {
-//       try {
-//         const fixRes = await axiosInstance.get(APIPath.SELECT_ONE_FIX(id));
-//         const fixData = fixRes?.data?.data;
-//         setData(fixData);
-
-//         const bookingIdFromFix = fixData?.bookingId;
-//         const zoneIdFromFix = fixData?.zoneId;
-
-//         if (bookingIdFromFix || zoneIdFromFix) {
-//           const [bookingRes, serviceRes] = await Promise.all([
-//             bookingIdFromFix ? axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingIdFromFix)) : Promise.resolve(null),
-//             bookingIdFromFix ? axiosInstance.get(APIPath.SELECT_BOOKING_DETAIL_BY(bookingIdFromFix)) : Promise.resolve(null),
-//             zoneIdFromFix ? axiosInstance.get(APIPath.SELECT_ONE_ZONE(zoneIdFromFix)) : Promise.resolve(null),
-//           ]);
-
-//           if (bookingRes) setBooking(bookingRes?.data?.data);
-//           if (serviceRes) setService(serviceRes?.data?.data);
-//           // if (zoneRes) setZone(zoneRes?.data?.data);
-//         }
-//       } catch (error) {
-//         console.error("Error fetching data:", error);
-//       }
-//     };
-
-//     fetchAllData();
-//   }, [id]);
-
-//   return (
-//     <div style={{ background: "#f3f4f6", padding: "30px 0", fontFamily: "Arial, sans-serif", fontSize: "15px", lineHeight: "1.6", color: "#111827" }}>
-
-//       {/* Top Action */}
-//       <div style={{ maxWidth: "900px", margin: "0 auto 20px", display: "flex", justifyContent: "flex-start" }}>
-//         <button onClick={() => navigate("/user/booking/success")} style={{
-//           display: "inline-flex",
-//           alignItems: "center",
-//           gap: "6px",
-//           padding: "8px 14px",
-//           background: "#e5e7eb",
-//           borderRadius: "12px",
-//           cursor: "pointer",
-//           fontSize: "15px",
-//           fontWeight: "500",
-//           transition: "0.2s",
-//         }}>
-//           <FaArrowLeft /> {t("back")}
-//         </button>
-//       </div>
-
-//       {/* Title */}
-//       <h2 style={{ textAlign: "center", fontSize: "20px", fontWeight: "600", marginBottom: "20px" }}>{t("title")}</h2>
-
-//       <div style={{ maxWidth: "900px", margin: "auto", background: "#ffffff", padding: "25px 30px", borderRadius: "16px", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
-
-//         {/* Customer + Car + Appointment */}
-//         <div style={{ display: "flex", justifyContent: "space-between", gap: "25px", marginBottom: "25px" }}>
-//           {/* Left: Customer */}
-//           <div style={{ width: "48%" }}>
-//             <h3 style={{ marginBottom: "10px", fontSize: "16px", color: "#374151" }}>{t("customer_info")}</h3>
-//             <p><strong>{t("customer_name")}:</strong> {booking?.user?.username}</p>
-//             <p><strong>{t("customer_phone")}:</strong> {booking?.user?.phoneNumber}</p>
-
-//             <h3 style={{ margin: "15px 0 10px 0", fontSize: "16px", color: "#374151" }}>{t("appointment_time")}</h3>
-//             <p><strong>{t("zone_label")}:</strong> {booking?.zone?.zoneName}</p>
-//             <p><strong>{t("branch_label")}:</strong> {booking?.branch?.branch_name}</p>
-//             <p><strong>{t("date_label")}:</strong> {formatDates(booking?.day)}</p>
-//             <p><strong>{t("time_label")}:</strong> {booking?.time?.time}</p>
-//           </div>
-
-//           {/* Right: Car + Appointment */}
-//           <div style={{ width: "48%" }}>
-//             <h3 style={{ marginBottom: "10px", fontSize: "16px", color: "#374151" }}>{t("car_info")}</h3>
-//             <p><strong>{t("plate_number")}:</strong> {booking?.car?.plateNumber}</p>
-//             <p><strong>{t("engine_number")}:</strong> {booking?.car?.engineNumber}</p>
-//             <p><strong>{t("frame_number")}:</strong> {booking?.car?.frameNumber}</p>
-//             <p><strong>{t("car_model")}:</strong> {booking?.car?.model}</p>
-//           </div>
-//         </div>
-
-//         {/* Services Table Section */}
-//         <div style={{ marginBottom: "25px" }}>
-//           <h3 style={{ marginBottom: "12px", fontSize: "16px", fontWeight: "500", color: "#374151" }}>{t("service_information")}</h3>
-//           {service?.length > 0 ? (
-//             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "15px" }}>
-//               <thead>
-//                 <tr style={{ backgroundColor: "#f3f4f6" }}>
-//                   <th style={{ border: "1px solid #e5e7eb", padding: "8px", textAlign: "left" }}>#</th>
-//                   <th style={{ border: "1px solid #e5e7eb", padding: "8px", textAlign: "left" }}>{t("service_label")}</th>
-//                   <th style={{ border: "1px solid #e5e7eb", padding: "8px", textAlign: "left" }}>{t("remark_label")}</th>
-//                 </tr>
-//               </thead>
-//               <tbody>
-//                 {service.map((item, index) => (
-//                   <tr key={index}>
-//                     <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{index + 1}</td>
-//                     <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{item?.service?.serviceName}</td>
-//                     <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{booking?.remark || "-"}</td>
-//                   </tr>
-//                 ))}
-//               </tbody>
-//             </table>
-//           ) : (
-//             <p style={{ fontSize: "15px", color: "#6b7280" }}>{t("no_service")}</p>
-//           )}
-//         </div>
-
-//         {/* Price Table Section */}
-//         <div style={{ marginBottom: "0px" }}>
-//           <h3 style={{ marginBottom: "12px", fontSize: "16px", fontWeight: "500", color: "#374151" }}>{t("price_information")}</h3>
-//           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "15px" }}>
-//             <tbody>
-//               <tr>
-//                 <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{t("fixCarPrice")}</td>
-//                 <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{FormatNumber(data?.labour_total)} ກີບ</td>
-//               </tr>
-//               <tr>
-//                 <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{t("carPartPrice")}</td>
-//                 <td style={{ border: "1px solid #e5e7eb", padding: "8px" }}>{FormatNumber(data?.part_total)} ກີບ</td>
-//               </tr>
-//               <tr>
-//                 <td style={{ border: "1px solid #e5e7eb", padding: "8px", fontWeight: "600", color: "#16a34a" }} colSpan={2} align="center">
-//                   {t("totalPrice")}: {FormatNumber(data?.labour_total + data?.part_total)} ກີບ
-//                 </td>
-//               </tr>
-//             </tbody>
-//           </table>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SuccessDetail;
 
 
 
@@ -203,19 +51,21 @@ const SuccessDetail = () => {
 
   if (loading) return <div className="flex justify-center p-10 text-red-600">{t("loading")}...</div>;
 
+
   const totalPrice = (data?.labour_total || 0) + (data?.part_total || 0);
+  const totalPoint = Number(data?.labour_point || 0) + Number(data?.part_point || 0);
+
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       {/* Top Action */}
-      <div className="max-w-4xl mx-auto mb-6">
-        <button
-          onClick={() => navigate("/user/booking/success")}
-          className="flex items-center gap-2 px-4 py-2 border border-red-600 text-red-600 hover:bg-red-50 rounded-lg transition-all text-sm"
-        >
-          <FaArrowLeft size={12} /> {t("back")}
+      <div className="max-w-4xl mx-auto mb-6" onClick={() => navigate("/user/booking")}>
+        <button className="flex items-center gap-2 text-gray-700 hover:text-black">
+          <FaArrowLeft className="text-sm sm:text-base cursor-pointer" />
+          <span className="font-medium text-sm sm:text-lg lg:text-xl cursor-pointer">{t("back")}</span>
         </button>
       </div>
+      
 
       <div className="max-w-4xl mx-auto bg-white border border-red-600 rounded-2xl shadow-sm overflow-hidden">
         {/* Header */}
@@ -311,7 +161,7 @@ const SuccessDetail = () => {
           </div>
 
           {/* Price Summary */}
-          <div className="border border-red-600 p-5 rounded-xl bg-white">
+          {/* <div className="border border-red-600 p-5 rounded-xl bg-white">
             <div className="space-y-3 text-sm">
               <div className="flex justify-between items-center text-gray-500 font-normal">
                 <span>{t("fixCarPrice")}</span>
@@ -331,6 +181,84 @@ const SuccessDetail = () => {
                 </div>
               </div>
             </div>
+          </div> */}
+
+          {/* Price Summary */}
+          <div className="border border-red-600 p-5 rounded-xl bg-white">
+
+            <table className="w-full text-sm border-collapse">
+
+              <tbody className="text-gray-700">
+
+                {/* ================= PRICE ================= */}
+                <tr className="border-b border-gray-100">
+                  <td className="py-2">{t("fixCarPrice")}</td>
+                  <td className="py-2 w-24 text-left font-mono">
+                    {FormatNumber(data?.labour_total)} {t("kip")}
+                  </td>
+                </tr>
+
+                <tr className="border-b border-gray-100 ">
+                  <td className="py-2 ">{t("carPartPrice")}</td>
+                  <td className="py-2 w-24 text-left font-mono ">
+                    {FormatNumber(data?.part_total)} {t("kip")}
+                  </td>
+                </tr>
+
+                {/* spacer */}
+                <tr>
+                  <td colSpan={2} className="h-2"></td>
+                </tr>
+
+                {/* ================= POINT ================= */}
+                <tr>
+                  <td className="py-2">{t("labour_point-placholder")}</td>
+                  <td className="py-2 w-24 text-left font-mono">
+                    {Number(data?.labour_point || 0).toFixed(2)} {t("point_text")}
+                  </td>
+                </tr>
+
+                <tr className="border-b border-gray-100">
+                  <td className="py-2">{t("part_point-placholder")}</td>
+                  <td className="py-2 w-24 text-left font-mono">
+                    {Number(data?.part_point || 0).toFixed(2)} {t("point_text")}
+                  </td>
+                </tr>
+
+
+
+                {/* ================= TOTAL POINT ================= */}
+                <tr>
+                  <td className="pt-3 text-green-600 uppercase tracking-tight text-md font-medium">
+                    {t("totalPoint")}
+                  </td>
+                  <td className="pt-3 w-24 text-left">
+                    <span className="text-md text-green-600 font-mono font-semibold">
+                      {totalPoint.toFixed(2)}
+                    </span>
+                    <span className="ml-1 text-green-600 font-medium">
+                      {t("point_text")}
+                    </span>
+                  </td>
+                </tr>
+                {/* ================= TOTAL PRICE ================= */}
+                <tr>
+                  <td className="pt-3 text-green-600 uppercase tracking-tight text-lg font-medium">
+                    {t("totalPrice")}
+                  </td>
+                  <td className="pt-3 w-24 text-left">
+                    <span className="text-xl text-green-600 font-mono font-semibold">
+                      {FormatNumber(totalPrice)}
+                    </span>
+                    <span className="ml-1 text-green-600 font-medium">
+                      {t("kip")}
+                    </span>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+
           </div>
 
         </div>

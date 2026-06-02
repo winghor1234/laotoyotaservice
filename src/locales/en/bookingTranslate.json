@@ -144,6 +144,9 @@
   "part_total_text": "Car Parts Cost",
   "exchange_rate_text": "Exchange Rate",
   "payment_currency_text": "Payment Currency",
-  "add": "Add Fix"
+  "add": "Add Fix",
+  "kip": "Kip",
+  "title": "Fixing Detail",
+  "error_zone_required": "Please select zone to approve"
   
 }
