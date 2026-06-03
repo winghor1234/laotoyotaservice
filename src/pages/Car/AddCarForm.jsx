@@ -1,4 +1,4 @@
-import { Car } from 'lucide-react';
+import { Car, X } from 'lucide-react';
 import { SuccessAlert } from '../../utils/handleAlert/SuccessAlert';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useAddCarForm } from '../../component/schemaValidate/carValidate/AddCarFormValidate';
@@ -32,12 +32,12 @@ const colors = [
   "ດຳ",
   "ຂາວ",
   "ເທົາ",
-  
+
 ];
 
 
 export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
-  const { register, handleSubmit, formState: { errors }, users = [], onSubmit, handleBack, getValues, search, setSearch, showDropdown, setShowDropdown, reset } = useAddCarForm({ handleFetchCar, onClose });
+  const { register, handleSubmit, formState: { errors }, users = [], onSubmit, handleBack, getValues, search, setSearch, showDropdown, setShowDropdown, reset, dropdownRef,setValue } = useAddCarForm({ handleFetchCar, onClose });
   const { t } = useTranslation("car");
   const [selectedUser, setSelectedUser] = useState(null);
   const fields = [
@@ -99,7 +99,7 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
 
           {/* Right */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-[400px] w-full">
-            <div className="flex flex-col relative">
+            <div ref={dropdownRef} className="flex flex-col relative">
               <label className="text-sm font-medium mb-1">
                 {t("customer_id")}
               </label>
@@ -120,8 +120,23 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
                     setShowDropdown(true);
                   }
                 }}
-                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
+                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
               />
+              {/* ปุ่มสำหรับลบข้อมูล (แสดงเมื่อมีค่าใน search เท่านั้น) */}
+              {search && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearch("");
+                    setValue("userId", "");
+                    setSelectedUser(null);
+                    setShowDropdown(true);
+                  }}
+                  className="absolute right-2 bottom-1/7 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                >
+                  <X />
+                </button>
+              )}
 
               {/* dropdown */}
               {showDropdown && !selectedUser && (
@@ -148,7 +163,7 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
 
                           setShowDropdown(false);
                         }}
-                        className="px-3 py-2 text-sm cursor-pointer hover:bg-blue-100"
+                        className="px-3 py-2 text-sm cursor-pointer hover:bg-red-100"
                       >
                         {user.customer_number} {user.username}
                       </div>
@@ -163,7 +178,7 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
                 <input
                   {...register(name)}
                   placeholder={t(placeholderKey)}
-                  className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500 transition-colors"
+                  className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500 transition-colors"
                 />
                 {errors[name] && (
                   <span className="text-red-500 text-xs mt-1">{errors[name].message}</span>
@@ -176,7 +191,7 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
               <label className="text-sm font-medium mb-1">{t("province")}</label>
               <select
                 {...register("province")}
-                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
+                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
               >
                 <option value="">{t("province_placeholder")}</option>
                 {provinces.map((p) => (
@@ -194,7 +209,7 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
               <label className="text-sm font-medium mb-1">{t("color")}</label>
               <select
                 {...register("color")}
-                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500 duration-200 transition-colors"
+                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500 duration-200 transition-colors"
               >
                 <option value="">{t("color_placeholder")}</option>
                 {colors.map((c) => (

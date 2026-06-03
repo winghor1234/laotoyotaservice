@@ -42,7 +42,7 @@ const EditEmployee = ({ show, onClose, employee_id, handleFetchEmployee }) => {
               <input
                 type="text"
                 placeholder={t("employee_name")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 focus:ring-1 focus:ring-red-600 shadow-sm transition-colors"
                 {...register("employee_name")}
               />
               <div className="h-6">
@@ -53,7 +53,7 @@ const EditEmployee = ({ show, onClose, employee_id, handleFetchEmployee }) => {
               <input
                 type="text"
                 placeholder={t("position")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 focus:ring-1 focus:ring-red-600 shadow-sm transition-colors"
                 {...register("position")}
               />
               <div className="h-6">
@@ -63,7 +63,7 @@ const EditEmployee = ({ show, onClose, employee_id, handleFetchEmployee }) => {
             <div className="flex flex-col">
               <select
                 {...register("userId")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-red-500 focus:border-red-600 focus:ring-1 focus:ring-red-600 shadow-sm transition-colors"
               >
                 <option value="" disabled>{t("selectUser")}</option>
                 {user.length > 0 ? user.filter(user => user.role !== "general").map(user => (

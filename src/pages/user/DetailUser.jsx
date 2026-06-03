@@ -6,6 +6,7 @@ import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
 import Spinner from "../../utils/Loading";
 import { BackButton } from "../../utils/BackButton";
+import { Crown, ShieldCheck, CreditCard } from "lucide-react";
 
 const DetailUser = () => {
     const { t } = useTranslation("user");
@@ -43,6 +44,7 @@ const DetailUser = () => {
             </div>
         );
     }
+
 
     return (
         <div className="min-h-screen bg-gray-50 p-2 sm:p-6 font-lao">
@@ -94,8 +96,16 @@ const DetailUser = () => {
                                         <div className="p-2 bg-red-50 rounded-lg group-hover:bg-red-500 group-hover:text-white transition-colors">
                                             <FaIdCard className="text-xl" />
                                         </div>
-                                        <span className="text-md uppercase tracking-wider font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded">
-                                            {card.card_type }
+                                        {/* <span className="text-md uppercase tracking-wider font-bold bg-gray-100 text-gray-500 px-2 py-1 rounded">
+                                            {card.card_type}
+                                        </span> */}
+                                        <span className={`text-[11px] uppercase tracking-widest font-black px-3 py-1 rounded-full ${card.card_type?.toLowerCase() === "gold"
+                                                ? "bg-amber-500 text-white shadow-[0_2px_8px_rgba(245,158,11,0.5)]"
+                                                : card.card_type?.toLowerCase() === "silver"
+                                                    ? "bg-slate-300 text-white shadow-[0_2px_8px_rgba(100,116,139,0.5)]"
+                                                    : "bg-zinc-800 text-zinc-200 shadow-[0_2px_8px_rgba(0,0,0,0.4)]"
+                                            }`}>
+                                            {card.card_type}
                                         </span>
                                     </div>
 

@@ -31,8 +31,6 @@ export default function SelectDate({
     };
 
 
-    // console.log("Selected Start Date:", startDate);
-    // console.log("Selected End Date:", endDate);
 
     const handleIconClick = (ref) => {
         if (ref.current) ref.current.setFocus();
@@ -126,7 +124,7 @@ export default function SelectDate({
             </div>
 
             {/* Search */}
-            <div className="flex items-center relative min-w-[200px] sm:w-auto lg:w-64 h-12 sm:h-14 border border-gray-300 focus-within:border-blue-600 px-3 py-2 bg-white shadow-sm rounded">
+            <div className="flex items-center relative min-w-[200px] sm:w-auto lg:w-64 h-12 sm:h-14 border border-gray-300 focus-within:border-red-600 px-3 py-2 bg-white shadow-sm rounded">
                 <Search className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 mr-2" />
                 <input
                     type="text"
@@ -150,7 +148,7 @@ export default function SelectDate({
                     : "bg-red-500 hover:bg-red-400"
                     }`}
             >
-                Clear All
+                {t("clear_all")}
             </button>
         </div>
     );

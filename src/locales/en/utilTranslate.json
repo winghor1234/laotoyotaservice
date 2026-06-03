@@ -27,5 +27,7 @@
     "alert_check_admin": "You do not have permission in",
     "drag_drop_click": "Drag and drop image here or click to select image or file",
     "remove_image": "Remove Image",
-    "export_button": "Export"
+    "export_button": "Export",
+    "clear_all": "Clear All"
+
 }

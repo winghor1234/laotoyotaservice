@@ -36,7 +36,8 @@
     "update_card": "Update Card",
     "select_card_type": "Select Card Type",
     "gold_card": "Gold Card",
-    "silver_card": "Silver Card"
+    "silver_card": "Silver Card",
+    "genCode": "Generate Code"
 
 
 }

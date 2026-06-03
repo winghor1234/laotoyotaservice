@@ -25,7 +25,7 @@ const EditBranch = ({ show, onClose, branch_id, handleFetchBranch }) => {
               <input
                 type="text"
                 placeholder={t("branch_title")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
                 {...register("branch_name")}
               />
               <div className="h-6">
@@ -36,7 +36,7 @@ const EditBranch = ({ show, onClose, branch_id, handleFetchBranch }) => {
               <input
                 type="text"
                 placeholder={t("branch_detail")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
                 {...register("location")}
               />
               <div className="h-6">
@@ -47,7 +47,7 @@ const EditBranch = ({ show, onClose, branch_id, handleFetchBranch }) => {
               <input
                 type="number"
                 placeholder={t("branch_phone")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
                 {...register("phone")}
               />
               <div className="h-6">

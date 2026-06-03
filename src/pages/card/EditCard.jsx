@@ -80,7 +80,7 @@ const EditCard = ({ show, onClose, cardId, handleFetchCard }) => {
                                         onClick={() => {
                                             setSearch("");
                                             setValue("carId", "");
-                                            setShowDropdown(false);
+                                            setShowDropdown(true);
                                         }}
                                         className="absolute right-3 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
                                     >
@@ -126,13 +126,13 @@ const EditCard = ({ show, onClose, cardId, handleFetchCard }) => {
                                     type="text"
                                     placeholder={t("card_number")}
                                     {...register("card_number")}
-                                    className={`flex-grow h-[48px] px-4 border rounded-lg focus:outline-none transition-all ${errors.card_number ? 'border-red-500' : 'border-gray-300 focus:border-blue-500'
+                                    className={`flex-grow h-[48px] px-4 border rounded-lg focus:outline-none transition-all ${errors.card_number ? 'border-red-500' : 'border-gray-300 focus:border-red-500'
                                         }`}
                                 />
                                 <button
                                     type="button"
                                     onClick={handleGenerateCode}
-                                    className="h-[48px] px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition-all active:scale-95"
+                                    className="h-[48px] px-4 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold transition-all active:scale-95"
                                 >
                                     GEN
                                 </button>
@@ -179,10 +179,10 @@ const EditCard = ({ show, onClose, cardId, handleFetchCard }) => {
 
                     {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row justify-center gap-4 pt-6 border-t">
-                        <button type="button" onClick={onClose} className="order-2 sm:order-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-8 py-2.5 rounded-lg font-medium transition-colors">
+                        <button type="button" onClick={onClose} className="order-2 sm:order-1 bg-red-600 hover:bg-red-700 text-white px-8 py-2.5 rounded-lg font-medium transition-colors">
                             {t("cancel")}
                         </button>
-                        <button type="submit" className="order-1 sm:order-2 bg-red-600 hover:bg-red-700 text-white px-8 py-2.5 rounded-lg font-medium shadow-sm transition-all flex items-center justify-center gap-2">
+                        <button type="submit" className="order-1 sm:order-2 bg-green-600 hover:bg-green-700 text-white px-8 py-2.5 rounded-lg font-medium shadow-sm transition-all flex items-center justify-center gap-2">
                             {loading ? <Spinner size="5" color="white" /> : t("update_card")}
                         </button>
                     </div>

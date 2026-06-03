@@ -28,7 +28,7 @@ const EditPromotion = ({ show, onClose, promotionId, handleFetchPromotion }) => 
               <input
                 type="text"
                 placeholder={t("promotion_title")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
                 {...register("title")}
               />
               <div className="h-6">
@@ -39,7 +39,7 @@ const EditPromotion = ({ show, onClose, promotionId, handleFetchPromotion }) => 
               <input
                 type="text"
                 placeholder={t("promotion_detail")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
                 {...register("detail")}
               />
               <div className="h-6">

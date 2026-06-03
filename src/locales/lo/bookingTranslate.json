@@ -147,7 +147,10 @@
   "payment_currency_text": "ສະກຸນເງິນທີ່ຈ່າຍ",
   "add": "ເພີ່ມສ້ອມແປງ",
   "kip": "ກີບ",
-  "error_zone_required": "ກະລຸນາເລືອກໂຊນກ່ອນອະນຸມັດ"
+  "error_zone_required": "ກະລຸນາເລືອກໂຊນກ່ອນອະນຸມັດ",
+  "select_branch": "ກະລຸນາເລືອກສາຂາ",
+  "select_time": "ກະລຸນາເລືອກເວລາ",
+  "select_zone": "ກະລຸນາເລືອກໂຊນ"
   
 
   

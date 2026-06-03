@@ -27,5 +27,6 @@
     "alert_check_admin": "ທ່ານບໍ່ມີສິດທິໃນ",
     "drag_drop_click": "ລາກຮູບມາວາງ ຫຼື ຄລິກເພື່ອເລືອກຮູບ ຫຼື ໄຟຣ",
     "remove_image": "ລຶບຮູບ",
-    "export_button": "ດາວໂຫລດ"
+    "export_button": "ດາວໂຫລດ",
+    "clear_all": "ລ້າງທັງໝົດ"
 }

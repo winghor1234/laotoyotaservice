@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 const AddBranch = ({ show, onClose, handleFetchBranch }) => {
   const { t } = useTranslation("branch"); // namespace 'Branch'
-  const { register, handleSubmit, errors, loading, onSubmit,  } = useAddBranchForm({ onClose, handleFetchBranch });
+  const { register, handleSubmit, errors, loading, onSubmit, } = useAddBranchForm({ onClose, handleFetchBranch });
 
   if (!show) return null;
 
@@ -22,39 +22,46 @@ const AddBranch = ({ show, onClose, handleFetchBranch }) => {
       {/* Modal */}
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl bg-white rounded-2xl shadow-lg p-4 sm:p-6 text-sm transition-all">
         <h2 className="text-lg sm:text-xl font-bold text-center mb-4">
-          {t("add_branch")} {/* เพิ่ม Branch */}
+          {t("add_branch")} 
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 sm:space-y-4">
           {/* Title & Detail */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            {/* ช่องที่ 1 */}
             <div className="w-full h-20">
               <input
                 type="text"
-                placeholder={t("branch_title")} // ຊື່ / Branch Title
+                placeholder={t("branch_title")}
                 {...register("branch_name")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                // {/* เพิ่ม 'border' เข้าไปข้างหน้าสี */}
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
               />
-              {errors.branch_name && <p className="text-red-500">{errors.branch_name.message}</p>}
+              {errors.branch_name && <p className="text-red-500 text-xs mt-1">{errors.branch_name.message}</p>}
             </div>
 
+            {/* ช่องที่ 2 */}
             <div className="w-full h-20">
               <input
                 type="text"
-                placeholder={t("branch_location")} // ສະຖານທີ່ / Branch Location
+                placeholder={t("branch_location")}
                 {...register("location")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                // {/* เพิ่ม 'border' เข้าไปข้างหน้าสี */}
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
               />
-              {errors.location && <p className="text-red-500">{errors.location.message}</p>}
+              {errors.location && <p className="text-red-500 text-xs mt-1">{errors.location.message}</p>}
             </div>
+
+            {/* ช่องที่ 3 (Phone) */}
             <div className="w-full h-20">
               <input
                 type="text"
-                placeholder={t("branch_phone")}  // ເບີໂທສາຂາ / Branch Phone Number
+                placeholder={t("branch_phone")}
                 {...register("phone")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                // {/* ปรับให้เหมือนกันเพื่อความสม่ำเสมอ */}
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
               />
-              {errors.phone && <p className="text-red-500">{errors.phone.message}</p>}
+              {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
             </div>
           </div>
 
@@ -65,7 +72,7 @@ const AddBranch = ({ show, onClose, handleFetchBranch }) => {
               onClick={() => {
                 onClose();
               }}
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg w-full sm:w-28 h-10 cursor-pointer transition-colors text-sm"
+              className="bg-red-600 hover:bg-red-700 focus:border-1 hover:border-1 text-white px-4 py-2 rounded-lg w-full sm:w-28 h-10 cursor-pointer transition-colors text-sm"
               disabled={loading}
             >
               {t("cancel")} {/* ຍົກເລີກ / Cancel */}
@@ -75,7 +82,7 @@ const AddBranch = ({ show, onClose, handleFetchBranch }) => {
               className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg w-full sm:w-28 h-10 cursor-pointer transition-colors text-sm flex items-center justify-center gap-2"
               disabled={loading}
             >
-              {loading ? <Spinner size="5" color="white" /> : t("submit")} 
+              {loading ? <Spinner size="5" color="white" /> : t("submit")}
             </button>
           </div>
         </form>

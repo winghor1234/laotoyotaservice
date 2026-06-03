@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import z from "zod";
@@ -16,11 +16,17 @@ const exchangeGiftSchema = (t) => z.object({
 
 export const useExchangeGiftForm = ({ onClose, handleFetch, }) => {
     const { t } = useTranslation("auth");
-    const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(exchangeGiftSchema(t)), });
+    const { register, handleSubmit, formState: { errors },setValue } = useForm({ resolver: zodResolver(exchangeGiftSchema(t)), });
     const [loading, setLoading] = useState(false);
     const [users, setUsers] = useState([]);
+    const [search, setSearch] = useState("");
+    const [giftCardSearch, setGiftCardSearch] = useState("");
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [showGiftDropdown, setShowGiftDropdown] = useState(false);
+    const cardDropdownRef = useRef(null);
+    const giftCardDropdownRef = useRef(null);
     const [giftCards, setGiftCards] = useState([]);
-    const [cards, setCards]= useState([]);
+    const [cards, setCards] = useState([]);
 
 
 
@@ -46,6 +52,25 @@ export const useExchangeGiftForm = ({ onClose, handleFetch, }) => {
         handleFetchAll();
     }, []);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            // เช็คตัวที่ 1: คลิกนอก Card Dropdown หรือไม่?
+            if (cardDropdownRef.current && !cardDropdownRef.current.contains(event.target)) {
+                setShowDropdown(false); // หรือ State ของ Card เช่น setShowCardDropdown(false)
+            }
+
+            // เช็คตัวที่ 2: คลิกนอก Gift Card Dropdown หรือไม่?
+            if (giftCardDropdownRef.current && !giftCardDropdownRef.current.contains(event.target)) {
+                setShowGiftDropdown(false); // State ของ Gift Card
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
 
     const submitForm = async (data) => {
         setLoading(true);
@@ -61,6 +86,6 @@ export const useExchangeGiftForm = ({ onClose, handleFetch, }) => {
             setLoading(false);
         }
     };
-    return { register, handleSubmit, loading, formState: { errors }, submitForm, users, giftCards, cards };
+    return { register, handleSubmit, loading, formState: { errors }, submitForm, users, giftCards, cards, search, setSearch, giftCardSearch, setGiftCardSearch, showDropdown, setShowDropdown, showGiftDropdown, setShowGiftDropdown,cardDropdownRef, giftCardDropdownRef, setValue };
 };
 

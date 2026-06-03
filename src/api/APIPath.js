@@ -42,7 +42,7 @@ export default class APIPath {
     static GET_ALL_GIFT_HISTORY = `${this.BASE_URL}/gifthistory/getAll`;
     static EXPORT_GIFT_HISTORY = `${this.BASE_URL}/gifthistory/export`;
     static CREATE_GIFT_HISTORY = `${this.BASE_URL}/gifthistory/insert`;
-    static UPDATE_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/update/${id}` }
+    // static UPDATE_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/update/${id}` }
     static DELETE_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/delete/${id}` }
 
 

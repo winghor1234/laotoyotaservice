@@ -35,7 +35,7 @@ const AddPromotion = ({ show, onClose, handleFetchPromotion }) => {
                 type="text"
                 placeholder={t("promotion_title")} // ຊື່ໂປຣໂມຊັ່ນ / Promotion Title
                 {...register("title")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
               />
               {errors.title && <p className="text-red-500">{errors.title.message}</p>}
             </div>
@@ -45,7 +45,7 @@ const AddPromotion = ({ show, onClose, handleFetchPromotion }) => {
                 type="text"
                 placeholder={t("promotion_detail")} // ລາຍລະອຽດ / Detail
                 {...register("detail")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
               />
               {errors.detail && <p className="text-red-500">{errors.detail.message}</p>}
             </div>

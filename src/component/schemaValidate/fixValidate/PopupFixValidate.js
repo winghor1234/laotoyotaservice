@@ -2,7 +2,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import APIPath from "../../../api/APIPath";
 import axiosInstance from "../../../utils/AxiosInstance";
@@ -39,6 +39,10 @@ export const useFixForm = ({ bookingId }) => {
 
   const [isManualLabourPoint, setIsManualLabourPoint] = useState(false);
   const [isManualPartPoint, setIsManualPartPoint] = useState(false);
+
+  const cardDropdownRef = useRef(null);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [search, setSearch] = useState("");
 
   const [calculated, setCalculated] = useState({
     labour: 0,
@@ -173,6 +177,20 @@ export const useFixForm = ({ bookingId }) => {
     fetchData();
   }, []);
 
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (cardDropdownRef.current && !cardDropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   // ================= SUBMIT (USE ONLY STATE, NO RE-CALC) =================
   const submitForm = async (data) => {
     try {
@@ -213,5 +231,10 @@ export const useFixForm = ({ bookingId }) => {
     cards,
     setIsManualLabourPoint,
     setIsManualPartPoint,
+    cardDropdownRef,
+    showDropdown,
+    setShowDropdown,
+    search,
+    setSearch
   };
 };

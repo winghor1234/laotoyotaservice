@@ -2,7 +2,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import APIPath from "../../../api/APIPath";
 import axiosInstance from "../../../utils/AxiosInstance";
 import { useTranslation } from "react-i18next";
@@ -36,6 +36,10 @@ export const useWorkShopRepair = () => {
   const [cards, setCards] = useState([]);
   const [isManualLabourPoint, setIsManualLabourPoint] = useState(false);
   const [isManualPartPoint, setIsManualPartPoint] = useState(false);
+  const cardDropdownRef = useRef(null);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [search, setSearch] = useState("");
+
 
   // 🔥 store computed values (IMPORTANT FIX)
   const [calculated, setCalculated] = useState({
@@ -45,7 +49,7 @@ export const useWorkShopRepair = () => {
   });
   const { pointSettings } = usePoints();
 
-  const { register, handleSubmit, formState: { errors }, setValue, watch, } = useForm({
+  const { register, handleSubmit, formState: { errors }, setValue, watch, reset } = useForm({
     resolver: zodResolver(workShopRepairSchema(t)),
     defaultValues: {
       payment_currency: "LAK",
@@ -86,6 +90,8 @@ export const useWorkShopRepair = () => {
       console.log(error);
     }
   };
+
+
 
 
   // ================= CALCULATION (SOURCE OF TRUTH) =================
@@ -155,6 +161,19 @@ export const useWorkShopRepair = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (cardDropdownRef.current && !cardDropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   // ================= SUBMIT (USE ONLY STATE, NO RE-CALC) =================
   const submitForm = async (data) => {
     try {
@@ -174,23 +193,11 @@ export const useWorkShopRepair = () => {
             ? 0
             : data.exchange_rate,
       };
-      console.log(payload);
-
-
+   
       const res = await axiosInstance.post(APIPath.WORKSHOP_FIX, payload);
       const FixId = res.data.data.fix_id;
-
-
-
-      // await axiosInstance.put(
-      //   APIPath.UPDATE_BOOKING_STATUS(bookingId),
-      //   {
-      //     bookingStatus: "success",
-      //   }
-      // );
-
       SuccessAlert(t("fix_success"));
-
+      reset();
       navigate(`/user/workshop-fix-bill-detail/${FixId}`);
     } catch (error) {
       console.log(error);
@@ -207,5 +214,10 @@ export const useWorkShopRepair = () => {
     cards,
     setIsManualLabourPoint,
     setIsManualPartPoint,
+    cardDropdownRef,
+    showDropdown,
+    setShowDropdown,
+    search,
+    setSearch
   };
 };

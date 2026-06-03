@@ -64,7 +64,7 @@ const AddEmployee = ({ show, onClose, handleFetchEmployee }) => {
                 type="text"
                 placeholder={t("employee_name")}
                 {...register("employee_name")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 focus:ring-1 focus:ring-red-600 shadow-sm transition-colors"
               />
               {errors.employee_name && <p className="text-red-500">{errors.employee_name.message}</p>}
             </div>
@@ -74,7 +74,7 @@ const AddEmployee = ({ show, onClose, handleFetchEmployee }) => {
                 type="text"
                 placeholder={t("position")}
                 {...register("position")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 focus:ring-1 focus:ring-red-600 shadow-sm transition-colors"
               />
               {errors.position && <p className="text-red-500">{errors.position.message}</p>}
             </div>
@@ -82,7 +82,7 @@ const AddEmployee = ({ show, onClose, handleFetchEmployee }) => {
               <select
                 {...register("branchId")}
                 defaultValue=""
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-red-500 focus:border-red-600 focus:ring-1 focus:ring-red-600 shadow-sm transition-colors"
               >
                 <option value="" disabled>{t("selectBranch")}</option>
                 {branches.length > 0 ? branches.map(branch => (
@@ -96,7 +96,7 @@ const AddEmployee = ({ show, onClose, handleFetchEmployee }) => {
             <div className="w-full h-20">
               <select
                 {...register("userId")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-red-500 focus:border-red-600 focus:ring-1 focus:ring-red-600 shadow-sm transition-colors"
               >
                 <option value="" disabled>{t("selectUser")}</option>
                 {user.length > 0 ? user.filter(user => user.role !== "general").map(user => (

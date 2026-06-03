@@ -120,10 +120,6 @@ const CardList = () => {
                             className="bg-white rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition-shadow"
                         >
                             <div className="flex items-center justify-between mb-3">
-                                <div className="text-sm font-medium text-gray-600">
-                                    #{index + 1}
-                                </div>
-
                                 <div className="flex items-center gap-3">
                                     <Eye
                                         onClick={() =>
@@ -190,10 +186,7 @@ const CardList = () => {
             {/* Desktop */}
             <div className="hidden md:block bg-white rounded-lg shadow-sm overflow-hidden w-full flex-col flex-1">
                 <div className="w-full h-14 bg-[#E52020] text-white">
-                    <div className="grid grid-cols-6 gap-4 px-4 py-4 font-medium text-base">
-                        <div className="flex justify-center items-center">
-                            {t("index")}
-                        </div>
+                    <div className="grid grid-cols-5 gap-4 px-4 py-4 font-medium text-base">
 
                         <div className="flex justify-center items-center">
                             {t("card_number")}
@@ -226,11 +219,8 @@ const CardList = () => {
                         .map((item, index) => (
                             <div
                                 key={index}
-                                className="grid grid-cols-6 gap-4 px-4 py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors shadow-sm"
+                                className="grid grid-cols-5 gap-4 px-4 py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors shadow-sm"
                             >
-                                <div className="flex justify-center items-center">
-                                    {index + 1}
-                                </div>
 
                                 <div className="text-center">
                                     {item.card_number}

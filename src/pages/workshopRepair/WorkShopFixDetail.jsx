@@ -99,6 +99,14 @@ const WorkShopFixDetail = () => {
                                     <span className="text-gray-400 block md:mb-1">{t("plate_number")}:</span>
                                     <span className="text-gray-800">{data?.card?.car?.plateNumber || "-"}</span>
                                 </p>
+                                <p className="flex justify-between md:block">
+                                    <span className="text-gray-400 block md:mb-1">{t("engine_number")}:</span>
+                                    <span className="text-gray-800">{data?.card?.car?.engineNumber || "-"}</span>
+                                </p>
+                                <p className="flex justify-between md:block">
+                                    <span className="text-gray-400 block md:mb-1">{t("frame_number")}:</span>
+                                    <span className="text-gray-800">{data?.card?.car?.frameNumber || "-"}</span>
+                                </p>
 
                             </div>
                         </div>

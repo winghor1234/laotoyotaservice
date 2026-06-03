@@ -28,7 +28,7 @@ const AddService = ({ show, onClose, handleFetch }) => {
               <input
                 {...register("nameService")}
                 placeholder={t("service_name")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:ring-red-600 shadow-sm transition-colors"
               />
               <div className="h-6">
                 {errors.nameService && (<p className="text-red-500">{errors.nameService.message}</p>)}
@@ -38,7 +38,7 @@ const AddService = ({ show, onClose, handleFetch }) => {
               <input
                 {...register("description")}
                 placeholder={t("service_description")}
-                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:ring-red-600 shadow-sm transition-colors"
               />
               <div className="h-6">
                 {errors.description && (<p className="text-red-500">{errors.description.message}</p>)}

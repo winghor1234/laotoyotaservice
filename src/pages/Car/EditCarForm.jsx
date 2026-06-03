@@ -1,5 +1,5 @@
 
-import { Car } from "lucide-react";
+import { Car, X } from "lucide-react";
 import { FaArrowLeft } from "react-icons/fa";
 import { useEditCarForm } from "../../component/schemaValidate/carValidate/EditCarFormValidate";
 import { useTranslation } from "react-i18next";
@@ -43,6 +43,7 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
     setShowDropdown,
     dropdownRef,
     formState: { errors },
+    setValue,
     handleSelectUser,
   } = useEditCarForm({
     carId,
@@ -155,8 +156,23 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
                       setShowDropdown(true);
                     }
                   }}
-                  className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
+                  className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-red-500"
                 />
+                {/* ปุ่มสำหรับลบข้อมูล (แสดงเมื่อมีค่าใน search เท่านั้น) */}
+                {search && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearch("");
+                      setValue("userId", "");
+                      setSelectedUser(null);
+                      setShowDropdown(true);
+                    }}
+                    className="absolute right-2 bottom-1/7 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                  >
+                    <X />
+                  </button>
+                )}
 
                 {/* Hidden Input */}
                 <input type="hidden" {...register("userId")} />
@@ -171,7 +187,7 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
                         <div
                           key={user.user_id}
                           onClick={() => handleSelectUser(user)}
-                          className="px-3 py-2 text-sm cursor-pointer hover:bg-blue-100"
+                          className="px-3 py-2 text-sm cursor-pointer hover:bg-red-100"
                         >
                           {user.customer_number} {user.username}
                         </div>
@@ -189,7 +205,7 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
 
               <input
                 {...register("model")}
-                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
+                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
                 placeholder={t("car_model_placeholder")}
               />
             </div>
@@ -202,7 +218,7 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
 
               <input
                 {...register("engineNumber")}
-                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
+                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
                 placeholder={t("engine_placeholder")}
               />
             </div>
@@ -215,7 +231,7 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
 
               <input
                 {...register("frameNumber")}
-                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
+                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
                 placeholder={t("frame_placeholder")}
               />
             </div>
@@ -228,7 +244,7 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
 
               <input
                 {...register("plateNumber")}
-                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
+                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
                 placeholder={t("plate_placeholder")}
               />
             </div>
@@ -241,7 +257,7 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
 
               <select
                 {...register("province")}
-                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
+                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
               >
                 <option value="">{t("province_placeholder")}</option>
 
@@ -267,7 +283,7 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
 
               <select
                 {...register("color")}
-                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-blue-500"
+                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
               >
                 <option value="">{t("color_placeholder")}</option>
 

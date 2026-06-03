@@ -99,13 +99,21 @@ const SuccessDetail = () => {
                 {t("car_info")}
               </h3>
               <div className="text-sm space-y-2 text-gray-700">
+                <p className="flex justify-between md:block ">
+                  <span className="text-gray-400 block md:mb-1">{t("car_model")}:</span>
+                  <span className="truncate block">{booking?.car?.model || "-"}</span>
+                </p>
                 <p className="flex justify-between md:block">
                   <span className="text-gray-400 block md:mb-1">{t("plate_number")}:</span>
                   <span>{booking?.car?.plateNumber || "-"}</span>
                 </p>
-                <p className="flex justify-between md:block text-xs">
-                  <span className="text-gray-400 block md:mb-1">{t("car_model")}:</span>
-                  <span className="truncate block">{booking?.car?.model || "-"}</span>
+                <p className="flex justify-between md:block ">
+                  <span className="text-gray-400 block md:mb-1">{t("engine_number")}:</span>
+                  <span className="truncate block">{booking?.car?.engineNumber || "-"}</span>
+                </p>
+                <p className="flex justify-between md:block ">
+                  <span className="text-gray-400 block md:mb-1">{t("frame_number")}:</span>
+                  <span className="truncate block">{booking?.car?.frameNumber || "-"}</span>
                 </p>
               </div>
             </div>

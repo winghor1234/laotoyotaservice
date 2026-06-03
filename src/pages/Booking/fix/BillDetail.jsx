@@ -164,15 +164,15 @@ const BillDetail = () => {
 
                 <div className="mt-4 flex justify-end">
                     <div style={{ textAlign: "right" }}>
-                        <h3 style={{ fontSize: "1.25rem", fontWeight: "600", color: "#15803d" }}>
-                            {t("totalPrice")}: {totalPoint.toFixed(2)} ກີບ
+                        <h3 style={{ fontSize: "1rem", fontWeight: "600", color: "#15803d" }}>
+                            {t("totalPoint")}: {totalPoint.toFixed(2)} {t("point_text")}
                         </h3>
                     </div>
                 </div>
                 <div className="mt-4 flex justify-end">
                     <div style={{ textAlign: "right" }}>
                         <h3 style={{ fontSize: "1.25rem", fontWeight: "600", color: "#15803d" }}>
-                            {t("totalPrice")}: {FormatNumber(data?.labour_total + data?.part_total)} ກີບ
+                            {t("totalPrice")}: {FormatNumber(data?.labour_total + data?.part_total)} {t("kip")}
                         </h3>
                     </div>
                 </div>

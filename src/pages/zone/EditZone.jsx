@@ -16,13 +16,13 @@ const EditZone = ({ show, onClose, zoneId, fetchZone }) => {
                 <h2 className="text-lg sm:text-xl font-bold text-center mb-4">{t("editZoneTitle")}</h2>
                 <form onSubmit={handleSubmit(submitForm)} className="space-y-3 sm:space-y-4">
                     {/* Inputs */}
-                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                    <div className="flex flex-col ">
                         <div className="flex flex-col">
                             <input
                                 type="text"
                                 {...register("zoneName")}
                                 placeholder={t("zoneName")}
-                                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
                             />
                             <div className="h-6">
                                 {errors.zoneName && <span className="text-red-500 text-xs">{errors.zoneName.message}</span>}

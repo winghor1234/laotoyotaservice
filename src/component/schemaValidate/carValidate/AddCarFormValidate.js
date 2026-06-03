@@ -24,7 +24,7 @@ export const useAddCarForm = ({ handleFetchCar, onClose }) => {
     const [search, setSearch] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
-    const { register, handleSubmit, formState: { errors }, reset, } = useForm({ resolver: zodResolver(addCarSchema(t)), });
+    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm({ resolver: zodResolver(addCarSchema(t)), });
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -70,5 +70,5 @@ export const useAddCarForm = ({ handleFetchCar, onClose }) => {
     };
 
 
-    return { register, handleSubmit, formState: { errors }, users, onSubmit, handleBack, reset, search, setSearch, showDropdown, setShowDropdown };
+    return { register, handleSubmit, formState: { errors }, users, onSubmit, handleBack, reset, search, setSearch, showDropdown, setShowDropdown,dropdownRef,setValue };
 }

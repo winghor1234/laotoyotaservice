@@ -26,7 +26,7 @@ const AddTime = ({ show, onClose, fetchTime, addToExport }) => {
               type="text"
               placeholder={t("timeLabel")}
               {...register("time")}
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-red-500 focus:border-red-600  shadow-sm transition-colors"
             />
             <div className="h-6">
               {errors.time && <p className="text-red-500 text-sm">{errors.time.message}</p>}
@@ -36,7 +36,7 @@ const AddTime = ({ show, onClose, fetchTime, addToExport }) => {
               type="date"
               placeholder={t("dateLabel")}
               {...register("date")}
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-red-500 focus:border-red-600 focus:ring-1 focus:ring-red-600 shadow-sm transition-colors"
             />
 
             <div className="h-6">
@@ -48,7 +48,7 @@ const AddTime = ({ show, onClose, fetchTime, addToExport }) => {
               min="1"
               // placeholder="quantity..."
               {...register("qty" ,{ valueAsNumber: true })}
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
             />
 
             <div className="h-6">

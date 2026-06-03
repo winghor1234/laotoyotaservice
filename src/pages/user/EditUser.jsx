@@ -30,8 +30,8 @@ const EditUser = ({ show, onClose, customerId, handleFetch }) => {
             {/* Modal */}
             <div
                 className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50   w-[95%] sm:w-[90%] md:w-full   max-w-2xl   max-h-[95vh] overflow-y-auto    bg-gray-50 rounded-2xl shadow-lg   p-3 sm:p-4 md:p-6    transition-all duration-300 text-base ${show
-                        ? "scale-100 opacity-100"
-                        : "scale-90 opacity-0 pointer-events-none"
+                    ? "scale-100 opacity-100"
+                    : "scale-90 opacity-0 pointer-events-none"
                     }`}
             >
                 {/* Header */}
@@ -67,7 +67,7 @@ const EditUser = ({ show, onClose, customerId, handleFetch }) => {
 
                             <input
                                 {...register("username")}
-                                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-blue-500 focus:border-blue-500 transition-colors"
+                                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-red-500 focus:border-red-500 transition-colors"
                                 placeholder={t("username_placeholder")}
                             />
 
@@ -99,11 +99,17 @@ const EditUser = ({ show, onClose, customerId, handleFetch }) => {
                                         ...base,
                                         zIndex: 9999,
                                     }),
-
-                                    control: (base) => ({
+                                    // แก้ไขส่วน control ตรงนี้
+                                    control: (base, state) => ({
                                         ...base,
                                         minHeight: 42,
                                         borderRadius: 8,
+                                        fontSize: '0.875rem', // text-sm
+                                        borderColor: state.isFocused ? '#ef4444' : '#d1d5db', // สีแดงแดงเมื่อ focus : สีเทาปกติ
+                                        boxShadow: state.isFocused ? '0 0 0 1px #ef4444' : 'none', // ปรับเงาขอบเมื่อ focus
+                                        '&:hover': {
+                                            borderColor: '#ef4444', // สีแดงเมื่อ hover
+                                        },
                                     }),
                                 }}
                             />
@@ -125,7 +131,7 @@ const EditUser = ({ show, onClose, customerId, handleFetch }) => {
 
                             <input
                                 {...register("phoneNumber")}
-                                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-blue-500 focus:border-blue-500 transition-colors"
+                                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-red-500 focus:border-red-500 transition-colors"
                                 placeholder={t("phonePlaceholder")}
                             />
 
@@ -158,11 +164,17 @@ const EditUser = ({ show, onClose, customerId, handleFetch }) => {
                                         ...base,
                                         zIndex: 9999,
                                     }),
-
-                                    control: (base) => ({
+                                    // แก้ไขส่วน control ตรงนี้
+                                    control: (base, state) => ({
                                         ...base,
                                         minHeight: 42,
                                         borderRadius: 8,
+                                        fontSize: '0.875rem', // text-sm
+                                        borderColor: state.isFocused ? '#ef4444' : '#d1d5db',
+                                        boxShadow: state.isFocused ? '0 0 0 1px #ef4444' : 'none',
+                                        '&:hover': {
+                                            borderColor: '#ef4444',
+                                        },
                                     }),
                                 }}
                             />
@@ -184,7 +196,7 @@ const EditUser = ({ show, onClose, customerId, handleFetch }) => {
 
                             <input
                                 {...register("email")}
-                                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-blue-500 focus:border-blue-500 transition-colors"
+                                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-red-500 focus:border-red-500 transition-colors"
                                 placeholder={t("email_placeholder")}
                             />
 
@@ -205,7 +217,7 @@ const EditUser = ({ show, onClose, customerId, handleFetch }) => {
 
                             <input
                                 {...register("village")}
-                                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-blue-500 focus:border-blue-500 transition-colors"
+                                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-red-500 focus:border-red-500 transition-colors"
                                 placeholder={t("villagePlaceholder")}
                             />
 

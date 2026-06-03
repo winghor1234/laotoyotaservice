@@ -29,7 +29,7 @@ const EditGift = ({ show, onClose, giftId, handleFetch }) => {
               <input
                 {...register("gift_Name")}
                 placeholder={t("gift_name")}
-                className="w-full py-2 px-3 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 px-3 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
               />
               <div className="h-6">{errors.name && <p className="text-red-500">{errors.name.message}</p>}</div>
             </div>
@@ -37,7 +37,7 @@ const EditGift = ({ show, onClose, giftId, handleFetch }) => {
               <input
                 {...register("amount")}
                 placeholder={t("amount")}
-                className="w-full py-2 px-3 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 px-3 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
               />
               <div className="h-6">{errors.amount && <p className="text-red-500 text-sm">{errors.amount.message}</p>}</div>
             </div>
@@ -45,7 +45,7 @@ const EditGift = ({ show, onClose, giftId, handleFetch }) => {
               <input
                 {...register("gift_Point")}
                 placeholder={t("point")}
-                className="w-full py-2 px-3 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                className="w-full py-2 px-3 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
               />
               <div className="h-6">{errors.point && <p className="text-red-500">{errors.point.message}</p>}</div>
             </div>

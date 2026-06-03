@@ -80,7 +80,8 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
                                         onClick={() => {
                                             setSearch("");
                                             setValue("carId", "");
-                                            setShowDropdown(false);
+                                            setSelectedCar(null);
+                                            setShowDropdown(true);
                                         }}
                                         className="absolute right-3 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
                                     >
@@ -132,7 +133,7 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
                                     onClick={handleGenerateCode}
                                     className="h-[48px] px-4 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold transition-all active:scale-95"
                                 >
-                                    GEN
+                                    {t("genCode")}
                                 </button>
                             </div>
                             {errors.card_number && <p className="text-red-500 text-xs mt-1">{errors.card_number.message}</p>}
@@ -205,7 +206,7 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
                         <button
                             type="button"
                             onClick={onClose}
-                            className="order-2 sm:order-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-8 py-2.5 rounded-lg font-medium transition-colors"
+                            className="order-2 sm:order-1 bg-red-600 hover:bg-red-700 text-white px-8 py-2.5 rounded-lg font-medium transition-colors"
                             disabled={loading}
                         >
                             {t("cancel")}
@@ -213,7 +214,7 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
 
                         <button
                             type="submit"
-                            className="order-1 sm:order-2 bg-red-600 hover:bg-red-700 text-white px-8 py-2.5 rounded-lg font-medium shadow-sm transition-all flex items-center justify-center gap-2"
+                            className="order-1 sm:order-2 bg-green-600 hover:bg-green-700 text-white px-8 py-2.5 rounded-lg font-medium shadow-sm transition-all flex items-center justify-center gap-2"
                             disabled={loading}
                         >
                             {loading ? <Spinner size="5" color="white" /> : t("submit")}

@@ -24,7 +24,7 @@ const EditTimeStatus = ({ show, onClose, timeId, fetchTime }) => {
                                 placeholder={t("timeLabel")}
                                 {...register("time")}
                                 // value={fetchTime?.time}
-                                className="w-full py-2 sm:py-3.5 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                                className="w-full py-2 sm:py-3.5 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
                             />
                         </div> */}
 
@@ -34,7 +34,7 @@ const EditTimeStatus = ({ show, onClose, timeId, fetchTime }) => {
                                 type="text"
                                 placeholder={t("qtyLabel")}
                                 {...register("qty")}
-                                className=" w-full py-2 sm:py-3.5 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                                className=" w-full py-2 sm:py-3.5 px-3 sm:px-4 border border-gray-300 rounded-lg outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
                             />
                             <div className="h-6">
                                 {errors.qty && <p className="text-red-500 text-sm">{errors.qty.message}</p>}

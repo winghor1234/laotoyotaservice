@@ -1,4 +1,4 @@
-import { Eye, GiftIcon, HandCoins } from "lucide-react";
+import { CircleX, Eye, GiftIcon, HandCoins } from "lucide-react";
 import { useEffect, useState } from "react";
 import SelectDate from "../../../utils/SelectDate";
 import axiosInstance from "../../../utils/AxiosInstance";
@@ -9,12 +9,13 @@ import useServerFilterPagination from "../../../utils/useServerFilterPagination"
 import ExportExcelPopup from "../../../utils/exportExelPopup";
 import DownloadButton from "../../../utils/DownloadButton";
 import ReturnScore from "./ReturnScore";
+import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 
 const GiftHistoryList = () => {
     // const [gifts, setGifts] = useState([]);
     const [open, setOpen] = useState(false);
-    const [show, setShow] = useState(false);
-    const [giftHistoryId, setGiftHistoryId] = useState(null);
+    // const [show, setShow] = useState(false);
+    // const [giftHistoryId, setGiftHistoryId] = useState(null);
     const { t } = useTranslation("gift");
     const navigate = useNavigate();
 
@@ -46,6 +47,17 @@ const GiftHistoryList = () => {
         navigate(`/user/gift-history-detail/${id}`);
     };
 
+    const handleReturnScore = async (id) => {
+        if (!id) return;
+        try {
+            await axiosInstance.put(APIPath.DELETE_GIFT_HISTORY(id));
+            fetchData();
+            SuccessAlert(t("return_score_gift_success"));
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
 
     useEffect(() => {
         fetchData();
@@ -74,7 +86,7 @@ const GiftHistoryList = () => {
             {/* Mobile Card Layout */}
             <div className="md:hidden space-y-4 mb-6">
                 {giftCardHistory?.map((item, index) => (
-                    <div key={index}  className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
+                    <div key={index} className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
                         {/* Mobile Card Header */}
                         <div className="flex items-center justify-between mb-3">
                             <div className="text-sm font-medium text-gray-600">#{index + 1}</div>
@@ -98,9 +110,8 @@ const GiftHistoryList = () => {
                             </div>
                             <div className="flex items-center gap-3">
                                 <Eye onClick={() => handleToDetailGiftHistory(item.gifthistory_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
-                                <HandCoins onClick={() => {
-                                    setGiftHistoryId(item.gifthistory_id);
-                                    setShow(true);
+                                <CircleX onClick={() => {
+                                    handleReturnScore(item.gifthistory_id);
                                 }} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                             </div>
                         </div>
@@ -146,10 +157,11 @@ const GiftHistoryList = () => {
                             </div>
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-5">
                                 <Eye onClick={() => handleToDetailGiftHistory(item.gifthistory_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
-                                <HandCoins onClick={() => {
-                                    setGiftHistoryId(item.gifthistory_id);
-                                    setShow(true);
-                                }}  className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                <CircleX onClick={() => { 
+                                    handleReturnScore(item.gifthistory_id);
+                                    // setGiftHistoryId(item.gifthistory_id);
+                                    // setShow(true);
+                                }} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                             </div>
                         </div>
                     ))}
@@ -192,7 +204,7 @@ const GiftHistoryList = () => {
                 </button>
             </div>
             {/* Return the score */}
-            <ReturnScore show={show} onClose={() => setShow(false)} id={giftHistoryId} handleFetch={fetchData} />
+            {/* <ReturnScore show={show} onClose={() => setShow(false)} id={giftHistoryId} handleFetch={fetchData} /> */}
         </div>
     );
 };

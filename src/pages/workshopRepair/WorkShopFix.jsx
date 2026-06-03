@@ -2,13 +2,16 @@
 import { useTranslation } from "react-i18next";
 import CurrencyInput from "react-currency-input-field";
 import { useWorkShopRepair } from "../../component/schemaValidate/workShopRepairValidate/WorkShopRepairValidate";
+import { useState } from "react";
+import { X } from "lucide-react";
 
 const WorkShopFix = ({ show, onClose }) => {
     const { t } = useTranslation("booking");
-    const { register, handleSubmit, errors, submitForm, setValue, watch, cards, setIsManualPartPoint, setIsManualLabourPoint } = useWorkShopRepair();
+    const { register, handleSubmit, errors, submitForm, setValue, watch, cards, setIsManualPartPoint, setIsManualLabourPoint, search, setSearch, showDropdown, setShowDropdown, cardDropdownRef } = useWorkShopRepair();
     const labour_total = watch("labour_total") || 0;
     const part_total = watch("part_total") || 0;
     const totalPrice = Number(labour_total) + Number(part_total);
+    const [selectedCard, setSelectedCard] = useState(null);
 
     const payment_currency = watch("payment_currency");
     const currencyText =
@@ -19,6 +22,7 @@ const WorkShopFix = ({ show, onClose }) => {
                 : t("kip_text");
 
     if (!show) return null;
+    // console.log("cards", cards);
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <form
@@ -31,29 +35,72 @@ const WorkShopFix = ({ show, onClose }) => {
 
                 <div className="space-y-4 sm:space-y-6">
                     {/* card number */}
-                    <div className="flex flex-col">
-                        <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("card_id_text")}</label>
-                        <select
-                            {...register('cardId')}
-                            className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-                        >
-                            <option value="">{t("select_card")}</option>
-                            {(cards || []).map((card) => (
-                                <option key={card.card_id} value={card.card_id}>
-                                    {card.card_number} {card.card_type}
-                                </option>
-                            ))}
-                        </select>
-                        <div className="h-6">{errors.cardId && <p className="text-red-500 text-sm">{errors.cardId.message}</p>}</div>
+                    <div ref={cardDropdownRef} className="flex flex-col relative">
+                        <input type="hidden" {...register("cardId")} />
+
+                        {/* input search */}
+                        <input
+                            type="text"
+                            value={search}
+                            placeholder={t("select_card")}
+                            onChange={(e) => {
+                                setSearch(e.target.value);
+                                setSelectedCard(null);
+                                setShowDropdown(true);
+                            }}
+                            onFocus={() => {
+                                if (!selectedCard) {
+                                    setShowDropdown(true);
+                                }
+                            }}
+                            className="w-full py-2 sm:py-3.5 rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500 "
+                        />
+                        {/* ปุ่มสำหรับลบข้อมูล (แสดงเมื่อมีค่าใน search เท่านั้น) */}
+                        {search && (
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setSearch("");
+                                    setValue("cardId", "");
+                                    setSelectedCard(null);
+                                    setShowDropdown(true);
+                                }}
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                            >
+                                <X />
+                            </button>
+                        )}
+
+                        {/* dropdown */}
+                        {showDropdown && !selectedCard && (
+                            <div ref={cardDropdownRef} className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
+                                {cards.filter((card) => `${card.card_number} ${card.card_type}`.toLowerCase().includes(search.toLowerCase()))
+                                    .map((card) => (
+                                        <div
+                                            key={card.card_id}
+                                            onClick={() => {
+                                                setSearch(`${card.card_number} ${card.card_type}`);
+
+                                                setSelectedCard(card);
+                                                setValue("cardId", card.card_id);
+                                                setShowDropdown(false);
+                                            }}
+                                            className="px-3 py-2 text-sm cursor-pointer hover:bg-red-600"
+                                        >
+                                            {card.card_number} {card.card_type} : {card.total_point || 0}
+                                        </div>
+                                    ))}
+                            </div>
+                        )}
                     </div>
                     {/* payment type */}
                     <div className="flex flex-col">
                         <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("payment_type_text")}</label>
                         <select
                             {...register('payment_type')}
-                            className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                            className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-500  focus:ring-red-500 shadow-sm transition-colors"
                         >
-                            <option value="">{t("select_payment_type")}</option>
+                            <option disabled value="">{t("select_payment_type")}</option>
                             <option value="Cash">{t("cash")}</option>
                             <option value="Transfer">{t("transfer")}</option>
                         </select>
@@ -67,7 +114,7 @@ const WorkShopFix = ({ show, onClose }) => {
                             <input
                                 {...register("kmLast")}
                                 placeholder={t("kmLast")}
-                                className=" w-full py-2 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                                className=" w-full py-2 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-500 focus:ring-red-500 shadow-sm transition-colors pr-12"
                             />
                             <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg pointer-events-none">
                                 {t("km_text")}
@@ -81,7 +128,7 @@ const WorkShopFix = ({ show, onClose }) => {
                             <input
                                 {...register("kmNext")}
                                 placeholder={t("kmNext")}
-                                className="w-full py-2 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                                className="w-full py-2 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-500  focus:ring-red-500 shadow-sm transition-colors pr-12"
                             />
                             <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg pointer-events-none">
                                 {t("km_text")}
@@ -97,7 +144,7 @@ const WorkShopFix = ({ show, onClose }) => {
                             {...register("detailFix")}
                             placeholder={t("detailFix")}
                             rows={3}
-                            className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors resize-none"
+                            className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-500 focus:ring-red-500 shadow-sm transition-colors resize-none"
                         />
                     </div>
 
@@ -167,7 +214,7 @@ const WorkShopFix = ({ show, onClose }) => {
                                 groupSeparator=","
                                 decimalsLimit={0}
                                 min={0}
-                                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-500  focus:ring-red-500 shadow-sm transition-colors pr-12"
                                 onValueChange={(value) => setValue("labour_total", Number(value) || 0)}
                             />
                             <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
@@ -179,7 +226,7 @@ const WorkShopFix = ({ show, onClose }) => {
                         <div className="flex  items-center justify-center gap-4">
                             {/* labour_point */}
                             <div className="flex flex-col relative">
-                                <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("labour_point_text")}</label>
+                                <label className="mb-1 text-gray-500 text-sm sm:text-base">{t("labour_point_text")}</label>
                                 <CurrencyInput
                                     readOnly
                                     value={Number(watch("labour_point") || 0).toFixed(2)}
@@ -188,7 +235,7 @@ const WorkShopFix = ({ show, onClose }) => {
                                     groupSeparator=","
                                     decimalsLimit={0}
                                     min={0}
-                                    className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
+                                    className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
                                     onValueChange={(value) => {
                                         setIsManualLabourPoint(true);
                                         setValue("labour_point", value ? Number(value) : ""
@@ -210,7 +257,7 @@ const WorkShopFix = ({ show, onClose }) => {
                                     groupSeparator=","
                                     decimalsLimit={0}
                                     min={0}
-                                    className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                                    className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-500  focus:ring-red-500 shadow-sm transition-colors pr-12"
                                     // decimalsLimit={0}
                                     onKeyDown={(e) => {
                                         const input = e.currentTarget;
@@ -246,7 +293,7 @@ const WorkShopFix = ({ show, onClose }) => {
                                 placeholder={t("part_total_placholder")}
                                 groupSeparator=","
                                 decimalsLimit={0}
-                                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-500  focus:ring-red-500 shadow-sm transition-colors pr-12"
                                 onValueChange={(value) => setValue("part_total", Number(value) || "")}
                             />
                             <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
@@ -265,7 +312,7 @@ const WorkShopFix = ({ show, onClose }) => {
                                     // placeholder={t("part_point_placholder")}
                                     groupSeparator=","
                                     decimalsLimit={0}
-                                    className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
+                                    className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
 
                                     onValueChange={(value) => {
                                         setIsManualPartPoint(true);
@@ -281,7 +328,7 @@ const WorkShopFix = ({ show, onClose }) => {
                             <div className="flex flex-col relative">
                                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_discount_text")}</label>
                                 <CurrencyInput
-                                    className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors pr-12"
+                                    className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-500  focus:ring-red-500 shadow-sm transition-colors pr-12"
                                     value={watch("part_discount")}
                                     {...register("part_discount")}
                                     placeholder={t("part_discount_placholder")}
@@ -323,7 +370,7 @@ const WorkShopFix = ({ show, onClose }) => {
                             placeholder={t("totalPrice")}
                             groupSeparator=","
                             decimalsLimit={0}
-                            className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
+                            className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
                             onValueChange={(value) => setValue("totalPrice", Number(value) || 0)}
                         />
                         <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
@@ -340,7 +387,7 @@ const WorkShopFix = ({ show, onClose }) => {
                             placeholder={t("totalPoint")}
                             groupSeparator=","
                             decimalsLimit={0}
-                            className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
+                            className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
                             onValueChange={(value) => setValue("totalPoint", Number(value) || 0)}
                         />
                         <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
@@ -357,7 +404,7 @@ const WorkShopFix = ({ show, onClose }) => {
                             placeholder="Total LAK"
                             groupSeparator=","
                             decimalsLimit={0}
-                            className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg bg-gray-100 outline-none"
+                            className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg bg-gray-100 outline-none"
                         />
                         <span className="absolute right-4 inset-y-0 translate-y-0 flex items-center text-gray-500 text-base sm:text-lg">
                             {t("kip_text")}
@@ -374,7 +421,9 @@ const WorkShopFix = ({ show, onClose }) => {
                 <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 pt-4">
                     <button
                         type="button"
-                        onClick={onClose}
+                        onClick={() => {
+                            onClose();
+                        }}
                         className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg w-full sm:w-32 h-12 cursor-pointer transition-colors text-sm sm:text-base"
                     >
                         {t("cancel")}

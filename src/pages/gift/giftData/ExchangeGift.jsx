@@ -1,12 +1,17 @@
 import { useTranslation } from "react-i18next";
 import Spinner from "../../../utils/Loading";
 import { useExchangeGiftForm } from "../../../component/schemaValidate/giftValidate.js/ExchangeGiftValidate";
+import { useState } from "react";
 
 
 const ExchangeGift = ({ show, onClose, handleFetch }) => {
     const { t } = useTranslation("gift");
-    const { register, handleSubmit, formState: { errors }, submitForm, loading, giftCards, cards } = useExchangeGiftForm({ onClose, handleFetch });
+    const [selectedCard, setSelectedCard] = useState(null);
+    const [selectedGiftCard, setSelectedGiftCard] = useState(null);
+    const { register, handleSubmit, formState: { errors }, submitForm, loading, giftCards, cards, search, setSearch, showDropdown, setShowDropdown, showGiftDropdown, setShowGiftDropdown,  cardDropdownRef, giftCardDropdownRef, giftCardSearch, setGiftCardSearch, setValue } = useExchangeGiftForm({ onClose, handleFetch });
     if (!show) return null;
+    // console.log("giftCards", giftCards);
+    // console.log("cards", cards);
 
     return (
         <>
@@ -21,40 +26,99 @@ const ExchangeGift = ({ show, onClose, handleFetch }) => {
                 <form onSubmit={handleSubmit(submitForm)} className="space-y-3 sm:space-y-4">
                     {/* Inputs */}
                     <div className="flex flex-col justify-center sm:flex-row gap-3 sm:gap-4 ">
-                        <div className="flex flex-col">
-                            <select
-                                {...register('cardId')}
-                                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-                            >
-                                <option value="">{t("select_card")}</option>
-                                {(cards || []).map((card) => (
-                                    <option key={card.card_id} value={card.card_id}>
-                                        {card.card_number} : {card.total_point || 0} {t("point")}
-                                    </option>
-                                ))}
-                            </select>
-                            <div className="h-6">{errors.cardId && <p className="text-red-500 text-sm">{errors.cardId.message}</p>}</div>
-                        </div>
-                        <div className="flex flex-col">
-                            <select
-                                {...register('giftcardId')}
-                                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
-                            >
-                                <option value="">{t("select_gift")}</option>
-                                {(giftCards || []).map((giftCard) => (
-                                    <option key={giftCard.giftcard_id} value={giftCard.giftcard_id}>
-                                        {giftCard.gift_Name} : {giftCard.gift_Point}
 
-                                    </option>
-                                ))}
-                            </select>
-                            <div className="h-6">{errors.giftcardId && <p className="text-red-500 text-sm">{errors.giftcardId.message}</p>}</div>
+                        <div ref={cardDropdownRef} className="flex flex-col relative">
+                            <input type="hidden" {...register("cardId")} />
+
+                            {/* input search */}
+                            <input
+                                type="text"
+                                value={search}
+                                placeholder={t("select_card")}
+                                onChange={(e) => {
+                                    setSearch(e.target.value);
+                                    setSelectedCard(null);
+                                    setShowDropdown(true);
+                                }}
+                                onFocus={() => {
+                                    if (!selectedCard) {
+                                        setShowDropdown(true);
+                                    }
+                                }}
+                                className="w-full py-2 sm:py-3.5 rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
+                            />
+
+                            {/* dropdown */}
+                            {showDropdown && !selectedCard && (
+                                <div ref={cardDropdownRef} className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
+                                    {cards.filter((card) => `${card.card_number} ${card.card_type}`.toLowerCase().includes(search.toLowerCase()))
+                                        .map((card) => (
+                                            <div
+                                                key={card.card_id}
+                                                onClick={() => {
+                                                    setSearch(`${card.card_number} ${card.card_type}`);
+
+                                                    setSelectedCard(card);
+                                                    setValue("cardId", card.card_id);
+                                                    setShowDropdown(false);
+                                                }}
+                                                className="px-3 py-2 text-sm cursor-pointer hover:bg-red-600"
+                                            >
+                                                {card.card_number} {card.card_type} : {card.total_point}
+                                            </div>
+                                        ))}
+                                </div>
+                            )}
                         </div>
+                        {/* gift */}
+                        <div ref={giftCardDropdownRef} className="flex flex-col relative">
+                            <input type="hidden" {...register("giftcardId")} />
+
+                            {/* input search */}
+                            <input
+                                type="text"
+                                value={giftCardSearch}
+                                placeholder={t("select_gift")}
+                                onChange={(e) => {
+                                    setGiftCardSearch(e.target.value);
+                                    setSelectedGiftCard(null);
+                                    setShowGiftDropdown(true);
+                                }}
+                                onFocus={() => {
+                                    if (!selectedGiftCard) {
+                                        setShowGiftDropdown(true);
+                                    }
+                                }}
+                                className="w-full py-2 sm:py-3.5 rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
+                            />
+
+                            {/* dropdown */}
+                            {showGiftDropdown && !selectedGiftCard && (
+                                <div ref={giftCardDropdownRef} className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
+                                    {giftCards?.filter((giftCard) => `${giftCard.gift_Name} ${giftCard.amount}`.toLowerCase().includes(giftCardSearch.toLowerCase()))
+                                        .map((giftCard) => (
+                                            <div
+                                                key={giftCard.giftcard_id}
+                                                onClick={() => {
+                                                    setGiftCardSearch(`${giftCard.gift_Name} ${giftCard.amount}`);
+                                                    setSelectedGiftCard(giftCard);
+                                                    setValue("giftcardId", giftCard.giftcard_id); // ใช้ setValue แทน reset
+                                                    setShowGiftDropdown(false);
+                                                }}
+                                                className="px-3 py-2 text-sm cursor-pointer hover:bg-red-600"
+                                            >
+                                                {giftCard.gift_Name} : {giftCard.gift_Point}
+                                            </div>
+                                        ))}
+                                </div>
+                            )}
+                        </div>
+
                         <div className="flex flex-col">
                             <input
                                 {...register("amount")}
                                 placeholder={t("amount")}
-                                className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-blue-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-colors"
+                                className="w-full py-2 sm:py-3 px-3 sm:px-4 border-1 border-gray-300 rounded-lg text-sm  outline-none hover:border-red-500 focus:border-red-600  focus:ring-red-600 shadow-sm transition-colors"
                             />
                             <div className="h-6">{errors.amount && <p className="text-red-500 text-sm">{errors.amount.message}</p>}</div>
                         </div>

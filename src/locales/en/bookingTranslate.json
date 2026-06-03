@@ -147,6 +147,9 @@
   "add": "Add Fix",
   "kip": "Kip",
   "title": "Fixing Detail",
-  "error_zone_required": "Please select zone to approve"
+  "error_zone_required": "Please select zone to approve",
+  "select_branch": "Please select branch",
+  "select_time": "Please select time",
+  "select_zone": "Please select zone"
   
 }
