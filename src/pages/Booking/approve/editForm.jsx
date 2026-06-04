@@ -37,47 +37,9 @@ const EditForm = ({ setShowEdit, bookingId, fetchBooking }) => {
     },
   });
 
-  //  Load initial data
-  // useEffect(() => {
-  //   const init = async () => {
-  //     try {
-  //       // 1️⃣ fetch booking
-  //       const bookingRes = await axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingId));
-  //       const bookingData = bookingRes?.data?.data;
-  //       setBooking(bookingData);
-
-
-  //       const zoneRes = await axiosInstance.get(APIPath.SELECT_ALL_ZONE);
-  //       setZone(zoneRes?.data?.data);
-
-  //       const timeRes = await axiosInstance.get(APIPath.SELECT_ALL_TIME);
-  //       setTime(timeRes?.data?.data);
-
-  //       const branchRes = await axiosInstance.get(APIPath.SELECT_ALL_BRANCH);
-  //       // console.log("branch : ",branchRes?.data?.data);
-  //       setBranch(branchRes?.data?.data);
-
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   if (booking?.time?.time_id) {
-  //     reset({
-  //       zoneId: booking.zoneId,
-  //       timeId: booking.time.time_id, // ✅ ค่าเดิม
-  //     });
-  //   }
-
-  //   init();
-  // }, [bookingId, reset]);
-
-
-  // 1. ปรับ useEffect การโหลดข้อมูลใหม่
   useEffect(() => {
     const init = async () => {
       try {
-        // ดึงข้อมูลทั้งหมดพร้อมกันเพื่อความเร็ว
         const [bookingRes, zoneRes, timeRes, branchRes] = await Promise.all([
           axiosInstance.get(APIPath.SELECT_ONE_BOOKING(bookingId)),
           axiosInstance.get(APIPath.SELECT_ALL_ZONE),
@@ -441,7 +403,6 @@ const EditForm = ({ setShowEdit, bookingId, fetchBooking }) => {
                         key={branch.branch_id}
                         onClick={() => {
                           setBranchSearch(`${branch.branch_name}`);
-
                           setSelectedBranch(branch);
                           setValue("branchId", branch.branch_id);
                           setBranchShowDropdown(false);

@@ -1,4 +1,4 @@
-import { FaUser } from "react-icons/fa";
+import { FaUser, FaIdBadge, FaMapMarkerAlt, FaUserCircle } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Spinner from "../../utils/Loading";
@@ -37,56 +37,81 @@ const DetailEmployee = () => {
 
     if (!employeeData) {
         return (
-            <div className="flex items-center justify-center min-h-screen text-gray-500">
+            <div className="flex items-center justify-center min-h-screen text-gray-500 font-medium">
                 {t("no_data")}
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 p-2 sm:p-4">
-            <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
-                <div className="p-4 sm:p-6">
-                    <BackButton />
-                    <hr className="border-gray-200 my-4" />
+        <div className="min-h-screen bg-gray-50 p-4 sm:p-8">
+            <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
-                    <div className="flex flex-col items-center mb-6">
-                        <FaUser className="text-2xl text-gray-600" />
-                        <h2 className="text-center text-lg sm:text-xl font-semibold text-gray-800 mb-6">
+                {/* Header Section */}
+                <div className="p-6 border-b border-gray-50">
+                    <div className="flex items-center justify-between mb-4">
+                        <BackButton />
+                    </div>
+
+                    <div className="flex flex-col items-center py-4">
+                        <div className="bg-gray-100 p-4 rounded-full mb-3">
+                            <FaUser className="text-4xl text-gray-400" />
+                        </div>
+                        <h2 className="text-2xl font-bold text-gray-800">
                             {t("employee_detail")}
                         </h2>
                     </div>
-
-                    {/* Desktop / Tablet View */}
-                    <div className="hidden md:block px-16">
-                        <div className="flex gap-6 items-center justify-start p-4 rounded-lg shadow-sm">
-                            <div className="flex flex-col gap-2 text-left">
-                                <div>
-                                    <p className="text-base text-gray-500">{t("employee_name")} :</p>
-                                    <p className="text-base text-gray-900 font-semibold">{employeeData.employee_name}</p>
-                                </div>
-                                <div>
-                                    <p className="text-base text-gray-500">{t("position")} :</p>
-                                    <p className="text-base text-gray-800">{employeeData.position}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Mobile View */}
-                    <div className="md:hidden space-y-4">
-                        <div className="bg-gray-50 p-4 rounded-md shadow-inner space-y-3">
-                            <div>
-                                <span className="text-base text-gray-500 block">{t("employee_name")} :</span>
-                                <span className="text-base font-medium text-gray-900">{employeeData.employee_name}</span>
-                            </div>
-                            <div>
-                                <span className="text-base text-gray-500 block">{t("email")} :</span>
-                                <span className="text-base font-medium text-gray-800">{employeeData.position}</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+
+                {/* Content Section - Improved Grid */}
+                <div className="p-6 sm:p-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                        {/* Info Item: Name */}
+                        <div className="flex items-start gap-4">
+                            <div className="mt-1 text-red-500"><FaIdBadge size={20} /></div>
+                            <div>
+                                <p className="text-sm text-gray-400 font-medium uppercase">{t("employee_name")}</p>
+                                <p className="text-lg text-gray-900 font-semibold">{employeeData.employee_name}</p>
+                            </div>
+                        </div>
+
+                        {/* Info Item: Position */}
+                        <div className="flex items-start gap-4">
+                            <div className="mt-1 text-red-500"><FaUserCircle size={20} /></div>
+                            <div>
+                                <p className="text-sm text-gray-400 font-medium uppercase">{t("position")}</p>
+                                <p className="text-lg text-gray-800 font-semibold">{employeeData.position}</p>
+                            </div>
+                        </div>
+
+                        {/* Info Item: Branch */}
+                        <div className="flex items-start gap-4">
+                            <div className="mt-1 text-red-500"><FaMapMarkerAlt size={20} /></div>
+                            <div>
+                                <p className="text-sm text-gray-400 font-medium uppercase">{t("branch")}</p>
+                                <p className="text-lg text-gray-800 font-semibold">
+                                    {/* แสดงชื่อสาขา ถ้าไม่มีให้โชว์ "-" */}
+                                    {employeeData.branch?.branch_name || "-"}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Info Item: Linked Account */}
+                        <div className="flex items-start gap-4">
+                            <div className="mt-1 text-red-500"><FaUser size={18} /></div>
+                            <div>
+                                <p className="text-sm text-gray-400 font-medium uppercase">{t("user")}</p>
+                                <p className="text-lg text-gray-800 font-semibold">
+                                    {/* แสดง Username ของระบบ */}
+                                    {employeeData.user?.username || "-"}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+
             </div>
         </div>
     );

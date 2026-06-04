@@ -26,5 +26,10 @@
     "selectBranch": "ເລືອກສາຂາ",
     "selectUser": "ເລືອກພະນັກງານ",
     "no_data": "ບໍ່ມີຂໍ້ມູນ",
-    "noBranch": "ບໍ່ມີສາຂາ"
+    "noBranch": "ບໍ່ມີສາຂາ",
+    "select_branch": "ເລືອກສາຂາ",
+    "select_user": "ເລືອກພະນັກງານ",
+    "branch": "ສາຂາ",
+    "user": "ພະນັກງານ"
+
 }

@@ -25,7 +25,11 @@
     "selectBranch": "Select Branch",
     "selectUser": "Select employee",
     "no_data": "No employee data",
-    "noBranch": "No Branch"
+    "noBranch": "No Branch",
+    "select_branch": "Select Branch",
+    "select_user": "Select employee",
+    "branch": "Branch",
+    "user": "employee"
     
 
 }

@@ -156,7 +156,7 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
                       setShowDropdown(true);
                     }
                   }}
-                  className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-blue-500 focus:border-red-500"
+                  className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
                 />
                 {/* ปุ่มสำหรับลบข้อมูล (แสดงเมื่อมีค่าใน search เท่านั้น) */}
                 {search && (

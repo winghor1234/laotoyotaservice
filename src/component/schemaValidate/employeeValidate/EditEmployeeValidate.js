@@ -1,121 +1,121 @@
+
 import { z } from "zod";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-// Enhanced Zod schema with better validation
-export const EmployeeSchema = (t) => z.object({
-    userId: z
-        .string()
-        .min(2)
-        .max(200),
-    branchId: z
-        .string()
-        .min(2)
-        .max(200),
-    employee_name: z
-        .string()
-        .min(2)
-        .max(200),
-    position: z
-        .string()
-        .min(2)
-        .optional()
+export const EmployeeSchema = () => z.object({
+    userId: z.string().min(1, "Required"),
+    branchId: z.string().min(1, "Required"),
+    employee_name: z.string().min(1, "Required"),
+    position: z.string().min(1, "Required")
 });
 
 export const useEditEmployeeForm = ({ onClose, employee_id, handleFetchEmployee }) => {
     const { t } = useTranslation("employee");
     const [loading, setLoading] = useState(false);
+    const [branches, setBranches] = useState([]);
+    const [user, setUser] = useState([]);
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors, isDirty }
-    } = useForm({
-        resolver: zodResolver(EmployeeSchema(t)),
-        defaultValues: {
-            userId: "",
-            branchId: "",
-            employee_name: "",
-            position: "",
-        }
+    // States สำหรับ Custom Dropdown
+    const [userSearch, setUserSearch] = useState("");
+    const [userShowDropdown, setUserShowDropdown] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const userDropdownRef = useRef(null);
+
+    const [branchSearch, setBranchSearch] = useState("");
+    const [branchShowDropdown, setBranchShowDropdown] = useState(false);
+    const [selectedBranch, setSelectedBranch] = useState(null);
+    const branchDropdownRef = useRef(null);
+
+    const { register, handleSubmit, reset, formState: { errors }, watch, setValue } = useForm({
+        resolver: zodResolver(EmployeeSchema()),
+        defaultValues: { userId: "", branchId: "", employee_name: "", position: "" }
     });
 
-
+    // ดึงข้อมูลทั้งหมด
     useEffect(() => {
-        const fetchDataById = async () => {
-            if (!employee_id) return;
-
+        if (!employee_id) return;
+        const fetchData = async () => {
             setLoading(true);
             try {
-                const res = await axiosInstance.get(APIPath.SELECT_ONE_EMPLOYEE(employee_id));
-                const data = res?.data?.data;
+                const [employeeRes, branchRes, userRes] = await Promise.all([
+                    axiosInstance.get(APIPath.SELECT_ONE_EMPLOYEE(employee_id)),
+                    axiosInstance.get(APIPath.SELECT_ALL_BRANCH),
+                    axiosInstance.get(APIPath.SELECT_ALL_USER),
+                ]);
 
-                if (data) {
+                const empData = employeeRes?.data?.data;
+                const allBranches = branchRes?.data?.data || [];
+                const allUsers = userRes?.data?.data || [];
+
+                setBranches(allBranches);
+                setUser(allUsers);
+
+                if (empData) {
+                    // ✅ 1. Reset Form Values
                     reset({
-                        userId: data.userId || "",
-                        branchId: data.branchId || "",
-                        employee_name: data.employee_name || "",
-                        position: data.position || "",
+                        userId: empData.userId || "",
+                        branchId: empData.branchId || "",
+                        employee_name: empData.employee_name || "",
+                        position: empData.position || "",
                     });
+
+                    // ✅ 2. Map IDs to Search Strings (สำคัญมาก)
+                    const foundUser = allUsers.find(u => u.user_id === empData.userId);
+                    if (foundUser) {
+                        setUserSearch(foundUser.username);
+                        setSelectedUser(foundUser);
+                    }
+
+                    const foundBranch = allBranches.find(b => b.branch_id === empData.branchId);
+                    if (foundBranch) {
+                        setBranchSearch(foundBranch.branch_name);
+                        setSelectedBranch(foundBranch);
+                    }
                 }
             } catch (error) {
-                console.error("Error fetching Branch:", error);
-                SuccessAlert(t("fetch_error"), 2000, "error");
+                console.error(error);
             } finally {
                 setLoading(false);
             }
         };
+        fetchData();
+    }, [employee_id, reset]);
 
-        fetchDataById();
-    }, [employee_id, reset, t]);
+    // ปิด Dropdown เมื่อคลิกข้างนอก
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) setUserShowDropdown(false);
+            if (branchDropdownRef.current && !branchDropdownRef.current.contains(event.target)) setBranchShowDropdown(false);
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const submitForm = async (data) => {
         setLoading(true);
-
         try {
-            const formData = new FormData();
-            formData.append("userId", data.userId.trim());
-            formData.append("branchId", data.branchId.trim());
-            formData.append("employee_name", data.employee_name.trim());
-            formData.append("position", data.position.trim());
-
-            const response = await axiosInstance.put(
-                APIPath.UPDATE_EMPLOYEE(employee_id), formData);
-
-            if (response.data) {
-                await handleFetchEmployee();
-                SuccessAlert(t("update_success"), 1500, "success");
-                onClose();
-            }
+            await axiosInstance.put(APIPath.UPDATE_EMPLOYEE(employee_id), data);
+            handleFetchEmployee();
+            SuccessAlert(t("update_success"), 1500, "success");
+            onClose();
         } catch (error) {
             console.error("Update Employee failed:", error);
-            const errorMessage = error.response?.data?.message || t("update_failed");
-            SuccessAlert(errorMessage, 2000, "error");
+            SuccessAlert(t("update_failed"), 2000, "error");
         } finally {
             setLoading(false);
         }
     };
 
-
-    // Helper function to check if form has changes
-    const hasChanges = () => {
-        return isDirty;
-    };
-
     return {
-        register,
-        handleSubmit,
-        errors,
-        loading,
-        submitForm,
-        formState: { isDirty, errors },
-        hasChanges,
-        reset
+        register, handleSubmit, formState: { errors }, loading, submitForm, watch, setValue,
+        user, branches,
+        userSearch, setUserSearch, userShowDropdown, setUserShowDropdown, selectedUser, setSelectedUser, userDropdownRef,
+        branchSearch, setBranchSearch, branchShowDropdown, setBranchShowDropdown, selectedBranch, setSelectedBranch, branchDropdownRef
     };
 };
