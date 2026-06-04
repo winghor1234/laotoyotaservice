@@ -83,14 +83,14 @@ const Login = () => {
                     </div>
                 </div>
 
-                {/* Remember me and forgot password 
-                <div className="flex items-center justify-end">
+                {/* {/* Remember me and forgot password  */}
+                {/* <div className="flex items-center justify-end">
                     <div className="text-sm">
                         <a href="/forgot-password" className="font-medium text-red-600 hover:text-red-500">
                             {t("forgot_password")}
                         </a>
                     </div>
-                </div>*/}
+                </div> */}
 
                 {/* Submit Button */}
                 <div>

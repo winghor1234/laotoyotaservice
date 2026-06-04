@@ -7,7 +7,7 @@ import { Clock3, MapPin, MapPinned, TimerIcon, X } from "lucide-react";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 
 
-const EditForm = ({ setShowEdit, bookingId, fetchBooking }) => {
+const EditForm = ({ setShowEdit, bookingId, fetchBooking, role }) => {
   const { t } = useTranslation("booking");
   const [booking, setBooking] = useState([]);
   const [zone, setZone] = useState([]);
@@ -149,37 +149,7 @@ const EditForm = ({ setShowEdit, bookingId, fetchBooking }) => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
           <div className="w-full flex justify-around items-center gap-4 py-4 border border-gray-300 rounded-lg shadow-sm px-6">
-            {/* <div className="flex flex-col items-center gap-2 w-full">
 
-              <MapPinned className="text-gray-600" />
-
-              <p className="font-medium text-gray-600 text-sm">
-                {t("zone_label")}
-              </p>
-
-              <select
-                {...register("zoneId", { required: true })}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-800 outline-none focus:ring-1 focus:ring-red-500 bg-white"
-              >
-                {zone?.map(item => (
-                  <option
-                    key={item.zone_id}
-                    value={item.zone_id}
-                  >
-                    {item.zoneName}
-                  </option>
-                ))}
-              </select>
-
-              <div className="h-6">
-                {errors.zoneId && (
-                  <p className="text-red-500 text-sm">
-                    {t("select_zone_required")}
-                  </p>
-                )}
-              </div>
-
-            </div> */}
             <div ref={zoneDropdownRef} className="flex flex-col relative">
               <input type="hidden" {...register("zoneId")} />
 
@@ -237,36 +207,6 @@ const EditForm = ({ setShowEdit, bookingId, fetchBooking }) => {
                 </div>
               )}
             </div>
-            {/* <div className="flex flex-col items-center gap-2 w-full">
-              <TimerIcon className="text-gray-600" />
-              <p className="font-medium text-gray-600 text-sm">
-                {t("time_label")}
-              </p>
-
-              <select
-                {...register("timeId", { required: true })}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-800 outline-none focus:ring-1 focus:ring-red-500 bg-white"
-              >
-                {time?.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))?.map(item => (
-                  <option
-                    key={item.time_id}
-                    value={item.time_id}
-                  >
-                    {item.time}
-                  </option>
-                ))}
-              </select>
-
-
-              <div className="h-6">
-                {errors.timeId && (
-                  <p className="text-red-500 text-sm">
-                    {t("select_time_required")}
-                  </p>
-                )}
-              </div>
-
-            </div> */}
 
             <div ref={timeDropdownRef} className="flex flex-col relative">
               <input type="hidden" {...register("timeId")} />
@@ -327,38 +267,11 @@ const EditForm = ({ setShowEdit, bookingId, fetchBooking }) => {
             </div>
 
             {/* branch */}
-            {/* <div className="flex flex-col items-center gap-2 w-full">
-              <MapPin className="text-gray-600" />
-              <p className="font-medium text-gray-600 text-sm">
-                {t("branch_label")}
-              </p>
-
-              <select
-                {...register("branchId", { required: true })}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-800 outline-none focus:ring-1 focus:ring-red-500 bg-white"
-              >
-                {branch?.map(item => (
-                  <option
-                    key={item.branch_id}
-                    value={item.branch_id}
-                  >
-                    {item.branch_name}
-                  </option>
-                ))}
-              </select>
-
-
-              <div className="h-6">
-                {errors.branchId && (
-                  <p className="text-red-500 text-sm">
-                    {t("select_branch_required")}
-                  </p>
-                )}
-              </div>
-
-            </div> */}
-
-            <div ref={branchDropdownRef} className="flex flex-col relative">
+            {/* เพิ่มเงื่อนไขเช็คสิทธิ์ตรงนี้ */}
+            <div
+              ref={branchDropdownRef}
+              className={`flex flex-col relative ${role !== "super_admin" ? "opacity-60 cursor-not-allowed" : ""}`}
+            >
               <input type="hidden" {...register("branchId")} />
 
               {/* input search */}
@@ -366,20 +279,24 @@ const EditForm = ({ setShowEdit, bookingId, fetchBooking }) => {
                 type="text"
                 value={branchSearch}
                 placeholder={t("select_branch")}
+                disabled={role !== "super_admin"} // ปิดการพิมพ์ถ้าไม่ใช่ super_admin
                 onChange={(e) => {
                   setBranchSearch(e.target.value);
                   setSelectedBranch(null);
                   setBranchShowDropdown(true);
                 }}
                 onFocus={() => {
-                  if (!selectedBranch) {
+                  if (!selectedBranch && role === "super_admin") { // เช็คสิทธิ์ก่อนเปิด dropdown
                     setBranchShowDropdown(true);
                   }
                 }}
-                className="w-full py-2 sm:py-3.5 rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
+                className={`w-full py-2 sm:py-3.5 rounded-lg text-sm border border-gray-300 px-3 outline-none transition-colors
+      ${role === "super_admin" ? "hover:border-red-500 focus:border-red-500" : "bg-gray-100"} 
+    `}
               />
-              {/* ปุ่มสำหรับลบข้อมูล (แสดงเมื่อมีค่าใน search เท่านั้น) */}
-              {branchSearch && (
+
+              {/* ปุ่มลบข้อมูล: แสดงเฉพาะเมื่อมีค่า และ ต้องเป็น super_admin เท่านั้น */}
+              {branchSearch && role === "super_admin" && (
                 <button
                   type="button"
                   onClick={() => {
@@ -394,22 +311,23 @@ const EditForm = ({ setShowEdit, bookingId, fetchBooking }) => {
                 </button>
               )}
 
-              {/* dropdown */}
-              {branchShowDropdown && !selectedBranch && (
-                <div ref={branchDropdownRef} className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
-                  {branch.filter((branch) => `${branch.branch_name}`.toLowerCase().includes(branchSearch.toLowerCase()))
-                    .map((branch) => (
+              {/* dropdown: จะทำงานได้ต่อเมื่อเป็น super_admin เท่านั้น */}
+              {role === "super_admin" && branchShowDropdown && !selectedBranch && (
+                <div className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
+                  {branch
+                    .filter((b) => `${b.branch_name}`.toLowerCase().includes(branchSearch.toLowerCase()))
+                    .map((b) => (
                       <div
-                        key={branch.branch_id}
+                        key={b.branch_id}
                         onClick={() => {
-                          setBranchSearch(`${branch.branch_name}`);
-                          setSelectedBranch(branch);
-                          setValue("branchId", branch.branch_id);
+                          setBranchSearch(`${b.branch_name}`);
+                          setSelectedBranch(b);
+                          setValue("branchId", b.branch_id);
                           setBranchShowDropdown(false);
                         }}
-                        className="px-3 py-2 text-sm cursor-pointer hover:bg-red-600"
+                        className="px-3 py-2 text-sm cursor-pointer hover:bg-red-600 hover:text-white"
                       >
-                        {branch.branch_name}
+                        {b.branch_name}
                       </div>
                     ))}
                 </div>

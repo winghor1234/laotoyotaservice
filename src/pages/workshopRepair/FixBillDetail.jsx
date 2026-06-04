@@ -186,17 +186,6 @@ const FixBillDetail = () => {
                                     {Number(data?.part_point || 0).toFixed(2)}
                                 </td>
                             </tr>
-
-                            {/* 🔥 TOTAL POINT */}
-                            {/* <tr>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>5</td>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", fontWeight: 600 }}>
-                                    {t("totalPoint")}
-                                </td>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right", fontWeight: 600 }}>
-                                    {totalPoint.toFixed(2)}
-                                </td>
-                            </tr> */}
                         </tbody>
                     </table>
                 </div>

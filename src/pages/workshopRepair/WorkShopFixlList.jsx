@@ -40,7 +40,7 @@ const WorkShopFixList = () => {
         apiCall: ({ page, limit, search, startDate, endDate }) => {
             const apiPath = role === "super_admin"
                 ? APIPath.GET_ALL_FIX_FROM_WORKSHOP
-                : APIPath.GET_ALL_FIX_BY_BRANCH(branch_id);
+                : APIPath.GET_ALL_FIX_BY_BRANCH_FROM_WORKSHOP(branch_id);
             return axiosInstance.get(apiPath, {
                 params: {
                     page,

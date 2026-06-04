@@ -15,16 +15,13 @@ const PopupApprove = ({ setShowPopup, bookingId, fetchBooking, cardId }) => {
   const [errorMsg, setErrorMsg] = useState("");
 
 
-
   const handleChangeStatus = async () => {
     try {
       if (!booking?.zoneId) {
         setErrorMsg(t("error_zone_required"));
         return;
       }
-
       setErrorMsg(""); // เคลียร์ถ้าผ่าน
-
       const fixForm = {
         bookingId,
         invoice_number: generateBillId(),

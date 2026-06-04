@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import { FaArrowLeft, FaCar } from "react-icons/fa";
 import PopupApprove from "./PopupApprove";
 import PopupReject from "./PopupReject";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import axiosInstance from "../../../utils/AxiosInstance";
 import APIPath from "../../../api/APIPath";
 import { useTranslation } from "react-i18next";
@@ -14,6 +14,8 @@ import { formatDates } from "../../../utils/FormatDate";
 const ReceiverCarDetail = () => {
   const { t } = useTranslation("booking");
   const { id: bookingId } = useParams();
+  const location = useLocation();
+  const roleFromState = location.state?.role;
 
   const [booking, setBooking] = useState(null);
   const [bookingDetail, setBookingDetail] = useState([]);
@@ -21,6 +23,9 @@ const ReceiverCarDetail = () => {
   const [rejectZone, setRejectZone] = useState(false);
   const [edit, setEdit] = useState(false);
   const navigate = useNavigate();
+
+
+
 
 
 
@@ -295,6 +300,7 @@ const ReceiverCarDetail = () => {
           userId={booking?.userId}
           fetchBooking={loadAllData}
           cardId={cardId}
+          
         />
       )}
 
@@ -313,6 +319,7 @@ const ReceiverCarDetail = () => {
           setShowEdit={setEdit}
           bookingId={bookingId}
           fetchBooking={loadAllData}
+          role={roleFromState}
         />
       )}
 

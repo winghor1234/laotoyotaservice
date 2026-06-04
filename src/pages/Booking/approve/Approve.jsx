@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import SelectDate from "../../../utils/SelectDate";
 import ExportExcelPopup from "../../../utils/exportExelPopup";
 import DownloadButton from "../../../utils/DownloadButton";
-import {  formatDates } from "../../../utils/FormatDate";
+import { formatDates } from "../../../utils/FormatDate";
 
 
 
@@ -66,7 +66,9 @@ const Approve = () => {
 
   // Navigate Approve
   const handleApprove = (BookingId, timeId) => {
-    navigate(`/user/receiverCarDetail/${BookingId}?time=${timeId}`);
+    navigate(`/user/receiverCarDetail/${BookingId}?time=${timeId}`, {
+      state: { role: role } // ส่งแบบซ่อนไว้ใน state
+    });
   };
 
   return (
