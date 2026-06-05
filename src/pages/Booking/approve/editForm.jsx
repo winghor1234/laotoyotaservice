@@ -7,7 +7,7 @@ import { Clock3, MapPin, MapPinned, TimerIcon, X } from "lucide-react";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 
 
-const EditForm = ({ setShowEdit, bookingId, fetchBooking, role }) => {
+const EditForm = ({ setShowEdit, bookingId, fetchBooking }) => {
   const { t } = useTranslation("booking");
   const [booking, setBooking] = useState([]);
   const [zone, setZone] = useState([]);
@@ -270,7 +270,7 @@ const EditForm = ({ setShowEdit, bookingId, fetchBooking, role }) => {
             {/* เพิ่มเงื่อนไขเช็คสิทธิ์ตรงนี้ */}
             <div
               ref={branchDropdownRef}
-              className={`flex flex-col relative ${role !== "super_admin" ? "opacity-60 cursor-not-allowed" : ""}`}
+              className={`flex flex-col relative`}
             >
               <input type="hidden" {...register("branchId")} />
 
@@ -279,24 +279,22 @@ const EditForm = ({ setShowEdit, bookingId, fetchBooking, role }) => {
                 type="text"
                 value={branchSearch}
                 placeholder={t("select_branch")}
-                disabled={role !== "super_admin"} // ปิดการพิมพ์ถ้าไม่ใช่ super_admin
                 onChange={(e) => {
                   setBranchSearch(e.target.value);
                   setSelectedBranch(null);
                   setBranchShowDropdown(true);
                 }}
                 onFocus={() => {
-                  if (!selectedBranch && role === "super_admin") { // เช็คสิทธิ์ก่อนเปิด dropdown
+                  if (!selectedBranch) { // เช็คสิทธิ์ก่อนเปิด dropdown
                     setBranchShowDropdown(true);
                   }
                 }}
-                className={`w-full py-2 sm:py-3.5 rounded-lg text-sm border border-gray-300 px-3 outline-none transition-colors
-      ${role === "super_admin" ? "hover:border-red-500 focus:border-red-500" : "bg-gray-100"} 
+                className={`w-full py-2 sm:py-3.5 rounded-lg text-sm border border-gray-300 px-3 outline-none transition-colors bg-gray-100"} 
     `}
               />
 
               {/* ปุ่มลบข้อมูล: แสดงเฉพาะเมื่อมีค่า และ ต้องเป็น super_admin เท่านั้น */}
-              {branchSearch && role === "super_admin" && (
+              {branchSearch && (
                 <button
                   type="button"
                   onClick={() => {
@@ -311,8 +309,8 @@ const EditForm = ({ setShowEdit, bookingId, fetchBooking, role }) => {
                 </button>
               )}
 
-              {/* dropdown: จะทำงานได้ต่อเมื่อเป็น super_admin เท่านั้น */}
-              {role === "super_admin" && branchShowDropdown && !selectedBranch && (
+              {/* dropdown */}
+              { branch && branchShowDropdown && !selectedBranch && (
                 <div className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
                   {branch
                     .filter((b) => `${b.branch_name}`.toLowerCase().includes(branchSearch.toLowerCase()))

@@ -9,7 +9,7 @@ import { formatDates } from '../../../utils/FormatDate';
 import { generateBillId } from '../../../utils/BillGenerate';
 
 const PopupApprove = ({ setShowPopup, bookingId, fetchBooking, cardId }) => {
-  const { t } = useTranslation("booking"); // namespace booking
+  const { t } = useTranslation("booking"); 
   const navigate = useNavigate();
   const [booking, setBooking] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
@@ -21,7 +21,7 @@ const PopupApprove = ({ setShowPopup, bookingId, fetchBooking, cardId }) => {
         setErrorMsg(t("error_zone_required"));
         return;
       }
-      setErrorMsg(""); // เคลียร์ถ้าผ่าน
+      setErrorMsg(""); 
       const fixForm = {
         bookingId,
         invoice_number: generateBillId(),

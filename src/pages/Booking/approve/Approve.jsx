@@ -66,9 +66,7 @@ const Approve = () => {
 
   // Navigate Approve
   const handleApprove = (BookingId, timeId) => {
-    navigate(`/user/receiverCarDetail/${BookingId}?time=${timeId}`, {
-      state: { role: role } // ส่งแบบซ่อนไว้ใน state
-    });
+    navigate(`/user/receiverCarDetail/${BookingId}?time=${timeId}`);
   };
 
   return (
