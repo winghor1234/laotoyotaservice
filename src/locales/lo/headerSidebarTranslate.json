@@ -21,6 +21,8 @@
   "general_management": "ຈັດການຂໍ້ມູນທົ່ວໄປ",
   "backend_management": "ຈັດການຂໍ້ມູນຫຼັງບ້ານ",
   "time_zone": "ຜູກໂຊນແລະເວລາ",
-  "card_info": "ຂໍ້ມູນບັດ"
+  "card_info": "ຂໍ້ມູນບັດ",
+  "workshop_fix": "ແປງຢູ່ໜ້າຮ້ານ",
+  "time_point_setting": "ຕັ້ງຄ່າຄະແນນ"
 
 }

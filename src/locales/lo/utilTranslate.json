@@ -28,5 +28,6 @@
     "drag_drop_click": "ລາກຮູບມາວາງ ຫຼື ຄລິກເພື່ອເລືອກຮູບ ຫຼື ໄຟຣ",
     "remove_image": "ລຶບຮູບ",
     "export_button": "ດາວໂຫລດ",
-    "clear_all": "ລ້າງທັງໝົດ"
+    "clear_all": "ລ້າງທັງໝົດ",
+    "search_placeholder": "ຄົ້ນຫາ..."
 }

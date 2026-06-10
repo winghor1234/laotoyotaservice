@@ -21,5 +21,8 @@
   "general_management": "General",
   "backend_management": "Backend",
   "time_zone": "Tie Time Zone",
-  "card_info": "Card"
+  "card_info": "Card",
+  "workshop_fix": "Workshop Fix",
+  "time_point_setting": "Time Point Setting"
+
 }

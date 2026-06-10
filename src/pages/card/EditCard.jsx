@@ -134,7 +134,7 @@ const EditCard = ({ show, onClose, cardId, handleFetchCard }) => {
                                     onClick={handleGenerateCode}
                                     className="h-[48px] px-4 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold transition-all active:scale-95"
                                 >
-                                    GEN
+                                    {t("genCode")}
                                 </button>
                             </div>
                             {errors.card_number && <p className="text-red-500 text-xs mt-1">{errors.card_number.message}</p>}
@@ -147,7 +147,7 @@ const EditCard = ({ show, onClose, cardId, handleFetchCard }) => {
                                 {...register("card_type")}
                                 className="w-full h-[48px] px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 bg-white"
                             >
-                                <option value="">{t("select_card_type")}</option>
+                                <option disabled value="">{t("select_card_type")}</option>
                                 <option value="Gold">{t("gold_card")}</option>
                                 <option value="Silver">{t("silver_card")}</option>
                             </select>
@@ -158,11 +158,11 @@ const EditCard = ({ show, onClose, cardId, handleFetchCard }) => {
                             <div className="flex items-center justify-around h-[48px] border border-gray-300 rounded-lg bg-gray-50/50">
                                 <label className="flex items-center gap-2 cursor-pointer group">
                                     <input type="radio" value="yes" {...register("received")} className="w-4 h-4 accent-red-600" />
-                                    <span className="text-sm group-hover:text-red-600 transition-colors">{t("yes")}</span>
+                                    <span className="text-sm group-hover:text-red-600 transition-colors">{t("received")}</span>
                                 </label>
                                 <label className="flex items-center gap-2 cursor-pointer group">
                                     <input type="radio" value="no" {...register("received")} className="w-4 h-4 accent-red-600" />
-                                    <span className="text-sm group-hover:text-red-600 transition-colors">{t("no")}</span>
+                                    <span className="text-sm group-hover:text-red-600 transition-colors">{t("not_received")}</span>
                                 </label>
                             </div>
                         </div>

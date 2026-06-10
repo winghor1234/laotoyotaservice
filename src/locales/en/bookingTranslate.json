@@ -86,7 +86,6 @@
   "choose_date": "Choose Date",
   "custom_date": "Custom Date",
   "to_day": "Today",
-  "yesterday": "Yesterday",
   "this_month": "This Month",
   "last_month": "Last Month",
   "this_year": "This Year",
@@ -150,6 +149,11 @@
   "error_zone_required": "Please select zone to approve",
   "select_branch": "Please select branch",
   "select_time": "Please select time",
-  "select_zone": "Please select zone"
-  
+  "select_zone": "Please select zone",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "thisMonth": "This Month",
+  "lastMonth": "Last Month",
+  "thisYear": "This Year",
+  "lastYear": "Last Year"
 }

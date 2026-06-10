@@ -151,7 +151,7 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
                                     }`}
                             >
                                 {/* ตัวเลือกเริ่มต้น (Placeholder) */}
-                                <option value="">{t("select_card_type")}</option>
+                                <option disabled value="">{t("select_card_type")}</option>
 
                                 {/* รายการประเภทบัตร - คุณสามารถปรับเปลี่ยน value ตาม Database ของคุณ */}
                                 <option value="Gold">{t("gold_card")}</option>
@@ -173,19 +173,19 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
                                         type="radio"
                                         value="yes"
                                         {...register("received")}
-                                        className="w-4 h-4 accent-red-600"
+                                        className="w-4 h-4 accent-red-600 cursor-pointer"
                                     />
-                                    <span className="text-sm group-hover:text-red-600 transition-colors">ໄດ້ຮັບແລ້ວ</span>
+                                    <span className="text-sm group-hover:text-red-600 transition-colors">{t("received")}</span>
                                 </label>
 
-                                <label className="flex items-center gap-2 cursor-pointer group">
+                                <label className="flex items-center gap-2 group">
                                     <input
                                         type="radio"
                                         value="no"
                                         {...register("received")}
-                                        className="w-4 h-4 accent-red-600"
+                                        className="w-4 h-4 accent-red-600 cursor-pointer"
                                     />
-                                    <span className="text-sm group-hover:text-red-600 transition-colors">ຍັງບໍ່ໄດ້ຮັບ</span>
+                                    <span className="text-sm group-hover:text-red-600 transition-colors">{t("not_received")}</span>
                                 </label>
                             </div>
                         </div>

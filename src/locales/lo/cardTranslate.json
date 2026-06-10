@@ -32,6 +32,7 @@
     "running_part": "ຄ່າອາໄຫຼ່",
     "running_labour": "ຄ່າແຮງງານ",
     "received": "ໄດ້ຮັບແລ້ວ",
+    "not_received": "ຍັງບໍ່ໄດ້ຮັບແລ້ວ",
     "goldIssued": "ວັນທີອອກບັດຄໍາ",
     "update_card": "ອັບເດດຂໍ້ມູນບັດ",
     "select_card_type": "ເລືອກປະເພດບັດ",

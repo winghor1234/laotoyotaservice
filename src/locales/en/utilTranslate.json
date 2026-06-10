@@ -28,6 +28,8 @@
     "drag_drop_click": "Drag and drop image here or click to select image or file",
     "remove_image": "Remove Image",
     "export_button": "Export",
-    "clear_all": "Clear All"
+    "clear_all": "Clear All",
+    "search_placeholder": "Search..."
+
 
 }

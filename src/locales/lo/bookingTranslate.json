@@ -87,7 +87,6 @@
   "choose_date": "ເລືອກວັນທີ",
   "custom_date": "ກຳນົດເອງ",
   "to_day": "ມື້ນີ້",
-  "yesterday": "ມື້ວານ",
   "this_month": "ເດືອນນີ້",
   "last_month": "ເດືອນກ່ອນ",
   "this_year": "ປີນີ້",
@@ -150,10 +149,11 @@
   "error_zone_required": "ກະລຸນາເລືອກໂຊນກ່ອນອະນຸມັດ",
   "select_branch": "ກະລຸນາເລືອກສາຂາ",
   "select_time": "ກະລຸນາເລືອກເວລາ",
-  "select_zone": "ກະລຸນາເລືອກໂຊນ"
-  
-
-  
-
- 
+  "select_zone": "ກະລຸນາເລືອກໂຊນ",
+  "today": "ມື້ນີ້",
+  "yesterday": "ມື້ວານ",
+  "thisMonth": "ເດືອນນີ້",
+  "lastMonth": "ເດືອນກ່ອນ",
+  "thisYear": "ປີນີ້",
+  "lastYear": "ປີກ່ອນ"
 }

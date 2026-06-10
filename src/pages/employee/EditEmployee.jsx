@@ -143,10 +143,10 @@ const EditEmployee = ({ show, onClose, employee_id, handleFetchEmployee }) => {
           </div>
 
           <div className="flex justify-center gap-4 pt-4">
-            <button type="button" onClick={onClose} className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-lg transition-colors">
+            <button type="button" onClick={onClose} className="bg-red-600 hover:bg-red-700 text-white px-8 py-2 rounded-lg transition-colors h-11 min-w-[120px]">
               {t("cancel")}
             </button>
-            <button type="submit" disabled={loading} className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg flex items-center gap-2">
+            <button type="submit" disabled={loading} className="bg-green-500 hover:bg-green-600 text-white px-8 py-2 rounded-lg flex items-center justify-center gap-2 h-11 min-w-[120px]">
               {loading ? <Spinner size="5" color="white" /> : t("submit")}
             </button>
           </div>

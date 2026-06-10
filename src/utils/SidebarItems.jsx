@@ -25,13 +25,13 @@ export const getSidebarItems = (t, role) => [
             {
                 id: "workshop-fix",
                 icon: House,
-                label: "ແປງຢູ່ໜ້າຮ້ານ",
+                label: t("workshop_fix"),
                 path: "/user/workshop-fix",
             },
             {
                 id: "setting-point",
                 icon: Settings,
-                label: "ຕັ້ງຄ່າຄະແນນ",
+                label: t("time_point_setting"),
                 path: "/user/setting-point",
             },
         ],

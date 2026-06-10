@@ -22,7 +22,6 @@ const Dashboard = () => {
     const [users, setUsers] = useState([]);
     const [promotions, setPromotions] = useState([]);
     const [booking, setBooking] = useState([]);
-    // const [fix, setFix] = useState([]);
     const [car, setCar] = useState([]);
     const [gift, setGift] = useState([]);
     const [time, setTime] = useState([]);
@@ -33,10 +32,46 @@ const Dashboard = () => {
     const [percentUserIncrease, setPercentUserIncrease] = useState(0);
 
 
-    // const [monthlyData, setMonthlyData] = useState([]);
+
+    // const fetchData = async () => {
+    //     try {
+    //         const [userRes, promoRes, bookingRes, carRes, giftRes, timeRes, zoneRes, serviceRes] = await Promise.all([
+    //             axiosInstance.get(APIPath.SELECT_ALL_USER),
+    //             axiosInstance.get(APIPath.SELECT_ALL_PROMOTION),
+    //             axiosInstance.get(APIPath.SELECT_ALL_BOOKING),
+    //             axiosInstance.get(APIPath.SELECT_ALL_CAR),
+    //             axiosInstance.get(APIPath.SELECT_ALL_GIFT),
+    //             axiosInstance.get(APIPath.SELECT_ALL_TIME),
+    //             axiosInstance.get(APIPath.SELECT_ALL_ZONE),
+    //             axiosInstance.get(APIPath.SELECT_ALL_SERVICE),
+    //             // axiosInstance.get(APIPath.SELECT_ALL_FIX),
+    //         ]);
+    //         const { monthlyData, totalPrice } = await getIncomes();
+
+    //         setUsers(userRes?.data?.data || []);
+    //         setPromotions(promoRes?.data?.data || []);
+    //         setBooking(bookingRes?.data?.data || []);
+    //         // setFix(fixRes?.data?.data || []);
+    //         setCar(carRes?.data?.data || []);
+    //         setGift(giftRes?.data?.data || []);
+    //         setTime(timeRes?.data?.data || []);
+    //         setZone(zoneRes?.data?.data || []);
+    //         setService(serviceRes?.data?.data || []);
+    //         setMonthlyIncomes(monthlyData);
+    //         setTotalIncomes(totalPrice);
+
+    //         const { thisMonthCount, lastMonthCount } = countUsersByMonth(users);
+    //         const percent = calculatePercentIncrease(thisMonthCount, lastMonthCount);
+    //         setPercentUserIncrease(percent);
+    //     } catch (error) {
+    //         console.error("Fetch Dashboard Data Error:", error);
+    //     }
+    // };
+
 
     const fetchData = async () => {
         try {
+            // 1. ดึงข้อมูลทั้งหมดพร้อมกัน
             const [userRes, promoRes, bookingRes, carRes, giftRes, timeRes, zoneRes, serviceRes] = await Promise.all([
                 axiosInstance.get(APIPath.SELECT_ALL_USER),
                 axiosInstance.get(APIPath.SELECT_ALL_PROMOTION),
@@ -46,14 +81,17 @@ const Dashboard = () => {
                 axiosInstance.get(APIPath.SELECT_ALL_TIME),
                 axiosInstance.get(APIPath.SELECT_ALL_ZONE),
                 axiosInstance.get(APIPath.SELECT_ALL_SERVICE),
-                // axiosInstance.get(APIPath.SELECT_ALL_FIX),
             ]);
+
             const { monthlyData, totalPrice } = await getIncomes();
 
-            setUsers(userRes?.data?.data || []);
+            // 2. ดึงข้อมูลดิบจาก Response มาเก็บไว้ในตัวแปรธรรมดาก่อน
+            const fetchedUsers = userRes?.data?.data || [];
+
+            // 3. อัปเดต State ทั้งหมด
+            setUsers(fetchedUsers);
             setPromotions(promoRes?.data?.data || []);
             setBooking(bookingRes?.data?.data || []);
-            // setFix(fixRes?.data?.data || []);
             setCar(carRes?.data?.data || []);
             setGift(giftRes?.data?.data || []);
             setTime(timeRes?.data?.data || []);
@@ -62,9 +100,17 @@ const Dashboard = () => {
             setMonthlyIncomes(monthlyData);
             setTotalIncomes(totalPrice);
 
-            const { thisMonthCount, lastMonthCount } = countUsersByMonth(users);
-            const percent = calculatePercentIncrease(thisMonthCount, lastMonthCount);
-            setPercentUserIncrease(percent);
+            // 4. 🔥 แก้จุดตาย: ส่ง fetchedUsers (ข้อมูลจริง) เข้าไปแทน state users
+            const { thisMonthCount, lastMonthCount } = countUsersByMonth(fetchedUsers);
+
+            // ป้องกันกรณีที่ฟังก์ชันคืนค่ากลับมาไม่ถูกต้องบน Production
+            if (thisMonthCount !== undefined && lastMonthCount !== undefined) {
+                const percent = calculatePercentIncrease(thisMonthCount, lastMonthCount);
+                setPercentUserIncrease(percent || 0);
+            } else {
+                setPercentUserIncrease(0);
+            }
+
         } catch (error) {
             console.error("Fetch Dashboard Data Error:", error);
         }

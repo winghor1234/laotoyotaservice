@@ -5,14 +5,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CalendarDays, ChevronDown } from "lucide-react";
 
-const presets = [
-    { value: "today", label: "ມື້ນີ້" },
-    { value: "yesterday", label: "ມື້ວານ" },
-    { value: "thisMonth", label: "ເດືອນນີ້" },
-    { value: "lastMonth", label: "ເດືອນກ່ອນ" },
-    { value: "thisYear", label: "ປີນີ້" },
-    { value: "lastYear", label: "ປີກ່ອນ" },
-];
 
 const ExportExcelPopup = ({ apiUrl, fileName = "export.xlsx", onClose }) => {
     const [selectedType, setSelectedType] = useState("preset"); // ค่าเริ่มต้นเป็น preset
@@ -21,6 +13,14 @@ const ExportExcelPopup = ({ apiUrl, fileName = "export.xlsx", onClose }) => {
     const [customEnd, setCustomEnd] = useState(""); // end date custom
     const { t } = useTranslation("booking");
 
+const presets = [
+    { value: "today", label: t("today") },
+    { value: "yesterday", label: t("yesterday") },
+    { value: "thisMonth", label: t("thisMonth") },
+    { value: "lastMonth", label: t("lastMonth") },
+    { value: "thisYear", label: t("thisYear") },
+    { value: "lastYear", label: t("lastYear") },
+];
 
 
 
@@ -157,10 +157,10 @@ const ExportExcelPopup = ({ apiUrl, fileName = "export.xlsx", onClose }) => {
                 </div>
 
                 <div className="flex justify-end gap-2">
-                    <button onClick={onClose} className="px-4 py-2 rounded border">{t("cancel")}</button>
+                    <button onClick={onClose} className="px-4 py-2 rounded bg-red-600 border text-white cursor-pointer">{t("cancel")}</button>
                     <button
                         onClick={handleExport}
-                        className="px-4 py-2 rounded bg-red-600 text-white"
+                        className="px-4 py-2 rounded bg-green-600 text-white cursor-pointer"
                     >
                         {t("export")}
                     </button>

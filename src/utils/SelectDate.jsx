@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 
 export default function SelectDate({
-    placeholder = "ຄົ້ນຫາ...",
+    // placeholder = "Search...",
     onDateChange,
     searchValue,
     onSearchChange,
@@ -130,7 +130,7 @@ export default function SelectDate({
                     type="text"
                     value={searchValue}
                     onChange={handleChange}
-                    placeholder={placeholder}
+                    placeholder={t("search_placeholder")}
                     className="outline-none text-sm sm:text-base flex-1 focus:caret-red-600"
                 />
                 {searchValue && (
