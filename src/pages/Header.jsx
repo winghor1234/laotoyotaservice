@@ -99,11 +99,11 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
           {/* Profile */}
           {profile && (
             <div onClick={handleProfileDetail} className="flex items-center gap-2 cursor-pointer">
-              <div className="w-10 h-10 rounded-full bg-red-500 overflow-hidden flex items-center justify-center">
+              <div className="w-10 h-10 border-2 border-green-500 rounded-full bg-red-500 overflow-hidden flex items-center justify-center">
                 {profile.profile ? (
                   <img src={profile.profile} className="w-full h-full object-cover" />
                 ) : (
-                  <span className="text-xs text-white">{t("no_image")}</span>
+                  <span className="text-xs text-white w-full h-full object-cover flex items-center justify-center">{t("no_image")}</span>
                 )}
               </div>
               <span className="hidden sm:block">{profile.username}</span>

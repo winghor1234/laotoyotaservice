@@ -22,7 +22,9 @@
   "backend_management": "ຈັດການຂໍ້ມູນຫຼັງບ້ານ",
   "time_zone": "ຜູກໂຊນແລະເວລາ",
   "card_info": "ຂໍ້ມູນບັດ",
-  "workshop_fix": "ແປງຢູ່ໜ້າຮ້ານ",
-  "time_point_setting": "ຕັ້ງຄ່າຄະແນນ"
+  "car_repair": "ແປງຢູ່ໜ້າຮ້ານ",
+  "time_point_setting": "ຕັ້ງຄ່າຄະແນນ",
+  "fix_management": "ຈັດການແປງລົດ"
+
 
 }

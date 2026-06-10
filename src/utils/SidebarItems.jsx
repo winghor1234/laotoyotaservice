@@ -14,7 +14,7 @@ export const getSidebarItems = (t, role) => [
     {
         id: "fix_management",
         icon: Wrench,
-        label: "ແປງລົດ",
+        label: t("fix_management"),
         children: [
             {
                 id: "appointment",
@@ -25,7 +25,7 @@ export const getSidebarItems = (t, role) => [
             {
                 id: "workshop-fix",
                 icon: House,
-                label: t("workshop_fix"),
+                label: t("car_repair"),
                 path: "/user/workshop-fix",
             },
             {

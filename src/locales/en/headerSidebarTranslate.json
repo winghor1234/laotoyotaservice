@@ -17,12 +17,14 @@
   "logout": "Logout",
   "branch_info": "Branch",
   "employee_info": "Employee",
-  "zone_time_management": "Tie Zone Time",
+  "zone_time_management": "Associate Zone Time",
   "general_management": "General",
   "backend_management": "Backend",
-  "time_zone": "Tie Time Zone",
+  "time_zone": "Associate Time Zone",
   "card_info": "Card",
-  "workshop_fix": "Workshop Fix",
-  "time_point_setting": "Time Point Setting"
+  "car_repair": "Car Repair",
+  "time_point_setting": "Point Setting",
+  "fix_management": "Fix Management"
+
 
 }

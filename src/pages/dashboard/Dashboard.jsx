@@ -1,289 +1,3 @@
-// import { useEffect, useState } from "react";
-// import { Link, useNavigate } from "react-router-dom";
-// import axiosInstance from "../../utils/AxiosInstance";
-// import APIPath from "../../api/APIPath";
-// import { Users, Clock3, Car, Gift, MapPinHouse } from "lucide-react";
-// import { HiOutlineWrenchScrewdriver } from "react-icons/hi2";
-// import { LiaGiftsSolid } from "react-icons/lia";
-// import { GrUserAdmin } from "react-icons/gr";
-// import { PieChart, Pie, Cell, ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from "recharts";
-// import { useTranslation } from "react-i18next";
-// import { calculatePercentIncrease, countUsersByMonth, getIncomes } from "../../utils/Income";
-// import { FormatNumber } from "../../utils/FormatNumber";
-// import ExcelExportButton from "../../utils/ExcelExportButton";
-
-
-// const COLORS = ["#E52020", "#F0F0F0"];
-
-// const Dashboard = () => {
-//     const { t } = useTranslation("dashboard");
-//     const navigate = useNavigate();
-
-//     const [users, setUsers] = useState([]);
-//     const [promotions, setPromotions] = useState([]);
-//     const [booking, setBooking] = useState([]);
-//     const [car, setCar] = useState([]);
-//     const [gift, setGift] = useState([]);
-//     const [time, setTime] = useState([]);
-//     const [zone, setZone] = useState([]);
-//     const [service, setService] = useState([]);
-//     const [totalIncomes, setTotalIncomes] = useState(0);
-//     const [monthlyIncomes, setMonthlyIncomes] = useState([]);
-//     const [percentUserIncrease, setPercentUserIncrease] = useState(0);
-
-
-
-//     // const fetchData = async () => {
-//     //     try {
-//     //         const [userRes, promoRes, bookingRes, carRes, giftRes, timeRes, zoneRes, serviceRes] = await Promise.all([
-//     //             axiosInstance.get(APIPath.SELECT_ALL_USER),
-//     //             axiosInstance.get(APIPath.SELECT_ALL_PROMOTION),
-//     //             axiosInstance.get(APIPath.SELECT_ALL_BOOKING),
-//     //             axiosInstance.get(APIPath.SELECT_ALL_CAR),
-//     //             axiosInstance.get(APIPath.SELECT_ALL_GIFT),
-//     //             axiosInstance.get(APIPath.SELECT_ALL_TIME),
-//     //             axiosInstance.get(APIPath.SELECT_ALL_ZONE),
-//     //             axiosInstance.get(APIPath.SELECT_ALL_SERVICE),
-//     //             // axiosInstance.get(APIPath.SELECT_ALL_FIX),
-//     //         ]);
-//     //         const { monthlyData, totalPrice } = await getIncomes();
-
-//     //         setUsers(userRes?.data?.data || []);
-//     //         setPromotions(promoRes?.data?.data || []);
-//     //         setBooking(bookingRes?.data?.data || []);
-//     //         // setFix(fixRes?.data?.data || []);
-//     //         setCar(carRes?.data?.data || []);
-//     //         setGift(giftRes?.data?.data || []);
-//     //         setTime(timeRes?.data?.data || []);
-//     //         setZone(zoneRes?.data?.data || []);
-//     //         setService(serviceRes?.data?.data || []);
-//     //         setMonthlyIncomes(monthlyData);
-//     //         setTotalIncomes(totalPrice);
-
-//     //         const { thisMonthCount, lastMonthCount } = countUsersByMonth(users);
-//     //         const percent = calculatePercentIncrease(thisMonthCount, lastMonthCount);
-//     //         setPercentUserIncrease(percent);
-//     //     } catch (error) {
-//     //         console.error("Fetch Dashboard Data Error:", error);
-//     //     }
-//     // };
-
-
-//     const fetchData = async () => {
-//         try {
-//             // 1. ดึงข้อมูลทั้งหมดพร้อมกัน
-//             const [userRes, promoRes, bookingRes, carRes, giftRes, timeRes, zoneRes, serviceRes] = await Promise.all([
-//                 axiosInstance.get(APIPath.SELECT_ALL_USER),
-//                 axiosInstance.get(APIPath.SELECT_ALL_PROMOTION),
-//                 axiosInstance.get(APIPath.SELECT_ALL_BOOKING),
-//                 axiosInstance.get(APIPath.SELECT_ALL_CAR),
-//                 axiosInstance.get(APIPath.SELECT_ALL_GIFT),
-//                 axiosInstance.get(APIPath.SELECT_ALL_TIME),
-//                 axiosInstance.get(APIPath.SELECT_ALL_ZONE),
-//                 axiosInstance.get(APIPath.SELECT_ALL_SERVICE),
-//             ]);
-
-//             const { monthlyData, totalPrice } = await getIncomes();
-
-//             // 2. ดึงข้อมูลดิบจาก Response มาเก็บไว้ในตัวแปรธรรมดาก่อน
-//             const fetchedUsers = userRes?.data?.data || [];
-
-//             // 3. อัปเดต State ทั้งหมด
-//             setUsers(fetchedUsers);
-//             setPromotions(promoRes?.data?.data || []);
-//             setBooking(bookingRes?.data?.data || []);
-//             setCar(carRes?.data?.data || []);
-//             setGift(giftRes?.data?.data || []);
-//             setTime(timeRes?.data?.data || []);
-//             setZone(zoneRes?.data?.data || []);
-//             setService(serviceRes?.data?.data || []);
-//             setMonthlyIncomes(monthlyData);
-//             setTotalIncomes(totalPrice);
-
-//             // 4. 🔥 แก้จุดตาย: ส่ง fetchedUsers (ข้อมูลจริง) เข้าไปแทน state users
-//             const { thisMonthCount, lastMonthCount } = countUsersByMonth(fetchedUsers);
-
-//             // ป้องกันกรณีที่ฟังก์ชันคืนค่ากลับมาไม่ถูกต้องบน Production
-//             if (thisMonthCount !== undefined && lastMonthCount !== undefined) {
-//                 const percent = calculatePercentIncrease(thisMonthCount, lastMonthCount);
-//                 setPercentUserIncrease(percent || 0);
-//             } else {
-//                 setPercentUserIncrease(0);
-//             }
-
-//         } catch (error) {
-//             console.error("Fetch Dashboard Data Error:", error);
-//         }
-//     };
-
-
-//     const handleApprove = (bookingId, timeId) => {
-//         navigate(`/user/receiverCarDetail/${bookingId}?time=${timeId}`);
-//     };
-
-//     useEffect(() => {
-//         fetchData();
-
-//     }, []);
-
-
-//     // PieChart data
-//     const dataCircle = [
-//         { name: "Increase", value: percentUserIncrease },
-//         { name: "Rest", value: 100 - percentUserIncrease }
-//     ];
-
-//     const dashboardItems = [
-//         { title: t("customer_info"), path: "/user/user", value: users.filter(user => user.role !== "admin").length, icon: <Users className="w-10 h-10 text-red-600" /> },
-//         // { title: t("service_total"), path: "#", value: "1420", icon: <FaChartLine className="w-10 h-10 text-red-600" /> },
-//         { title: t("promotion_info"), path: "/user/promotion", value: promotions.length, icon: <Gift className="w-10 h-10 text-red-600" /> },
-//         { title: t("gift"), path: "/user/gift", value: gift.length, icon: <LiaGiftsSolid className="w-10 h-10 text-red-600" /> },
-//         { title: t("car_info"), path: "/user/car", value: car.length, icon: <Car className="w-10 h-10 text-red-600" /> },
-//         { title: t("servicing_info"), path: "/user/servicing", value: service.length, icon: <HiOutlineWrenchScrewdriver className="w-10 h-10 text-red-600" /> },
-//         { title: t("time_info"), path: "/user/time", value: `${time.length}`, icon: <Clock3 className="w-10 h-10 text-red-600" /> },
-//         { title: t("zone"), path: "/user/zone", value: `${zone.length}`, icon: <MapPinHouse className="w-10 h-10 text-red-600" /> },
-//         { title: t("user_permission"), path: "/user/admin", value: users.filter(user => user.role === "admin").length, icon: <GrUserAdmin className="w-10 h-10 text-red-600" /> },
-//     ];
-
-//     return (
-//         <div className="p-4 bg-gray-50 min-h-screen">
-//             {/* Dashboard Cards */}
-//             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-//                 {dashboardItems.map((item, index) => (
-//                     <Link
-//                         key={index}
-//                         to={item.path}
-//                         className="bg-white rounded-lg shadow-xl flex flex-col items-center justify-center p-4 hover:shadow-2xl transition cursor-pointer"
-//                     >
-//                         {item.icon}
-//                         <p className="mt-2 text-lg font-medium text-center">{item.title}</p>
-//                         <h1 className="text-xl font-bold mt-1">{item.value}</h1>
-//                     </Link>
-//                 ))}
-//             </div>
-
-//             {/* Charts */}
-//             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-6">
-//                 {/* Pie Chart */}
-//                 <div className="bg-white rounded-lg shadow-lg p-4 flex flex-col items-center">
-//                     <h2 className="text-lg font-medium mb-2 text-center">{t("all_users")}</h2>
-//                     <div className="w-40 h-40">
-//                         <ResponsiveContainer>
-//                             <PieChart>
-//                                 <Pie data={dataCircle} dataKey="value" innerRadius={40} outerRadius={60} paddingAngle={5}>
-//                                     {dataCircle.map((entry, idx) => (
-//                                         <Cell key={idx} fill={COLORS[idx]} />
-//                                     ))}
-//                                 </Pie>
-//                                 <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontWeight="bold" fill="black" >
-//                                     {Math.round(percentUserIncrease)}%
-//                                 </text>
-//                             </PieChart>
-//                         </ResponsiveContainer>
-//                     </div>
-//                     <p className="text-xs text-red-600 mt-2 text-center">{t("monthly_user", { count: users.length })} {percentUserIncrease}%</p>
-//                 </div>
-
-//                 {/* Area Chart */}
-//                 <div className="bg-white rounded-lg shadow-lg p-4 ">
-//                     <div className="flex justify-between items-center mb-4">
-//                         <h2 className="text-lg font-medium">{t("income")}</h2>
-//                         <ExcelExportButton data={monthlyIncomes} fileName="FixRevenueReport.xlsx" />
-//                     </div>
-//                     <div className="w-full h-64">
-//                         <ResponsiveContainer width="100%" height="100%">
-//                             <AreaChart data={monthlyIncomes} margin={{ top: 10, right: 10, left: 60, bottom: 0 }}>
-//                                 <defs>
-//                                     <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-//                                         <stop offset="5%" stopColor="#E52020" stopOpacity={0.4} />
-//                                         <stop offset="95%" stopColor="#E52020" stopOpacity={0} />
-//                                     </linearGradient>
-//                                 </defs>
-//                                 <XAxis dataKey="name" />
-//                                 <YAxis tickFormatter={FormatNumber}
-//                                     tick={{ fontSize: 11 }}
-//                                     width={80} />
-//                                 <Tooltip formatter={(value) => FormatNumber(value)} contentStyle={{ backgroundColor: '#fff', border: '1px solid #E52020', borderRadius: 8, fontSize: 12 }} />
-//                                 <Area type="monotone" dataKey="value" stroke="#E52020" fill="url(#colorValue)" strokeWidth={2} />
-//                             </AreaChart>
-//                         </ResponsiveContainer>
-//                     </div>
-//                     <div className="mt-2 text-right text-green-500 font-semibold">
-//                         {t("total_income")} : {FormatNumber(totalIncomes)} {t("currency")}
-//                     </div>
-//                 </div>
-//             </div>
-
-//             {/* Booking Table */}
-//             <h2 className="text-lg font-medium mt-6 mb-2">{t("latest_booking")}</h2>
-//             <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full">
-//                 {/* Desktop */}
-//                 <div className="hidden md:block divide-y divide-gray-200 max-h-[400px] overflow-y-auto">
-//                     {booking.filter(b => b.bookingStatus === "await").map((item, index) => (
-//                         <div
-//                             key={index}
-//                             onClick={() => handleApprove(item?.booking_id, item?.time?.time_id)}
-//                             className="grid grid-cols-6 gap-4 px-4 py-3 items-center hover:bg-gray-50 cursor-pointer transition-colors"
-//                         >
-//                             <div className="flex items-center gap-2">
-//                                 <span className="bg-yellow-500 px-3 py-1 text-black rounded-xl text-xs font-semibold">{t("approve_status")}</span>
-//                                 <span className="font-medium">{item?.car?.model}</span>
-//                             </div>
-//                             <div className="text-center">{item?.user?.username}</div>
-//                             <div className="text-center">{item?.user?.phoneNumber}</div>
-//                             <div className="text-center">{item?.car?.plateNumber}</div>
-//                             <div className="text-center">{item?.time?.date}</div>
-//                             <div className="text-center">{item?.time?.time}</div>
-//                         </div>
-//                     ))}
-//                 </div>
-
-//                 {/* Mobile */}
-//                 <div className="md:hidden divide-y divide-gray-200">
-//                     {booking.filter(b => b.bookingStatus === "await").map((item, index) => (
-//                         <div
-//                             key={index}
-//                             onClick={() => handleApprove(item?.booking_id, item?.time?.time_id)}
-//                             className="p-4 hover:bg-gray-50 cursor-pointer transition-colors"
-//                         >
-//                             <div className="flex justify-between mb-2">
-//                                 <span className="bg-yellow-500 px-3 py-1 text-black rounded-xl text-xs font-semibold">{t("approve_status")}</span>
-//                                 <span className="text-sm font-medium">{item?.car?.model}</span>
-//                             </div>
-//                             <div className="grid grid-cols-1 gap-2 text-sm">
-//                                 <div className="flex justify-between">
-//                                     <span className="text-gray-500">{t("user")}:</span>
-//                                     <span className="text-gray-900">{item?.user?.username}</span>
-//                                 </div>
-//                                 <div className="flex justify-between">
-//                                     <span className="text-gray-500">{t("phone")}:</span>
-//                                     <span className="text-gray-900">{item?.user?.phoneNumber}</span>
-//                                 </div>
-//                                 <div className="flex justify-between">
-//                                     <span className="text-gray-500">{t("plate")}:</span>
-//                                     <span className="text-gray-900">{item?.car?.plateNumber}</span>
-//                                 </div>
-//                                 <div className="flex justify-between">
-//                                     <span className="text-gray-500">{t("date")}:</span>
-//                                     <span className="text-gray-900">{item?.time?.date}</span>
-//                                 </div>
-//                                 <div className="flex justify-between">
-//                                     <span className="text-gray-500">{t("time_label")}:</span>
-//                                     <span className="text-gray-900">{item?.time?.time}</span>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     ))}
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Dashboard;
-
-
-
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/AxiosInstance";
@@ -297,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { calculatePercentIncrease, countUsersByMonth, getIncomes } from "../../utils/Income";
 import { FormatNumber } from "../../utils/FormatNumber";
 import ExcelExportButton from "../../utils/ExcelExportButton";
+
 
 const COLORS = ["#E52020", "#F0F0F0"];
 
@@ -316,106 +31,73 @@ const Dashboard = () => {
     const [monthlyIncomes, setMonthlyIncomes] = useState([]);
     const [percentUserIncrease, setPercentUserIncrease] = useState(0);
 
+
+
     const fetchData = async () => {
         try {
-            // 1. ดึงข้อมูลทั้งหมดพร้อมกันแบบปลอดภัย 
-            // หากตัวใดตัวหนึ่งพังบน Production จะไม่ทำให้ตัวอื่นล่มตาม (ดักจับด้วย catch ของแต่ละคำขอ)
             const [userRes, promoRes, bookingRes, carRes, giftRes, timeRes, zoneRes, serviceRes] = await Promise.all([
-                axiosInstance.get(APIPath.SELECT_ALL_USER).catch(err => { console.error("User API Error:", err); return null; }),
-                axiosInstance.get(APIPath.SELECT_ALL_PROMOTION).catch(err => { console.error("Promotion API Error:", err); return null; }),
-                axiosInstance.get(APIPath.SELECT_ALL_BOOKING).catch(err => { console.error("Booking API Error:", err); return null; }),
-                axiosInstance.get(APIPath.SELECT_ALL_CAR).catch(err => { console.error("Car API Error:", err); return null; }),
-                axiosInstance.get(APIPath.SELECT_ALL_GIFT).catch(err => { console.error("Gift API Error:", err); return null; }),
-                axiosInstance.get(APIPath.SELECT_ALL_TIME).catch(err => { console.error("Time API Error:", err); return null; }),
-                axiosInstance.get(APIPath.SELECT_ALL_ZONE).catch(err => { console.error("Zone API Error:", err); return null; }),
-                axiosInstance.get(APIPath.SELECT_ALL_SERVICE).catch(err => { console.error("Service API Error:", err); return null; }),
+                axiosInstance.get(APIPath.SELECT_ALL_USER),
+                axiosInstance.get(APIPath.SELECT_ALL_PROMOTION),
+                axiosInstance.get(APIPath.SELECT_ALL_BOOKING),
+                axiosInstance.get(APIPath.SELECT_ALL_CAR),
+                axiosInstance.get(APIPath.SELECT_ALL_GIFT),
+                axiosInstance.get(APIPath.SELECT_ALL_TIME),
+                axiosInstance.get(APIPath.SELECT_ALL_ZONE),
+                axiosInstance.get(APIPath.SELECT_ALL_SERVICE),
+                // axiosInstance.get(APIPath.SELECT_ALL_FIX),
             ]);
+            const { monthlyData, totalPrice } = await getIncomes();
 
-            // 2. ดึงข้อมูลรายได้พร้อมดักจับ Error เชิงป้องกัน
-            let incomeData = { monthlyData: [], totalPrice: 0 };
-            try {
-                const res = await getIncomes();
-                if (res) incomeData = res;
-            } catch (incomeErr) {
-                console.error("getIncomes Function Error:", incomeErr);
-            }
+            setUsers(userRes?.data?.data || []);
+            setPromotions(promoRes?.data?.data || []);
+            setBooking(bookingRes?.data?.data || []);
+            // setFix(fixRes?.data?.data || []);
+            setCar(carRes?.data?.data || []);
+            setGift(giftRes?.data?.data || []);
+            setTime(timeRes?.data?.data || []);
+            setZone(zoneRes?.data?.data || []);
+            setService(serviceRes?.data?.data || []);
+            setMonthlyIncomes(monthlyData);
+            setTotalIncomes(totalPrice);
 
-            // 3. สกัดข้อมูลดิบออกมารองรับ Array ว่างหากไม่มี Response กลับมา
-            const fetchedUsers = userRes?.data?.data || [];
-            const fetchedPromotions = promoRes?.data?.data || [];
-            const fetchedBookings = bookingRes?.data?.data || [];
-            const fetchedCars = carRes?.data?.data || [];
-            const fetchedGifts = giftRes?.data?.data || [];
-            const fetchedTimes = timeRes?.data?.data || [];
-            const fetchedZones = zoneRes?.data?.data || [];
-            const fetchedServices = serviceRes?.data?.data || [];
-
-            // 4. อัปเดต State
-            setUsers(fetchedUsers);
-            setPromotions(fetchedPromotions);
-            setBooking(fetchedBookings);
-            setCar(fetchedCars);
-            setGift(fetchedGifts);
-            setTime(fetchedTimes);
-            setZone(fetchedZones);
-            setService(fetchedServices);
-            setMonthlyIncomes(incomeData.monthlyData || []);
-            setTotalIncomes(incomeData.totalPrice || 0);
-
-            // 5. คำนวณอัตราการเติบโตแบบปลอดภัย (ใช้ข้อมูลดิบแทน State)
-            if (typeof countUsersByMonth === "function" && fetchedUsers.length > 0) {
-                const result = countUsersByMonth(fetchedUsers);
-                const thisMonthCount = result?.thisMonthCount;
-                const lastMonthCount = result?.lastMonthCount;
-
-                if (thisMonthCount !== undefined && lastMonthCount !== undefined) {
-                    const percent = calculatePercentIncrease(thisMonthCount, lastMonthCount);
-                    setPercentUserIncrease(percent || 0);
-                } else {
-                    setPercentUserIncrease(0);
-                }
-            }
-
+            const { thisMonthCount, lastMonthCount } = countUsersByMonth(users);
+            const percent = calculatePercentIncrease(thisMonthCount, lastMonthCount);
+            setPercentUserIncrease(percent);
         } catch (error) {
             console.error("Fetch Dashboard Data Error:", error);
         }
     };
 
+
+
+
     const handleApprove = (bookingId, timeId) => {
-        if (!bookingId) return;
-        navigate(`/user/receiverCarDetail/${bookingId}?time=${timeId || ""}`);
+        navigate(`/user/receiverCarDetail/${bookingId}?time=${timeId}`);
     };
 
     useEffect(() => {
         fetchData();
+
     }, []);
 
-    // ป้องกันค่าติดลบหรือเกิน 100 ในแผนภูมิวงกลม
-    const safePercent = Math.min(Math.max(percentUserIncrease || 0, 0), 100);
+
+    // PieChart data
     const dataCircle = [
-        { name: "Increase", value: safePercent },
-        { name: "Rest", value: 100 - safePercent }
+        { name: "Increase", value: percentUserIncrease },
+        { name: "Rest", value: 100 - percentUserIncrease }
     ];
 
-    // ป้องกันการกรองข้อมูลพังกรณีที่ object ภายในอาเรย์ผู้ใช้ไม่มี property role
-    const regularUsersCount = Array.isArray(users) ? users.filter(user => user && user.role !== "admin").length : 0;
-    const adminUsersCount = Array.isArray(users) ? users.filter(user => user && user.role === "admin").length : 0;
-
     const dashboardItems = [
-        { title: t("customer_info"), path: "/user/user", value: regularUsersCount, icon: <Users className="w-10 h-10 text-red-600" /> },
+        { title: t("customer_info"), path: "/user/user", value: users.filter(user => user.role !== "admin").length, icon: <Users className="w-10 h-10 text-red-600" /> },
+        // { title: t("service_total"), path: "#", value: "1420", icon: <FaChartLine className="w-10 h-10 text-red-600" /> },
         { title: t("promotion_info"), path: "/user/promotion", value: promotions.length, icon: <Gift className="w-10 h-10 text-red-600" /> },
         { title: t("gift"), path: "/user/gift", value: gift.length, icon: <LiaGiftsSolid className="w-10 h-10 text-red-600" /> },
         { title: t("car_info"), path: "/user/car", value: car.length, icon: <Car className="w-10 h-10 text-red-600" /> },
         { title: t("servicing_info"), path: "/user/servicing", value: service.length, icon: <HiOutlineWrenchScrewdriver className="w-10 h-10 text-red-600" /> },
         { title: t("time_info"), path: "/user/time", value: `${time.length}`, icon: <Clock3 className="w-10 h-10 text-red-600" /> },
         { title: t("zone"), path: "/user/zone", value: `${zone.length}`, icon: <MapPinHouse className="w-10 h-10 text-red-600" /> },
-        { title: t("user_permission"), path: "/user/admin", value: adminUsersCount, icon: <GrUserAdmin className="w-10 h-10 text-red-600" /> },
+        { title: t("user_permission"), path: "/user/admin", value: users.filter(user => user.role === "admin").length, icon: <GrUserAdmin className="w-10 h-10 text-red-600" /> },
     ];
-
-    // กรองเอาเฉพาะข้อมูลการจองที่มีโครงสร้างสมบูรณ์เพื่อป้องกันการแสดงผลหน้าจอล่ม
-    const awaitBookings = Array.isArray(booking)
-        ? booking.filter(b => b && b.bookingStatus === "await")
-        : [];
 
     return (
         <div className="p-4 bg-gray-50 min-h-screen">
@@ -452,6 +134,7 @@ const Dashboard = () => {
                                 </text>
                             </PieChart>
                         </ResponsiveContainer>
+
                     </div>
                     <p className="text-xs text-red-600 mt-2 text-center">{t("monthly_user", { count: users.length })} {percentUserIncrease}%</p>
                 </div>
@@ -472,7 +155,9 @@ const Dashboard = () => {
                                     </linearGradient>
                                 </defs>
                                 <XAxis dataKey="name" />
-                                <YAxis tickFormatter={FormatNumber} tick={{ fontSize: 11 }} width={80} />
+                                <YAxis tickFormatter={FormatNumber}
+                                    tick={{ fontSize: 11 }}
+                                    width={80} />
                                 <Tooltip formatter={(value) => FormatNumber(value)} contentStyle={{ backgroundColor: '#fff', border: '1px solid #E52020', borderRadius: 8, fontSize: 12 }} />
                                 <Area type="monotone" dataKey="value" stroke="#E52020" fill="url(#colorValue)" strokeWidth={2} />
                             </AreaChart>
@@ -489,7 +174,7 @@ const Dashboard = () => {
             <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full">
                 {/* Desktop */}
                 <div className="hidden md:block divide-y divide-gray-200 max-h-[400px] overflow-y-auto">
-                    {awaitBookings.map((item, index) => (
+                    {booking.filter(b => b.bookingStatus === "await").map((item, index) => (
                         <div
                             key={index}
                             onClick={() => handleApprove(item?.booking_id, item?.time?.time_id)}
@@ -497,20 +182,20 @@ const Dashboard = () => {
                         >
                             <div className="flex items-center gap-2">
                                 <span className="bg-yellow-500 px-3 py-1 text-black rounded-xl text-xs font-semibold">{t("approve_status")}</span>
-                                <span className="font-medium">{item?.car?.model || "-"}</span>
+                                <span className="font-medium">{item?.car?.model}</span>
                             </div>
-                            <div className="text-center">{item?.user?.username || "-"}</div>
-                            <div className="text-center">{item?.user?.phoneNumber || "-"}</div>
-                            <div className="text-center">{item?.car?.plateNumber || "-"}</div>
-                            <div className="text-center">{item?.time?.date || "-"}</div>
-                            <div className="text-center">{item?.time?.time || "-"}</div>
+                            <div className="text-center">{item?.user?.username}</div>
+                            <div className="text-center">{item?.user?.phoneNumber}</div>
+                            <div className="text-center">{item?.car?.plateNumber}</div>
+                            <div className="text-center">{item?.time?.date}</div>
+                            <div className="text-center">{item?.time?.time}</div>
                         </div>
                     ))}
                 </div>
 
                 {/* Mobile */}
                 <div className="md:hidden divide-y divide-gray-200">
-                    {awaitBookings.map((item, index) => (
+                    {booking.filter(b => b.bookingStatus === "await").map((item, index) => (
                         <div
                             key={index}
                             onClick={() => handleApprove(item?.booking_id, item?.time?.time_id)}
@@ -518,28 +203,28 @@ const Dashboard = () => {
                         >
                             <div className="flex justify-between mb-2">
                                 <span className="bg-yellow-500 px-3 py-1 text-black rounded-xl text-xs font-semibold">{t("approve_status")}</span>
-                                <span className="text-sm font-medium">{item?.car?.model || "-"}</span>
+                                <span className="text-sm font-medium">{item?.car?.model}</span>
                             </div>
                             <div className="grid grid-cols-1 gap-2 text-sm">
                                 <div className="flex justify-between">
                                     <span className="text-gray-500">{t("user")}:</span>
-                                    <span className="text-gray-900">{item?.user?.username || "-"}</span>
+                                    <span className="text-gray-900">{item?.user?.username}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-gray-500">{t("phone")}:</span>
-                                    <span className="text-gray-900">{item?.user?.phoneNumber || "-"}</span>
+                                    <span className="text-gray-900">{item?.user?.phoneNumber}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-gray-500">{t("plate")}:</span>
-                                    <span className="text-gray-900">{item?.car?.plateNumber || "-"}</span>
+                                    <span className="text-gray-900">{item?.car?.plateNumber}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-gray-500">{t("date")}:</span>
-                                    <span className="text-gray-900">{item?.time?.date || "-"}</span>
+                                    <span className="text-gray-900">{item?.time?.date}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-gray-500">{t("time_label")}:</span>
-                                    <span className="text-gray-900">{item?.time?.time || "-"}</span>
+                                    <span className="text-gray-900">{item?.time?.time}</span>
                                 </div>
                             </div>
                         </div>
@@ -551,3 +236,5 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+

@@ -77,11 +77,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       <nav className="flex-1 px-2 overflow-y-auto">
         {items.map((item) => {
           const Icon = item.icon;
-
-          const isActive =
-            activeParent === item.id ||
-            item.children?.some((c) => c.path === activeChild);
-
+          const isActive = activeParent === item.id ||  item.children?.some((c) => c.path === activeChild);
           if (item.children) {
             return (
               <div key={item.id}>
@@ -95,14 +91,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 >
                   <div className="flex items-center gap-2">
                     <Icon className="w-5 h-5" />
-                    <span className="text-lg">{item.label}</span>
+                    <span className="text-lg truncate">{item.label}</span>
                   </div>
 
                   <ChevronRight
                     className={`w-5 h-5 transition ${openDropdown[item.id] ? "rotate-90" : ""}`}
                   />
                 </button>
-
                 {openDropdown[item.id] && (
                   <div className="ml-6">
                     {item.children.map((child) => {
@@ -123,7 +118,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                               : "hover:bg-white hover:text-[#E52020]"}`}
                         >
                           <ChildIcon className="w-5 h-5" />
-                          <span className="text-lg">{child.label}</span>
+                          <span className="text-lg truncate">{child.label}</span>
                         </Link>
                       );
                     })}
