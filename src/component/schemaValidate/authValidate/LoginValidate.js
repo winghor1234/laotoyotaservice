@@ -42,7 +42,6 @@ export const useLoginForm = () => {
             SuccessAlert(t("login_success"), 1500, "success");
             navigate("/user/dashboard");
             reset();
-            console.log("Login successful:", res.data);
         } catch (error) {
             SuccessAlert(t("error"), 1500, "warning");
             console.error("Login failed:", error);

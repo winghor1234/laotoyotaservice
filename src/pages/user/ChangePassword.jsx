@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useChangePasswordForm } from '../../component/schemaValidate/userValidate/ChangePassword';
 import { useState } from 'react';
 
-
 const ChangePassword = ({ show, onClose, customerId, handleFetch }) => {
     const { t } = useTranslation("user");
     const [showNew, setShowNew] = useState(false);
@@ -19,7 +18,6 @@ const ChangePassword = ({ show, onClose, customerId, handleFetch }) => {
           ${show ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
                 onClick={onClose}
             />
-
             {/* Popup */}
             <div
                 className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2   z-50 w-full max-w-2xl bg-gray-50 rounded-2xl shadow-lg p-4 sm:p-6 transition-all text-base   ${show ? 'scale-100 opacity-100' : 'scale-90 opacity-0 pointer-events-none'}`}  >
@@ -113,7 +111,6 @@ const ChangePassword = ({ show, onClose, customerId, handleFetch }) => {
                     >
                         {t("change_password")}
                     </button>
-
                 </form>
             </div>
         </>

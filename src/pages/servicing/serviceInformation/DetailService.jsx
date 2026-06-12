@@ -27,7 +27,6 @@ const DetailService = () => {
         };
         fetchData();
     }, [id]);
-    console.log("Service Data:", serviceData);
 
     if (loading) {
         return (

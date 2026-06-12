@@ -65,7 +65,6 @@ const Success = () => {
         }
 
     };
-    console.log(fix?.length);
     return (
         <div>
             <div className="flex justify-end items-center mb-6">

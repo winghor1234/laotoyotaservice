@@ -53,7 +53,6 @@ export const useEditTimeFixForm = ({ timefix_id , fetchTimeFix, onClose }) => {
     }, []);
 
     const submitForm = async (data) => {
-        console.log("time fix data : ",data);
         setLoading(true);
         try {
             await axiosInstance.put(APIPath.UPDATE_TIME_FIX(timefix_id), data);

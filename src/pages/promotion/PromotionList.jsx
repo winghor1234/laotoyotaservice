@@ -69,7 +69,6 @@ const PromotionList = () => {
         navigate(`/user/promotion-detail/${id}`);
     };
 
-    console.log("promotion", promotion);
 
     return (
         <div>

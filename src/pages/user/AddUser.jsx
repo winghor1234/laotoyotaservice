@@ -6,22 +6,7 @@ import Select from "react-select";
 const AddUser = ({ show, onClose, handleFetch }) => {
   const { t } = useTranslation("user");
 
-  const {
-    register,
-    handleSubmit,
-    errors,
-    loading,
-    submitForm,
-
-    provinceOptions,
-    districtOptions,
-
-    selectedProvince,
-    selectedDistrict,
-
-    handleProvinceChange,
-    handleDistrictChange,
-  } = useAddUserForm({
+  const { register, handleSubmit, errors, loading, submitForm,provinceOptions,   districtOptions,   selectedProvince,   selectedDistrict, handleProvinceChange, handleDistrictChange,} = useAddUserForm({
     handleFetch,
     onClose,
   });
@@ -60,9 +45,7 @@ const AddUser = ({ show, onClose, handleFetch }) => {
             </button>
           </div>
         </div>
-
         <hr className="border-gray-300 border-1 w-full my-3 sm:my-4" />
-
         {/* Form */}
         <form
           onSubmit={handleSubmit(submitForm)}
