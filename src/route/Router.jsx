@@ -124,7 +124,7 @@ const router = createBrowserRouter([
       },
       {
         path: "workshop-fix",
-        element: <WorkShopFixList/>,
+        element: <WorkShopFixList/>
       },
       {
         path: "workshop-fix-bill-detail/:id",

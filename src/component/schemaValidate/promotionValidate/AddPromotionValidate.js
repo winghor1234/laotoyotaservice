@@ -11,7 +11,7 @@ import axiosInstance from "../../../utils/AxiosInstance";
 // Zod schema
  const promoSchema = (t) => z.object({
   title: z.string().min(2, { message: t("min_length_2") }),
-  detail: z.string().min(5, { message: t("min_length_5") }),
+  detail: z.string().min(2, { message: t("min_length_2") }),
   image: z.any().optional()
 });
 

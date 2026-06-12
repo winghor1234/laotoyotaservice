@@ -74,92 +74,99 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       </div>
 
       {/* Menu */}
-      <nav className="flex-1 px-2 overflow-y-auto">
-        {items.map((item) => {
-          const Icon = item.icon;
-          const isActive = activeParent === item.id ||  item.children?.some((c) => c.path === activeChild);
-          if (item.children) {
-            return (
-              <div key={item.id}>
-                <button
-                  onClick={() => {
-                    toggleDropdown(item.id);
-                    setActiveParent(item.id);
-                  }}
-                  className={`w-full h-10 mb-2 flex items-center justify-between px-3 rounded-lg
-                    ${isActive ? "bg-white text-[#E52020]" : "hover:bg-white hover:text-[#E52020]"}`}
-                >
-                  <div className="flex items-center gap-2">
-                    <Icon className="w-5 h-5" />
-                    <span className="text-lg truncate">{item.label}</span>
-                  </div>
-
-                  <ChevronRight
-                    className={`w-5 h-5 transition ${openDropdown[item.id] ? "rotate-90" : ""}`}
-                  />
-                </button>
-                {openDropdown[item.id] && (
-                  <div className="ml-6">
-                    {item.children.map((child) => {
-                      const ChildIcon = child.icon;
-
-                      return (
-                        <Link
-                          key={child.id}
-                          to={child.path}
-                          onClick={() => {
-                            setSidebarOpen(false);
-                            setActiveParent(item.id);
-                            setActiveChild(child.path);
-                          }}
-                          className={`w-full h-10 mb-2 flex items-center gap-3 px-3 rounded-lg
-                            ${activeChild === child.path
-                              ? "bg-white text-[#E52020]"
-                              : "hover:bg-white hover:text-[#E52020]"}`}
-                        >
-                          <ChildIcon className="w-5 h-5" />
-                          <span className="text-lg truncate">{child.label}</span>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            );
-          }
-
+      <nav className="flex-1 px-2 overflow-y-auto 
+  [&::-webkit-scrollbar]:w-2
+  [&::-webkit-scrollbar-track]:bg-transparent
+  [&::-webkit-scrollbar-thumb]:rounded-full
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  dark:[&::-webkit-scrollbar-thumb]:bg-white
+  hover:[&::-webkit-scrollbar-thumb]:bg-gray-400
+  dark:hover:[&::-webkit-scrollbar-thumb]:bg-white">
+      {items.map((item) => {
+        const Icon = item.icon;
+        const isActive = activeParent === item.id || item.children?.some((c) => c.path === activeChild);
+        if (item.children) {
           return (
-            <Link
-              key={item.id}
-              to={item.path}
-              onClick={() => {
-                setSidebarOpen(false);
-                setActiveParent(item.id);
-                setActiveChild(null);
-              }}
-              className={`w-full h-10 mb-2 flex items-center gap-3 px-3 rounded-lg
-                ${activeParent === item.id
-                  ? "bg-white text-[#E52020]"
-                  : "hover:bg-white hover:text-[#E52020]"}`}
-            >
-              <Icon className="w-5 h-5" />
-              <span className="text-lg">{item.label}</span>
-            </Link>
-          );
-        })}
-      </nav>
+            <div key={item.id}>
+              <button
+                onClick={() => {
+                  toggleDropdown(item.id);
+                  setActiveParent(item.id);
+                }}
+                className={`w-full h-10 mb-2 flex items-center justify-between px-3 rounded-lg
+                    ${isActive ? "bg-white text-[#E52020]" : "hover:bg-white hover:text-[#E52020]"}`}
+              >
+                <div className="flex items-center gap-2">
+                  <Icon className="w-5 h-5" />
+                  <span className="text-lg truncate">{item.label}</span>
+                </div>
 
-      {/* Logout */}
-      <div className="p-3">
-        <button
-          onClick={handleLogout}
-          className="w-full h-10 flex items-center gap-3 px-3 rounded-lg hover:bg-white hover:text-[#E52020]"
-        >
-          <LogOutIcon className="w-5 h-5" />
-          <span className="text-lg">{t("logout")}</span>
-        </button>
-      </div>
-    </div>
+                <ChevronRight
+                  className={`w-5 h-5 transition ${openDropdown[item.id] ? "rotate-90" : ""}`}
+                />
+              </button>
+              {openDropdown[item.id] && (
+                <div className="ml-6">
+                  {item.children.map((child) => {
+                    const ChildIcon = child.icon;
+
+                    return (
+                      <Link
+                        key={child.id}
+                        to={child.path}
+                        onClick={() => {
+                          setSidebarOpen(false);
+                          setActiveParent(item.id);
+                          setActiveChild(child.path);
+                        }}
+                        className={`w-full h-10 mb-2 flex items-center gap-3 px-3 rounded-lg
+                            ${activeChild === child.path
+                            ? "bg-white text-[#E52020]"
+                            : "hover:bg-white hover:text-[#E52020]"}`}
+                      >
+                        <ChildIcon className="w-5 h-5" />
+                        <span className="text-lg truncate">{child.label}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        }
+
+        return (
+          <Link
+            key={item.id}
+            to={item.path}
+            onClick={() => {
+              setSidebarOpen(false);
+              setActiveParent(item.id);
+              setActiveChild(null);
+            }}
+            className={`w-full h-10 mb-2 flex items-center gap-3 px-3 rounded-lg
+                ${activeParent === item.id
+                ? "bg-white text-[#E52020]"
+                : "hover:bg-white hover:text-[#E52020]"}`}
+          >
+            <Icon className="w-5 h-5" />
+            <span className="text-lg">{item.label}</span>
+          </Link>
+        );
+      })}
+    </nav>
+
+      {/* Logout */ }
+  <div className="p-3">
+    <button
+      onClick={handleLogout}
+      className="w-full h-10 flex items-center gap-3 px-3 rounded-lg hover:bg-white hover:text-[#E52020]"
+    >
+      <LogOutIcon className="w-5 h-5" />
+      <span className="text-lg">{t("logout")}</span>
+    </button>
+  </div>
+    </div >
   );
 };
 

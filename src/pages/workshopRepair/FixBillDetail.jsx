@@ -78,7 +78,7 @@ const FixBillDetail = () => {
             {/* ปุ่มย้อนกลับ */}
             <div className="flex justify-between items-center mb-4">
                 <button
-                    onClick={() => navigate('/user/booking/fix')}
+                    onClick={() => navigate('/user/workshop-fix')}
                     className="flex items-center gap-2 px-4 py-2 rounded-xl text-gray-700 transition-colors"
                     style={{ backgroundColor: "#e5e7eb" }}
                     onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#d1d5db")}

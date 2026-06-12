@@ -14,7 +14,7 @@ const PointSetting = () => {
     };
 
     return (
-        <div className="w-full min-h-screen bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 ">
+        <div className="w-full bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 ">
             {/* Header */}
             <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-gray-100">
                 <div>

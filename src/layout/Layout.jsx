@@ -31,7 +31,7 @@ const Layout = () => {
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         {/* Content ที่ scroll ได้ */}
-        <main className="flex-1 overflow-y-auto p-2 lg:p-4 scroll-hide">
+        <main className="flex-1 overflow-y-auto p-2 lg:p-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           <Outlet />
         </main>
       </div>

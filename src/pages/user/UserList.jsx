@@ -122,22 +122,19 @@ ${newPassword}
                     <ImportExcel
                         apiPath={APIPath.REGISTER}
                         requiredFields={[
-                            "username",
-                            "phoneNumber",
-                            "password",
-                            "province",
-                            "district",
-                            "village",
-                            "email",
+                            "Name",
+                            "PhoneNumber",
+                            "Province",
+                            "District",
+                            "Village",
                         ]}
                         transformData={(item) => ({
-                            username: toSafeString(item["username"]),
-                            phoneNumber: toSafeString(item["phoneNumber"]),
-                            password: toSafeString(item["password"]),
-                            province: toSafeString(item["province"]),
-                            district: toSafeString(item["district"]),
-                            village: toSafeString(item["village"]),
-                            email: toSafeString(item["email"]),
+                            username: toSafeString(item["Name"]),
+                            phoneNumber: toSafeString(item["PhoneNumber"]),
+                            province: toSafeString(item["Province"]),
+                            district: toSafeString(item["District"]),
+                            village: toSafeString(item["Village"]),
+                            email: item["Email"] ? toSafeString(item["Email"]) : null,
                         })}
                         onUploadSuccess={() =>
                             fetchData()
