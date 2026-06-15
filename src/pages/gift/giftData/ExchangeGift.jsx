@@ -100,7 +100,7 @@ const ExchangeGift = ({ show, onClose, handleFetch }) => {
                                             <div
                                                 key={giftCard.giftcard_id}
                                                 onClick={() => {
-                                                    setGiftCardSearch(`${giftCard.gift_Name} ${giftCard.amount}`);
+                                                    setGiftCardSearch(`${giftCard.gift_Name}`);
                                                     setSelectedGiftCard(giftCard);
                                                     setValue("giftcardId", giftCard.giftcard_id); // ใช้ setValue แทน reset
                                                     setShowGiftDropdown(false);
