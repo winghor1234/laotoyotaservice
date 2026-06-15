@@ -196,7 +196,7 @@ export const useFixForm = ({ bookingId }) => {
   const submitForm = async (data) => {
     try {
       const payload = {
-        // bookingId,
+        bookingId,
         kmLast: data.kmLast,
         kmNext: data.kmNext,
         detailFix: data.detailFix,
