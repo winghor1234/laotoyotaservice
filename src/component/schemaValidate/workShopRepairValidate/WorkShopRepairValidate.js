@@ -196,6 +196,7 @@ export const useWorkShopRepair = () => {
             ? 0
             : data.exchange_rate,
       };
+      console.log("workshop : ",payload);
    
       const res = await axiosInstance.post(APIPath.WORKSHOP_FIX, payload);
       const FixId = res.data.data.fix_id;
