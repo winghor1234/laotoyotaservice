@@ -48,6 +48,21 @@ const ExchangeGift = ({ show, onClose, handleFetch }) => {
                                 }}
                                 className="w-full py-2 sm:py-3.5 rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
                             />
+                            {/* ปุ่มสำหรับลบข้อมูล (แสดงเมื่อมีค่าใน search เท่านั้น) */}
+                            {search && (
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setSearch("");
+                                        setValue("cardId", "");
+                                        setSelectedCard(null);
+                                        setShowDropdown(true);
+                                    }}
+                                    className="absolute right-2 bottom-5/11 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                                >
+                                    <X />
+                                </button>
+                            )}
 
                             {/* dropdown */}
                             {showDropdown && !selectedCard && (
@@ -93,16 +108,16 @@ const ExchangeGift = ({ show, onClose, handleFetch }) => {
                                 className="w-full py-2 sm:py-3.5 rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
                             />
                             {/* ปุ่มสำหรับลบข้อมูล (แสดงเมื่อมีค่าใน search เท่านั้น) */}
-                            {search && (
+                            {giftCardSearch && (
                                 <button
                                     type="button"
                                     onClick={() => {
-                                        setSearch("");
+                                        setGiftCardSearch("");
                                         setValue("giftcardId", "");
-                                        setSelectedCard(null);
-                                        setShowDropdown(true);
+                                        setSelectedGiftCard(null);
+                                        setShowGiftDropdown(true);
                                     }}
-                                    className="absolute right-2 bottom-1/7 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                                    className="absolute right-2 bottom-5/11 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
                                 >
                                     <X />
                                 </button>
