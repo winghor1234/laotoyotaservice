@@ -2,13 +2,14 @@ import { useTranslation } from "react-i18next";
 import Spinner from "../../../utils/Loading";
 import { useExchangeGiftForm } from "../../../component/schemaValidate/giftValidate.js/ExchangeGiftValidate";
 import { useState } from "react";
+import { X } from "lucide-react";
 
 
 const ExchangeGift = ({ show, onClose, handleFetch }) => {
     const { t } = useTranslation("gift");
     const [selectedCard, setSelectedCard] = useState(null);
     const [selectedGiftCard, setSelectedGiftCard] = useState(null);
-    const { register, handleSubmit, formState: { errors }, submitForm, loading, giftCards, cards, search, setSearch, showDropdown, setShowDropdown, showGiftDropdown, setShowGiftDropdown,  cardDropdownRef, giftCardDropdownRef, giftCardSearch, setGiftCardSearch, setValue } = useExchangeGiftForm({ onClose, handleFetch });
+    const { register, handleSubmit, formState: { errors }, submitForm, loading, giftCards, cards, search, setSearch, showDropdown, setShowDropdown, showGiftDropdown, setShowGiftDropdown, cardDropdownRef, giftCardDropdownRef, giftCardSearch, setGiftCardSearch, setValue } = useExchangeGiftForm({ onClose, handleFetch });
     if (!show) return null;
     // console.log("giftCards", giftCards);
     // console.log("cards", cards);
@@ -91,6 +92,21 @@ const ExchangeGift = ({ show, onClose, handleFetch }) => {
                                 }}
                                 className="w-full py-2 sm:py-3.5 rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
                             />
+                            {/* ปุ่มสำหรับลบข้อมูล (แสดงเมื่อมีค่าใน search เท่านั้น) */}
+                            {search && (
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setSearch("");
+                                        setValue("giftcardId", "");
+                                        setSelectedCard(null);
+                                        setShowDropdown(true);
+                                    }}
+                                    className="absolute right-2 bottom-1/7 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                                >
+                                    <X />
+                                </button>
+                            )}
 
                             {/* dropdown */}
                             {showGiftDropdown && !selectedGiftCard && (
