@@ -7,7 +7,7 @@ export const generateBillId = () => {
     const hh = String(now.getHours()).padStart(2, "0");
     const min = String(now.getMinutes()).padStart(2, "0");
     const ss = String(now.getSeconds()).padStart(2, "0");
-    
+
     // 1. เพิ่ม Milliseconds (3 หลัก) เพื่อแยกความต่างในระดับเสี้ยววินาที
     const ms = String(now.getMilliseconds()).padStart(3, "0");
 
@@ -18,3 +18,6 @@ export const generateBillId = () => {
     // ตัวอย่าง: 2606042022051234567
     return `${yy}${mm}${dd}${hh}${min}${ss}${ms}${random}`;
 };
+
+
+

@@ -155,5 +155,8 @@
   "thisMonth": "ເດືອນນີ້",
   "lastMonth": "ເດືອນກ່ອນ",
   "thisYear": "ປີນີ້",
-  "lastYear": "ປີກ່ອນ"
+  "lastYear": "ປີກ່ອນ",
+  "tax_invoice_code_text": "ລະຫັດບິນອາກອນ",
+  "tax_invoice_code_placeholder": "ລະຫັດບິນອາກອນ...",
+  "tax_invoice": "ລະຫັດບິນອາກອນ"
 }

@@ -65,6 +65,22 @@ const UserList = () => {
         navigate(`/user/user-detail/${id}`);
     };
 
+
+    const handleDeleteUser = async (customerId) => {
+        try {
+            const confirmDelete = await DeleteAlert(t("delete_confirm"), t("delete_success"));
+            if (confirmDelete) {
+                await axiosInstance.delete(APIPath.DELETE_CUSTOMER(customerId));
+                fetchData();
+            }
+        } catch (error) {
+            console.error("Failed to delete user:", error);
+            SuccessAlert(t("delete_error"), 1500, "error");
+        }
+    };
+
+
+
     const handleResetPassword = async (item) => {
         const id = item.user_id
         try {
@@ -184,40 +200,64 @@ ${newPassword}
                             )}
                         </div>
                         <div className="text-center">{item.role}</div>
-                        {/* <div className="text-center">{item.point}</div> */}
-                        <div className=" flex justify-center items-center gap-3 min-w-[100px]">
-                            <Eye
-                                onClick={() =>
-                                    handleToDetailUser(item.user_id)
-                                }
-                                className="text-gray-600 cursor-pointer h-7 w-7 hover:text-gray-800"
-                            />
+                        <div className="flex justify-center items-center">
+                            <div className="flex items-center gap-1">
 
-                            <Edit
-                                className="cursor-pointer h-7 w-7"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setShowEdit(true);
-                                    setCustomerId(item.user_id);
-                                }}
-                            />
+                                {/* View */}
+                                <button
+                                    onClick={() => handleToDetailUser(item.user_id)}
+                                    className="p-0.5 hover:bg-gray-100 rounded"
+                                >
+                                    <Eye className="w-4 h-4 text-gray-600" />
+                                </button>
 
-                            <UserLock
-                                className="cursor-pointer h-7 w-7"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setShowChangePassword(true);
-                                    setCustomerId(item.user_id);
-                                }}
-                            />
+                                {/* Edit */}
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setShowEdit(true);
+                                        setCustomerId(item.user_id);
+                                    }}
+                                    className="p-0.5 hover:bg-gray-100 rounded"
+                                >
+                                    <Edit className="w-4 h-4 text-blue-500" />
+                                </button>
 
-                            <FaWhatsappSquare
-                                className="cursor-pointer h-7 w-7 text-green-500"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleResetPassword(item);
-                                }}
-                            />
+                                {/* Password */}
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setShowChangePassword(true);
+                                        setCustomerId(item.user_id);
+                                    }}
+                                    className="p-0.5 hover:bg-gray-100 rounded"
+                                >
+                                    <UserLock className="w-4 h-4 text-orange-500" />
+                                </button>
+
+                                {/* WhatsApp */}
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleResetPassword(item);
+                                    }}
+                                    className="p-0.5 hover:bg-gray-100 rounded"
+                                >
+                                    <FaWhatsappSquare className="w-4 h-4 text-green-500" />
+                                </button>
+
+                                {/* Delete */}
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleDeleteUser(item.user_id);
+                                    }}
+                                    className="p-0.5 hover:bg-gray-100 rounded"
+                                >
+                                    <Trash className="w-4 h-4 text-red-500" />
+                                </button>
+
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -380,6 +420,13 @@ ${newPassword}
                                     handleResetPassword(
                                         item
                                     );
+                                }}
+                            />
+                            <Trash
+                                className="cursor-pointer h-6 w-6 text-red-500"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteUser(item.user_id)
                                 }}
                             />
                         </div>

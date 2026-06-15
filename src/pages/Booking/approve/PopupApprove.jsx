@@ -25,6 +25,7 @@ const PopupApprove = ({ setShowPopup, bookingId, fetchBooking, cardId }) => {
       const fixForm = {
         bookingId,
         invoice_number: generateBillId(),
+        // Tax_invoice_code: ,
         cardId: cardId,
       };
 

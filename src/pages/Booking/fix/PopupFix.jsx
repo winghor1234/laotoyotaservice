@@ -47,22 +47,6 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
 
         <div className="space-y-4 sm:space-y-6">
           {/* card number */}
-          {/* <div className="flex flex-col">
-            <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("card_id_text")}</label>
-            <select
-              {...register('cardId')}
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
-            >
-              <option value="">{t("select_card")}</option>
-              {(cards || []).map((card) => (
-                <option key={card.card_id} value={card.card_id}>
-                  {card.card_number} {card.card_type}
-                </option>
-              ))}
-            </select>
-            <div className="h-6">{errors.cardId && <p className="text-red-500 text-sm">{errors.cardId.message}</p>}</div>
-          </div> */}
-
           <div ref={cardDropdownRef} className="flex flex-col relative">
             <input type="hidden" {...register("cardId")} />
 
@@ -95,7 +79,7 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
                 }}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
               >
-                <X/>
+                <X />
               </button>
             )}
 
@@ -120,6 +104,16 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
                   ))}
               </div>
             )}
+          </div>
+          {/*tax invoice code */}
+          <div className="flex flex-col">
+            <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("tax_invoice_code_text")}</label>
+            <input
+              {...register("tax_invoice_code")}
+              placeholder={t("tax_invoice_code_placeholder")}
+              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-base sm:text-base outline-none hover:border-red-500 focus:border-red-500  focus:ring-red-500 shadow-sm transition-colors"
+            />
+            <div className="h-6">{errors.tax_invoice_code && <p className="text-red-500 text-sm">{errors.tax_invoice_code.message}</p>}</div>
           </div>
           {/* payment type */}
           <div className="flex flex-col">

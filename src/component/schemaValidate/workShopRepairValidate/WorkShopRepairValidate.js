@@ -25,6 +25,7 @@ const workShopRepairSchema = (t) =>
     payment_currency: z.string(),
     payment_type: z.string().min(1, t("Please_select_payment_type")),
     cardId: z.string().min(1, t("Please_select_card")),
+    tax_invoice_code: z.string().min(1, t("min_length_1")),
     discount: z.coerce.number().min(0).optional(),
     labour_discount: z.coerce.number().min(0).max(99).optional(),
     part_discount: z.coerce.number().min(0).max(99).optional(),
@@ -189,6 +190,7 @@ export const useWorkShopRepair = () => {
         payment_type: data.payment_type,
         cardId: data.cardId,
         invoice_number: generateBillId(),
+        tax_invoice_code: data.tax_invoice_code,
         exchange_rate:
           payment_currency === "LAK"
             ? 0

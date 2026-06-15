@@ -22,6 +22,7 @@ const fixSchema = (t) =>
     totalPoint: z.coerce.number().optional(),
     total_price_lak: z.coerce.number().optional(),
     exchange_rate: z.coerce.number().optional(),
+    tax_invoice_code: z.string().min(1, t("min_length_1")),
     payment_currency: z.string(),
     payment_type: z.string().min(1, t("Please_select_payment_type")),
     cardId: z.string().min(1, t("Please_select_card")),
@@ -195,7 +196,7 @@ export const useFixForm = ({ bookingId }) => {
   const submitForm = async (data) => {
     try {
       const payload = {
-        bookingId,
+        // bookingId,
         kmLast: data.kmLast,
         kmNext: data.kmNext,
         detailFix: data.detailFix,
@@ -205,6 +206,7 @@ export const useFixForm = ({ bookingId }) => {
         part_point: data.part_point,
         payment_type: data.payment_type,
         cardId: data.cardId,
+        tax_invoice_code: data.tax_invoice_code,
         exchange_rate:
           payment_currency === "LAK"
             ? 0

@@ -51,7 +51,7 @@ const FixBillDetail = () => {
         }
     }, [id]);
 
-    // console.log(branch);
+    console.log(data);
 
 
 
@@ -121,6 +121,8 @@ const FixBillDetail = () => {
                     <div>
                         <p>{t("date_bill")}: {formatDates(data?.invoice_date)}</p>
                         <p>{t("billId")}: {data?.invoice_number}</p>
+                        <p>{t("tax_invoice")}: {data?.tax_invoice_code}</p>
+
                     </div>
                 </div>
 

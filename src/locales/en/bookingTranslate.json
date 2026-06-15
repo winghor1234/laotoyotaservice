@@ -155,5 +155,11 @@
   "thisMonth": "This Month",
   "lastMonth": "Last Month",
   "thisYear": "This Year",
-  "lastYear": "Last Year"
+  "lastYear": "Last Year",
+  "tax_invoice_code_text": "Tax Invoice Code",
+  "tax_invoice_code_placeholder": "Tax Invoice Code...",
+  "tax_invoice": "Tax Invoice"
+
+
+
 }

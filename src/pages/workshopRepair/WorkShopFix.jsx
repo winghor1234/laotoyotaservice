@@ -93,6 +93,16 @@ const WorkShopFix = ({ show, onClose }) => {
                             </div>
                         )}
                     </div>
+                    {/*tax invoice code */}
+                    <div className="flex flex-col">
+                        <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("tax_invoice_code_text")}</label>
+                        <input
+                            {...register("tax_invoice_code")}
+                            placeholder={t("tax_invoice_code_placeholder")}
+                            className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-base sm:text-base outline-none hover:border-red-500 focus:border-red-500  focus:ring-red-500 shadow-sm transition-colors"
+                        />
+                        <div className="h-6">{errors.tax_invoice_code && <p className="text-red-500 text-sm">{errors.tax_invoice_code.message}</p>}</div>
+                    </div>
                     {/* payment type */}
                     <div className="flex flex-col">
                         <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("payment_type_text")}</label>

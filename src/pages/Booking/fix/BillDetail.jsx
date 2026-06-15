@@ -50,7 +50,7 @@ const BillDetail = () => {
 
     const invoiceNumber = booking?.Fix?.map((fix) => fix.bookingId === booking?.booking_id && fix.invoice_number);
     const invoiceDate = booking?.Fix?.map((fix) => fix.bookingId === booking?.booking_id && fix.invoice_date);
-        const totalPoint = Number(data?.labour_point || 0) + Number(data?.part_point || 0);
+    const totalPoint = Number(data?.labour_point || 0) + Number(data?.part_point || 0);
 
 
     const handleExportPDF = () => {
@@ -115,6 +115,7 @@ const BillDetail = () => {
                     <div>
                         <p>{t("date_bill")}: {formatDates(invoiceDate)}</p>
                         <p>{t("billId")}: {invoiceNumber}</p>
+                        <p>{t("tax_invoice")}: {data?.tax_invoice_code}</p>
                     </div>
                 </div>
 
