@@ -87,21 +87,21 @@ const CarList = () => {
         <ImportExcel
           apiPath={APIPath.CREATE_CAR}
           requiredFields={[
-            "model",
-            "plateNumber",
-            "frameNumber",
-            "engineNumber",
-            "province",
-            "color",
+            "Model",
+            "PlateNumber",
+            "FrameNumber",
+            "EngineNumber",
+            "Province",
+            "Color",
           ]}
           transformData={(item) => ({
             userId: null,
-            model: toSafeString(item["model"]),
-            plateNumber: toSafeString(item["plateNumber"]),
-            frameNumber: toSafeString(item["frameNumber"]),
-            engineNumber: toSafeString(item["engineNumber"]),
-            province: toSafeString(item["province"]),
-            color: toSafeString(item["color"]),
+            model: toSafeString(item["Model"]),
+            plateNumber: toSafeString(item["PlateNumber"]),
+            frameNumber: toSafeString(item["FrameNumber"]),
+            engineNumber: toSafeString(item["EngineNumber"]),
+            province: toSafeString(item["Province"]),
+            color: toSafeString(item["Color"]),
           })}
           onUploadSuccess={() =>
             fetchData()

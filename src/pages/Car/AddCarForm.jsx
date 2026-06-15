@@ -45,8 +45,7 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
     { name: 'engineNumber', labelKey: 'engine', placeholderKey: 'engine_placeholder' },
     { name: 'frameNumber', labelKey: 'frame', placeholderKey: 'frame_placeholder' },
     { name: 'plateNumber', labelKey: 'plate', placeholderKey: 'plate_placeholder' },
-    // { name: 'province', labelKey: 'province', placeholderKey: 'province_placeholder' },
-    // { name: 'color', labelKey: 'color', placeholderKey: 'color_placeholder' },
+
   ];
 
   return (
