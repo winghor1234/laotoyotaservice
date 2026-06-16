@@ -132,14 +132,6 @@ const SuccessDetail = () => {
                   <span className="text-gray-400 block md:mb-1">{t("branch_label")}:</span>
                   <span>{booking?.branch?.branch_name || "-"}</span>
                 </p>
-                <p className="flex justify-between md:block">
-                  <span className="text-gray-400 block md:mb-1">{t("tax_invoice_label")}:</span>
-                  <span>{booking?.Fix?.map((item) => item?.bookingId === booking?.booking_id) || "-"}</span>
-                </p>
-                <p className="flex justify-between md:block">
-                  <span className="text-gray-400 block md:mb-1">{t("branch_label")}:</span>
-                  <span>{booking?.branch?.branch_name || "-"}</span>
-                </p>
               </div>
             </div>
           </div>
