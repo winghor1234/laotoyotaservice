@@ -29,7 +29,8 @@
     "select_branch": "Select Branch",
     "select_user": "Select employee",
     "branch": "Branch",
-    "user": "employee"
+    "user": "employee",
+    "update_success": "Update employee successfully"
     
 
 }
