@@ -239,7 +239,7 @@ const WorkShopFix = ({ show, onClose }) => {
                                 <label className="mb-1 text-gray-500 text-sm sm:text-base">{t("labour_point_text")}</label>
                                 <CurrencyInput
                                     readOnly
-                                    value={Number(watch("labour_point") || 0).toFixed(2)}
+                                    value={Number(watch("labour_point") || 0)}
                                     {...register("labour_point")}
                                     // placeholder={t("labour_point_placholder")}
                                     groupSeparator=","
@@ -317,7 +317,7 @@ const WorkShopFix = ({ show, onClose }) => {
                                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_point_text")}</label>
                                 <CurrencyInput
                                     readOnly
-                                    value={Number(watch("part_point") || 0).toFixed(2)}
+                                    value={Number(watch("part_point") || 0)}
                                     {...register("part_point")}
                                     // placeholder={t("part_point_placholder")}
                                     groupSeparator=","

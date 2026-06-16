@@ -192,14 +192,15 @@ const WorkShopFixDetail = () => {
                                 <tr>
                                     <td className="py-2">{t("labour_point-placholder")}</td>
                                     <td className="py-2 w-24 text-left font-mono">
-                                        {Number(data?.labour_point || 0).toFixed(2)} {t("point_text")}
+                                        {Number(data?.labour_point || 0)
+                                    } {t("point_text")}
                                     </td>
                                 </tr>
 
                                 <tr className="border-b border-gray-100">
                                     <td className="py-2">{t("part_point-placholder")}</td>
                                     <td className="py-2 w-24 text-left font-mono">
-                                        {Number(data?.part_point || 0).toFixed(2)} {t("point_text")}
+                                        {Number(data?.part_point || 0)} {t("point_text")}
                                     </td>
                                 </tr>
 
@@ -212,7 +213,7 @@ const WorkShopFixDetail = () => {
                                     </td>
                                     <td className="pt-3 w-24 text-left">
                                         <span className="text-md text-green-600 font-mono font-semibold">
-                                            {totalPoint.toFixed(2)}
+                                            {totalPoint}
                                         </span>
                                         <span className="ml-1 text-green-600 font-medium">
                                             {t("point_text")}

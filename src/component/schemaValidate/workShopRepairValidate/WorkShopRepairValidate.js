@@ -1,4 +1,232 @@
 
+// import { z } from "zod";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { useForm } from "react-hook-form";
+// import { useState, useEffect, useRef } from "react";
+// import APIPath from "../../../api/APIPath";
+// import axiosInstance from "../../../utils/AxiosInstance";
+// import { useTranslation } from "react-i18next";
+// import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
+// import { usePoints } from "../../../utils/PointContext";
+// import { generateBillId } from "../../../utils/BillGenerate";
+// import { useNavigate } from "react-router-dom";
+
+// const workShopRepairSchema = (t) =>
+//   z.object({
+//     kmNext: z.coerce.number().min(1, t("min_length_1")),
+//     kmLast: z.coerce.number().min(1, t("min_length_1")),
+//     labour_total: z.coerce.number().min(1, t("min_length_1")),
+//     part_total: z.coerce.number().min(1, t("min_length_1")),
+//     labour_point: z.coerce.number().optional(),
+//     part_point: z.coerce.number().optional(),
+//     totalPoint: z.coerce.number().optional(),
+//     total_price_lak: z.coerce.number().optional(),
+//     exchange_rate: z.coerce.number().optional(),
+//     payment_currency: z.string( ).min(1, t("Please_select_currency")),
+//     payment_type: z.string().min(1, t("Please_select_payment_type")),
+//     cardId: z.string().min(1, t("Please_select_card")),
+//     tax_invoice_code: z.string().min(1, t("min_length_1")),
+//     discount: z.coerce.number().min(0).optional(),
+//     labour_discount: z.coerce.number().min(0).max(99).optional(),
+//     part_discount: z.coerce.number().min(0).max(99).optional(),
+//   });
+
+// export const useWorkShopRepair = () => {
+//   const { t } = useTranslation("auth");
+//   const navigate = useNavigate();
+//   const [cards, setCards] = useState([]);
+//   const [isManualLabourPoint, setIsManualLabourPoint] = useState(false);
+//   const [isManualPartPoint, setIsManualPartPoint] = useState(false);
+//   const cardDropdownRef = useRef(null);
+//   const [showDropdown, setShowDropdown] = useState(false);
+//   const [search, setSearch] = useState("");
+
+
+//   // 🔥 store computed values (IMPORTANT FIX)
+//   const [calculated, setCalculated] = useState({
+//     labour: 0,
+//     part: 0,
+//     total: 0,
+//   });
+//   const { pointSettings } = usePoints();
+
+//   const { register, handleSubmit, formState: { errors }, setValue, watch, reset } = useForm({
+//     resolver: zodResolver(workShopRepairSchema(t)),
+//     defaultValues: {
+//       payment_currency: "LAK",
+//       exchange_rate: "",
+//       labour_total: 0,
+//       part_total: 0,
+//       labour_point: 0,
+//       part_point: 0,
+//       totalPoint: 0,
+//       total_price_lak: 0,
+//       labour_discount: 0,
+//       part_discount: 0,
+//     },
+//   });
+//   // console.log("card", cards);
+
+//   // ================= WATCH =================
+//   const labour_total = Number(watch("labour_total")) || 0;
+//   const part_total = Number(watch("part_total")) || 0;
+//   const labour_point = Number(watch("labour_point")) || 0;
+//   const part_point = Number(watch("part_point")) || 0;
+
+//   const payment_currency = watch("payment_currency") || "LAK";
+//   const exchange_rate = Number(watch("exchange_rate")) || 1;
+
+//   const labour_discount = Number(watch("labour_discount")) || 0;
+//   const part_discount = Number(watch("part_discount")) || 0;
+
+//   // ================= FETCH =================
+//   const fetchData = async () => {
+//     try {
+//       const [cardRes] = await Promise.all([
+//         axiosInstance.get(APIPath.SELECT_ALL_CARD),
+//       ]);
+
+//       setCards(cardRes?.data?.data || []);
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+
+
+
+
+//   // ================= CALCULATION (SOURCE OF TRUTH) =================
+//   useEffect(() => {
+//     let labour = labour_total;
+//     let part = part_total;
+
+//     if (payment_currency === "THB" || payment_currency === "USD") {
+//       labour *= exchange_rate;
+//       part *= exchange_rate;
+//     }
+
+//     const labourDiscount = labour * (labour_discount / 100);
+//     const partDiscount = part * (part_discount / 100);
+
+//     const finalLabour = Math.max(labour - labourDiscount, 0);
+//     const finalPart = Math.max(part - partDiscount, 0);
+
+
+//     const autoLabourPoint = pointSettings.labour_amount > 0
+//       ? (finalLabour / pointSettings.labour_amount) * pointSettings.labour_point
+//       : 0;
+
+//     const autoPartPoint = pointSettings.part_amount > 0
+//       ? (finalPart / pointSettings.part_amount) * pointSettings.part_point
+//       : 0;
+
+
+//     const labourPointFinal = isManualLabourPoint ? labour_point : autoLabourPoint;
+//     const partPointFinal = isManualPartPoint ? part_point : autoPartPoint
+//     setValue("labour_point", parseFloat(labourPointFinal.toFixed(2)));
+//     setValue("part_point", parseFloat(partPointFinal.toFixed(2)));
+
+
+//     const totalPoint = labourPointFinal + partPointFinal;
+
+//     setValue("totalPoint", totalPoint);
+//     setValue("total_price_lak", finalLabour + finalPart);
+
+//     setCalculated({
+//       labour: finalLabour,
+//       part: finalPart,
+//       total: finalLabour + finalPart,
+//     });
+
+//     if (payment_currency === "LAK") {
+//       setValue("exchange_rate", "");
+//     }
+//   }, [
+//     labour_total,
+//     part_total,
+//     labour_discount,
+//     part_discount,
+//     labour_point,
+//     part_point,
+//     isManualLabourPoint,
+//     isManualPartPoint,
+//     payment_currency,
+//     exchange_rate,
+//     isManualLabourPoint,
+//     isManualPartPoint,
+//     pointSettings,
+//   ]);
+
+//   // ================= INIT =================
+//   useEffect(() => {
+//     fetchData();
+//   }, []);
+
+//   useEffect(() => {
+//     const handleClickOutside = (event) => {
+//       if (cardDropdownRef.current && !cardDropdownRef.current.contains(event.target)) {
+//         setShowDropdown(false);
+//       }
+//     };
+
+//     document.addEventListener("mousedown", handleClickOutside);
+//     return () => {
+//       document.removeEventListener("mousedown", handleClickOutside);
+//     };
+//   }, []);
+
+//   // ================= SUBMIT (USE ONLY STATE, NO RE-CALC) =================
+//   const submitForm = async (data) => {
+//     console.log(data);
+//     try {
+//       const payload = {
+//         kmLast: data.kmLast,
+//         kmNext: data.kmNext,
+//         detailFix: data.detailFix,
+//         labour_total: calculated.labour,
+//         part_total: calculated.part,
+//         labour_point: data.labour_point,
+//         part_point: data.part_point,
+//         payment_type: data.payment_type,
+//         cardId: data.cardId,
+//         invoice_number: generateBillId(),
+//         tax_invoice_code: data.tax_invoice_code,
+//         exchange_rate:
+//           payment_currency === "LAK"
+//             ? 0
+//             : data.exchange_rate,
+//       };
+//       console.log("workshop : ",payload);
+
+//       const res = await axiosInstance.post(APIPath.WORKSHOP_FIX, payload);
+//       const FixId = res.data.data.fix_id;
+//       SuccessAlert(t("fix_success"));
+//       reset();
+//       navigate(`/user/workshop-fix-bill-detail/${FixId}`);
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+
+//   return {
+//     register,
+//     handleSubmit,
+//     errors,
+//     submitForm,
+//     setValue,
+//     watch,
+//     cards,
+//     setIsManualLabourPoint,
+//     setIsManualPartPoint,
+//     cardDropdownRef,
+//     showDropdown,
+//     setShowDropdown,
+//     search,
+//     setSearch
+//   };
+// };
+
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -22,7 +250,7 @@ const workShopRepairSchema = (t) =>
     totalPoint: z.coerce.number().optional(),
     total_price_lak: z.coerce.number().optional(),
     exchange_rate: z.coerce.number().optional(),
-    payment_currency: z.string( ).min(1, t("Please_select_currency")),
+    payment_currency: z.string().min(1, t("Please_select_currency")),
     payment_type: z.string().min(1, t("Please_select_payment_type")),
     cardId: z.string().min(1, t("Please_select_card")),
     tax_invoice_code: z.string().min(1, t("min_length_1")),
@@ -34,6 +262,7 @@ const workShopRepairSchema = (t) =>
 export const useWorkShopRepair = () => {
   const { t } = useTranslation("auth");
   const navigate = useNavigate();
+
   const [cards, setCards] = useState([]);
   const [isManualLabourPoint, setIsManualLabourPoint] = useState(false);
   const [isManualPartPoint, setIsManualPartPoint] = useState(false);
@@ -41,43 +270,43 @@ export const useWorkShopRepair = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [search, setSearch] = useState("");
 
-
-  // 🔥 store computed values (IMPORTANT FIX)
   const [calculated, setCalculated] = useState({
     labour: 0,
     part: 0,
     total: 0,
   });
+
   const { pointSettings } = usePoints();
 
-  const { register, handleSubmit, formState: { errors }, setValue, watch, reset } = useForm({
-    resolver: zodResolver(workShopRepairSchema(t)),
-    defaultValues: {
-      payment_currency: "LAK",
-      exchange_rate: "",
-      labour_total: 0,
-      part_total: 0,
-      labour_point: 0,
-      part_point: 0,
-      totalPoint: 0,
-      total_price_lak: 0,
-      labour_discount: 0,
-      part_discount: 0,
-    },
-  });
-  // console.log("card", cards);
+  const { register, handleSubmit, formState: { errors }, setValue, watch, reset } =
+    useForm({
+      resolver: zodResolver(workShopRepairSchema(t)),
+      defaultValues: {
+        payment_currency: "LAK",
+        exchange_rate: "",
+        labour_total: 0,
+        part_total: 0,
+        labour_point: 0,
+        part_point: 0,
+        totalPoint: 0,
+        total_price_lak: 0,
+        labour_discount: 0,
+        part_discount: 0,
+      },
+    });
 
-  // ================= WATCH =================
-  const labour_total = Number(watch("labour_total")) || 0;
-  const part_total = Number(watch("part_total")) || 0;
-  const labour_point = Number(watch("labour_point")) || 0;
-  const part_point = Number(watch("part_point")) || 0;
+  // ================= WATCH (INT SAFE) =================
+  const labour_total = Math.round(Number(watch("labour_total")) || 0);
+  const part_total = Math.round(Number(watch("part_total")) || 0);
+
+  const labour_point = Math.round(Number(watch("labour_point")) || 0);
+  const part_point = Math.round(Number(watch("part_point")) || 0);
 
   const payment_currency = watch("payment_currency") || "LAK";
-  const exchange_rate = Number(watch("exchange_rate")) || 1;
+  const exchange_rate = Math.round(Number(watch("exchange_rate")) || 1);
 
-  const labour_discount = Number(watch("labour_discount")) || 0;
-  const part_discount = Number(watch("part_discount")) || 0;
+  const labour_discount = Math.round(Number(watch("labour_discount")) || 0);
+  const part_discount = Math.round(Number(watch("part_discount")) || 0);
 
   // ================= FETCH =================
   const fetchData = async () => {
@@ -85,52 +314,58 @@ export const useWorkShopRepair = () => {
       const [cardRes] = await Promise.all([
         axiosInstance.get(APIPath.SELECT_ALL_CARD),
       ]);
-
       setCards(cardRes?.data?.data || []);
     } catch (error) {
       console.log(error);
     }
   };
 
-
-
-
-  // ================= CALCULATION (SOURCE OF TRUTH) =================
+  // ================= CALCULATION (INT ONLY, SAME LOGIC) =================
   useEffect(() => {
     let labour = labour_total;
     let part = part_total;
 
+    // currency conversion (INT SAFE)
     if (payment_currency === "THB" || payment_currency === "USD") {
-      labour *= exchange_rate;
-      part *= exchange_rate;
+      labour = Math.round(labour * exchange_rate);
+      part = Math.round(part * exchange_rate);
     }
 
-    const labourDiscount = labour * (labour_discount / 100);
-    const partDiscount = part * (part_discount / 100);
+    // discount (INT SAFE)
+    const labourDiscount = Math.round(labour * labour_discount / 100);
+    const partDiscount = Math.round(part * part_discount / 100);
 
     const finalLabour = Math.max(labour - labourDiscount, 0);
     const finalPart = Math.max(part - partDiscount, 0);
 
+    // auto point (INT SAFE)
+    const autoLabourPoint =
+      pointSettings.labour_amount > 0
+        ? Math.floor(
+          (finalLabour / pointSettings.labour_amount) *
+          pointSettings.labour_point
+        )
+        : 0;
 
-    const autoLabourPoint = pointSettings.labour_amount > 0
-      ? (finalLabour / pointSettings.labour_amount) * pointSettings.labour_point
-      : 0;
-
-    const autoPartPoint = pointSettings.part_amount > 0
-      ? (finalPart / pointSettings.part_amount) * pointSettings.part_point
-      : 0;
-
+    const autoPartPoint =
+      pointSettings.part_amount > 0
+        ? Math.floor(
+          (finalPart / pointSettings.part_amount) *
+          pointSettings.part_point
+        )
+        : 0;
 
     const labourPointFinal = isManualLabourPoint ? labour_point : autoLabourPoint;
-    const partPointFinal = isManualPartPoint ? part_point : autoPartPoint
-    setValue("labour_point", parseFloat(labourPointFinal.toFixed(2)));
-    setValue("part_point", parseFloat(partPointFinal.toFixed(2)));
+    const partPointFinal = isManualPartPoint ? part_point : autoPartPoint;
 
+    // ❌ removed toFixed + parseFloat
+    setValue("labour_point", Math.round(labourPointFinal));
+    setValue("part_point", Math.round(partPointFinal));
 
     const totalPoint = labourPointFinal + partPointFinal;
 
-    setValue("totalPoint", totalPoint);
-    setValue("total_price_lak", finalLabour + finalPart);
+    setValue("totalPoint", Math.round(totalPoint));
+    setValue("total_price_lak", Math.round(finalLabour + finalPart));
 
     setCalculated({
       labour: finalLabour,
@@ -139,7 +374,7 @@ export const useWorkShopRepair = () => {
     });
 
     if (payment_currency === "LAK") {
-      setValue("exchange_rate", "");
+      setValue("exchange_rate", 0);
     }
   }, [
     labour_total,
@@ -152,8 +387,6 @@ export const useWorkShopRepair = () => {
     isManualPartPoint,
     payment_currency,
     exchange_rate,
-    isManualLabourPoint,
-    isManualPartPoint,
     pointSettings,
   ]);
 
@@ -164,42 +397,48 @@ export const useWorkShopRepair = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (cardDropdownRef.current && !cardDropdownRef.current.contains(event.target)) {
+      if (
+        cardDropdownRef.current &&
+        !cardDropdownRef.current.contains(event.target)
+      ) {
         setShowDropdown(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // ================= SUBMIT (USE ONLY STATE, NO RE-CALC) =================
+  // ================= SUBMIT =================
   const submitForm = async (data) => {
-    console.log(data);
     try {
       const payload = {
         kmLast: data.kmLast,
         kmNext: data.kmNext,
         detailFix: data.detailFix,
+
+        // already int
         labour_total: calculated.labour,
         part_total: calculated.part,
+
         labour_point: data.labour_point,
         part_point: data.part_point,
+
         payment_type: data.payment_type,
         cardId: data.cardId,
         invoice_number: generateBillId(),
         tax_invoice_code: data.tax_invoice_code,
+
         exchange_rate:
           payment_currency === "LAK"
             ? 0
-            : data.exchange_rate,
+            : Math.round(Number(data.exchange_rate) || 0),
       };
-      console.log("workshop : ",payload);
-   
+
       const res = await axiosInstance.post(APIPath.WORKSHOP_FIX, payload);
+
       const FixId = res.data.data.fix_id;
+
       SuccessAlert(t("fix_success"));
       reset();
       navigate(`/user/workshop-fix-bill-detail/${FixId}`);
@@ -222,6 +461,6 @@ export const useWorkShopRepair = () => {
     showDropdown,
     setShowDropdown,
     search,
-    setSearch
+    setSearch,
   };
 };

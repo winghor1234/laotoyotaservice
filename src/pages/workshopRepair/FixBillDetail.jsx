@@ -174,7 +174,7 @@ const FixBillDetail = () => {
                                     {t("labour_point-placholder")}
                                 </td>
                                 <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>
-                                    {Number(data?.labour_point || 0).toFixed(2)}
+                                    {Number(data?.labour_point || 0)}
                                 </td>
                             </tr>
 
@@ -185,7 +185,7 @@ const FixBillDetail = () => {
                                     {t("part_point-placholder")}
                                 </td>
                                 <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>
-                                    {Number(data?.part_point || 0).toFixed(2)}
+                                    {Number(data?.part_point || 0)}
                                 </td>
                             </tr>
                         </tbody>
@@ -196,7 +196,7 @@ const FixBillDetail = () => {
                 <div className="mt-4 flex justify-end ">
                     <div className=" w-2/7 " >
                         <h3 style={{ fontSize: "1rem", fontWeight: "600", color: "#15803d" }}>
-                            {t("totalPoint")}: {totalPoint.toFixed(2)} {t("point_text")}
+                            {t("totalPoint")}: {totalPoint} {t("point_text")}
                         </h3>
                     </div>
                 </div>
