@@ -1,22 +1,482 @@
 
+// // PopupFix.jsx
+// import { useFixForm } from "../../../component/schemaValidate/fixValidate/PopupFixValidate";
+// import { useTranslation } from "react-i18next";
+// import CurrencyInput from "react-currency-input-field";
+// import { FaArrowLeft } from "react-icons/fa";
+// import { useState } from "react";
+// import { X } from "lucide-react";
+
+
+
+// const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
+//   const { t } = useTranslation("booking");
+//   const [selectedCard, setSelectedCard] = useState(null);
+//   const { register, handleSubmit, errors, submitForm, setValue, watch, cards, cardDropdownRef, showDropdown, setShowDropdown, search, setSearch } = useFixForm({ bookingId, timeId });
+
+//   const labour_total = watch("labour_total") || 0;
+//   const part_total = watch("part_total") || 0;
+//   const totalPrice = Number(labour_total) + Number(part_total);
+
+//   const payment_currency = watch("payment_currency");
+//   const currencyText =
+//     payment_currency === "THB"
+//       ? "฿"
+//       : payment_currency === "USD"
+//         ? "$"
+//         : t("kip_text");
+
+
+//   return (
+//     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+//       <form
+//         onSubmit={handleSubmit(submitForm)}
+//         className="bg-white flex flex-col gap-6 p-4 sm:p-6 rounded-2xl w-full max-w-[800px] max-h-[90vh] overflow-y-auto"
+//       >
+//         <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center">
+//           {t("fix_title")}
+//         </h2>
+
+//         <div className="space-y-4 sm:space-y-6">
+//           {/* card number */}
+//           <div ref={cardDropdownRef} className="flex flex-col relative">
+//             <input type="hidden" {...register("cardId")} />
+
+//             {/* input search */}
+//             <input
+//               type="text"
+//               value={search}
+//               placeholder={t("select_card")}
+//               onChange={(e) => {
+//                 setSearch(e.target.value);
+//                 setSelectedCard(null);
+//                 setShowDropdown(true);
+//               }}
+//               onFocus={() => {
+//                 if (!selectedCard) {
+//                   setShowDropdown(true);
+//                 }
+//               }}
+//               className="w-full py-2 sm:py-3.5 rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
+//             />
+//             {/* ปุ่มสำหรับลบข้อมูล (แสดงเมื่อมีค่าใน search เท่านั้น) */}
+//             {search && (
+//               <button
+//                 type="button"
+//                 onClick={() => {
+//                   setSearch("");
+//                   setValue("cardId", "");
+//                   setSelectedCard(null);
+//                   setShowDropdown(true);
+//                 }}
+//                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+//               >
+//                 <X />
+//               </button>
+//             )}
+
+//             {/* dropdown */}
+//             {showDropdown && !selectedCard && (
+//               <div ref={cardDropdownRef} className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
+//                 {cards.filter((card) => `${card.card_number} ${card.card_type}`.toLowerCase().includes(search.toLowerCase()))
+//                   .map((card) => (
+//                     <div
+//                       key={card.card_id}
+//                       onClick={() => {
+//                         setSearch(`${card.card_number} ${card.card_type}`);
+
+//                         setSelectedCard(card);
+//                         setValue("cardId", card.card_id);
+//                         setShowDropdown(false);
+//                       }}
+//                       className="px-3 py-2 text-sm cursor-pointer hover:bg-red-600"
+//                     >
+//                       {card.card_number} {card.card_type} : {card.total_point || 0}
+//                     </div>
+//                   ))}
+//               </div>
+//             )}
+//           </div>
+//           {/*tax invoice code */}
+//           <div className="flex flex-col">
+//             <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("tax_invoice_code_text")}</label>
+//             <input
+//               {...register("tax_invoice_code")}
+//               placeholder={t("tax_invoice_code_placeholder")}
+//               className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-base sm:text-base outline-none hover:border-red-500 focus:border-red-500  focus:ring-red-500 shadow-sm transition-colors"
+//             />
+//             <div className="h-6">{errors.tax_invoice_code && <p className="text-red-500 text-sm">{errors.tax_invoice_code.message}</p>}</div>
+//           </div>
+//           {/* payment type */}
+//           <div className="flex flex-col">
+//             <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("payment_type_text")}</label>
+//             <select
+//               {...register('payment_type')}
+//               className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
+//             >
+//               <option disabled value="">{t("select_payment_type")}</option>
+//               <option value="Cash">{t("cash")}</option>
+//               <option value="Transfer">{t("transfer")}</option>
+//             </select>
+//             <div className="h-6">{errors.payment_type && <p className="text-red-500 text-sm">{errors.payment_type.message}</p>}</div>
+//           </div>
+//           {/* KM Last & KM Next */}
+//           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+//             {/* KM Last */}
+//             <div className="flex flex-col relative">
+//               <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("kmLast_text")}</label>
+//               <input
+//                 {...register("kmLast")}
+//                 placeholder={t("kmLast")}
+//                 className=" w-full py-2 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors pr-12"
+//               />
+//               <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg pointer-events-none">
+//                 {t("km_text")}
+//               </span>
+//               <div className="h-6">{errors.kmLast && <p className="text-red-500 text-sm">{errors.kmLast.message}</p>}</div>
+//             </div>
+
+//             {/* KM Next */}
+//             <div className="flex flex-col relative">
+//               <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("kmNext_text")}</label>
+//               <input
+//                 {...register("kmNext")}
+//                 placeholder={t("kmNext")}
+//                 className="w-full py-2 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors pr-12"
+//               />
+//               <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg pointer-events-none">
+//                 {t("km_text")}
+//               </span>
+//               <div className="h-6">{errors.kmNext && <p className="text-red-500 text-sm">{errors.kmNext.message}</p>}</div>
+//             </div>
+//           </div>
+
+//           {/* Detail Fix */}
+//           <div className="flex flex-col">
+//             <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("Optional_text")}</label>
+//             <textarea
+//               {...register("detailFix")}
+//               placeholder={t("detailFix")}
+//               rows={3}
+//               className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors resize-none"
+//             />
+//           </div>
+
+//           {/* Payment Currency */}
+//           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+//             {/* Currency */}
+//             <div className="flex flex-col">
+//               <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("payment_currency_text")}</label>
+//               <select
+//                 {...register("payment_currency")}
+//                 className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none"
+//               >
+//                 <option value="LAK">{t("LAK")}</option>
+
+//                 <option value="THB">{t("THB")}</option>
+
+//                 <option value="USD">{t("USD")}</option>
+//               </select>
+//             </div>
+//             {/* Exchange Rate */}
+//             <div className="flex flex-col relative">
+//               <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("exchange_rate_text")}</label>
+//               <CurrencyInput
+//                 value={
+//                   watch("payment_currency") === "LAK"
+//                     ? ""
+//                     : watch("exchange_rate")
+//                 }
+
+//                 disabled={
+//                   watch("payment_currency") === "LAK"
+//                 }
+
+//                 placeholder={
+//                   watch("payment_currency") === "LAK"
+//                     ? t("no_exchange_Rate")
+//                     : t("exchange_Rate")
+//                 }
+
+//                 groupSeparator=","
+//                 decimalsLimit={2}
+//                 className={`w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg outline-none  ${watch("payment_currency") === "LAK"
+//                   ? "bg-gray-200 cursor-not-allowed text-gray-500"
+//                   : "border-gray-300"
+//                   }`}
+
+//                 onValueChange={(value) =>
+//                   setValue(
+//                     "exchange_rate",
+//                     value ? Number(value) : ""
+//                   )
+//                 }
+//               />
+
+//             </div>
+//           </div>
+
+//           {/* ---------------------------------------------------------------------------------------------- */}
+//           {/* Prices */}
+//           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 ">
+//             {/* labour_total */}
+//             <div className="flex flex-col relative">
+//               <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("labour_text")}</label>
+//               <CurrencyInput
+//                 {...register("labour_total")}
+//                 placeholder={t("labour_total_placholder")}
+//                 groupSeparator=","
+//                 decimalsLimit={0}
+//                 min={0}
+//                 className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors pr-12"
+//                 onValueChange={(value) => setValue("labour_total", Number(value) || 0)}
+//               />
+//               <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
+//                 {currencyText}
+//               </span>
+//               <div className="h-6">{errors.labour_total && <p className="text-red-500 text-sm">{errors.labour_total.message}</p>}</div>
+//             </div>
+
+//             <div className="flex  items-center justify-center gap-4">
+//               {/* labour_point */}
+//               <div className="flex flex-col relative">
+//                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("labour_point_text")}</label>
+//                 <CurrencyInput
+//                   readOnly
+//                   value={Number(watch("labour_point") || 0)}
+//                   {...register("labour_point")}
+//                   // placeholder={t("labour_point_placholder")}
+//                   groupSeparator=","
+//                   decimalsLimit={0}
+//                   min={0}
+//                   className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
+//                   onValueChange={(value) => {
+//                     // setIsManualLabourPoint(true);
+//                     setValue("labour_point", value ? Number(value) : ""
+//                     );
+//                   }}
+//                 />
+//                 <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
+//                   {t("point_text")}
+//                 </span>
+//                 <div className="h-6">{errors.labour_point && <p className="text-red-500 text-sm">{errors.labour_point.message}</p>}</div>
+//               </div>
+//               {/*labour discount */}
+//               <div className="flex flex-col relative">
+//                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("labour_discount_text")}</label>
+//                 <CurrencyInput
+//                   value={watch("labour_discount")}
+//                   {...register("labour_discount")}
+//                   placeholder={t("labour_discount_placholder")}
+//                   groupSeparator=","
+//                   decimalsLimit={0}
+//                   min={0}
+//                   className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors pr-12"
+//                   // decimalsLimit={0}
+//                   onKeyDown={(e) => {
+//                     const input = e.currentTarget;
+//                     // allow control keys
+//                     if (["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(e.key)) { return; }
+//                     // selected text
+//                     const selected = input.value.substring(input.selectionStart, input.selectionEnd);
+//                     // allow replace selected text
+//                     if (selected.length > 0) { return }
+//                     // block if already 2 digits
+//                     const rawValue = input.value.replace(/,/g, "");
+//                     if (rawValue.length >= 2) { e.preventDefault(); }
+//                   }}
+//                   onValueChange={(value) => {
+//                     setValue("labour_discount", value ? Number(value) : "");
+//                   }}
+//                 />
+//                 <span className="absolute right-2 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
+//                   %
+//                 </span>
+//                 <div className="h-6">{errors.labour_discount && <p className="text-red-500 text-sm">{errors.labour_discount.message}</p>}</div>
+//               </div>
+//             </div>
+//           </div>
+
+
+//           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 ">
+//             {/* part total */}
+//             <div className="flex flex-col relative">
+//               <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_total_text")}</label>
+//               <CurrencyInput
+//                 {...register("part_total")}
+//                 placeholder={t("part_total_placholder")}
+//                 groupSeparator=","
+//                 decimalsLimit={0}
+//                 className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm  hover:border-red-500 focus:border-red-600 transition-colors pr-12"
+//                 onValueChange={(value) => setValue("part_total", Number(value) || "")}
+//               />
+//               <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
+//                 {currencyText}
+//               </span>
+//               <div className="h-6">{errors.part_total && <p className="text-red-500 text-sm">{errors.part_total.message}</p>}</div>
+//             </div>
+//             <div className="flex  items-center justify-center gap-4">
+//               {/*part point */}
+//               <div className="flex flex-col relative">
+//                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_point_text")}</label>
+//                 <CurrencyInput
+//                   readOnly
+//                   value={Number(watch("part_point") || 0)}
+//                   {...register("part_point")}
+//                   groupSeparator=","
+//                   decimalsLimit={0}
+//                   className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
+//                   onValueChange={(value) => {
+//                     // setIsManualPartPoint(true);
+//                     setValue("part_point", value ? Number(value) : "");
+//                   }}
+//                 />
+//                 <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
+//                   {t("point_text")}
+//                 </span>
+//                 <div className="h-6">{errors.part_point && <p className="text-red-500 text-sm">{errors.part_point.message}</p>}</div>
+//               </div>
+//               {/* part discount */}
+//               <div className="flex flex-col relative">
+//                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_discount_text")}</label>
+//                 <CurrencyInput
+//                   className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
+//                   value={watch("part_discount")}
+//                   {...register("part_discount")}
+//                   placeholder={t("part_discount_placholder")}
+//                   decimalsLimit={0}
+//                   onKeyDown={(e) => {
+//                     const input = e.currentTarget;
+//                     // allow control keys
+//                     if (["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(e.key)) { return; }
+//                     // selected text
+//                     const selected = input.value.substring(input.selectionStart, input.selectionEnd);
+//                     // allow replace selected text
+//                     if (selected.length > 0) { return }
+//                     // block if already 2 digits
+//                     const rawValue = input.value.replace(/,/g, "");
+//                     if (rawValue.length >= 2) { e.preventDefault(); }
+//                   }}
+//                   onValueChange={(value) => {
+//                     setValue("part_discount", value ? Number(value) : "");
+//                   }}
+//                 />
+//                 <span className="absolute right-2 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
+//                   %
+//                 </span>
+//                 <div className="h-6">
+//                   {errors.part_discount && (
+//                     <p className="text-red-500 text-sm">{errors.part_discount.message}</p>
+//                   )}
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//           {/* totalPrice */}
+//           <div className="flex flex-col relative">
+//             <h2 className="text-xl text-gray-600">{t("totalPrice")}</h2>
+//             <CurrencyInput
+//               value={totalPrice}
+//               readOnly
+//               placeholder={t("totalPrice")}
+//               groupSeparator=","
+//               decimalsLimit={0}
+//               className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
+//               onValueChange={(value) => setValue("totalPrice", Number(value) || 0)}
+//             />
+//             <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
+//               {currencyText}
+//             </span>
+//           </div>
+//           {/* total Point */}
+//           <div className="flex flex-col relative">
+//             <h2 className="text-xl text-gray-600">{t("totalPoint")}</h2>
+//             <CurrencyInput
+//               value={watch("totalPoint")}
+//               readOnly
+//               placeholder={t("totalPoint")}
+//               groupSeparator=","
+//               decimalsLimit={0}
+//               className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
+//               onValueChange={(value) => setValue("totalPoint", Number(value) || 0)}
+//             />
+//             <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
+//               {t("point_text")}
+//             </span>
+//           </div>
+
+//           {/* Total LAK */}
+//           <div className="flex flex-col relative">
+//             <h2 className="text-xl text-gray-600">{t("total_price_lak")}</h2>
+//             <CurrencyInput
+//               value={watch("total_price_lak")}
+//               readOnly
+//               placeholder="Total LAK"
+//               groupSeparator=","
+//               decimalsLimit={0}
+//               className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300  cursor-not-allowed rounded-lg text-base sm:text-lg bg-gray-100 outline-none"
+//             />
+//             <span className="absolute right-4 inset-y-0 translate-y-0 flex items-center text-gray-500 text-base sm:text-lg">
+//               {t("kip_text")}
+//             </span>
+
+//           </div>
+
+//         </div>
+
+//         {/* Buttons */}
+//         <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 pt-4">
+//           <button
+//             type="button"
+//             onClick={() => setShowPopup(false)}
+//             className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg w-full sm:w-32 h-12 cursor-pointer transition-colors text-sm sm:text-base"
+//           >
+//             {t("cancel")}
+//           </button>
+//           <button
+//             type="submit"
+//             className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg w-full sm:w-32 h-12 cursor-pointer transition-colors text-sm sm:text-base"
+//           >
+//             {t("submit")}
+//           </button>
+//         </div>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default PopupFix;
+
+
 // PopupFix.jsx
 import { useFixForm } from "../../../component/schemaValidate/fixValidate/PopupFixValidate";
 import { useTranslation } from "react-i18next";
 import CurrencyInput from "react-currency-input-field";
-import { FaArrowLeft } from "react-icons/fa";
 import { useState } from "react";
 import { X } from "lucide-react";
 
-
-
-const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
+const PopupFix = ({ setShowPopup, bookingId, timeId }) => {
   const { t } = useTranslation("booking");
   const [selectedCard, setSelectedCard] = useState(null);
-  const { register, handleSubmit, errors, submitForm, setValue, watch, cards, cardDropdownRef, showDropdown, setShowDropdown, search, setSearch } = useFixForm({ bookingId, timeId });
 
-  const labour_total = watch("labour_total") || 0;
-  const part_total = watch("part_total") || 0;
-  const totalPrice = Number(labour_total) + Number(part_total);
+  const {
+    register,
+    handleSubmit,
+    errors,
+    submitForm,
+    setValue,
+    watch,
+    cards,
+    calculated, // ✅ ดึง calculated มาใช้
+    cardDropdownRef,
+    showDropdown,
+    setShowDropdown,
+    search,
+    setSearch,
+  } = useFixForm({ bookingId, timeId });
+
+  // ✅ ใช้ calculated.total แทนการบวก raw input
+  const totalPrice = calculated?.total || 0;
 
   const payment_currency = watch("payment_currency");
   const currencyText =
@@ -25,7 +485,6 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
       : payment_currency === "USD"
         ? "$"
         : t("kip_text");
-
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -41,8 +500,6 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
           {/* card number */}
           <div ref={cardDropdownRef} className="flex flex-col relative">
             <input type="hidden" {...register("cardId")} />
-
-            {/* input search */}
             <input
               type="text"
               value={search}
@@ -53,13 +510,10 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
                 setShowDropdown(true);
               }}
               onFocus={() => {
-                if (!selectedCard) {
-                  setShowDropdown(true);
-                }
+                if (!selectedCard) setShowDropdown(true);
               }}
               className="w-full py-2 sm:py-3.5 rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
             />
-            {/* ปุ่มสำหรับลบข้อมูล (แสดงเมื่อมีค่าใน search เท่านั้น) */}
             {search && (
               <button
                 type="button"
@@ -74,45 +528,53 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
                 <X />
               </button>
             )}
-
-            {/* dropdown */}
             {showDropdown && !selectedCard && (
-              <div ref={cardDropdownRef} className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
-                {cards.filter((card) => `${card.card_number} ${card.card_type}`.toLowerCase().includes(search.toLowerCase()))
+              <div className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
+                {cards
+                  .filter((card) =>
+                    `${card.card_number} ${card.card_type}`
+                      .toLowerCase()
+                      .includes(search.toLowerCase())
+                  )
                   .map((card) => (
                     <div
                       key={card.card_id}
                       onClick={() => {
                         setSearch(`${card.card_number} ${card.card_type}`);
-
                         setSelectedCard(card);
                         setValue("cardId", card.card_id);
                         setShowDropdown(false);
                       }}
-                      className="px-3 py-2 text-sm cursor-pointer hover:bg-red-600"
+                      className="px-3 py-2 text-sm cursor-pointer hover:bg-red-600 hover:text-white"
                     >
                       {card.card_number} {card.card_type} : {card.total_point || 0}
                     </div>
                   ))}
               </div>
             )}
+            {/* ✅ แสดง error cardId */}
+            <div className="h-6">
+              {errors.cardId && <p className="text-red-500 text-sm">{errors.cardId.message}</p>}
+            </div>
           </div>
-          {/*tax invoice code */}
+
+          {/* tax invoice code */}
           <div className="flex flex-col">
             <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("tax_invoice_code_text")}</label>
             <input
               {...register("tax_invoice_code")}
               placeholder={t("tax_invoice_code_placeholder")}
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-base sm:text-base outline-none hover:border-red-500 focus:border-red-500  focus:ring-red-500 shadow-sm transition-colors"
+              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-base outline-none hover:border-red-500 focus:border-red-500 shadow-sm transition-colors"
             />
             <div className="h-6">{errors.tax_invoice_code && <p className="text-red-500 text-sm">{errors.tax_invoice_code.message}</p>}</div>
           </div>
+
           {/* payment type */}
           <div className="flex flex-col">
             <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("payment_type_text")}</label>
             <select
-              {...register('payment_type')}
-              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
+              {...register("payment_type")}
+              className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm sm:text-base outline-none hover:border-red-500 focus:border-red-500 shadow-sm transition-colors"
             >
               <option disabled value="">{t("select_payment_type")}</option>
               <option value="Cash">{t("cash")}</option>
@@ -120,31 +582,29 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
             </select>
             <div className="h-6">{errors.payment_type && <p className="text-red-500 text-sm">{errors.payment_type.message}</p>}</div>
           </div>
+
           {/* KM Last & KM Next */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            {/* KM Last */}
             <div className="flex flex-col relative">
               <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("kmLast_text")}</label>
               <input
                 {...register("kmLast")}
                 placeholder={t("kmLast")}
-                className=" w-full py-2 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors pr-12"
+                className="w-full py-2 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-500 shadow-sm transition-colors pr-12"
               />
-              <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg pointer-events-none">
+              <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 pointer-events-none">
                 {t("km_text")}
               </span>
               <div className="h-6">{errors.kmLast && <p className="text-red-500 text-sm">{errors.kmLast.message}</p>}</div>
             </div>
-
-            {/* KM Next */}
             <div className="flex flex-col relative">
               <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("kmNext_text")}</label>
               <input
                 {...register("kmNext")}
                 placeholder={t("kmNext")}
-                className="w-full py-2 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors pr-12"
+                className="w-full py-2 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-500 shadow-sm transition-colors pr-12"
               />
-              <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg pointer-events-none">
+              <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 pointer-events-none">
                 {t("km_text")}
               </span>
               <div className="h-6">{errors.kmNext && <p className="text-red-500 text-sm">{errors.kmNext.message}</p>}</div>
@@ -158,13 +618,12 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
               {...register("detailFix")}
               placeholder={t("detailFix")}
               rows={3}
-              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors resize-none"
+              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-500 shadow-sm transition-colors resize-none"
             />
           </div>
 
-          {/* Payment Currency */}
+          {/* Payment Currency + Exchange Rate */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            {/* Currency */}
             <div className="flex flex-col">
               <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("payment_currency_text")}</label>
               <select
@@ -172,63 +631,38 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
                 className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none"
               >
                 <option value="LAK">{t("LAK")}</option>
-
                 <option value="THB">{t("THB")}</option>
-
                 <option value="USD">{t("USD")}</option>
               </select>
             </div>
-            {/* Exchange Rate */}
             <div className="flex flex-col relative">
               <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("exchange_rate_text")}</label>
               <CurrencyInput
-                value={
-                  watch("payment_currency") === "LAK"
-                    ? ""
-                    : watch("exchange_rate")
-                }
-
-                disabled={
-                  watch("payment_currency") === "LAK"
-                }
-
-                placeholder={
-                  watch("payment_currency") === "LAK"
-                    ? t("no_exchange_Rate")
-                    : t("exchange_Rate")
-                }
-
+                value={payment_currency === "LAK" ? "" : watch("exchange_rate")}
+                disabled={payment_currency === "LAK"}
+                placeholder={payment_currency === "LAK" ? t("no_exchange_Rate") : t("exchange_Rate")}
                 groupSeparator=","
                 decimalsLimit={2}
-                className={`w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg outline-none  ${watch("payment_currency") === "LAK"
-                  ? "bg-gray-200 cursor-not-allowed text-gray-500"
-                  : "border-gray-300"
+                className={`w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg outline-none ${payment_currency === "LAK"
+                    ? "bg-gray-200 cursor-not-allowed text-gray-500"
+                    : "border-gray-300"
                   }`}
-
                 onValueChange={(value) =>
-                  setValue(
-                    "exchange_rate",
-                    value ? Number(value) : ""
-                  )
+                  setValue("exchange_rate", value ? Number(value) : "")
                 }
               />
-
             </div>
           </div>
 
-          {/* ---------------------------------------------------------------------------------------------- */}
-          {/* Prices */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 ">
-            {/* labour_total */}
+          {/* Labour */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div className="flex flex-col relative">
               <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("labour_text")}</label>
               <CurrencyInput
-                {...register("labour_total")}
                 placeholder={t("labour_total_placholder")}
                 groupSeparator=","
                 decimalsLimit={0}
-                min={0}
-                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors pr-12"
+                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-500 shadow-sm transition-colors pr-12"
                 onValueChange={(value) => setValue("labour_total", Number(value) || 0)}
               />
               <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
@@ -237,168 +671,126 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
               <div className="h-6">{errors.labour_total && <p className="text-red-500 text-sm">{errors.labour_total.message}</p>}</div>
             </div>
 
-            <div className="flex  items-center justify-center gap-4">
-              {/* labour_point */}
+            <div className="flex items-center justify-center gap-4">
+              {/* labour_point (read only) ✅ ลบ {...register} ออก */}
               <div className="flex flex-col relative">
                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("labour_point_text")}</label>
                 <CurrencyInput
                   readOnly
                   value={Number(watch("labour_point") || 0)}
-                  {...register("labour_point")}
-                  // placeholder={t("labour_point_placholder")}
                   groupSeparator=","
                   decimalsLimit={0}
-                  min={0}
-                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
-                  onValueChange={(value) => {
-                    // setIsManualLabourPoint(true);
-                    setValue("labour_point", value ? Number(value) : ""
-                    );
-                  }}
+                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm pr-12"
                 />
                 <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
                   {t("point_text")}
                 </span>
-                <div className="h-6">{errors.labour_point && <p className="text-red-500 text-sm">{errors.labour_point.message}</p>}</div>
               </div>
-              {/*labour discount */}
+              {/* labour_discount */}
               <div className="flex flex-col relative">
                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("labour_discount_text")}</label>
                 <CurrencyInput
                   value={watch("labour_discount")}
-                  {...register("labour_discount")}
                   placeholder={t("labour_discount_placholder")}
                   groupSeparator=","
                   decimalsLimit={0}
-                  min={0}
-                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors pr-12"
-                  // decimalsLimit={0}
+                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-500 shadow-sm transition-colors pr-12"
                   onKeyDown={(e) => {
                     const input = e.currentTarget;
-                    // allow control keys
-                    if (["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(e.key)) { return; }
-                    // selected text
+                    if (["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(e.key)) return;
                     const selected = input.value.substring(input.selectionStart, input.selectionEnd);
-                    // allow replace selected text
-                    if (selected.length > 0) { return }
-                    // block if already 2 digits
+                    if (selected.length > 0) return;
                     const rawValue = input.value.replace(/,/g, "");
-                    if (rawValue.length >= 2) { e.preventDefault(); }
+                    if (rawValue.length >= 2) e.preventDefault();
                   }}
-                  onValueChange={(value) => {
-                    setValue("labour_discount", value ? Number(value) : "");
-                  }}
+                  onValueChange={(value) => setValue("labour_discount", value ? Number(value) : 0)}
                 />
-                <span className="absolute right-2 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
-                  %
-                </span>
+                <span className="absolute right-2 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">%</span>
                 <div className="h-6">{errors.labour_discount && <p className="text-red-500 text-sm">{errors.labour_discount.message}</p>}</div>
               </div>
             </div>
           </div>
 
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 ">
-            {/* part total */}
+          {/* Part */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div className="flex flex-col relative">
               <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_total_text")}</label>
               <CurrencyInput
-                {...register("part_total")}
                 placeholder={t("part_total_placholder")}
                 groupSeparator=","
                 decimalsLimit={0}
-                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm  hover:border-red-500 focus:border-red-600 transition-colors pr-12"
-                onValueChange={(value) => setValue("part_total", Number(value) || "")}
+                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-500 shadow-sm transition-colors pr-12"
+                onValueChange={(value) => setValue("part_total", Number(value) || 0)}
               />
               <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
                 {currencyText}
               </span>
               <div className="h-6">{errors.part_total && <p className="text-red-500 text-sm">{errors.part_total.message}</p>}</div>
             </div>
-            <div className="flex  items-center justify-center gap-4">
-              {/*part point */}
+
+            <div className="flex items-center justify-center gap-4">
+              {/* part_point (read only) ✅ ลบ {...register} ออก */}
               <div className="flex flex-col relative">
                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_point_text")}</label>
                 <CurrencyInput
                   readOnly
                   value={Number(watch("part_point") || 0)}
-                  {...register("part_point")}
                   groupSeparator=","
                   decimalsLimit={0}
-                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
-                  onValueChange={(value) => {
-                    // setIsManualPartPoint(true);
-                    setValue("part_point", value ? Number(value) : "");
-                  }}
+                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm pr-12"
                 />
                 <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
                   {t("point_text")}
                 </span>
-                <div className="h-6">{errors.part_point && <p className="text-red-500 text-sm">{errors.part_point.message}</p>}</div>
               </div>
-              {/* part discount */}
+              {/* part_discount */}
               <div className="flex flex-col relative">
                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_discount_text")}</label>
                 <CurrencyInput
-                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
                   value={watch("part_discount")}
-                  {...register("part_discount")}
                   placeholder={t("part_discount_placholder")}
                   decimalsLimit={0}
+                  className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-500 shadow-sm transition-colors pr-12"
                   onKeyDown={(e) => {
                     const input = e.currentTarget;
-                    // allow control keys
-                    if (["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(e.key)) { return; }
-                    // selected text
+                    if (["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(e.key)) return;
                     const selected = input.value.substring(input.selectionStart, input.selectionEnd);
-                    // allow replace selected text
-                    if (selected.length > 0) { return }
-                    // block if already 2 digits
+                    if (selected.length > 0) return;
                     const rawValue = input.value.replace(/,/g, "");
-                    if (rawValue.length >= 2) { e.preventDefault(); }
+                    if (rawValue.length >= 2) e.preventDefault();
                   }}
-                  onValueChange={(value) => {
-                    setValue("part_discount", value ? Number(value) : "");
-                  }}
+                  onValueChange={(value) => setValue("part_discount", value ? Number(value) : 0)}
                 />
-                <span className="absolute right-2 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
-                  %
-                </span>
-                <div className="h-6">
-                  {errors.part_discount && (
-                    <p className="text-red-500 text-sm">{errors.part_discount.message}</p>
-                  )}
-                </div>
+                <span className="absolute right-2 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">%</span>
+                <div className="h-6">{errors.part_discount && <p className="text-red-500 text-sm">{errors.part_discount.message}</p>}</div>
               </div>
             </div>
           </div>
-          {/* totalPrice */}
+
+          {/* ✅ totalPrice — ใช้ calculated.total (หลังหักส่วนลด + แปลงเงินเป็น LAK แล้ว) */}
           <div className="flex flex-col relative">
             <h2 className="text-xl text-gray-600">{t("totalPrice")}</h2>
             <CurrencyInput
-              value={totalPrice}
               readOnly
-              placeholder={t("totalPrice")}
+              value={totalPrice}
               groupSeparator=","
               decimalsLimit={0}
-              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
-              onValueChange={(value) => setValue("totalPrice", Number(value) || 0)}
+              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm pr-12"
             />
             <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
-              {currencyText}
+              {t("kip_text")}
             </span>
           </div>
+
           {/* total Point */}
           <div className="flex flex-col relative">
             <h2 className="text-xl text-gray-600">{t("totalPoint")}</h2>
             <CurrencyInput
-              value={watch("totalPoint")}
               readOnly
-              placeholder={t("totalPoint")}
+              value={watch("totalPoint")}
               groupSeparator=","
               decimalsLimit={0}
-              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm transition-colors pr-12"
-              onValueChange={(value) => setValue("totalPoint", Number(value) || 0)}
+              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm pr-12"
             />
             <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
               {t("point_text")}
@@ -409,19 +801,16 @@ const PopupFix = ({ setShowPopup, bookingId, timeId, }) => {
           <div className="flex flex-col relative">
             <h2 className="text-xl text-gray-600">{t("total_price_lak")}</h2>
             <CurrencyInput
-              value={watch("total_price_lak")}
               readOnly
-              placeholder="Total LAK"
+              value={watch("total_price_lak")}
               groupSeparator=","
               decimalsLimit={0}
-              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300  cursor-not-allowed rounded-lg text-base sm:text-lg bg-gray-100 outline-none"
+              className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none"
             />
-            <span className="absolute right-4 inset-y-0 translate-y-0 flex items-center text-gray-500 text-base sm:text-lg">
+            <span className="absolute right-4 inset-y-0 flex items-center text-gray-500 text-base sm:text-lg">
               {t("kip_text")}
             </span>
-
           </div>
-
         </div>
 
         {/* Buttons */}
