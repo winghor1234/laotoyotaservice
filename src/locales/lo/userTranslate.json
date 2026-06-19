@@ -71,5 +71,6 @@
   "plate_number": "ປ້າຍທະບຽນ",
   "car_color": "ສີລົດ",
   "engine_number": "ເລກຈັກ",
-  "frame_number": "ເລກຖັງ"
+  "frame_number": "ເລກຖັງ",
+  "action": "ດຳເນີນການ"
 }
