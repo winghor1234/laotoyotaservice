@@ -1,10 +1,239 @@
+// import { Car, X } from 'lucide-react';
+// import { SuccessAlert } from '../../utils/handleAlert/SuccessAlert';
+// import { FaArrowLeft } from 'react-icons/fa';
+// import { useAddCarForm } from '../../component/schemaValidate/carValidate/AddCarFormValidate';
+// import { useTranslation } from 'react-i18next';
+// import { useState } from 'react';
+
+
+// const provinces = [
+//   "ນະຄອນຫຼວງວຽງຈັນ",
+//   "ແຂວງວຽງຈັນ",
+//   "ຫຼວງພະບາງ",
+//   "ຫຼວງນໍ້າທາ",
+//   "ອຸດົມໄຊ",
+//   "ຜົ້ງສາລີ",
+//   "ບໍ່ແກ້ວ",
+//   "ໄຊຍະບູລີ",
+//   "ຫົວພັນ",
+//   "ຊຽງຂວາງ",
+//   "ບໍລິຄຳໄຊ",
+//   "ຄຳມ່ວນ",
+//   "ສະຫວັນນະເຂດ",
+//   "ສາລະວັນ",
+//   "ເຊກອງ",
+//   "ຈຳປາສັກ",
+//   "ອັດຕະປື",
+//   "ໄຊສົມບູນ"
+// ];
+
+// const colors = [
+//   "ແດງ",
+//   "ດຳ",
+//   "ຂາວ",
+//   "ເທົາ",
+
+// ];
+
+
+// export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
+//   const { register, handleSubmit, formState: { errors }, users = [], onSubmit, handleBack, getValues, search, setSearch, showDropdown, setShowDropdown, reset, dropdownRef,setValue } = useAddCarForm({ handleFetchCar, onClose });
+//   const { t } = useTranslation("car");
+//   const [selectedUser, setSelectedUser] = useState(null);
+//   const fields = [
+//     { name: 'model', labelKey: 'car_model', placeholderKey: 'model_placeholder' },
+//     { name: 'engineNumber', labelKey: 'engine', placeholderKey: 'engine_placeholder' },
+//     { name: 'frameNumber', labelKey: 'frame', placeholderKey: 'frame_placeholder' },
+//     { name: 'plateNumber', labelKey: 'plate', placeholderKey: 'plate_placeholder' },
+
+//   ];
+
+//   return (
+//     <>
+//       {/* Background */}
+//       <div className={`fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity ${show ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={onClose} />
+//       {/* Popup */}
+//       <div className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-gray-50 rounded-2xl shadow-lg w-full max-w-3xl p-4 sm:p-6 text-sm transition-all ${show ? 'scale-100 opacity-100' : 'scale-90 opacity-0 pointer-events-none'}`} >
+//         {/* Header */}
+//         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+//           <div
+//             onClick={handleBack}
+//             className="inline-flex items-center justify-center w-auto px-4 py-1 sm:py-2 bg-gray-200 hover:bg-gray-300 rounded-xl cursor-pointer transition-colors mb-4">
+//             <button className="flex items-center gap-2 text-gray-700 hover:text-black">
+//               <FaArrowLeft className="text-sm sm:text-base" />
+//               <span className="font-medium text-sm sm:text-lg lg:text-xl">{t("back")}</span>
+//             </button>
+//           </div>
+//         </div>
+//         <hr className="border-gray-300 border-1 w-full my-3" />
+
+//         {/* Form */}
+//         <form
+//           onSubmit={handleSubmit(onSubmit)}
+//           className="flex flex-col md:items-center lg:flex-row justify-center lg:justify-around gap-6 lg:gap-4"
+//         >
+//           {/* Left */}
+//           <div className="flex flex-col items-center lg:items-start">
+//             <div className="w-full max-w-[250px] h-[150px] sm:h-[180px] lg:h-[200px] bg-gray-200 rounded-lg flex items-center justify-center">
+//               <Car className="w-[100px] h-[100px] sm:w-[140px] sm:h-[140px] lg:w-[160px] lg:h-[160px] text-gray-600" />
+//             </div>
+//             <div className="flex flex-col gap-2 my-3 w-full max-w-[250px]">
+//               <button
+//                 type="button"
+//                 onClick={() => {
+//                   onClose();
+//                 }}
+//                 className="w-full py-2 border cursor-pointer border-gray-300 rounded-lg text-sm hover:bg-gray-100 transition-colors"
+//               >
+//                 {t("cancel_add")}
+//               </button>
+//               <button
+//                 type="submit"
+//                 className="w-full py-2 border cursor-pointer border-red-500 rounded-lg text-sm bg-red-500 text-white hover:bg-[#E32121] transition-colors"
+//               >
+//                 {t("add_car")}
+//               </button>
+//             </div>
+//           </div>
+
+//           {/* Right */}
+//           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-[400px] w-full">
+//             <div ref={dropdownRef} className="flex flex-col relative">
+//               <label className="text-sm font-medium mb-1">
+//                 {t("customer_id")}
+//               </label>
+//               <input type="hidden" {...register("userId")} />
+
+//               {/* input search */}
+//               <input
+//                 type="text"
+//                 value={search}
+//                 placeholder={t("select_customer")}
+//                 onChange={(e) => {
+//                   setSearch(e.target.value);
+//                   setSelectedUser(null);
+//                   setShowDropdown(true);
+//                 }}
+//                 onFocus={() => {
+//                   if (!selectedUser) {
+//                     setShowDropdown(true);
+//                   }
+//                 }}
+//                 className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
+//               />
+//               {/* ปุ่มสำหรับลบข้อมูล (แสดงเมื่อมีค่าใน search เท่านั้น) */}
+//               {search && (
+//                 <button
+//                   type="button"
+//                   onClick={() => {
+//                     setSearch("");
+//                     setValue("userId", "");
+//                     setSelectedUser(null);
+//                     setShowDropdown(true);
+//                   }}
+//                   className="absolute right-2 bottom-1/7 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+//                 >
+//                   <X />
+//                 </button>
+//               )}
+
+//               {/* dropdown */}
+//               {showDropdown && !selectedUser && (
+//                 <div className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
+//                   {users
+//                     .filter((user) =>
+//                       user.role === "general" && `${user.customer_number} ${user.username}`
+//                         .toLowerCase()
+//                         .includes(search.toLowerCase())
+//                     )
+//                     .map((user) => (
+//                       <div
+//                         key={user.user_id}
+//                         onClick={() => {
+//                           setSearch(`${user.customer_number} ${user.username}`);
+
+//                           setSelectedUser(user);
+//                           const currentValues = getValues();
+
+//                           reset({
+//                             ...currentValues,
+//                             userId: user.user_id,
+//                           });
+
+//                           setShowDropdown(false);
+//                         }}
+//                         className="px-3 py-2 text-sm cursor-pointer hover:bg-red-100"
+//                       >
+//                         {user.customer_number} {user.username}
+//                       </div>
+//                     ))}
+//                 </div>
+//               )}
+//             </div>
+
+//             {fields.map(({ name, labelKey, placeholderKey }) => (
+//               <div key={name} className="flex flex-col">
+//                 <label className="text-sm font-medium mb-1">{t(labelKey)}</label>
+//                 <input
+//                   {...register(name)}
+//                   placeholder={t(placeholderKey)}
+//                   className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500 transition-colors"
+//                 />
+//                 {errors[name] && (
+//                   <span className="text-red-500 text-xs mt-1">{errors[name].message}</span>
+//                 )}
+//               </div>
+//             ))}
+
+//             {/* Province */}
+//             <div className="flex flex-col">
+//               <label className="text-sm font-medium mb-1">{t("province")}</label>
+//               <select
+//                 {...register("province")}
+//                 className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
+//               >
+//                 <option value="">{t("province_placeholder")}</option>
+//                 {provinces.map((p) => (
+//                   <option key={p} value={p}>{p}</option>
+//                 ))}
+//               </select>
+//               {errors.province && (
+//                 <span className="text-red-500 text-xs mt-1">{errors.province.message}</span>
+//               )}
+//             </div>
+
+//             {/* Color */}
+
+//             <div className="flex flex-col">
+//               <label className="text-sm font-medium mb-1">{t("color")}</label>
+//               <select
+//                 {...register("color")}
+//                 className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500 duration-200 transition-colors"
+//               >
+//                 <option value="">{t("color_placeholder")}</option>
+//                 {colors.map((c) => (
+//                   <option key={c} value={c}>{c}</option>
+//                 ))}
+//               </select>
+//               {errors.color && (
+//                 <span className="text-red-500 text-xs mt-1">{errors.color.message}</span>
+//               )}
+//             </div>
+
+//           </div>
+//         </form>
+//       </div>
+//     </>
+//   );
+// }
+
+
 import { Car, X } from 'lucide-react';
 import { SuccessAlert } from '../../utils/handleAlert/SuccessAlert';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useAddCarForm } from '../../component/schemaValidate/carValidate/AddCarFormValidate';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-
 
 const provinces = [
   "ນະຄອນຫຼວງວຽງຈັນ",
@@ -32,12 +261,10 @@ const colors = [
   "ດຳ",
   "ຂາວ",
   "ເທົາ",
-
 ];
 
-
 export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
-  const { register, handleSubmit, formState: { errors }, users = [], onSubmit, handleBack, getValues, search, setSearch, showDropdown, setShowDropdown, reset, dropdownRef,setValue } = useAddCarForm({ handleFetchCar, onClose });
+  const { register, handleSubmit, formState: { errors }, users = [], onSubmit, handleBack, getValues, search, setSearch, showDropdown, setShowDropdown, reset, dropdownRef, setValue } = useAddCarForm({ handleFetchCar, onClose });
   const { t } = useTranslation("car");
   const [selectedUser, setSelectedUser] = useState(null);
   const fields = [
@@ -45,39 +272,72 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
     { name: 'engineNumber', labelKey: 'engine', placeholderKey: 'engine_placeholder' },
     { name: 'frameNumber', labelKey: 'frame', placeholderKey: 'frame_placeholder' },
     { name: 'plateNumber', labelKey: 'plate', placeholderKey: 'plate_placeholder' },
-
   ];
 
   return (
     <>
       {/* Background */}
-      <div className={`fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity ${show ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={onClose} />
+      <div
+        className={`fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity duration-300 ${show
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 pointer-events-none"
+          }`}
+        onClick={onClose}
+      />
+
       {/* Popup */}
-      <div className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-gray-50 rounded-2xl shadow-lg w-full max-w-3xl p-4 sm:p-6 text-sm transition-all ${show ? 'scale-100 opacity-100' : 'scale-90 opacity-0 pointer-events-none'}`} >
+      <div
+        className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 
+
+                w-[95%] sm:w-[90%] md:w-full
+                max-w-3xl
+
+                max-h-[95vh]
+                overflow-y-auto
+
+                bg-gray-50 rounded-2xl shadow-lg
+
+                p-3 sm:p-4 md:p-6
+
+                text-sm transition-all duration-300 ${show
+            ? "scale-100 opacity-100"
+            : "scale-90 opacity-0 pointer-events-none"
+          }`}
+      >
         {/* Header */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="flex flex-row items-center justify-between gap-2 sm:gap-3">
+          {/* Back */}
           <div
             onClick={handleBack}
-            className="inline-flex items-center justify-center w-auto px-4 py-1 sm:py-2 bg-gray-200 hover:bg-gray-300 rounded-xl cursor-pointer transition-colors mb-4">
+            className="inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-xl cursor-pointer transition-colors"
+          >
             <button className="flex items-center gap-2 text-gray-700 hover:text-black">
               <FaArrowLeft className="text-sm sm:text-base" />
-              <span className="font-medium text-sm sm:text-lg lg:text-xl">{t("back")}</span>
+
+              <span className="font-medium text-sm sm:text-lg lg:text-xl">
+                {t("back")}
+              </span>
             </button>
           </div>
         </div>
-        <hr className="border-gray-300 border-1 w-full my-3" />
+
+        <hr className="border-gray-300 border w-full my-3 sm:my-4" />
 
         {/* Form */}
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col md:items-center lg:flex-row justify-center lg:justify-around gap-6 lg:gap-4"
+          className="flex flex-col lg:flex-row justify-center lg:justify-around gap-6 lg:gap-4"
         >
           {/* Left */}
           <div className="flex flex-col items-center lg:items-start">
+            {/* Image */}
             <div className="w-full max-w-[250px] h-[150px] sm:h-[180px] lg:h-[200px] bg-gray-200 rounded-lg flex items-center justify-center">
               <Car className="w-[100px] h-[100px] sm:w-[140px] sm:h-[140px] lg:w-[160px] lg:h-[160px] text-gray-600" />
             </div>
+
+            {/* Buttons */}
             <div className="flex flex-col gap-2 my-3 w-full max-w-[250px]">
+              {/* Cancel */}
               <button
                 type="button"
                 onClick={() => {
@@ -87,6 +347,8 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
               >
                 {t("cancel_add")}
               </button>
+
+              {/* Add */}
               <button
                 type="submit"
                 className="w-full py-2 border cursor-pointer border-red-500 rounded-lg text-sm bg-red-500 text-white hover:bg-[#E32121] transition-colors"
@@ -97,129 +359,155 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
           </div>
 
           {/* Right */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-[400px] w-full">
-            <div ref={dropdownRef} className="flex flex-col relative">
-              <label className="text-sm font-medium mb-1">
-                {t("customer_id")}
-              </label>
-              <input type="hidden" {...register("userId")} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-full lg:max-w-[400px]">
+            {/* Customer */}
+            <div className="flex flex-col sm:col-span-2" ref={dropdownRef}>
+              <div className="flex flex-col relative">
+                <label className="text-sm sm:text-base font-medium mb-1">
+                  {t("customer_id")}
+                </label>
 
-              {/* input search */}
-              <input
-                type="text"
-                value={search}
-                placeholder={t("select_customer")}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  setSelectedUser(null);
-                  setShowDropdown(true);
-                }}
-                onFocus={() => {
-                  if (!selectedUser) {
-                    setShowDropdown(true);
-                  }
-                }}
-                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
-              />
-              {/* ปุ่มสำหรับลบข้อมูล (แสดงเมื่อมีค่าใน search เท่านั้น) */}
-              {search && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSearch("");
-                    setValue("userId", "");
+                <input type="hidden" {...register("userId")} />
+
+                {/* input search */}
+                <input
+                  type="text"
+                  value={search}
+                  placeholder={t("select_customer")}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
                     setSelectedUser(null);
                     setShowDropdown(true);
                   }}
-                  className="absolute right-2 bottom-1/7 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
-                >
-                  <X />
-                </button>
-              )}
+                  onFocus={() => {
+                    if (!selectedUser) {
+                      setShowDropdown(true);
+                    }
+                  }}
+                  className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
+                />
+                {/* ปุ่มสำหรับลบข้อมูล (แสดงเมื่อมีค่าใน search เท่านั้น) */}
+                {search && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearch("");
+                      setValue("userId", "");
+                      setSelectedUser(null);
+                      setShowDropdown(true);
+                    }}
+                    className="absolute right-2 bottom-1/7 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                  >
+                    <X />
+                  </button>
+                )}
 
-              {/* dropdown */}
-              {showDropdown && !selectedUser && (
-                <div className="absolute z-10 top-[65px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
-                  {users
-                    .filter((user) =>
-                      user.role === "general" && `${user.customer_number} ${user.username}`
-                        .toLowerCase()
-                        .includes(search.toLowerCase())
-                    )
-                    .map((user) => (
-                      <div
-                        key={user.user_id}
-                        onClick={() => {
-                          setSearch(`${user.customer_number} ${user.username}`);
+                {/* dropdown */}
+                {showDropdown && !selectedUser && (
+                  <div className="absolute z-10 top-[68px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow">
+                    {users
+                      .filter((user) =>
+                        user.role === "general" && `${user.customer_number} ${user.username}`
+                          .toLowerCase()
+                          .includes(search.toLowerCase())
+                      )
+                      .map((user) => (
+                        <div
+                          key={user.user_id}
+                          onClick={() => {
+                            setSearch(`${user.customer_number} ${user.username}`);
 
-                          setSelectedUser(user);
-                          const currentValues = getValues();
+                            setSelectedUser(user);
+                            const currentValues = getValues();
 
-                          reset({
-                            ...currentValues,
-                            userId: user.user_id,
-                          });
+                            reset({
+                              ...currentValues,
+                              userId: user.user_id,
+                            });
 
-                          setShowDropdown(false);
-                        }}
-                        className="px-3 py-2 text-sm cursor-pointer hover:bg-red-100"
-                      >
-                        {user.customer_number} {user.username}
-                      </div>
-                    ))}
-                </div>
-              )}
+                            setShowDropdown(false);
+                          }}
+                          className="px-3 py-2 text-sm cursor-pointer hover:bg-red-100"
+                        >
+                          {user.customer_number} {user.username}
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </div>
             </div>
 
             {fields.map(({ name, labelKey, placeholderKey }) => (
               <div key={name} className="flex flex-col">
-                <label className="text-sm font-medium mb-1">{t(labelKey)}</label>
+                <label className="text-sm sm:text-base font-medium mb-1">
+                  {t(labelKey)}
+                </label>
+
                 <input
                   {...register(name)}
                   placeholder={t(placeholderKey)}
-                  className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500 transition-colors"
+                  className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500 transition-colors"
                 />
+
                 {errors[name] && (
-                  <span className="text-red-500 text-xs mt-1">{errors[name].message}</span>
+                  <span className="text-red-500 text-xs sm:text-sm mt-1">
+                    {errors[name].message}
+                  </span>
                 )}
               </div>
             ))}
 
             {/* Province */}
             <div className="flex flex-col">
-              <label className="text-sm font-medium mb-1">{t("province")}</label>
+              <label className="text-sm sm:text-base font-medium mb-1">
+                {t("province")}
+              </label>
+
               <select
                 {...register("province")}
-                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
+                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
               >
                 <option value="">{t("province_placeholder")}</option>
+
                 {provinces.map((p) => (
-                  <option key={p} value={p}>{p}</option>
+                  <option key={p} value={p}>
+                    {p}
+                  </option>
                 ))}
               </select>
+
               {errors.province && (
-                <span className="text-red-500 text-xs mt-1">{errors.province.message}</span>
+                <span className="text-red-500 text-xs sm:text-sm mt-1">
+                  {errors.province.message}
+                </span>
               )}
             </div>
 
             {/* Color */}
-
             <div className="flex flex-col">
-              <label className="text-sm font-medium mb-1">{t("color")}</label>
+              <label className="text-sm sm:text-base font-medium mb-1">
+                {t("color")}
+              </label>
+
               <select
                 {...register("color")}
-                className="w-full h-[40px] rounded-lg text-sm border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500 duration-200 transition-colors"
+                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500 duration-200 transition-colors"
               >
                 <option value="">{t("color_placeholder")}</option>
+
                 {colors.map((c) => (
-                  <option key={c} value={c}>{c}</option>
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
                 ))}
               </select>
+
               {errors.color && (
-                <span className="text-red-500 text-xs mt-1">{errors.color.message}</span>
+                <span className="text-red-500 text-xs sm:text-sm mt-1">
+                  {errors.color.message}
+                </span>
               )}
             </div>
-
           </div>
         </form>
       </div>

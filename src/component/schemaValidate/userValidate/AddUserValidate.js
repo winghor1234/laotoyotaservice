@@ -99,13 +99,17 @@ export const useAddUserForm = ({ handleFetch, onClose, }) => {
     const submitForm = async (data) => {
         setLoading(true);
         try {
-            await axiosInstance.post(APIPath.REGISTER, data);
-            SuccessAlert(t("add_success"));
-            handleFetch();
-            onClose();
-            reset();
-            setSelectedProvince(null);
-            setSelectedDistrict(null);
+            const res = await axiosInstance.post(APIPath.REGISTER, data);
+            const message = res.data.message == "Phone number already exists" ? t("phone_exist") : t("add_success");
+            if (message == t("phone_exist")) { SuccessAlert(message, 1500, "warning") }
+            else {
+                SuccessAlert(message)
+                handleFetch();
+                onClose();
+                reset();
+                setSelectedProvince(null);
+                setSelectedDistrict(null);
+            }
         } catch (error) {
             console.error("Add User failed:", error);
             SuccessAlert(t("add_failed"), 1500, "error");

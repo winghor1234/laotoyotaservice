@@ -53,7 +53,14 @@
   "add_failed": "Add failed",
   "update_failed": "Update failed",
   "login_failed": "Only admin can login",
-  "logging_in": "Logging in..."
+  "logging_in": "Logging in...",
+  "phone_exist": "Phone number already exists",
+  "point_not_enough": "Point not enough",
+  "exchange_success": "Exchange successfully",
+  "car_exist": "Car already exists",
+  "card_exist": "Card already exists"
+  
+
 
 
 }

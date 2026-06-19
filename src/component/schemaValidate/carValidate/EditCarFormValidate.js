@@ -107,10 +107,14 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose, }) => {
         // console.log("submit data:", data);
 
         try {
-            await axiosInstance.put(APIPath.UPDATE_CAR(carId), data);
-            handleFetchCar();
-            SuccessAlert(t("update_success"));
-            onClose();
+            const res = await axiosInstance.put(APIPath.UPDATE_CAR(carId), data);
+            const message = res.data.message == "Car already exists" ? t("car_exist") : t("add_success");
+            if (message == t("car_exist")) { SuccessAlert(message, 1500, "warning") }
+            else {
+                SuccessAlert(t("update_success"));
+                handleFetchCar();
+                onClose();
+            }
         } catch (error) {
             SuccessAlert(t("update_failed"), 1500, "warning");
             console.error("Error updating car:", error

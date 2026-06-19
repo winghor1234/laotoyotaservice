@@ -22,6 +22,12 @@ const GiftStatusButton = () => {
             isActive: currentPath === '/user/gift',
         },
         {
+            // label: t("gift_data"),
+            label: "ຂໍ້ມູນແລກລາງວັນ",
+            path: 'exchange-gift',
+            isActive: currentPath === '/user/gift/exchange-gift',
+        },
+        {
             label: t("gift_history"),
             path: 'gift-history',
             isActive: currentPath === '/user/gift/gift-history',
@@ -29,7 +35,7 @@ const GiftStatusButton = () => {
     ];
 
     return (
-        <div className=" grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6 ">
+        <div className=" grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 ">
             {ButtonItems.map((item) => (
                 <button
                     key={item.path}

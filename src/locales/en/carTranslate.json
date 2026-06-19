@@ -60,7 +60,8 @@
   "car_detail": "Car Details",
   "email": "Email",
   "district": "District",
-  "village": "Village"
+  "village": "Village",
+  "car_exist": "Car already exists"
 
 
 }

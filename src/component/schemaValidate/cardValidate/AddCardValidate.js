@@ -71,16 +71,20 @@ export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
         }
         setLoading(true);
         try {
-            await axiosInstance.post(APIPath.CREATE_CARD, payload);
-            handleFetchCard();
-            SuccessAlert(t("add_success"));
-            onClose();
-            // reset
-            setValue("carId", "");
-            setValue("card_number", "");
-            setValue("card_type", "");
-            setValue("received", "");
-            setValue("expiration_date", "");
+            const res = await axiosInstance.post(APIPath.CREATE_CARD, payload);
+            const message = res.data.message == "Card already exists" ? t("card_exist") : t("add_success");
+            if (message == t("card_exist")) { SuccessAlert(message, 1500, "warning") }
+            else {
+                handleFetchCard();
+                SuccessAlert(t("add_success"));
+                onClose();
+                setValue("carId", "");
+                setValue("card_number", "");
+                setValue("card_type", "");
+                setValue("received", "");
+                setValue("expiration_date", "");
+            }
+
         } catch (error) {
             SuccessAlert(t("add_failed"), 1500, "warning");
             console.error("create card failed:", error);

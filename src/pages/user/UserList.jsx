@@ -100,7 +100,6 @@ ${newPassword}
 ກະລຸນາປ່ຽນລະຫັດຜ່ານຫຼັງຈາກເຂົ້າລະບົບ
 
 ຂອບໃຈ 🙏`;
-
             const whatsappUrl = `https://wa.me/${formatPhoneForWhatsApp(item.phoneNumber)}?text=${encodeURIComponent(whatsappMessage)}`;
             window.open(whatsappUrl, "_blank");
             SuccessAlert(t("reset_password_success"));

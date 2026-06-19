@@ -1,4 +1,4 @@
-import { CircleX, Eye, GiftIcon, HandCoins } from "lucide-react";
+import { CircleCheckBig, CircleX, Eye, GiftIcon, HandCoins } from "lucide-react";
 import { useEffect, useState } from "react";
 import SelectDate from "../../../utils/SelectDate";
 import axiosInstance from "../../../utils/AxiosInstance";
@@ -9,12 +9,14 @@ import useServerFilterPagination from "../../../utils/useServerFilterPagination"
 import ExportExcelPopup from "../../../utils/exportExelPopup";
 import DownloadButton from "../../../utils/DownloadButton";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-import ReturnPoint from "./PopupReurnPoint";
+import { IoMdCheckmarkCircle } from "react-icons/io";
+import Confirm from "./PopupConfirm";
 
-const GiftHistoryList = () => {
+
+const ExchangeGiftHistoryList = () => {
     const [open, setOpen] = useState(false);
-    const [giftHistoryId, setGiftHistoryId] = useState(null);
-    const [showReturnPoint, setShowReturnPoint] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [giftId, setGiftId] = useState(null);
     const { t } = useTranslation("gift");
     const navigate = useNavigate();
 
@@ -45,6 +47,20 @@ const GiftHistoryList = () => {
     const handleToDetailGiftHistory = (id) => {
         navigate(`/user/gift-history-detail/${id}`);
     };
+
+
+    const handleDelete = async (id) => {
+        if (!window.confirm(t("confirm_delete"))) return;
+
+        try {
+            await axiosInstance.delete(APIPath.CANCEL_GIFT_HISTORY(id));
+            SuccessAlert(t("delete_success"), 1500, "success");
+            fetchData();
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
 
     useEffect(() => {
         fetchData();
@@ -98,12 +114,12 @@ const GiftHistoryList = () => {
                             </div>
                             <div className="flex items-center gap-3">
                                 <Eye onClick={() => handleToDetailGiftHistory(item.gifthistory_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
-                                {
-                                    item?.received === true && (
-                                        <CircleX onClick={() => { setShowReturnPoint(true); setGiftHistoryId(item.gifthistory_id); }}
-                                            className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
-                                    )
-                                }
+                                <CircleX
+                                    onClick={() => { handleDelete(item.gifthistory_id); }}
+                                    className="w-4 h-4 md:w-5 md:h-5 text-red-500 hover:text-red-700 cursor-pointer duration-200" />
+                                <IoMdCheckmarkCircle
+                                    onClick={() => { setShowConfirm(true), setGiftId(item.gifthistory_id) }}
+                                    className="w-6 h-6  text-green-500 hover:text-green-700 cursor-pointer duration-200" />
                             </div>
                         </div>
                     </div>
@@ -126,7 +142,7 @@ const GiftHistoryList = () => {
 
                 {/* Table Body */}
                 <div className="divide-y divide-gray-200 overflow-auto max-h-[400px]">
-                    {giftCardHistory?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).filter((item) => item.received === true).map((item, index) => (
+                    {giftCardHistory?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).filter((item) => item.received === false).map((item, index) => (
                         <div key={index} className="grid grid-cols-6 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                                 {index + 1}
@@ -147,14 +163,18 @@ const GiftHistoryList = () => {
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                                 {item.amount}
                             </div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center bg-green-300/50 rounded-4xl py-1">
+                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center bg-yellow-300/50 rounded-4xl py-1">
                                 {/* {item.received === true ? t("received") : t("not_received")} */}
                                 {item.received === true ? "ຢືນຢັນແລ້ວ" : "ລໍຖ້າຢືນຢັນ"}
                             </div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-5">
+                            <div className=" text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-5">
                                 <Eye onClick={() => handleToDetailGiftHistory(item.gifthistory_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
-                                <HandCoins onClick={() => { setShowReturnPoint(true); setGiftHistoryId(item.gifthistory_id); }}
-                                    className="text-gray-600 w-4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                <CircleX
+                                    onClick={() => { handleDelete(item.gifthistory_id); }}
+                                    className="w-4 h-4 md:w-5 md:h-5 text-red-500 hover:text-red-700 cursor-pointer duration-200" />
+                                <IoMdCheckmarkCircle
+                                    onClick={() => { setShowConfirm(true), setGiftId(item.gifthistory_id) }}
+                                    className="w-6 h-6 text-green-500 hover:text-green-700 cursor-pointer duration-200" />
                             </div>
                         </div>
                     ))}
@@ -196,12 +216,12 @@ const GiftHistoryList = () => {
                     ›
                 </button>
             </div>
-            {/* Return the score */}
-            {showReturnPoint && (
-                <ReturnPoint
-                    show={showReturnPoint}
-                    onClose={() => setShowReturnPoint(false)}
-                    Id={giftHistoryId}
+            {/* Confirm */}
+            {showConfirm && (
+                <Confirm
+                    show={showConfirm}
+                    onClose={() => setShowConfirm(false)}
+                    Id={giftId}
                     handleFetch={fetchData}
                 />
             )}
@@ -209,4 +229,4 @@ const GiftHistoryList = () => {
     );
 };
 
-export default GiftHistoryList;
+export default ExchangeGiftHistoryList;

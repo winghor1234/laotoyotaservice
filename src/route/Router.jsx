@@ -55,6 +55,7 @@ import PointSetting from "../pages/SettingPoint/SettinggPoints";
 import WorkShopFixList from "../pages/workshopRepair/WorkShopFixlList";
 import FixBillDetail from "../pages/workshopRepair/FixBillDetail";
 import WorkShopFixDetail from "../pages/workshopRepair/WorkShopFixDetail";
+import ExchangeGiftHistoryList from "../pages/gift/exchangeGiftHistoy/ExchangeGiftHistoryList";
 
 
 const router = createBrowserRouter([
@@ -173,6 +174,10 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <GiftList />,
+          },
+          {
+            path: "exchange-gift",
+            element: <ExchangeGiftHistoryList />,
           },
           {
             path: "gift-history",

@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
  * @param {number} timer - ระยะเวลาก่อนปิดอัตโนมัติ (ms)
  * @param {string} type - ประเภท toast: "success" | "error" | "info" | "warning"
  */
-export const SuccessAlert = (message, timer = 1500, type = "success") => {
+export const SuccessAlert = (message="Success", timer = 1500, type = "success") => {
   toast(message, {
     position: "top-right",
     autoClose: timer,

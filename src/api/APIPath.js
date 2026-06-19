@@ -43,7 +43,9 @@ export default class APIPath {
     static EXPORT_GIFT_HISTORY = `${this.BASE_URL}/gifthistory/export`;
     static CREATE_GIFT_HISTORY = `${this.BASE_URL}/gifthistory/insert`;
     // static UPDATE_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/update/${id}` }
-    static DELETE_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/delete/${id}` }
+    static  RETURN_POINT_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/returnPoint/${id}` }
+    static  CONFIRM_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/confirm/${id}` }
+    static  CANCEL_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/cancel/${id}` }
 
 
     // Fix API

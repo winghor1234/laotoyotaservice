@@ -53,11 +53,15 @@ export const useAddCarForm = ({ handleFetchCar, onClose }) => {
 
     const onSubmit = async (data) => {
         try {
-            await axiosInstance.post(APIPath.CREATE_CAR, data);
-            handleFetchCar();
-            onClose();
-            SuccessAlert(t("add_success"));
-            reset();
+            const res = await axiosInstance.post(APIPath.CREATE_CAR, data);
+            const message = res.data.message == "Car already exists" ? t("car_exist") : t("add_success");
+            if (message == t("car_exist")) { SuccessAlert(message, 1500, "warning") }
+            else {
+                SuccessAlert(message)
+                handleFetchCar();
+                onClose();
+                reset()
+            }
         } catch (error) {
             SuccessAlert(t("add_failed"), 1500, "warning");
             console.error('Error adding car:', error);
@@ -70,5 +74,5 @@ export const useAddCarForm = ({ handleFetchCar, onClose }) => {
     };
 
 
-    return { register, handleSubmit, formState: { errors }, users, onSubmit, handleBack, reset, search, setSearch, showDropdown, setShowDropdown,dropdownRef,setValue,getValues };
+    return { register, handleSubmit, formState: { errors }, users, onSubmit, handleBack, reset, search, setSearch, showDropdown, setShowDropdown, dropdownRef, setValue, getValues };
 }

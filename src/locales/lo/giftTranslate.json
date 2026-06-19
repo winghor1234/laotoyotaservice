@@ -42,6 +42,18 @@
   "return_score_gift_success": "ຄືນຄະແນນລາງວັນສຳເລັດ",
   "gift_code": "ລະຫັດລາງວັນ",
   "select_card": "ເລືອກບັດ",
-  "gift_card_number": "ລະຫັດບັດ"
+  "gift_card_number": "ລະຫັດບັດ",
+  "point_not_enough": "ຄະແນນບໍ່ພໍສຳລັບລາງວັນນີ້",
+  "confirm_gift_history-detail": " ລາຍລະອຽດແລກລາງວັນ",
+  "confirm": "ຢືນຢັນ",
+  "confirm_delete": "ທ່ານຕ້ອງການຍົກເລີກການແລກລາງວັນນີ້ບໍ່?",
+  "delete_success": "ລົບສຳເລັດ",
+  "confirm_success": "ຢືນຢັນສຳເລັດ",
+  "return_point_success": "ຄືນຄະແນນສຳເລັດ"
+
+  
+  
+
+
 
 }

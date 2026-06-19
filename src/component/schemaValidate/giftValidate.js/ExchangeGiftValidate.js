@@ -76,11 +76,11 @@ export const useExchangeGiftForm = ({ onClose, handleFetch, }) => {
         setLoading(true);
         try {
             await axiosInstance.post(APIPath.CREATE_GIFT_HISTORY, data);
+            SuccessAlert(t("exchange_success"))
             handleFetch();
             onClose();
-            SuccessAlert(t("add_success"))
         } catch (error) {
-            const message = error.response?.data?.message;
+            const message = error.response?.data?.message == "Point Not Enough" ? t("point_not_enough") : error.response?.data?.message;
             SuccessAlert(t(message), 1500, "warning");
         } finally {
             setLoading(false);

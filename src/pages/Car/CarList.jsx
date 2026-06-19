@@ -135,8 +135,8 @@ const CarList = () => {
               <div className="text-center line-clamp-1">{item.model}</div>
               <div className="text-center line-clamp-1">{item.plateNumber}</div>
               <div className="text-center line-clamp-1">{item.color}</div>
-              <div className="text-center line-clamp-1">{item.engineNumber}</div>
               <div className="text-center line-clamp-1">{item.frameNumber}</div>
+              <div className="text-center line-clamp-1">{item.engineNumber}</div>
               <div className="text-center line-clamp-1">{item.province}</div>
               <div className="flex justify-center gap-4">
                 <Eye onClick={() => handleToDetailCar(item.car_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />

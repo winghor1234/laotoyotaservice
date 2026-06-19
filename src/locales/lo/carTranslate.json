@@ -60,5 +60,6 @@
   "email": "ອີເມວ",
   "district": "ເມືອງ",
   "village": "ບ້ານ",
-  "car_model": "ລຸ້ນລົດ"
+  "car_model": "ລຸ້ນລົດ",
+  "car_exist": "ຂໍ້ມູນລົດນີ້ມີແລ້ວ"
 }

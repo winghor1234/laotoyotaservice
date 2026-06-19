@@ -44,5 +44,16 @@
   "return_score_gift_success": "Return score gift successfully",
   "gift_code": "Gift Code",
   "select_card": "Select Card",
-  "gift_card_number": "Card Number"
+  "gift_card_number": "Card Number",
+  "point_not_enough": "Point not enough",
+  "confirm_gift_history-detail": "Exchange Gift Detail",
+  "confirm": "Confirm",
+  "confirm_delete": "Are you sure to cancel this exchange gift?",
+  "delete_success": "Delete success",
+  "confirm_success": "Confirm success",
+  "return_point_success": "Return point success"
+  
+  
+
+
 }
