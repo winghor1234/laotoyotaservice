@@ -98,7 +98,9 @@ export const useEditUserForm = ({ customerId, handleFetch, onClose, }) => {
                     // Find Province
                     // =====================================
 
-                    const province = provinceOptions.find((p) => p.value === user?.province);
+                    // const province = provinceOptions.find((p) => p.value === user?.province);
+                    const norm = (s) => s?.trim().toLowerCase();
+                    const province = provinceOptions.find((p) => norm(p.value) === norm(user?.province));
                     setSelectedProvince(province || null);
 
                     // =====================================
