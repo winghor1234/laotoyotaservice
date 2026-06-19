@@ -102,7 +102,6 @@ ${newPassword}
 ຂອບໃຈ 🙏`;
             const whatsappUrl = `https://wa.me/${formatPhoneForWhatsApp(item.phoneNumber)}?text=${encodeURIComponent(whatsappMessage)}`;
             window.open(whatsappUrl, "_blank");
-            SuccessAlert(t("reset_password_success"));
         } catch (error) {
             console.error("Error sending password to WhatsApp:", error);
         }
