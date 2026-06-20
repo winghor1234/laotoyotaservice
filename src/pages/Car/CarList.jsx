@@ -62,6 +62,17 @@ const CarList = () => {
     navigate(`/user/car-detail/${id}`);
 
 
+  const handleDelete = async (id) => {
+    const confirmDelete = await DeleteAlert(
+      t("delete_confirm"),
+      t("delete_success")
+    );
+    if (confirmDelete) {
+      await axiosInstance.delete(APIPath.DELETE_CAR(id));
+      fetchData();
+    }
+  };
+
 
   return (
     <div>
@@ -254,18 +265,16 @@ const CarList = () => {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-
-                    setCarId(
-                      item.car_id
-                    );
-
-                    setShowEditCarForm(
-                      true
-                    );
+                    setCarId(item.car_id);
+                    setShowEditCarForm(true);
                   }}
                   className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 hover:bg-blue-200 transition-colors"
                 >
                   <Edit className="w-5 h-5 text-blue-700" />
+                </button>
+                <button
+                  onClick={(e) => { e.stopPropagation(); handleDelete(item.car_id) }}>
+                  <Trash className="w-5 h-5 text-red-700" />
                 </button>
 
               </div>
