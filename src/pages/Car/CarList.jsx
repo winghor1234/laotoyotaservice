@@ -156,6 +156,13 @@ const CarList = () => {
                     setShowEditCarForm(true);
                   }}
                 />
+                <Trash
+                  className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(item.car_id);
+                  }}
+                />
               </div>
             </div>
           ))}
