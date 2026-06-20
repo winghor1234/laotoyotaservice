@@ -90,18 +90,15 @@ const CarList = () => {
             "FrameNumber",
             "PlateNumber",
             "Model",
-            "EngineNumber",
-            "Province",
-            "Color",
           ]}
           transformData={(item) => ({
             userId: null,
             frameNumber: toSafeString(item["FrameNumber"]),
             plateNumber: toSafeString(item["PlateNumber"]),
             model: toSafeString(item["Model"]),
-            engineNumber: toSafeString(item["EngineNumber"]),
-            province: toSafeString(item["Province"]),
-            color: toSafeString(item["Color"]),
+            engineNumber: item["EngineNumber"] ? toSafeString(item["EngineNumber"]) : null,
+            province: item["Province"] ? toSafeString(item["Province"]) : null,
+            color: item["Color"] ? toSafeString(item["Color"]) : null,
           })}
           onUploadSuccess={() =>
             fetchData()
