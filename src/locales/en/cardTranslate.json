@@ -38,7 +38,9 @@
     "select_card_type": "Select Card Type",
     "gold_card": "Gold Card",
     "silver_card": "Silver Card",
-    "genCode": "Generate Code"
-
-
+    "genCode": "Generate Code",
+    "item_range": "Item Range",
+    "list": "List",
+    "from": "From",
+    "to": "go to page"
 }

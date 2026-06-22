@@ -30,5 +30,9 @@
   "buttons": {
     "service_info": "Service Info",
     "history": "History"
-  }
+  },
+  "item_range": "Item Range",
+  "list": "List",
+  "from": "From",
+  "to": "go to page"
 }

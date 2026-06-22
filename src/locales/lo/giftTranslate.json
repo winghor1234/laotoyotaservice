@@ -49,11 +49,9 @@
   "confirm_delete": "ທ່ານຕ້ອງການຍົກເລີກການແລກລາງວັນນີ້ບໍ່?",
   "delete_success": "ລົບສຳເລັດ",
   "confirm_success": "ຢືນຢັນສຳເລັດ",
-  "return_point_success": "ຄືນຄະແນນສຳເລັດ"
-
-  
-  
-
-
-
+  "return_point_success": "ຄືນຄະແນນສຳເລັດ",
+  "item_range": "ສະແດງ",
+  "list": "ລາຍການ",
+  "from": "ຈາກ",
+  "to": "ໄປໜ້າ"
 }

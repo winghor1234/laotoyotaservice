@@ -30,7 +30,9 @@
     "select_user": "Select employee",
     "branch": "Branch",
     "user": "employee",
-    "update_success": "Update employee successfully"
-    
-
+    "update_success": "Update employee successfully",
+    "item_range": "Item Range",
+    "list": "List",
+    "from": "From",
+    "to": "go to page"
 }

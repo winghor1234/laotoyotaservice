@@ -19,5 +19,9 @@
   "image": "Image",
   "title": "Title",
   "detail": "Detail",
-  "action": "Action"
+  "action": "Action",
+  "item_range": "Item Range",
+  "list": "List",
+  "from": "From",
+  "to": "go to page"
 }

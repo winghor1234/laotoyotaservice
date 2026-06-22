@@ -1,4 +1,4 @@
-{ 
+{
     "branch_code": "Branch Code",
     "branch_name": "Branch Name",
     "location": "Location",
@@ -32,8 +32,9 @@
     "cancel": "Cancel",
     "submit": "Submit",
     "loading_data": "Loading branch data...",
-    "branch_detail": "Branch Details"
-
-
-
+    "branch_detail": "Branch Details",
+    "item_range": "Item Range",
+    "list": "List",
+    "from": "From",
+    "to": "go to page"
 }

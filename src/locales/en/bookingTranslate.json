@@ -158,7 +158,11 @@
   "lastYear": "Last Year",
   "tax_invoice_code_text": "Tax Invoice Code",
   "tax_invoice_code_placeholder": "Tax Invoice Code...",
-  "tax_invoice": "Tax Invoice"
+  "tax_invoice": "Tax Invoice",
+  "item_range": "Item Range",
+  "list": "List",
+  "from": "From",
+  "to": "go to page"
 
 
 

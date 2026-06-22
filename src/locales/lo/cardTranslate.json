@@ -38,6 +38,9 @@
     "select_card_type": "ເລືອກປະເພດບັດ",
     "gold_card": "ບັດຄໍາ",
     "silver_card": "ບັດເງີນ",
-    "genCode": "ສ້າງລະຫັດ"
-
+    "genCode": "ສ້າງລະຫັດ",
+    "item_range": "ສະແດງ",
+    "list": "ລາຍການ",
+    "from": "ຈາກ",
+    "to": "ໄປໜ້າ"
 }

@@ -30,6 +30,11 @@ const EmployeeList = () => {
         handlePageChange,
         fetchData,
         getPageNumbers,
+        totalCount,
+        rangeStart,
+        rangeEnd,
+        inputPage,
+        handleInputPageChange,
     } = useServerFilterPagination({
         apiCall: ({ page, limit, search, startDate, endDate }) => {
             return axiosInstance.get(APIPath.GET_ALL_EMPLOYEE, {
@@ -171,7 +176,7 @@ const EmployeeList = () => {
                                         {item.position}
                                     </div>
                                     <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-3 md:gap-6">
-                                        <Eye  onClick={() => handleToDetailEmployee(item.employee_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                        <Eye onClick={() => handleToDetailEmployee(item.employee_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                                         <Edit
                                             className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
                                             onClick={(e) => {
@@ -195,39 +200,79 @@ const EmployeeList = () => {
             </div>
 
             {/* Pagination (แก้ไขให้โชว์แค่บางช่วงหน้า) */}
-            <div className="flex justify-end mt-4 gap-2 items-center">
-                {/* ปุ่มย้อนกลับ */}
-                <button
-                    onClick={() => handlePageChange(page - 1)}
-                    disabled={page === 1}
-                    className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
-                        }`}
-                >
-                    ‹
-                </button>
+            <div className="flex justify-between items-center mt-4 gap-4 flex-wrap">
 
-                {getPageNumbers().map((p) => (
+                {/* ສະແດງ range */}
+                <div className="text-sm text-gray-500">
+                    {t("list")}{" "}
+                    <span className="font-semibold text-gray-700">{rangeStart} - {rangeEnd}</span>
+                    {" "}{t("from")}{" "}
+                    <span className="font-semibold text-gray-700">{totalCount}</span>
+                    {" "}{t("list")}
+                </div>
+
+                <div className="flex gap-4 items-center">
+
+                    {/* ໄປໜ້າ input */}
+                    <span className="text-sm text-gray-500">{t("to")}:</span>
+                    <input
+                        type="number"
+                        min={1}
+                        max={totalPage}
+                        value={inputPage}
+                        onChange={(e) => handleInputPageChange(e.target.value)}
+                        className="w-14 text-center border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:border-blue-400"
+                    />
+                    <span className="text-sm text-gray-500">{t("from")} {totalPage}</span>
+
+                    {/* ‹‹ ໜ້າທຳອິດ */}
                     <button
-                        key={p}
-                        onClick={() => handlePageChange(p)}
-                        className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
-                            }`}
+                        onClick={() => handlePageChange(1)}
+                        disabled={page === 1}
+                        className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"}`}
                     >
-                        {p}
+                        ‹‹
                     </button>
-                ))}
 
-                {/* ปุ่มถัดไป */}
-                <button
-                    onClick={() => handlePageChange(page + 1)}
-                    disabled={page === totalPage || totalPage === 0}
-                    className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
-                        ? "bg-gray-100 text-gray-400"
-                        : "bg-gray-200 hover:bg-gray-300"
-                        }`}
-                >
-                    ›
-                </button>
+                    {/* ‹ ຖອຍຫຼັງ */}
+                    <button
+                        onClick={() => handlePageChange(page - 1)}
+                        disabled={page === 1}
+                        className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"}`}
+                    >
+                        ‹
+                    </button>
+
+                    {/* ເລກໜ້າ */}
+                    {getPageNumbers().map((p) => (
+                        <button
+                            key={p}
+                            onClick={() => handlePageChange(p)}
+                            className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"}`}
+                        >
+                            {p}
+                        </button>
+                    ))}
+
+                    {/* › ໜ້າຕໍ່ໄປ */}
+                    <button
+                        onClick={() => handlePageChange(page + 1)}
+                        disabled={page === totalPage || totalPage === 0}
+                        className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"}`}
+                    >
+                        ›
+                    </button>
+
+                    {/* ›› ໜ້າສຸດທ້າຍ */}
+                    <button
+                        onClick={() => handlePageChange(totalPage)}
+                        disabled={page === totalPage || totalPage === 0}
+                        className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"}`}
+                    >
+                        ››
+                    </button>
+
+                </div>
             </div>
             <EditEmployee
                 show={showEditEmployee}

@@ -51,9 +51,9 @@
   "confirm_delete": "Are you sure to cancel this exchange gift?",
   "delete_success": "Delete success",
   "confirm_success": "Confirm success",
-  "return_point_success": "Return point success"
-  
-  
-
-
+  "return_point_success": "Return point success",
+  "item_range": "Item Range",
+  "list": "List",
+  "from": "From",
+  "to": "go to page"
 }
