@@ -72,5 +72,7 @@
   "plate_number": "Plate Number",
   "car_color": "Car Color",
   "engine_number": "Engine Number",
-  "frame_number": "Frame Number"
+  "frame_number": "Frame Number",
+  "total_user": "Total Customers",
+  "users": "Users"
 }

@@ -61,7 +61,10 @@
   "email": "Email",
   "district": "District",
   "village": "Village",
-  "car_exist": "Car already exists"
+  "car_exist": "Car already exists",
+  "total_car": "Total Cars",
+  "cars": "Cars"
+
 
 
 }

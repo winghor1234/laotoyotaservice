@@ -72,5 +72,7 @@
   "car_color": "ສີລົດ",
   "engine_number": "ເລກຈັກ",
   "frame_number": "ເລກຖັງ",
-  "action": "ດຳເນີນການ"
+  "action": "ດຳເນີນການ",
+  "total_user": "ຈຳນວນລູກຄ້າທັງຫມົດ",
+  "users": "ຄົນ"
 }

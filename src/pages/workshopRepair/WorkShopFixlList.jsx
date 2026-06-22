@@ -13,6 +13,8 @@ import { formatDates } from "../../utils/FormatDate";
 import { useTranslation } from "react-i18next";
 import WorkShopFix from "./WorkShopFix";
 import { FaCheckCircle } from "react-icons/fa";
+import ImportExcel from "../../utils/ImportExel";
+import { toSafeInt, toSafeString } from "../../utils/toSafeString";
 
 const WorkShopFixList = () => {
     const navigate = useNavigate();
@@ -95,6 +97,32 @@ const WorkShopFixList = () => {
                         {t("add")}
                     </button>
                 </div>
+                <ImportExcel
+                    apiPath={APIPath.WORKSHOP_FIX}
+                    requiredFields={[
+                        "cardNumber",
+                        "kmLast",
+                        "kmNext", 
+                        "labourTotal",
+                        "partTotal",
+                        "labourPoint",
+                        "partPoint",
+                        "taxInvoiceCode",
+                    ]}
+                    transformData={(item) => ({
+                        card_number: toSafeString(item["cardNumber"]),
+                        kmLast: toSafeInt(item["kmLast"]),
+                        kmNext: toSafeInt(item["kmNext"]),
+                        labour_total: toSafeInt(item["labourTotal"]),
+                        part_total: toSafeInt(item["partTotal"]),
+                        part_point: toSafeInt(item["labourPoint"]) ? toSafeInt(item["labourPoint"]) : null,
+                        labour_point: item["partPoint"] ? toSafeInt(item["partPoint"]) : null,
+                        tax_invoice_code: toSafeString(item["taxInvoiceCode"]),
+                    })}
+                    onUploadSuccess={() =>
+                        fetchData()
+                    }
+                />
             </div>
 
             <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mt-4">
@@ -116,7 +144,7 @@ const WorkShopFixList = () => {
                     {fix?.filter((item) => item.bookingId === null).map((item, index) => (
                         <div key={index} className="grid grid-cols-7 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 transition-colors cursor-pointer text-xs md:text-sm lg:text-base">
                             <div className="flex items-center gap-2 md:gap-3">
-                                    <FaCheckCircle className="text-green-500 h-7 w-7 shrink-0" />
+                                <FaCheckCircle className="text-green-500 h-7 w-7 shrink-0" />
                                 <span className="line-clamp-1">{item?.card?.car?.model}</span>
                             </div>
                             <div className="text-center line-clamp-1">{item?.card?.user?.username}</div>
@@ -223,7 +251,7 @@ const WorkShopFixList = () => {
                     ›
                 </button>
             </div>
-            <WorkShopFix show={showAddFix} onClose={() => setShowAddFix(false)}  />
+            <WorkShopFix show={showAddFix} onClose={() => setShowAddFix(false)} />
         </div>
     );
 };
