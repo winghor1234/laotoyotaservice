@@ -590,7 +590,7 @@ const CarList = () => {
             total: totalCount,
           })}
         {/* fallback ຖ້າບໍ່ໃຊ້ i18n: */}
-        ລາຍການ {rangeStart}-{rangeEnd} ຈາກ {totalCount} ລາຍການ
+        {t("list")} {rangeStart}-{rangeEnd} {t("from")} {totalCount} {t("list")}
         </div>
         {/* ປຸ່ມ Pagination */}
         <div className="flex gap-2 items-center">
