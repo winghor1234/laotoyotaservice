@@ -88,7 +88,7 @@ const Dashboard = () => {
     ];
 
     const dashboardItems = [
-        { title: t("customer_info"), path: "/user/user", value: users.filter(user => user.role !== "admin").length, icon: <Users className="w-10 h-10 text-red-600" /> },
+        { title: t("customer_info"), path: "/user/user", value: users.filter(user => user.role === "general").length, icon: <Users className="w-10 h-10 text-red-600" /> },
         // { title: t("service_total"), path: "#", value: "1420", icon: <FaChartLine className="w-10 h-10 text-red-600" /> },
         { title: t("promotion_info"), path: "/user/promotion", value: promotions.length, icon: <Gift className="w-10 h-10 text-red-600" /> },
         { title: t("gift"), path: "/user/gift", value: gift.length, icon: <LiaGiftsSolid className="w-10 h-10 text-red-600" /> },
