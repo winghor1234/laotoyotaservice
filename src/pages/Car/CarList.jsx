@@ -1,3 +1,4 @@
+
 // import { Edit, Eye, Trash } from "lucide-react";
 // import AddCarFormPopup from "./AddCarForm";
 // import SelectDate from "../../utils/SelectDate";
@@ -6,7 +7,6 @@
 // import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
 // import axiosInstance from "../../utils/AxiosInstance";
 // import APIPath from "../../api/APIPath";
-// import ExportExcelButton from "../../utils/ExcelExportButton";
 // import { useTranslation } from "react-i18next";
 // import ImportExcel from "../../utils/ImportExel";
 // import { useNavigate } from "react-router-dom";
@@ -18,7 +18,6 @@
 // const CarList = () => {
 //   const { t } = useTranslation("car");
 //   const navigate = useNavigate();
-
 
 //   // Popup
 //   const [showAddCarForm, setShowAddCarForm] = useState(false);
@@ -32,8 +31,10 @@
 //   const {
 //     data: car,
 //     page,
-//     totalCount,
 //     totalPage,
+//     totalCount,
+//     rangeStart,
+//     rangeEnd,
 //     search,
 //     limit,
 //     handleSearch,
@@ -55,13 +56,7 @@
 //     },
 //   });
 
-
-
-
-
-//   const handleToDetailCar = (id) =>
-//     navigate(`/user/car-detail/${id}`);
-
+//   const handleToDetailCar = (id) => navigate(`/user/car-detail/${id}`);
 
 //   const handleDelete = async (id) => {
 //     const confirmDelete = await DeleteAlert(
@@ -73,7 +68,6 @@
 //       fetchData();
 //     }
 //   };
-
 
 //   return (
 //     <div>
@@ -93,16 +87,15 @@
 //             onClose={() => setOpen(false)}
 //           />
 //         )}
-//         <button onClick={() => setShowAddCarForm(true)} className="bg-blue-600 hover:bg-blue-700 transition-colors px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base mr-2">
+//         <button
+//           onClick={() => setShowAddCarForm(true)}
+//           className="bg-blue-600 hover:bg-blue-700 transition-colors px-5 py-3.5 text-white rounded font-medium cursor-pointer text-sm sm:text-base mr-2"
+//         >
 //           {t("add")}
 //         </button>
 //         <ImportExcel
 //           apiPath={APIPath.CREATE_CAR}
-//           requiredFields={[
-//             "FrameNumber",
-//             "PlateNumber",
-//             "Model",
-//           ]}
+//           requiredFields={["FrameNumber", "PlateNumber", "Model"]}
 //           transformData={(item) => ({
 //             userId: null,
 //             frameNumber: toSafeString(item["FrameNumber"]),
@@ -112,9 +105,7 @@
 //             province: item["Province"] ? toSafeString(item["Province"]) : null,
 //             color: item["Color"] ? toSafeString(item["Color"]) : null,
 //           })}
-//           onUploadSuccess={() =>
-//             fetchData()
-//           }
+//           onUploadSuccess={() => fetchData()}
 //         />
 //       </div>
 
@@ -148,9 +139,12 @@
 //               <div className="text-center line-clamp-1">{item.engineNumber}</div>
 //               <div className="text-center line-clamp-1">{item.province}</div>
 //               <div className="flex justify-center gap-4">
-//                 <Eye onClick={() => handleToDetailCar(item.car_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+//                 <Eye
+//                   onClick={() => handleToDetailCar(item.car_id)}
+//                   className="text-gray-600 w-4 h-4 md:w-5 md:h-5 hover:text-gray-800"
+//                 />
 //                 <Edit
-//                   className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
+//                   className="text-gray-600 w-4 h-4 md:w-5 md:h-5 hover:text-gray-800"
 //                   onClick={(e) => {
 //                     e.stopPropagation();
 //                     setCarId(item.car_id);
@@ -158,7 +152,7 @@
 //                   }}
 //                 />
 //                 <Trash
-//                   className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800"
+//                   className="text-gray-600 w-4 h-4 md:w-5 md:h-5 hover:text-gray-800"
 //                   onClick={(e) => {
 //                     e.stopPropagation();
 //                     handleDelete(item.car_id);
@@ -168,108 +162,56 @@
 //             </div>
 //           ))}
 //         </div>
+
 //         {/* Mobile Card Layout */}
 //         <div className="md:hidden divide-y divide-gray-200">
 //           {car?.map((item, index) => (
-//             <div
-//               key={index}
-//               className="p-4 hover:bg-gray-50 transition-colors"
-//             >
+//             <div key={index} className="p-4 hover:bg-gray-50 transition-colors">
 //               {/* Header */}
 //               <div className="flex items-center justify-between mb-4">
 //                 <div>
 //                   <p className="text-sm text-gray-800 font-semibold">
-//                     {t("index")}:{(page - 1) * limit + index + 1}
+//                     {t("index")}: {(page - 1) * limit + index + 1}
 //                   </p>
 //                 </div>
 //               </div>
 
 //               {/* Information */}
 //               <div className="grid grid-cols-1 gap-2 text-sm">
-
-//                 {/* Model */}
 //                 <div className="flex justify-between gap-3">
-//                   <span className="font-medium text-gray-500">
-//                     {t("model")}:
-//                   </span>
-
-//                   <span className="text-gray-800 text-right break-all">
-//                     {item.model}
-//                   </span>
+//                   <span className="font-medium text-gray-500">{t("model")}:</span>
+//                   <span className="text-gray-800 text-right break-all">{item.model}</span>
 //                 </div>
-
-//                 {/* Plate */}
 //                 <div className="flex justify-between gap-3">
-//                   <span className="font-medium text-gray-500">
-//                     {t("plate")}:
-//                   </span>
-
-//                   <span className="text-gray-800 text-right break-all">
-//                     {item.plateNumber}
-//                   </span>
+//                   <span className="font-medium text-gray-500">{t("plate")}:</span>
+//                   <span className="text-gray-800 text-right break-all">{item.plateNumber}</span>
 //                 </div>
-
-//                 {/* Color */}
 //                 <div className="flex justify-between gap-3">
-//                   <span className="font-medium text-gray-500">
-//                     {t("color")}:
-//                   </span>
-
-//                   <span className="text-gray-800 text-right break-all">
-//                     {item.color}
-//                   </span>
+//                   <span className="font-medium text-gray-500">{t("color")}:</span>
+//                   <span className="text-gray-800 text-right break-all">{item.color}</span>
 //                 </div>
-
-//                 {/* Engine */}
 //                 <div className="flex justify-between gap-3">
-//                   <span className="font-medium text-gray-500">
-//                     {t("engine")}:
-//                   </span>
-
-//                   <span className="text-gray-800 text-right break-all">
-//                     {item.engineNumber}
-//                   </span>
+//                   <span className="font-medium text-gray-500">{t("engine")}:</span>
+//                   <span className="text-gray-800 text-right break-all">{item.engineNumber}</span>
 //                 </div>
-
-//                 {/* Frame */}
 //                 <div className="flex justify-between gap-3">
-//                   <span className="font-medium text-gray-500">
-//                     {t("frame")}:
-//                   </span>
-
-//                   <span className="text-gray-800 text-right break-all">
-//                     {item.frameNumber}
-//                   </span>
+//                   <span className="font-medium text-gray-500">{t("frame")}:</span>
+//                   <span className="text-gray-800 text-right break-all">{item.frameNumber}</span>
 //                 </div>
-
-//                 {/* Province */}
 //                 <div className="flex justify-between gap-3">
-//                   <span className="font-medium text-gray-500">
-//                     {t("province")}:
-//                   </span>
-
-//                   <span className="text-gray-800 text-right break-all">
-//                     {item.province}
-//                   </span>
+//                   <span className="font-medium text-gray-500">{t("province")}:</span>
+//                   <span className="text-gray-800 text-right break-all">{item.province}</span>
 //                 </div>
 //               </div>
 
 //               {/* Actions */}
 //               <div className="flex items-center justify-end gap-4 mt-4 pt-3 border-t border-gray-200">
-
-//                 {/* Detail */}
 //                 <button
-//                   onClick={() =>
-//                     handleToDetailCar(
-//                       item.car_id
-//                     )
-//                   }
+//                   onClick={() => handleToDetailCar(item.car_id)}
 //                   className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
 //                 >
 //                   <Eye className="w-5 h-5 text-gray-700" />
 //                 </button>
-
-//                 {/* Edit */}
 //                 <button
 //                   onClick={(e) => {
 //                     e.stopPropagation();
@@ -280,52 +222,86 @@
 //                 >
 //                   <Edit className="w-5 h-5 text-blue-700" />
 //                 </button>
-//                 <button
-//                   onClick={(e) => { e.stopPropagation(); handleDelete(item.car_id) }}>
+//                 <button onClick={(e) => { e.stopPropagation(); handleDelete(item.car_id); }}>
 //                   <Trash className="w-5 h-5 text-red-700" />
 //                 </button>
-
 //               </div>
 //             </div>
 //           ))}
 //         </div>
-
 //       </div>
 
-//       {/* Pagination (แก้ไขให้โชว์แค่บางช่วงหน้า) */}
-//       <div className="flex justify-end mt-4 gap-2 items-center">
-//         {/* ปุ่มย้อนกลับ */}
-//         <button
-//           onClick={() => handlePageChange(page - 1)}
-//           disabled={page === 1}
-//           className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
-//             }`}
-//         >
-//           ‹
-//         </button>
+//       {/* ✅ Pagination + Count */}
+//       <div className="flex justify-between items-center mt-4 gap-2 flex-wrap">
 
-//         {getPageNumbers().map((p) => (
+//         {/* ສະແດງ range: "ລາຍການ 1-10 ຈາກ 18 ລາຍການ" */}
+//         <div className="text-sm text-gray-500">
+//           {t("item_range", {
+//             start: rangeStart,
+//             end: rangeEnd,
+//             total: totalCount,
+//           })}
+//         {/* fallback ຖ້າບໍ່ໃຊ້ i18n: */}
+//         {t("list")} {rangeStart}-{rangeEnd} {t("from")} {totalCount} {t("list")}
+//         </div>
+//         {/* ປຸ່ມ Pagination */}
+//         <div className="flex gap-2 items-center">
+//           {/* << ໜ້າທຳອິດ */}
 //           <button
-//             key={p}
-//             onClick={() => handlePageChange(p)}
-//             className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
+//             onClick={() => handlePageChange(1)}
+//             disabled={page === 1}
+//             className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
 //               }`}
 //           >
-//             {p}
+//             ‹‹
 //           </button>
-//         ))}
 
-//         {/* ปุ่มถัดไป */}
-//         <button
-//           onClick={() => handlePageChange(page + 1)}
-//           disabled={page === totalPage || totalPage === 0}
-//           className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
-//             ? "bg-gray-100 text-gray-400"
-//             : "bg-gray-200 hover:bg-gray-300"
-//             }`}
-//         >
-//           ›
-//         </button>
+//           {/* < ຖອຍຫຼັງ */}
+//           <button
+//             onClick={() => handlePageChange(page - 1)}
+//             disabled={page === 1}
+//             className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
+//               }`}
+//           >
+//             ‹
+//           </button>
+
+//           {/* ເລກໜ້າ */}
+//           {getPageNumbers().map((p) => (
+//             <button
+//               key={p}
+//               onClick={() => handlePageChange(p)}
+//               className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
+//                 }`}
+//             >
+//               {p}
+//             </button>
+//           ))}
+
+//           {/* > ໜ້າຕໍ່ໄປ */}
+//           <button
+//             onClick={() => handlePageChange(page + 1)}
+//             disabled={page === totalPage || totalPage === 0}
+//             className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
+//               ? "bg-gray-100 text-gray-400"
+//               : "bg-gray-200 hover:bg-gray-300"
+//               }`}
+//           >
+//             ›
+//           </button>
+
+//           {/* >> ໜ້າສຸດທ້າຍ */}
+//           <button
+//             onClick={() => handlePageChange(totalPage)}
+//             disabled={page === totalPage || totalPage === 0}
+//             className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
+//               ? "bg-gray-100 text-gray-400"
+//               : "bg-gray-200 hover:bg-gray-300"
+//               }`}
+//           >
+//             ››
+//           </button>
+//         </div>
 //       </div>
 
 //       <AddCarFormPopup
@@ -345,6 +321,7 @@
 // };
 
 // export default CarList;
+
 
 
 import { Edit, Eye, Trash } from "lucide-react";
@@ -383,11 +360,13 @@ const CarList = () => {
     totalCount,
     rangeStart,
     rangeEnd,
+    inputPage,
     search,
     limit,
     handleSearch,
     handleDateChange,
     handlePageChange,
+    handleInputPageChange,
     fetchData,
     getPageNumbers,
   } = useServerFilterPagination({
@@ -426,7 +405,6 @@ const CarList = () => {
           onSearchChange={handleSearch}
           onDateChange={handleDateChange}
         />
-        {/* download button */}
         <DownloadButton open={open} setOpen={setOpen} />
         {open && (
           <ExportExcelPopup
@@ -457,7 +435,7 @@ const CarList = () => {
         />
       </div>
 
-      {/* Desktop Card Layout */}
+      {/* Desktop Table Layout */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="w-full h-10 md:h-12 lg:h-14 bg-[#E52020] text-white hidden md:block">
           <div className="grid grid-cols-8 gap-3 md:gap-8 px-3 md:px-4 lg:px-8 py-3 md:py-4 font-medium text-sm md:text-sm lg:text-base">
@@ -471,15 +449,15 @@ const CarList = () => {
             <div className="flex justify-center items-center">{t("action")}</div>
           </div>
         </div>
+
+        {/* Desktop Rows */}
         <div className="divide-y divide-gray-200">
           {car?.map((item, index) => (
             <div
               key={index}
               className="hidden md:grid md:grid-cols-8 md:gap-2 text-center items-center w-full px-4 py-3 hover:bg-gray-50 cursor-pointer"
             >
-              <div className="text-center">
-                {(page - 1) * limit + index + 1}
-              </div>
+              <div className="text-center">{(page - 1) * limit + index + 1}</div>
               <div className="text-center line-clamp-1">{item.model}</div>
               <div className="text-center line-clamp-1">{item.plateNumber}</div>
               <div className="text-center line-clamp-1">{item.color}</div>
@@ -515,16 +493,11 @@ const CarList = () => {
         <div className="md:hidden divide-y divide-gray-200">
           {car?.map((item, index) => (
             <div key={index} className="p-4 hover:bg-gray-50 transition-colors">
-              {/* Header */}
               <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-sm text-gray-800 font-semibold">
-                    {t("index")}: {(page - 1) * limit + index + 1}
-                  </p>
-                </div>
+                <p className="text-sm text-gray-800 font-semibold">
+                  {t("index")}: {(page - 1) * limit + index + 1}
+                </p>
               </div>
-
-              {/* Information */}
               <div className="grid grid-cols-1 gap-2 text-sm">
                 <div className="flex justify-between gap-3">
                   <span className="font-medium text-gray-500">{t("model")}:</span>
@@ -551,8 +524,6 @@ const CarList = () => {
                   <span className="text-gray-800 text-right break-all">{item.province}</span>
                 </div>
               </div>
-
-              {/* Actions */}
               <div className="flex items-center justify-end gap-4 mt-4 pt-3 border-t border-gray-200">
                 <button
                   onClick={() => handleToDetailCar(item.car_id)}
@@ -579,37 +550,46 @@ const CarList = () => {
         </div>
       </div>
 
-      {/* ✅ Pagination + Count */}
-      <div className="flex justify-between items-center mt-4 gap-2 flex-wrap">
+      {/* Pagination + Count */}
+      <div className="flex justify-between items-center mt-4 gap-4 flex-wrap">
 
-        {/* ສະແດງ range: "ລາຍການ 1-10 ຈາກ 18 ລາຍການ" */}
+        {/* ສະແດງ range */}
         <div className="text-sm text-gray-500">
-          {t("item_range", {
-            start: rangeStart,
-            end: rangeEnd,
-            total: totalCount,
-          })}
-        {/* fallback ຖ້າບໍ່ໃຊ້ i18n: */}
-        {t("list")} {rangeStart}-{rangeEnd} {t("from")} {totalCount} {t("list")}
+          {t("list")}{" "}
+          <span className="font-semibold text-gray-700">{rangeStart} - {rangeEnd}</span>
+          {" "}{t("from")}{" "}
+          <span className="font-semibold text-gray-700">{totalCount}</span>
+          {" "}{t("list")}
         </div>
-        {/* ປຸ່ມ Pagination */}
-        <div className="flex gap-2 items-center">
-          {/* << ໜ້າທຳອິດ */}
+
+        <div className="flex gap-4 items-center">
+
+          {/* ໄປໜ້າ input */}
+          <span className="text-sm text-gray-500">{t("to")}:</span>
+          <input
+            type="number"
+            min={1}
+            max={totalPage}
+            value={inputPage}
+            onChange={(e) => handleInputPageChange(e.target.value)}
+            className="w-14 text-center border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:border-blue-400"
+          />
+          <span className="text-sm text-gray-500">{t("from")} {totalPage}</span>
+
+          {/* ‹‹ ໜ້າທຳອິດ */}
           <button
             onClick={() => handlePageChange(1)}
             disabled={page === 1}
-            className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
-              }`}
+            className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"}`}
           >
             ‹‹
           </button>
 
-          {/* < ຖອຍຫຼັງ */}
+          {/* ‹ ຖອຍຫຼັງ */}
           <button
             onClick={() => handlePageChange(page - 1)}
             disabled={page === 1}
-            className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"
-              }`}
+            className={`px-3 py-1 rounded ${page === 1 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"}`}
           >
             ‹
           </button>
@@ -619,36 +599,30 @@ const CarList = () => {
             <button
               key={p}
               onClick={() => handlePageChange(p)}
-              className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"
-                }`}
+              className={`px-3 py-1 rounded ${page === p ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"}`}
             >
               {p}
             </button>
           ))}
 
-          {/* > ໜ້າຕໍ່ໄປ */}
+          {/* › ໜ້າຕໍ່ໄປ */}
           <button
             onClick={() => handlePageChange(page + 1)}
             disabled={page === totalPage || totalPage === 0}
-            className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
-              ? "bg-gray-100 text-gray-400"
-              : "bg-gray-200 hover:bg-gray-300"
-              }`}
+            className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"}`}
           >
             ›
           </button>
 
-          {/* >> ໜ້າສຸດທ້າຍ */}
+          {/* ›› ໜ້າສຸດທ້າຍ */}
           <button
             onClick={() => handlePageChange(totalPage)}
             disabled={page === totalPage || totalPage === 0}
-            className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0
-              ? "bg-gray-100 text-gray-400"
-              : "bg-gray-200 hover:bg-gray-300"
-              }`}
+            className={`px-3 py-1 rounded ${page === totalPage || totalPage === 0 ? "bg-gray-100 text-gray-400" : "bg-gray-200 hover:bg-gray-300"}`}
           >
             ››
           </button>
+
         </div>
       </div>
 

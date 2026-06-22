@@ -74,5 +74,8 @@
   "engine_number": "Engine Number",
   "frame_number": "Frame Number",
   "total_user": "Total Customers",
-  "users": "Users"
+  "users": "Users",
+  "to": "To",
+  "list":"List",
+  "from":"From"
 }
