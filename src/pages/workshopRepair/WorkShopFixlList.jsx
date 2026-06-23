@@ -292,7 +292,7 @@ const WorkShopFixList = () => {
 
                 </div>
             </div>
-            <WorkShopFix show={showAddFix} onClose={() => setShowAddFix(false)} />
+            <WorkShopFix show={showAddFix} onClose={() => setShowAddFix(false)} handleFetch={fetchData} />
         </div>
     );
 };

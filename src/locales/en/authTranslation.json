@@ -58,7 +58,9 @@
   "point_not_enough": "Point not enough",
   "exchange_success": "Exchange successfully",
   "car_exist": "Car already exists",
-  "card_exist": "Card already exists"
+  "card_exist": "Card already exists",
+  "Please_select_card": "Please select card"
+  
   
 
 
