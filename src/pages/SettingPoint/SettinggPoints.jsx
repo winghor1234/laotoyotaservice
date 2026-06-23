@@ -159,6 +159,7 @@ const PointSetting = () => {
             try {
                 const res = await axiosInstance.get(APIPath.GET_SETTING);
                 const data = res?.data?.data;
+                console.log("res : ",res);
                 if (data) {
                     // setValue("priceFix", data.priceFix || 0);
                     // setValue("pricePart", data.pricePart || 0);
