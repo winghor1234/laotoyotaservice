@@ -162,5 +162,16 @@
   "item_range": "ສະແດງ",
   "list": "ລາຍການ",
   "from": "ຈາກ",
-  "to": "ໄປໜ້າ"
+  "to": "ໄປໜ້າ",
+  "setting_point": "ຕັ້ງຄ່າຄະແນນ",
+  "currency_kip": "ກີບ",
+  "spend_kip": "ຈ່າຍ (ກີບ)",
+  "receive_point": "ໄດ້ຮັບ (ຄະແນນ)",
+  "every_spend_get_point": "ທຸກໆ {{price}} ກີບ = {{point}} ຄະແນນ",
+  "point_labor": "ຄະແນນແຮງງານ",
+  "point_part": "ຄະແນນອະໄຫຼ່",
+  "save": "ບັນທຶກ",
+  "saving": "ກຳລັງບັນທຶກ...",
+  "save_success": "ບັນທຶກສຳເລັດ",
+  "save_failed": "ບັນທຶກລົ້ມເຫຼວ"
 }

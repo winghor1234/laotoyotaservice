@@ -162,8 +162,16 @@
   "item_range": "Item Range",
   "list": "List",
   "from": "From",
-  "to": "go to page"
-
-
-
+  "to": "go to page",
+  "setting_point": "Setting Point",
+  "currency_kip": "Kip",
+  "spend_kip": "Spend (Kip)",
+  "receive_point": "Points Earned",
+  "every_spend_get_point": "Every {{price}} Kip = {{point}} points",
+  "point_labor": "Labor Points",
+  "point_part": "Parts Points",
+  "save": "Save",
+  "saving": "Saving...",
+  "save_success": "Saved successfully",
+  "save_failed": "Save failed"
 }
