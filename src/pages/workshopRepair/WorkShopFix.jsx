@@ -1,5 +1,6 @@
 
 
+
 import { useTranslation } from "react-i18next";
 import CurrencyInput from "react-currency-input-field";
 import { useWorkShopRepair } from "../../component/schemaValidate/workShopRepairValidate/WorkShopRepairValidate";
@@ -16,14 +17,12 @@ const WorkShopFix = ({ show, onClose }) => {
         setValue,
         watch,
         cards,
-        // setIsManualPartPoint,
-        // setIsManualLabourPoint,
         search,
         setSearch,
         showDropdown,
         setShowDropdown,
         cardDropdownRef,
-        calculated, // ✅ เพิ่มตรงนี้
+        calculated,
     } = useWorkShopRepair();
 
     const [selectedCard, setSelectedCard] = useState(null);
@@ -36,18 +35,26 @@ const WorkShopFix = ({ show, onClose }) => {
                 ? "$"
                 : t("kip_text");
 
-    // ✅ ใช้ calculated.total แทนการบวกเอง (ได้ค่าหลังแปลงเงินและหักส่วนลดแล้ว)
     const totalPrice = calculated?.total || 0;
 
     if (!show) return null;
 
     return (
         <>
-            
-            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 ">
+            {/* ✅ Backdrop: clicking this triggers onClose */}
+            <div
+                className="fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity duration-300"
+                onClick={onClose}
+            />
+
+            {/* ✅ Modal container: centered, above backdrop, clicks stop here */}
+            <div
+                className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-[800px] px-4"
+                onClick={(e) => e.stopPropagation()}
+            >
                 <form
                     onSubmit={handleSubmit(submitForm)}
-                    className="bg-white flex flex-col gap-6 p-4 sm:p-6 rounded-2xl w-full max-w-[800px] max-h-[90vh] overflow-y-auto"
+                    className="bg-white flex flex-col gap-6 p-4 sm:p-6 rounded-2xl max-h-[90vh] overflow-y-auto"
                 >
                     <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center">
                         {t("fix_title")}
@@ -109,7 +116,6 @@ const WorkShopFix = ({ show, onClose }) => {
                                         ))}
                                 </div>
                             )}
-                            {/* ✅ แสดง error cardId */}
                             <div className="h-6">
                                 {errors.cardId && <p className="text-red-500 text-sm">{errors.cardId.message}</p>}
                             </div>
@@ -229,7 +235,6 @@ const WorkShopFix = ({ show, onClose }) => {
                             </div>
 
                             <div className="flex items-center justify-center gap-4">
-                                {/* labour_point (read only) */}
                                 <div className="flex flex-col relative">
                                     <label className="mb-1 text-gray-500 text-sm sm:text-base">{t("labour_point_text")}</label>
                                     <CurrencyInput
@@ -244,7 +249,6 @@ const WorkShopFix = ({ show, onClose }) => {
                                     </span>
                                     <div className="h-6">{errors.labour_point && <p className="text-red-500 text-sm">{errors.labour_point.message}</p>}</div>
                                 </div>
-                                {/* labour_discount */}
                                 <div className="flex flex-col relative">
                                     <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("labour_discount_text")}</label>
                                     <CurrencyInput
@@ -287,7 +291,6 @@ const WorkShopFix = ({ show, onClose }) => {
                             </div>
 
                             <div className="flex items-center justify-center gap-4">
-                                {/* part_point (read only) */}
                                 <div className="flex flex-col relative">
                                     <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_point_text")}</label>
                                     <CurrencyInput
@@ -302,7 +305,6 @@ const WorkShopFix = ({ show, onClose }) => {
                                     </span>
                                     <div className="h-6">{errors.part_point && <p className="text-red-500 text-sm">{errors.part_point.message}</p>}</div>
                                 </div>
-                                {/* part_discount */}
                                 <div className="flex flex-col relative">
                                     <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_discount_text")}</label>
                                     <CurrencyInput
@@ -326,7 +328,7 @@ const WorkShopFix = ({ show, onClose }) => {
                             </div>
                         </div>
 
-                        {/* ✅ totalPrice — ใช้ calculated.total (หลังหักส่วนลด + แปลงเงินแล้ว) */}
+                        {/* totalPrice */}
                         <div className="flex flex-col relative">
                             <h2 className="text-xl text-gray-600">{t("totalPrice")}</h2>
                             <CurrencyInput
@@ -337,7 +339,7 @@ const WorkShopFix = ({ show, onClose }) => {
                                 className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm pr-12"
                             />
                             <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
-                                {t("kip_text")} {/* ✅ totalPrice หลังแปลงเป็น LAK แล้วเสมอ */}
+                                {t("kip_text")}
                             </span>
                         </div>
 

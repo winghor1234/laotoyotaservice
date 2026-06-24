@@ -144,19 +144,6 @@ const WorkShopFixDetail = () => {
                                         <th className="p-3 font-normal">{t("remark_label")}</th>
                                     </tr>
                                 </thead>
-                                {/* <tbody className="divide-y divide-gray-100 text-gray-700">
-                                    {service.length > 0 ? (
-                                        service.map((item, index) => (
-                                            <tr key={index} className="hover:bg-red-50/20 transition-colors">
-                                                <td className="p-3 text-center text-red-600">{index + 1}</td>
-                                                <td className="p-3">{item?.service?.serviceName}</td>
-                                                <td className="p-3 text-gray-500">{data?.remark || "-"}</td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr><td colSpan={3} className="p-6 text-center text-gray-400">{t("no_service")}</td></tr>
-                                    )}
-                                </tbody> */}
                             </table>
                         </div>
                     </div>
