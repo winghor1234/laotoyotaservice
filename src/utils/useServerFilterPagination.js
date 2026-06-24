@@ -263,12 +263,15 @@ const useServerFilterPagination = ({
             const res = await apiCall({ page, limit, search, startDate, endDate, status });
             const result = res?.data?.data || {};
 
+
             const fetchedData = result?.data || [];
             const fetchedTotalPage = Number(result.totalPage) || 1;
+            const fetchedTotalCount = Number(result.count) || 0; // ✅ ดึงค่า total จริงจาก API
+
 
             setData(fetchedData);
             setTotalPage(fetchedTotalPage);
-            setTotalCount((fetchedTotalPage - 1) * limit + fetchedData.length);
+            setTotalCount(fetchedTotalCount);
         } catch (error) {
             console.error("Fetch error:", error);
         } finally {
