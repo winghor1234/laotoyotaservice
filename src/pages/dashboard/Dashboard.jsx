@@ -243,8 +243,6 @@
 
 import {  Suspense, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstance from "../../utils/AxiosInstance";
-import APIPath from "../../api/APIPath";
 import { Users, Clock3, Car, Gift, MapPinHouse } from "lucide-react";
 import { HiOutlineWrenchScrewdriver } from "react-icons/hi2";
 import { LiaGiftsSolid } from "react-icons/lia";
@@ -252,6 +250,8 @@ import { GrUserAdmin } from "react-icons/gr";
 import { useTranslation } from "react-i18next";
 import { calculatePercentIncrease, countUsersByMonth, getIncomes } from "../../utils/Income";
 import ChartsSection from "./ChartsSection";
+import axiosInstance from "../../utils/AxiosInstance";
+import APIPath from "../../api/APIPath";
 
 // ✅ Lazy load recharts — ໂຫຼດສະເພາະຕອນໃຊ້ (ຫຼຸດ bundle ~500kB)
 // const ChartsSection = lazy(() => import("./ChartsSection"));
