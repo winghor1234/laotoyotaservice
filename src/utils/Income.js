@@ -1,36 +1,6 @@
 // utils/Incomes.js
-// import axiosInstance from "./AxiosInstance";
 import APIPath from "../api/APIPath";
-// import { useTranslation } from "react-i18next";
 
-// export const useIncomesTranslation = () => {
-//   const { t } = useTranslation("util");
-//   return t;
-// };
-
-// export const getIncomes = async () => {
-// //   const t = useIncomesTranslation();
-//   try {
-//     const res = await axiosInstance.get(APIPath.SELECT_ALL_FIX);
-//     const data = res?.data?.data || [];
-
-//     const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-//     const monthlyData = months.map(month => ({ name: month, value: 0 }));
-
-//     data.forEach(item => {
-//       const date = new Date(item.createdAt);
-//       const monthIndex = date.getMonth();
-//       monthlyData[monthIndex].value += item.totalPrice;
-//     });
-
-//     const totalPrice = data.reduce((sum, item) => sum + item.totalPrice, 0);
-
-//     return { monthlyData, totalPrice };
-//   } catch (error) {
-//     console.error("Fetch Incomes Error:", error);
-//     return { monthlyData: [], totalPrice: 0 };
-//   }
-// };
 
 
 // ✅ ບໍ່ async ແລ້ວ, ຮັບ data ສຳເລັດຮູບ

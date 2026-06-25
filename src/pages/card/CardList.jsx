@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SelectDate from "../../utils/SelectDate";
 import { Edit, Eye, Trash } from "lucide-react";
@@ -25,8 +25,53 @@ const CardList = () => {
 
     const navigate = useNavigate();
 
-    const {
-        data: cards,
+    // const {
+    //     data: cards,
+    //     page,
+    //     totalPage,
+    //     search,
+    //     handleSearch,
+    //     handleDateChange,
+    //     handlePageChange,
+    //     fetchData,
+    //     getPageNumbers,
+    //     totalCount,
+    //     rangeStart,
+    //     rangeEnd,
+    //     inputPage,
+    //     handleInputPageChange,
+    // } = useServerFilterPagination({
+    //     apiCall: ({ page, limit, search, startDate, endDate }) => {
+    //         return axiosInstance.get(APIPath.GET_ALL_CARD, {
+    //             params: {
+    //                 page,
+    //                 limit,
+    //                 search: search || undefined,
+    //                 startDate: startDate?.toISOString(),
+    //                 endDate: endDate?.toISOString(),
+    //             },
+    //         });
+    //     },
+    // });
+
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
+
+    const apiCall = useCallback(
+        ({ page, limit, search, startDate, endDate }) =>
+            axiosInstance.get(APIPath.GET_ALL_CARD, {
+                params: {
+                    page, limit,
+                    search: search || undefined,
+                    startDate: startDate?.toISOString(),
+                    endDate: endDate?.toISOString(),
+                },
+            }),
+        []
+    );
+
+    const { data: cards,
         page,
         totalPage,
         search,
@@ -39,24 +84,7 @@ const CardList = () => {
         rangeStart,
         rangeEnd,
         inputPage,
-        handleInputPageChange,
-    } = useServerFilterPagination({
-        apiCall: ({ page, limit, search, startDate, endDate }) => {
-            return axiosInstance.get(APIPath.GET_ALL_CARD, {
-                params: {
-                    page,
-                    limit,
-                    search: search || undefined,
-                    startDate: startDate?.toISOString(),
-                    endDate: endDate?.toISOString(),
-                },
-            });
-        },
-    });
-
-    useEffect(() => {
-        fetchData();
-    }, []);
+        handleInputPageChange, } = useServerFilterPagination({ apiCall });
 
     const handleDeleteCard = async (cardId) => {
         try {
@@ -85,7 +113,7 @@ const CardList = () => {
     return (
         <div>
             {/* Top Section */}
-            <div className="flex justify-end items-center mb-6">
+            < div className="flex justify-end items-center mb-6" >
                 <SelectDate
                     searchValue={search}
                     onSearchChange={handleSearch}
@@ -110,10 +138,10 @@ const CardList = () => {
                         {t("add")}
                     </button>
                 </div>
-            </div>
+            </div >
 
             {/* Mobile */}
-            <div className="md:hidden space-y-4 mb-6">
+            <div div className="md:hidden space-y-4 mb-6" >
                 {cards?.length === 0 ? (
                     <div className="text-gray-500 text-center py-10">
                         {t("no_data")}
@@ -186,10 +214,10 @@ const CardList = () => {
                         </div>
                     ))
                 )}
-            </div>
+            </div >
 
             {/* Desktop */}
-            <div className="hidden md:block bg-white rounded-lg shadow-sm overflow-hidden w-full flex-col flex-1">
+            <div div className="hidden md:block bg-white rounded-lg shadow-sm overflow-hidden w-full flex-col flex-1" >
                 <div className="w-full h-14 bg-[#E52020] text-white">
                     <div className="grid grid-cols-5 gap-4 px-4 py-4 font-medium text-base">
 
@@ -270,19 +298,19 @@ const CardList = () => {
                             </div>
                         ))}
                 </div>
-            </div>
+            </div >
 
             {/* Pagination */}
-            <div className="flex justify-between items-center mt-4 gap-4 flex-wrap">
+            < div className="flex justify-between items-center mt-4 gap-4 flex-wrap" >
 
                 {/* ສະແດງ range */}
-                <div className="text-sm text-gray-500">
+                < div className="text-sm text-gray-500" >
                     {t("list")}{" "}
                     <span className="font-semibold text-gray-700">{rangeStart} - {rangeEnd}</span>
-                    {" "}{t("from")}{" "}
+                    {" "} {t("from")} {" "}
                     <span className="font-semibold text-gray-700">{totalCount}</span>
-                    {" "}{t("list")}
-                </div>
+                    {" "} {t("list")}
+                </div >
 
                 <div className="flex gap-4 items-center">
 
@@ -346,7 +374,7 @@ const CardList = () => {
                     </button>
 
                 </div>
-            </div>
+            </div >
 
             <EditCard
                 show={showEditCard}
@@ -361,7 +389,7 @@ const CardList = () => {
                 onClose={() => setShowAddCard(false)}
                 handleFetchCard={fetchData}
             />
-        </div>
+        </div >
     );
 };
 

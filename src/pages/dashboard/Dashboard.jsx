@@ -32,42 +32,6 @@ const Dashboard = () => {
     const [percentUserIncrease, setPercentUserIncrease] = useState(0);
 
 
-
-    // const fetchData = async () => {
-    //     try {
-    //         const [userRes, promoRes, bookingRes, carRes, giftRes, timeRes, zoneRes, serviceRes] = await Promise.all([
-    //             axiosInstance.get(APIPath.SELECT_ALL_USER),
-    //             axiosInstance.get(APIPath.SELECT_ALL_PROMOTION),
-    //             axiosInstance.get(APIPath.SELECT_ALL_BOOKING),
-    //             axiosInstance.get(APIPath.SELECT_ALL_CAR),
-    //             axiosInstance.get(APIPath.SELECT_ALL_GIFT),
-    //             axiosInstance.get(APIPath.SELECT_ALL_TIME),
-    //             axiosInstance.get(APIPath.SELECT_ALL_ZONE),
-    //             axiosInstance.get(APIPath.SELECT_ALL_SERVICE),
-    //             // axiosInstance.get(APIPath.SELECT_ALL_FIX),
-    //         ]);
-    //         const { monthlyData, totalPrice } = await getIncomes();
-
-    //         setUsers(userRes?.data?.data || []);
-    //         setPromotions(promoRes?.data?.data || []);
-    //         setBooking(bookingRes?.data?.data || []);
-    //         // setFix(fixRes?.data?.data || []);
-    //         setCar(carRes?.data?.data || []);
-    //         setGift(giftRes?.data?.data || []);
-    //         setTime(timeRes?.data?.data || []);
-    //         setZone(zoneRes?.data?.data || []);
-    //         setService(serviceRes?.data?.data || []);
-    //         setMonthlyIncomes(monthlyData);
-    //         setTotalIncomes(totalPrice);
-
-    //         const { thisMonthCount, lastMonthCount } = countUsersByMonth(users);
-    //         const percent = calculatePercentIncrease(thisMonthCount, lastMonthCount);
-    //         setPercentUserIncrease(percent);
-    //     } catch (error) {
-    //         console.error("Fetch Dashboard Data Error:", error);
-    //     }
-    // };
-
     const fetchData = async () => {
         try {
             const [userRes, promoRes, bookingRes, carRes, giftRes, timeRes, zoneRes, serviceRes, fixRes] = await Promise.all([
@@ -79,7 +43,7 @@ const Dashboard = () => {
                 axiosInstance.get(APIPath.SELECT_ALL_TIME),
                 axiosInstance.get(APIPath.SELECT_ALL_ZONE),
                 axiosInstance.get(APIPath.SELECT_ALL_SERVICE),
-                axiosInstance.get(APIPath.SELECT_ALL_FIX), // ✅ ພ້ອມກັນເລີຍ
+                axiosInstance.get(APIPath.SELECT_ALL_FIX), 
             ]);
 
             const userData = userRes?.data?.data || [];
