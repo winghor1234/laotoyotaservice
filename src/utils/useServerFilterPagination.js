@@ -3,59 +3,6 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 
-// const useServerFilterPagination = ({
-//     apiCall,
-//     limit = 10,
-//     enabled = true,
-//     status,
-// }) => {
-//     // ===============================
-//     // State
-//     // ===============================
-//     const [data, setData] = useState([]);
-//     const [page, setPage] = useState(1);
-//     const [totalPage, setTotalPage] = useState(1);
-//     const [totalCount, setTotalCount] = useState(0);
-//     const [search, setSearch] = useState("");
-//     const [startDate, setStartDate] = useState(null);
-//     const [endDate, setEndDate] = useState(null);
-//     const [loading, setLoading] = useState(false);
-//     const [inputPage, setInputPage] = useState("1");
-
-//     // ===============================
-//     // Fetch
-//     // ===============================
-//     const fetchData = useCallback(async () => {
-//         if (enabled !== true) return;
-//         try {
-//             setLoading(true);
-//             const res = await apiCall({ page, limit, search, startDate, endDate, status });
-//             const result = res?.data?.data || {};
-
-
-//             const fetchedData = result?.data || [];
-//             const fetchedTotalPage = Number(result.totalPage) || 1;
-//             const fetchedTotalCount = Number(result.count) || 0; // ✅ ดึงค่า total จริงจาก API
-
-
-//             setData(fetchedData);
-//             setTotalPage(fetchedTotalPage);
-//             setTotalCount(fetchedTotalCount);
-//         } catch (error) {
-//             console.error("Fetch error:", error);
-//         } finally {
-//             setLoading(false);
-//         }
-//     }, [apiCall, page, limit, search, startDate, endDate, enabled, status]);
-
-//     useEffect(() => {
-//         fetchData();
-//     }, [page, search, startDate, endDate, enabled, status]);
-
-//     // sync inputPage ເມື່ອ page ປ່ຽນ (ເຊັ່ນ: ກົດປຸ່ມ ‹ ›)
-//     useEffect(() => {
-//         setInputPage(String(page));
-//     }, [page]);
 const useServerFilterPagination = ({ apiCall, limit = 10, enabled = true, status }) => {
     const [data, setData] = useState([]);
     const [page, setPage] = useState(1);

@@ -25,38 +25,6 @@ const CardList = () => {
 
     const navigate = useNavigate();
 
-    // const {
-    //     data: cards,
-    //     page,
-    //     totalPage,
-    //     search,
-    //     handleSearch,
-    //     handleDateChange,
-    //     handlePageChange,
-    //     fetchData,
-    //     getPageNumbers,
-    //     totalCount,
-    //     rangeStart,
-    //     rangeEnd,
-    //     inputPage,
-    //     handleInputPageChange,
-    // } = useServerFilterPagination({
-    //     apiCall: ({ page, limit, search, startDate, endDate }) => {
-    //         return axiosInstance.get(APIPath.GET_ALL_CARD, {
-    //             params: {
-    //                 page,
-    //                 limit,
-    //                 search: search || undefined,
-    //                 startDate: startDate?.toISOString(),
-    //                 endDate: endDate?.toISOString(),
-    //             },
-    //         });
-    //     },
-    // });
-
-    // useEffect(() => {
-    //     fetchData();
-    // }, []);
 
     const apiCall = useCallback(
         ({ page, limit, search, startDate, endDate }) =>
