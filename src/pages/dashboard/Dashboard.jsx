@@ -241,7 +241,7 @@
 
 // export default Dashboard;
 
-import { lazy, Suspense, useEffect, useState } from "react";
+import {  Suspense, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
@@ -251,9 +251,10 @@ import { LiaGiftsSolid } from "react-icons/lia";
 import { GrUserAdmin } from "react-icons/gr";
 import { useTranslation } from "react-i18next";
 import { calculatePercentIncrease, countUsersByMonth, getIncomes } from "../../utils/Income";
+import ChartsSection from "./ChartsSection";
 
 // ✅ Lazy load recharts — ໂຫຼດສະເພາະຕອນໃຊ້ (ຫຼຸດ bundle ~500kB)
-const ChartsSection = lazy(() => import("./ChartsSection"));
+// const ChartsSection = lazy(() => import("./ChartsSection"));
 
 const Dashboard = () => {
     const { t } = useTranslation("dashboard");
