@@ -9,12 +9,9 @@ import useServerFilterPagination from "../../../utils/useServerFilterPagination"
 import ExportExcelPopup from "../../../utils/exportExelPopup";
 import DownloadButton from "../../../utils/DownloadButton";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-import ReturnPoint from "./PopupReurnPoint";
 
-const GiftHistoryList = () => {
+const CanceledGiftHistoryList = () => {
     const [open, setOpen] = useState(false);
-    const [giftHistoryId, setGiftHistoryId] = useState(null);
-    const [showReturnPoint, setShowReturnPoint] = useState(false);
     const { t } = useTranslation("gift");
     const navigate = useNavigate();
 
@@ -42,7 +39,7 @@ const GiftHistoryList = () => {
                     search: search || undefined,
                     startDate: startDate?.toISOString(),
                     endDate: endDate?.toISOString(),
-                    status: "received",
+                    status: "cancel",
                 },
             });
         },
@@ -55,7 +52,6 @@ const GiftHistoryList = () => {
     useEffect(() => {
         fetchData();
     }, []);
-    // console.log("giftCardHistory : ", giftCardHistory);
 
     return (
         <div>
@@ -100,16 +96,10 @@ const GiftHistoryList = () => {
                             )}
                             <div className="flex-1 min-w-0">
                                 <h3 className="font-medium text-gray-900 truncate mb-1">{item.user.username}</h3>
-                                <p className="text-sm text-gray-600 truncate">{item.giftcard.gift_Name}</p>
+                                <p className="text-sm text-gray-600 truncate">{item.giftcard.name}</p>
                             </div>
                             <div className="flex items-center gap-3">
                                 <Eye onClick={() => handleToDetailGiftHistory(item.gifthistory_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
-                                {
-                                    item?.status === "received" && (
-                                        <CircleX onClick={() => { setShowReturnPoint(true); setGiftHistoryId(item.gifthistory_id); }}
-                                            className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
-                                    )
-                                }
                             </div>
                         </div>
                     </div>
@@ -153,13 +143,12 @@ const GiftHistoryList = () => {
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                                 {item.amount}
                             </div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center bg-green-500 rounded-4xl py-1">
-                                {item.status === "received" ? t("received") : "-" }
+                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center bg-red-500 rounded-4xl py-1">
+                                {item.status === "cancel" ? t("cancel") : "-" }
                             </div>
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-5">
                                 <Eye onClick={() => handleToDetailGiftHistory(item.gifthistory_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
-                                <HandCoins onClick={() => { setShowReturnPoint(true); setGiftHistoryId(item.gifthistory_id); }}
-                                    className="text-gray-600 w-4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
+                                
                             </div>
                         </div>
                     ))}
@@ -242,16 +231,9 @@ const GiftHistoryList = () => {
                 </div>
             </div>
             {/* Return the score */}
-            {showReturnPoint && (
-                <ReturnPoint
-                    show={showReturnPoint}
-                    onClose={() => setShowReturnPoint(false)}
-                    Id={giftHistoryId}
-                    handleFetch={fetchData}
-                />
-            )}
+
         </div>
     );
 };
 
-export default GiftHistoryList;
+export default CanceledGiftHistoryList;

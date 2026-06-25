@@ -55,5 +55,14 @@
   "item_range": "Item Range",
   "list": "List",
   "from": "From",
-  "to": "go to page"
+  "to": "go to page",
+  "gift_exchange_data": "Gift Exchange Data",
+  "gift_history_success": "Success",
+  "gift_history_canceled": "Canceled",
+  "status": "Status",
+  "received": "Received",
+  "await": "Await"
+
+
+
 }

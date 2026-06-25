@@ -56,6 +56,7 @@ import WorkShopFixList from "../pages/workshopRepair/WorkShopFixlList";
 import FixBillDetail from "../pages/workshopRepair/FixBillDetail";
 import WorkShopFixDetail from "../pages/workshopRepair/WorkShopFixDetail";
 import ExchangeGiftHistoryList from "../pages/gift/exchangeGiftHistoy/ExchangeGiftHistoryList";
+import CanceledGiftHistoryList from "../pages/gift/canceledGiftHistory/CanceledGiftHistoryList";
 
 
 const router = createBrowserRouter([
@@ -182,6 +183,10 @@ const router = createBrowserRouter([
           {
             path: "gift-history",
             element: <GiftHistoryList />,
+          },
+          {
+            path: "gift-canceled-history",
+            element: <CanceledGiftHistoryList />,
           },
         ],
       },

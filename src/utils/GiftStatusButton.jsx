@@ -22,20 +22,24 @@ const GiftStatusButton = () => {
             isActive: currentPath === '/user/gift',
         },
         {
-            // label: t("gift_data"),
-            label: "ຂໍ້ມູນແລກລາງວັນ",
+            label: t("gift_exchange_data"),
             path: 'exchange-gift',
             isActive: currentPath === '/user/gift/exchange-gift',
         },
         {
-            label: t("gift_history"),
+            label: t("gift_history_success"),
             path: 'gift-history',
             isActive: currentPath === '/user/gift/gift-history',
+        },
+        {
+            label: t("gift_history_canceled"),
+            path: 'gift-canceled-history',
+            isActive: currentPath === '/user/gift/gift-canceled-history',
         },
     ];
 
     return (
-        <div className=" grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 ">
+        <div className=" grid grid-cols-1 sm:grid-cols-4 gap-3 mb-6 ">
             {ButtonItems.map((item) => (
                 <button
                     key={item.path}

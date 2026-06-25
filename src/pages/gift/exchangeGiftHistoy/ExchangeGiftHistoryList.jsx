@@ -44,6 +44,7 @@ const ExchangeGiftHistoryList = () => {
                     search: search || undefined,
                     startDate: startDate?.toISOString(),
                     endDate: endDate?.toISOString(),
+                    status: "await",
                 },
             });
         },
@@ -95,36 +96,66 @@ const ExchangeGiftHistoryList = () => {
             {/* Mobile Card Layout */}
             <div className="md:hidden space-y-4 mb-6">
                 {giftCardHistory?.map((item, index) => (
-                    <div key={index} className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
-                        {/* Mobile Card Header */}
-                        <div className="flex items-center justify-between mb-3">
-                            <div className="text-sm font-medium text-gray-600">#{index + 1}</div>
-                            <div className="text-sm font-medium text-blue-600">
-                                {t("amount")}: {item.amount}
-                            </div>
+                    <div key={index} className=" bg-white rounded-xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all duration-200">
+                        {/* Card Header: Index + Status Badge */}
+                        <div className="flex items-center justify-between mb-3 ">
+                            <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
+                                #{index + 1}
+                            </span>
+                            <span className={`inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full ${item.status === true && item.received === true
+                                ? "bg-yellow-100 text-yellow-700"
+                                : item.status === "await"
+                                    ? "bg-green-100 text-green-700"
+                                    : "bg-gray-100 text-gray-500"
+                                }`}>
+                                <span className={`w-1.5 h-1.5 rounded-full ${item.status === "await"
+                                    ? "bg-yellow-500"
+                                    : item.status === "await"
+                                        ? "bg-green-500"
+                                        : "bg-gray-400"
+                                    }`} />
+                                 {item.status === "await" ? "ລໍຖ້າຮັບເຄື່ອງ" : "-"}
+                            </span>
                         </div>
 
-                        {/* Mobile Card Content */}
-                        <div className="flex gap-3">
-                            {item.giftcard.image ? (
-                                <img src={item.giftcard.image} className="w-16 h-16 object-cover rounded-lg flex-shrink-0" />
-                            ) : (
-                                <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <GiftIcon className="text-gray-600 w-8 h-8" />
-                                </div>
-                            )}
+                        {/* Card Body */}
+                        <div className="flex items-start justify-between gap-3">
+                            {/* User & Gift Info */}
                             <div className="flex-1 min-w-0">
-                                <h3 className="font-medium text-gray-900 truncate mb-1">{item.user.username}</h3>
-                                <p className="text-sm text-gray-600 truncate">{item.giftcard.name}</p>
+                                <h3 className="font-semibold text-gray-900 truncate leading-tight">
+                                    {t("customer_name")}:  {item.user.username}
+                                </h3>
+                                <p className="text-sm text-gray-500 truncate mt-0.5">
+                                    {t("gift_name")}: {item.giftcard.gift_Name}
+                                </p>
+                                <p className="text-sm font-medium text-blue-600 mt-2">
+                                    {t("amount")}: <span className="font-semibold">{item.amount}</span>
+                                </p>
                             </div>
-                            <div className="flex items-center gap-3">
-                                <Eye onClick={() => handleToDetailGiftHistory(item.gifthistory_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
-                                <CircleX
-                                    onClick={() => { handleDelete(item.gifthistory_id); }}
-                                    className="w-4 h-4 md:w-5 md:h-5 text-red-500 hover:text-red-700 cursor-pointer duration-200" />
-                                <IoMdCheckmarkCircle
-                                    onClick={() => { setShowConfirm(true), setGiftId(item.gifthistory_id) }}
-                                    className="w-6 h-6  text-green-500 hover:text-green-700 cursor-pointer duration-200" />
+
+                            {/* Action Buttons */}
+                            <div className="flex items-center gap-1 shrink-0">
+                                <button
+                                    onClick={() => handleToDetailGiftHistory(item.gifthistory_id)}
+                                    className="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors duration-150"
+                                    title="View details"
+                                >
+                                    <Eye className="w-4 h-4" />
+                                </button>
+                                <button
+                                    onClick={() => handleDelete(item.gifthistory_id)}
+                                    className="p-2 rounded-lg text-red-400 hover:text-red-600 hover:bg-red-50 transition-colors duration-150"
+                                    title="Delete"
+                                >
+                                    <CircleX className="w-4 h-4" />
+                                </button>
+                                <button
+                                    onClick={() => { setShowConfirm(true); setGiftId(item.gifthistory_id); }}
+                                    className="p-2 rounded-lg text-green-400 hover:text-green-600 hover:bg-green-50 transition-colors duration-150"
+                                    title="Confirm"
+                                >
+                                    <IoMdCheckmarkCircle className="w-5 h-5" />
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -140,14 +171,14 @@ const ExchangeGiftHistoryList = () => {
                         <div className="flex justify-center items-center">{t("customer_name")}</div>
                         <div className="flex justify-center items-center">{t("gift_name")}</div>
                         <div className="flex justify-center items-center">{t("amount")}</div>
-                        <div className="flex justify-center items-center">ສະຖານະ</div>
+                        <div className="flex justify-center items-center">{t("status")}</div>
                         <div className="flex justify-center items-center">{t("actions")}</div>
                     </div>
                 </div>
 
                 {/* Table Body */}
                 <div className="divide-y divide-gray-200 overflow-auto max-h-[400px]">
-                    {giftCardHistory?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).filter((item) => item.received === false).map((item, index) => (
+                    {giftCardHistory?.map((item, index) => (
                         <div key={index} className="grid grid-cols-6 gap-3 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 lg:py-5 items-center hover:bg-gray-50 cursor-pointer transition-colors">
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                                 {index + 1}
@@ -156,21 +187,13 @@ const ExchangeGiftHistoryList = () => {
                                 {item.user.username}
                             </div>
                             <div className="text-xs md:text-sm lg:text-base font-medium flex flex-col justify-center items-center">
-                                {item.giftcard.image ? (
-                                    <img src={item.giftcard.image} className="w-10 h-10 md:w-12 md:h-12 object-cover rounded-full" />
-                                ) : (
-                                    <div className="w-10 h-10 md:w-12 md:h-12 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
-                                        <GiftIcon className="text-gray-600 w-5 h-5 md:w-6 md:h-6" />
-                                    </div>
-                                )}
-                                {item.giftcard.name}
+                                {item.giftcard.gift_Name}
                             </div>
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center">
                                 {item.amount}
                             </div>
-                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center bg-yellow-300/50 rounded-4xl py-1">
-                                {/* {item.received === true ? t("received") : t("not_received")} */}
-                                {item.received === true ? "ຢືນຢັນແລ້ວ" : "ລໍຖ້າຢືນຢັນ"}
+                            <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center bg-yellow-500 rounded-4xl py-1">
+                                {item.status === "await" ? t("await") : "-"}
                             </div>
                             <div className=" text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-5">
                                 <Eye onClick={() => handleToDetailGiftHistory(item.gifthistory_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />

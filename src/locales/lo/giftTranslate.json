@@ -53,5 +53,12 @@
   "item_range": "ສະແດງ",
   "list": "ລາຍການ",
   "from": "ຈາກ",
-  "to": "ໄປໜ້າ"
+  "to": "ໄປໜ້າ",
+  "gift_exchange_data": "ຂໍ້ມູນແລກລາງວັນ",
+  "gift_history_success": "ສຳເລັດ",
+  "gift_history_canceled": "ຍົກເລີກ",
+  "status": "ສະຖານະ",
+  "received": "ຮັບເຄື່ອງແລ້ວ",
+  "await": "ລໍຖ້າຮັບເຄື່ອງ"
+
 }
