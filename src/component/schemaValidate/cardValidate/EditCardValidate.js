@@ -14,7 +14,7 @@ const cardSchema = () => z.object({
     card_number: z.string().min(1, "Required"),
     card_type: z.string().min(1, "Required"),
     received: z.string(),
-    expiration_date: z.coerce.date(),
+    // expiration_date: z.coerce.date(),
 });
 
 export const useEditCardForm = ({ onClose, cardId, handleFetchCard }) => {
@@ -55,7 +55,7 @@ export const useEditCardForm = ({ onClose, cardId, handleFetchCard }) => {
                         card_number: cardData.card_number,
                         card_type: cardData.card_type,
                         received: cardData.received,
-                        expiration_date: cardData.expiration_date ? cardData.expiration_date.split('T')[0] : "",
+                        // expiration_date: cardData.expiration_date ? cardData.expiration_date.split('T')[0] : "",
                     });
                 }
             })
@@ -82,7 +82,7 @@ export const useEditCardForm = ({ onClose, cardId, handleFetchCard }) => {
         try {
             const payload = {
                 ...data,
-                expiration_date: new Date(data.expiration_date).toISOString(),
+                // expiration_date: new Date(data.expiration_date).toISOString(),
             };
             const res = await axiosInstance.put(APIPath.UPDATE_CARD(cardId), payload);
             const message = res.data.message == "Card already exists" ? t("card_exist") : t("add_success");

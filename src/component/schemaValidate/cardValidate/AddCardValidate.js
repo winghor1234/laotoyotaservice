@@ -15,7 +15,7 @@ const cardSchema = () =>
         card_number: z.string(),
         card_type: z.string(),
         received: z.string(),
-        expiration_date: z.coerce.date(),
+        // expiration_date: z.coerce.date(),
     });
 
 export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
@@ -67,7 +67,7 @@ export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
             card_number: data.card_number,
             card_type: data.card_type,
             received: data.received,
-            expiration_date: data.expiration_date.toISOString(),
+            // expiration_date: data.expiration_date.toISOString(),
         }
         setLoading(true);
         try {
@@ -82,7 +82,7 @@ export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
                 setValue("card_number", "");
                 setValue("card_type", "");
                 setValue("received", "");
-                setValue("expiration_date", "");
+                // setValue("expiration_date", "");
             }
 
         } catch (error) {

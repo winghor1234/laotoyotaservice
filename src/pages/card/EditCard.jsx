@@ -167,14 +167,14 @@ const EditCard = ({ show, onClose, cardId, handleFetchCard }) => {
                             </div>
                         </div>
 
-                        <div className="flex flex-col">
+                        {/* <div className="flex flex-col">
                             <label className="text-sm font-medium mb-1 block">{t("expiration_date")}</label>
                             <input
                                 type="date"
                                 {...register("expiration_date")}
                                 className="w-full h-[48px] px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
                             />
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Action Buttons */}
