@@ -76,6 +76,12 @@
   "total_user": "Total Customers",
   "users": "Users",
   "to": "To",
-  "list":"List",
-  "from":"From"
+  "list": "List",
+  "from": "From",
+  "admin": "Admin",
+  "superAdmin": "Super Admin",
+  "selectRole": "Select Role",
+  "customer": "Customer"
+  
+
 }

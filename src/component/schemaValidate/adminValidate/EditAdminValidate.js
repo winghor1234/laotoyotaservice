@@ -1,46 +1,31 @@
 import APIPath from "../../../api/APIPath";
 import axiosInstance from "../../../utils/AxiosInstance";
 import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-
 import laoProvinceDistrict from "../../laos_provinces_districts.json";
 
 const schema = (t) =>
     z.object({
         username: z.string().min(1, t("min_length_1")),
-        phoneNumber: z.string().min(8, t("phone_min_length")),
-        village: z.string().min(2, t("min_length_1")),
-        district: z.string().min(2, t("min_length_1")),
-        province: z.string().min(2, t("min_length_1")),
+        phoneNumber: z.string().min(1, t("phone_min_length")),
+        village: z.string().min(1, t("min_length_1")),
+        district: z.string().min(1, t("min_length_1")),
+        province: z.string().min(1, t("min_length_1")),
+        role: z.enum(["admin", "super_admin"], { message: t("role_required") }), // ✅
         email: z.string().email(t("email_invalid")).optional().or(z.literal("")),
     });
 
-export const useEditAdminForm = ({
-    customerId,
-    handleFetch,
-    onClose,
-}) => {
+export const useEditAdminForm = ({ customerId, handleFetch, onClose }) => {
     const { t, i18n } = useTranslation("auth");
-
     const [loading, setLoading] = useState(false);
     const [selectedProvince, setSelectedProvince] = useState(null);
     const [selectedDistrict, setSelectedDistrict] = useState(null);
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        setValue,
-        control,
-        watch,
-        formState: { errors },
-    } = useForm({
+    const { register, handleSubmit, reset, setValue, control, watch, formState: { errors } } = useForm({
         resolver: zodResolver(schema(t)),
         defaultValues: {
             username: "",
@@ -48,20 +33,12 @@ export const useEditAdminForm = ({
             province: "",
             district: "",
             village: "",
+            role: "",   // ✅
             email: "",
         },
     });
 
-    // =====================================
-    // Current Language
-    // =====================================
-
-    const currentLang =
-        i18n.language === "en" ? "name_en" : "name_lao";
-
-    // =====================================
-    // Province Options
-    // =====================================
+    const currentLang = i18n.language === "en" ? "name_en" : "name_lao";
 
     const provinceOptions = useMemo(() => {
         return laoProvinceDistrict.provinces.map((province) => ({
@@ -71,19 +48,12 @@ export const useEditAdminForm = ({
         }));
     }, [currentLang]);
 
-    // =====================================
-    // District Options
-    // =====================================
-
     const districtOptions = useMemo(() => {
         if (!selectedProvince) return [];
-
-        return (
-            selectedProvince?.districts?.map((district) => ({
-                value: district[currentLang],
-                label: district[currentLang],
-            })) || []
-        );
+        return selectedProvince?.districts?.map((district) => ({
+            value: district[currentLang],
+            label: district[currentLang],
+        })) || [];
     }, [selectedProvince, currentLang]);
 
     // =====================================
@@ -93,37 +63,31 @@ export const useEditAdminForm = ({
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await axiosInstance.get(
-                    APIPath.SELECT_ONE_USER(customerId)
-                );
-
+                const res = await axiosInstance.get(APIPath.SELECT_ONE_USER(customerId));
                 const user = res?.data?.data;
+
+                // ✅ strip "20" prefix ກ່ອນໃສ່ໃນ input
+                const phoneWithoutPrefix = user?.phoneNumber?.startsWith("20")
+                    ? user.phoneNumber.slice(2)
+                    : user?.phoneNumber || "";
 
                 reset({
                     username: user?.username || "",
-                    phoneNumber: user?.phoneNumber || "",
+                    phoneNumber: phoneWithoutPrefix,
                     province: user?.province || "",
                     district: user?.district || "",
                     village: user?.village || "",
+                    role: user?.role || "",      // ✅
                     email: user?.email || "",
                 });
 
-                const province = provinceOptions.find(
-                    (p) => p.value === user?.province
-                );
-
+                const province = provinceOptions.find((p) => p.value === user?.province);
                 setSelectedProvince(province || null);
 
                 if (province) {
-                    const district = province.districts.find(
-                        (d) => d[currentLang] === user?.district
-                    );
-
+                    const district = province.districts.find((d) => d[currentLang] === user?.district);
                     if (district) {
-                        setSelectedDistrict({
-                            value: district[currentLang],
-                            label: district[currentLang],
-                        });
+                        setSelectedDistrict({ value: district[currentLang], label: district[currentLang] });
                     }
                 }
             } catch (error) {
@@ -134,21 +98,12 @@ export const useEditAdminForm = ({
         if (customerId) fetchUser();
     }, [customerId, reset, provinceOptions, currentLang]);
 
-    // =====================================
-    // Province Change
-    // =====================================
-
     const handleProvinceChange = (selectedOption) => {
         setSelectedProvince(selectedOption);
         setSelectedDistrict(null);
-
         setValue("province", selectedOption?.value || "");
         setValue("district", "");
     };
-
-    // =====================================
-    // District Change
-    // =====================================
 
     const handleDistrictChange = (selectedOption) => {
         setSelectedDistrict(selectedOption);
@@ -161,42 +116,38 @@ export const useEditAdminForm = ({
 
     const submitForm = async (formData) => {
         setLoading(true);
-
         try {
             const payload = {
                 ...formData,
+                phoneNumber: `20${formData.phoneNumber.replace(/\D/g, "")}`, // ✅ ຕໍ່ 20 ກ່ອນສົ່ງ
                 email: formData.email === "" ? null : formData.email,
             };
 
             const res = await axiosInstance.put(APIPath.UPDATE_CUSTOMER(customerId), payload);
-            const message = res.data.message == "Phone number already exists" ? t("phone_exist") : t("add_success");
-            if (message == t("phone_exist")) { SuccessAlert(message, 1500, "warning") }
-            else {
+            const message = res.data.message === "Phone number already exists"
+                ? t("phone_exist")
+                : t("update_success");
+
+            if (message === t("phone_exist")) {
+                SuccessAlert(message, 1500, "warning");
+            } else {
                 SuccessAlert(t("update_success"));
                 handleFetch();
                 onClose();
             }
         } catch (error) {
             SuccessAlert(t("update_failed"), 1500, "error");
-            console.error("Error updating user:", error);
+            console.error("Error updating admin:", error);
         } finally {
             setLoading(false);
         }
     };
 
     return {
-        register,
-        handleSubmit,
-        errors,
-        submitForm,
-        loading,
-        control,
-        watch,
-        provinceOptions,
-        districtOptions,
-        selectedProvince,
-        selectedDistrict,
-        handleProvinceChange,
-        handleDistrictChange,
+        register, handleSubmit, errors, submitForm, loading,
+        control, watch,
+        provinceOptions, districtOptions,
+        selectedProvince, selectedDistrict,
+        handleProvinceChange, handleDistrictChange,
     };
 };

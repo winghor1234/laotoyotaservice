@@ -160,7 +160,7 @@ const CardList = () => {
 
                                 <div>
                                     <p className="text-xs text-gray-500">
-                                        {t("customer_number")}
+                                        {t("customer_number") || "-"}
                                     </p>
                                     <p>{item?.car?.user?.customer_number}</p>
                                 </div>
@@ -228,7 +228,7 @@ const CardList = () => {
                                 </div>
 
                                 <div className="text-center">
-                                    {item?.car?.user?.customer_number}
+                                    {item?.car?.user?.customer_number || "-"}
                                 </div>
 
                                 <div className="text-center">

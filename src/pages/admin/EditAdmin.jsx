@@ -1,86 +1,54 @@
-
-
 import { FaArrowLeft } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import Select from "react-select";
 import { useEditAdminForm } from "../../component/schemaValidate/adminValidate/EditAdminValidate";
 
-const EditAdmin = ({
-  show,
-  onClose,
-  customerId,
-  handleFetch,
-}) => {
-  const { t } =
-    useTranslation("user");
+const selectStyles = {
+  menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+  control: (base, state) => ({
+    ...base,
+    minHeight: 42,
+    borderRadius: 8,
+    fontSize: "0.875rem",
+    borderColor: state.isFocused ? "#ef4444" : "#d1d5db",
+    boxShadow: state.isFocused ? "0 0 0 1px #ef4444" : "none",
+    "&:hover": { borderColor: "#ef4444" },
+  }),
+};
+
+const EditAdmin = ({ show, onClose, customerId, handleFetch }) => {
+  const { t } = useTranslation("user");
 
   const {
-    register,
-    handleSubmit,
-
-    errors,
-
-    submitForm,
-    loading,
-
-    provinceOptions,
-    districtOptions,
-
-    selectedProvince,
-    selectedDistrict,
-
-    handleProvinceChange,
-    handleDistrictChange,
-  } = useEditAdminForm({
-    customerId,
-    handleFetch,
-    onClose,
-  });
+    register, handleSubmit, errors, submitForm, loading,
+    provinceOptions, districtOptions,
+    selectedProvince, selectedDistrict,
+    handleProvinceChange, handleDistrictChange,
+  } = useEditAdminForm({ customerId, handleFetch, onClose });
 
   return (
     <>
       {/* Overlay */}
       <div
-        className={`fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity duration-300 ${show
-          ? "opacity-100 pointer-events-auto"
-          : "opacity-0 pointer-events-none"
+        className={`fixed inset-0 backdrop-brightness-50 bg-opacity-30 z-40 transition-opacity duration-300 ${show ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           }`}
         onClick={onClose}
       />
 
       {/* Modal */}
       <div
-        className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 
-                
-                w-[95%] sm:w-[90%] md:w-full 
-                max-w-2xl 
-                max-h-[95vh] overflow-y-auto
-                
-                bg-gray-50 rounded-2xl shadow-lg 
-                p-3 sm:p-4 md:p-6 
-                
-                transition-all duration-300 text-base ${show
-            ? "scale-100 opacity-100"
-            : "scale-90 opacity-0 pointer-events-none"
+        className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-[95%] sm:w-[90%] md:w-full max-w-2xl max-h-[95vh] overflow-y-auto bg-gray-50 rounded-2xl shadow-lg p-3 sm:p-4 md:p-6 transition-all duration-300 text-base ${show ? "scale-100 opacity-100" : "scale-90 opacity-0 pointer-events-none"
           }`}
       >
         {/* Header */}
         <div className="flex flex-row items-center justify-between gap-2 sm:gap-3">
-
-          {/* Back */}
           <div
-            onClick={() =>
-              onClose()
-            }
+            onClick={onClose}
             className="inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-xl cursor-pointer transition-colors"
           >
             <button className="flex items-center gap-2 text-gray-700 hover:text-black">
-
               <FaArrowLeft className="text-sm sm:text-base" />
-
-              <span className="font-medium text-sm sm:text-lg lg:text-xl">
-                {t("back")}
-              </span>
+              <span className="font-medium text-sm sm:text-lg lg:text-xl">{t("back")}</span>
             </button>
           </div>
         </div>
@@ -89,251 +57,164 @@ const EditAdmin = ({
 
         {/* Form */}
         <form
-          onSubmit={handleSubmit(
-            submitForm
-          )}
+          onSubmit={handleSubmit(submitForm)}
           className="flex flex-col justify-center gap-4 sm:gap-6"
         >
-          {/* Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 max-w-full w-full p-2 sm:p-3">
 
             {/* Username */}
             <div className="flex flex-col w-full">
-              <label className="text-sm sm:text-base font-medium mb-1">
-                {t("username")}
-              </label>
-
+              <label className="text-sm sm:text-base font-medium mb-1">{t("username")}</label>
               <input
-                {...register(
-                  "username"
-                )}
+                {...register("username")}
                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-red-500 focus:border-red-500 transition-colors"
-                placeholder={t(
-                  "usernamePlaceholder"
-                )}
+                placeholder={t("usernamePlaceholder")}
               />
-
               <div className="h-5 sm:h-6">
                 {errors?.username && (
-                  <span className="text-red-500 text-xs sm:text-sm">
-                    {
-                      errors
-                        .username
-                        .message
-                    }
-                  </span>
+                  <span className="text-red-500 text-xs sm:text-sm">{errors.username.message}</span>
+                )}
+              </div>
+            </div>
+
+            {/* Role */}
+            <div className="flex flex-col w-full">
+              <label className="text-sm sm:text-base font-medium mb-1">{t("role")}</label>
+              <select
+                {...register("role")}
+                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-red-500 focus:border-red-500 transition-colors bg-white"
+              >
+                <option disabled value="">{t("selectRole")}</option>
+                <option value="admin">{t("admin")}</option>
+                <option value="super_admin">{t("superAdmin")}</option>
+              </select>
+              <div className="h-5 sm:h-6">
+                {errors?.role && (
+                  <span className="text-red-500 text-xs sm:text-sm">{errors.role.message}</span>
                 )}
               </div>
             </div>
 
             {/* Province */}
             <div className="flex flex-col w-full">
-              <label className="text-sm sm:text-base font-medium mb-1">
-                {t("province")}
-              </label>
-
+              <label className="text-sm sm:text-base font-medium mb-1">{t("province")}</label>
               <Select
-                options={
-                  provinceOptions
-                }
-                value={
-                  selectedProvince
-                }
-                onChange={
-                  handleProvinceChange
-                }
-                placeholder={t(
-                  "provincePlaceholder"
-                )}
+                options={provinceOptions}
+                value={selectedProvince}
+                onChange={handleProvinceChange}
+                placeholder={t("provincePlaceholder")}
                 isSearchable
                 className="text-sm sm:text-base"
-                menuPortalTarget={
-                  document.body
-                }
-                styles={{
-                  menuPortal: (base) => ({
-                    ...base,
-                    zIndex: 9999,
-                  }),
-                  // แก้ไขส่วน control ตรงนี้
-                  control: (base, state) => ({
-                    ...base,
-                    minHeight: 42,
-                    borderRadius: 8,
-                    fontSize: '0.875rem', // text-sm
-                    borderColor: state.isFocused ? '#ef4444' : '#d1d5db', // สีแดงแดงเมื่อ focus : สีเทาปกติ
-                    boxShadow: state.isFocused ? '0 0 0 1px #ef4444' : 'none', // ปรับเงาขอบเมื่อ focus
-                    '&:hover': {
-                      borderColor: '#ef4444', // สีแดงเมื่อ hover
-                    },
-                  }),
-                }}
+                menuPortalTarget={document.body}
+                styles={selectStyles}
               />
-
               <div className="h-5 sm:h-6">
                 {errors?.province && (
-                  <span className="text-red-500 text-xs sm:text-sm">
-                    {
-                      errors
-                        .province
-                        .message
-                    }
-                  </span>
+                  <span className="text-red-500 text-xs sm:text-sm">{errors.province.message}</span>
                 )}
               </div>
             </div>
 
             {/* Phone */}
             <div className="flex flex-col w-full">
-              <label className="text-sm sm:text-base font-medium mb-1">
-                {t("phoneNumber")}
-              </label>
-
-              <input
-                {...register(
-                  "phoneNumber"
-                )}
-                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-red-500 focus:border-red-500 transition-colors"
-                placeholder={t(
-                  "phonePlaceholder"
-                )}
-              />
-
+              <label className="text-sm sm:text-base font-medium mb-1">{t("phoneNumber")}</label>
+              <div className="flex h-[42px] sm:h-[45px] rounded-lg border border-gray-300 overflow-hidden hover:border-red-500 focus-within:border-red-500 transition-colors">
+                <span className="flex items-center px-3 bg-gray-200 text-gray-700 font-medium text-sm sm:text-base select-none border-r border-gray-300">
+                  20
+                </span>
+                <input
+                  {...register("phoneNumber")}
+                  className="flex-1 outline-none px-3 text-sm sm:text-base bg-white"
+                  placeholder="XXXXXXXX"
+                  inputMode="numeric"
+                  onKeyDown={(e) => {
+                    const allowed = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"];
+                    if (!/^\d$/.test(e.key) && !allowed.includes(e.key)) e.preventDefault();
+                  }}
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    const nums = e.clipboardData.getData("text").replace(/\D/g, "");
+                    e.target.value = nums;
+                    register("phoneNumber").onChange(e);
+                  }}
+                />
+              </div>
               <div className="h-5 sm:h-6">
                 {errors?.phoneNumber && (
-                  <span className="text-red-500 text-xs sm:text-sm">
-                    {
-                      errors
-                        .phoneNumber
-                        .message
-                    }
-                  </span>
+                  <span className="text-red-500 text-xs sm:text-sm">{errors.phoneNumber.message}</span>
                 )}
               </div>
             </div>
 
             {/* District */}
             <div className="flex flex-col w-full">
-              <label className="text-sm sm:text-base font-medium mb-1">
-                {t("district")}
-              </label>
-
+              <label className="text-sm sm:text-base font-medium mb-1">{t("district")}</label>
               <Select
-                options={
-                  districtOptions
-                }
-                value={
-                  selectedDistrict
-                }
-                onChange={
-                  handleDistrictChange
-                }
-                placeholder={t(
-                  "districtPlaceholder"
-                )}
+                options={districtOptions}
+                value={selectedDistrict}
+                onChange={handleDistrictChange}
+                placeholder={t("districtPlaceholder")}
                 isSearchable
-                isDisabled={
-                  !selectedProvince
-                }
+                isDisabled={!selectedProvince}
                 className="text-sm sm:text-base"
-                menuPortalTarget={
-                  document.body
-                }
-                styles={{
-                  menuPortal: (base) => ({
-                    ...base,
-                    zIndex: 9999,
-                  }),
-                  // แก้ไขส่วน control ตรงนี้
-                  control: (base, state) => ({
-                    ...base,
-                    minHeight: 42,
-                    borderRadius: 8,
-                    fontSize: '0.875rem', // text-sm
-                    borderColor: state.isFocused ? '#ef4444' : '#d1d5db', // สีแดงแดงเมื่อ focus : สีเทาปกติ
-                    boxShadow: state.isFocused ? '0 0 0 1px #ef4444' : 'none', // ปรับเงาขอบเมื่อ focus
-                    '&:hover': {
-                      borderColor: '#ef4444', // สีแดงเมื่อ hover
-                    },
-                  }),
-                }}
+                menuPortalTarget={document.body}
+                styles={selectStyles}
               />
-
               <div className="h-5 sm:h-6">
                 {errors?.district && (
-                  <span className="text-red-500 text-xs sm:text-sm">
-                    {
-                      errors
-                        .district
-                        .message
-                    }
-                  </span>
+                  <span className="text-red-500 text-xs sm:text-sm">{errors.district.message}</span>
                 )}
               </div>
             </div>
 
+
             {/* Email */}
             <div className="flex flex-col w-full">
-              <label className="text-sm sm:text-base font-medium mb-1">
-                {t("email")}
-              </label>
-
+              <label className="text-sm sm:text-base font-medium mb-1">{t("email")}</label>
               <input
-                {...register(
-                  "email"
-                )}
+                {...register("email")}
                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-red-500 focus:border-red-500 transition-colors"
-                placeholder={t(
-                  "email_placeholder"
-                )}
+                placeholder={t("email_placeholder")}
               />
+              <div className="h-5 sm:h-6">
+                {errors?.email && (
+                  <span className="text-red-500 text-xs sm:text-sm">{errors.email.message}</span>
+                )}
+              </div>
             </div>
 
             {/* Village */}
             <div className="flex flex-col w-full">
-              <label className="text-sm sm:text-base font-medium mb-1">
-                {t("village")}
-              </label>
-
+              <label className="text-sm sm:text-base font-medium mb-1">{t("village")}</label>
               <input
-                {...register(
-                  "village"
-                )}
+                {...register("village")}
                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-red-500 focus:border-red-500 transition-colors"
-                placeholder={t(
-                  "villagePlaceholder"
-                )}
+                placeholder={t("villagePlaceholder")}
               />
+              <div className="h-5 sm:h-6">
+                {errors?.village && (
+                  <span className="text-red-500 text-xs sm:text-sm">{errors.village.message}</span>
+                )}
+              </div>
             </div>
+
           </div>
 
           {/* Buttons */}
           <div className="flex flex-col-reverse sm:flex-row justify-center gap-3 sm:gap-6 pt-4">
-
             <button
               type="button"
-              onClick={() =>
-                onClose()
-              }
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg w-full sm:w-32 h-[42px] sm:h-10"
+              onClick={onClose}
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg w-full sm:w-32 h-[42px] sm:h-10 cursor-pointer transition-colors text-sm sm:text-base"
             >
               {t("cancel")}
             </button>
-
             <button
-              disabled={
-                loading
-              }
+              disabled={loading}
               type="submit"
-              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg w-full sm:w-32 h-[42px] sm:h-10"
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg w-full sm:w-32 h-[42px] sm:h-10 cursor-pointer transition-colors text-sm sm:text-base disabled:opacity-70"
             >
-              {loading
-                ? t(
-                  "loading"
-                )
-                : t(
-                  "confirm"
-                )}
+              {loading ? t("loading") : t("confirm")}
             </button>
           </div>
         </form>

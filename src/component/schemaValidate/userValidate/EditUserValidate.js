@@ -157,6 +157,7 @@ export const useEditUserForm = ({ customerId, handleFetch, onClose, }) => {
             const payload = {
                 ...formData,
                 email: formData.email === "" ? null : formData.email,
+                phoneNumber: `20${formData.phoneNumber.replace(/\D/g, "")}`,
             };
             const res = await axiosInstance.put(APIPath.UPDATE_CUSTOMER(customerId), payload);
             const message = res.data.message == "Phone number already exists" ? t("phone_exist") : t("add_success");

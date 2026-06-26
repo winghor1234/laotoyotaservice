@@ -47,7 +47,7 @@ const AdminList = () => {
           search: search || undefined,
           startDate: startDate?.toISOString(),
           endDate: endDate?.toISOString(),
-          status: "admin",
+          status: "general",
         },
       });
     },
@@ -115,14 +115,14 @@ const AdminList = () => {
 
       {/* Table Body */}
       <div className="hidden md:block divide-y divide-gray-200 bg-gray-50 overflow-auto max-h-[400px]">
-        {admin.filter((item) => item.role === "admin").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
+        {admin.filter((item) => item.role !== "general").map((item, index) => (
           <div
             key={index}
             className="grid grid-cols-6 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors text-xs md:text-sm lg:text-base"
           >
             <div className="text-center line-clamp-1">{index + 1}</div>
             <div className="text-center line-clamp-1">{item.username}</div>
-            <div className="text-center line-clamp-1">{item.role}</div>
+            <div className="text-center line-clamp-1">{item.role === "admin" ? t("admin") : t("superAdmin")}</div>
             <div className="wrap-anywhere text-center line-clamp-1">
               {item.email ? (
                 <a
@@ -165,7 +165,7 @@ const AdminList = () => {
 
       {/* Mobile Card Layout */}
       <div className="md:hidden divide-y divide-gray-200">
-        {admin.filter((item) => item.role === "admin").sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item, index) => (
+        {admin.filter((item) => item.role !== "general").map((item, index) => (
           <div
             key={index}
             className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"

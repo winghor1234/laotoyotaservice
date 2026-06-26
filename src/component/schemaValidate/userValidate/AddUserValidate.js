@@ -10,7 +10,7 @@ import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import laoProvinceDistrict from "../../laos_provinces_districts.json";
 
 const UserSchema = (t) => z.object({
-    username: z.string().min(1, { message: t("min_length_1"), }).max(30),
+    username: z.string().min(1, { message: t("min_length_1"), }),
     phoneNumber: z.string().min(8, { message: t("phone_min_length"), }),
     province: z.string().min(1, { message: t("min_length_1"), }),
     district: z.string().min(1, { message: t("min_length_1"), }),
@@ -99,7 +99,11 @@ export const useAddUserForm = ({ handleFetch, onClose, }) => {
     const submitForm = async (data) => {
         setLoading(true);
         try {
-            const res = await axiosInstance.post(APIPath.REGISTER, data);
+            const payload = {
+                ...data,
+                phoneNumber: `20${data.phoneNumber.replace(/\D/g, "")}`,
+            };
+            const res = await axiosInstance.post(APIPath.REGISTER, payload);
             const message = res.data.message == "Phone number already exists" ? t("phone_exist") : t("add_success");
             if (message == t("phone_exist")) { SuccessAlert(message, 1500, "warning") }
             else {

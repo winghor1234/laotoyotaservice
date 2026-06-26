@@ -95,7 +95,7 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
                                 <div className="absolute z-20 top-[75px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow-lg">
                                     {cars
                                         .filter((car) =>
-                                            !car.card && car.userId && `${car.engineNumber} ${car.frameNumber}`
+                                            !car.card &&  `${car.engineNumber} ${car.frameNumber}`
                                                 .toLowerCase()
                                                 .includes(search.toLowerCase())
                                         )

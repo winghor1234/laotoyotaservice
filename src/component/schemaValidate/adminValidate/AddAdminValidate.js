@@ -10,14 +10,24 @@ import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 
 import laoProvinceDistrict from "../../laos_provinces_districts.json";
 
+// const UserSchema = (t) =>
+//     z.object({
+//         username: z.string().min(1, { message: t("min_length_1") }),
+//         phoneNumber: z.string().min(8, { message: t("phone_min_length") }),
+//         password: z.string().min(6, { message: t("min_length") }),
+//         province: z.string().min(1, { message: t("min_length_1") }),
+//         district: z.string().min(1, { message: t("min_length_1") }),
+//         village: z.string().min(1, { message: t("min_length_1") }),
+//     });
 const UserSchema = (t) =>
     z.object({
         username: z.string().min(1, { message: t("min_length_1") }),
-        phoneNumber: z.string().min(8, { message: t("phone_min_length") }),
+        phoneNumber: z.string().min(1, { message: t("phone_min_length") }),
         password: z.string().min(6, { message: t("min_length") }),
         province: z.string().min(1, { message: t("min_length_1") }),
         district: z.string().min(1, { message: t("min_length_1") }),
         village: z.string().min(1, { message: t("min_length_1") }),
+        role: z.enum(["admin", "super_admin"], { message: t("role_required") }), 
     });
 
 export const useAddAdminForm = ({ handleFetch, onClose }) => {
@@ -43,6 +53,7 @@ export const useAddAdminForm = ({ handleFetch, onClose }) => {
             province: "",
             district: "",
             village: "",
+            role: "",
         },
     });
 
@@ -111,7 +122,11 @@ export const useAddAdminForm = ({ handleFetch, onClose }) => {
         setLoading(true);
 
         try {
-            const res = await axiosInstance.post(APIPath.INSERT_ADMIN, data);
+            const payload = {
+                ...data,
+                phoneNumber: `20${data.phoneNumber.replace(/\D/g, "")}`,
+            }
+            const res = await axiosInstance.post(APIPath.INSERT_ADMIN, payload);
             const message = res.data.message == "Phone number already exists" ? t("phone_exist") : t("add_success");
             if (message == t("phone_exist")) { SuccessAlert(message, 1500, "warning") }
             else {
@@ -123,31 +138,31 @@ export const useAddAdminForm = ({ handleFetch, onClose }) => {
                 setSelectedDistrict(null);
             }
         } catch (error) {
-    console.error("Add Admin failed:", error);
+            console.error("Add Admin failed:", error);
 
-    SuccessAlert(
-        t("add_failed"),
-        1500,
-        "error"
-    );
-} finally {
-    setLoading(false);
-}
+            SuccessAlert(
+                t("add_failed"),
+                1500,
+                "error"
+            );
+        } finally {
+            setLoading(false);
+        }
     };
 
-return {
-    register,
-    handleSubmit,
-    errors,
-    submitForm,
-    loading,
-    control,
-    watch,
-    provinceOptions,
-    districtOptions,
-    selectedProvince,
-    selectedDistrict,
-    handleProvinceChange,
-    handleDistrictChange,
-};
+    return {
+        register,
+        handleSubmit,
+        errors,
+        submitForm,
+        loading,
+        control,
+        watch,
+        provinceOptions,
+        districtOptions,
+        selectedProvince,
+        selectedDistrict,
+        handleProvinceChange,
+        handleDistrictChange,
+    };
 };

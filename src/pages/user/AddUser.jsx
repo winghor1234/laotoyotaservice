@@ -6,7 +6,7 @@ import Select from "react-select";
 const AddUser = ({ show, onClose, handleFetch }) => {
   const { t } = useTranslation("user");
 
-  const { register, handleSubmit, errors, loading, submitForm,provinceOptions,   districtOptions,   selectedProvince,   selectedDistrict, handleProvinceChange, handleDistrictChange,} = useAddUserForm({
+  const { register, handleSubmit, errors, loading, submitForm, provinceOptions, districtOptions, selectedProvince, selectedDistrict, handleProvinceChange, handleDistrictChange, } = useAddUserForm({
     handleFetch,
     onClose,
   });
@@ -123,11 +123,33 @@ const AddUser = ({ show, onClose, handleFetch }) => {
                 {t("phoneNumber")}
               </label>
 
-              <input
-                {...register("phoneNumber")}
-                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-red-500 focus:border-red-500 transition-colors"
-                placeholder={t("phonePlaceholder")}
-              />
+              <div className="flex h-[42px] sm:h-[45px] rounded-lg border border-gray-300 overflow-hidden hover:border-red-500 focus-within:border-red-500 transition-colors">
+
+                {/* prefix 20 */}
+                <span className="flex items-center px-3 bg-gray-200 text-gray-700 font-medium text-sm sm:text-base select-none border-r border-gray-300">
+                  20
+                </span>
+
+                {/* input */}
+                <input
+                  {...register("phoneNumber")}
+                  className="flex-1 outline-none px-3 text-sm sm:text-base bg-white"
+                  placeholder="XXXXXXXX"
+                  inputMode="numeric"
+                  onKeyDown={(e) => {
+                    const allowed = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"];
+                    if (!/^\d$/.test(e.key) && !allowed.includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    const nums = e.clipboardData.getData("text").replace(/\D/g, "");
+                    e.target.value = nums;
+                    register("phoneNumber").onChange(e);
+                  }}
+                />
+              </div>
 
               <div className="h-5 sm:h-6">
                 {errors.phoneNumber && (
@@ -181,28 +203,6 @@ const AddUser = ({ show, onClose, handleFetch }) => {
                 )}
               </div>
             </div>
-
-            {/* Password */}
-            {/* <div className="flex flex-col w-full">
-                            <label className="text-sm sm:text-base font-medium mb-1">
-                                {t("password")}
-                            </label>
-
-                            <input
-                                {...register("password")}
-                                type="password"
-                                className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 outline-none px-3 hover:border-red-500 focus:border-red-500 transition-colors"
-                                placeholder={t("passwordPlaceholder")}
-                            />
-
-                            <div className="h-5 sm:h-6">
-                                {errors.password && (
-                                    <span className="text-red-500 text-xs sm:text-sm">
-                                        {errors.password.message}
-                                    </span>
-                                )}
-                            </div>
-                        </div> */}
 
             {/* Village */}
             <div className="flex flex-col w-full">

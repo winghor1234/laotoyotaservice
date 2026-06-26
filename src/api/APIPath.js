@@ -11,6 +11,7 @@ export default class APIPath {
     static SEARCH = `${this.BASE_URL}/user/search`;
     static GET_PROFILE = `${this.BASE_URL}/user/profile`;
     static GET_ALL_USER = `${this.BASE_URL}/user/getAll`;
+    static GET_ALL_USER_GENERAL = `${this.BASE_URL}/user/getAllGeneral`;
     static EXPORT_CUSTOMER = `${this.BASE_URL}/user/exportCustomer`;
     static EXPORT_ADMIN = `${this.BASE_URL}/user/exportAdmin`;
     static FORGOT = `${this.BASE_URL}/user/forgot`;
