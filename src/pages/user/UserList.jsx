@@ -86,31 +86,20 @@ const UserList = () => {
 
 
 
-    const handleResetPassword = async (item) => {
-        const id = item.user_id
-        try {
-            const res = await axiosInstance.put(APIPath.RESET_CUSTOMER_PASSWORD(id));
-            const newPassword = res?.data?.temporaryPassword
-            const whatsappMessage =
-                `ສະບາຍດີ ${item.username},
+const handleResetPassword = async ({ user_id, username, phoneNumber }) => {
+    const phone = formatPhoneForWhatsApp(phoneNumber); // ✅ pre-compute ກ່ອນ await
+    const newTab = window.open("", "_blank");
 
-ລະຫັດຜ່ານບັນຊີຂອງທ່ານໄດ້ຖືກຣີເຊັດແລ້ວ
-
-📱 ເບີໂທ:
-${item.phoneNumber}
-
-🔐 ລະຫັດຜ່ານໃໝ່:
-${newPassword}
-
-ກະລຸນາປ່ຽນລະຫັດຜ່ານຫຼັງຈາກເຂົ້າລະບົບ
-
-ຂອບໃຈ 🙏`;
-            const whatsappUrl = `https://wa.me/${formatPhoneForWhatsApp(item.phoneNumber)}?text=${encodeURIComponent(whatsappMessage)}`;
-            window.open(whatsappUrl, "_blank");
-        } catch (error) {
-            console.error("Error sending password to WhatsApp:", error);
-        }
-    };
+    try {
+        const { data } = await axiosInstance.put(APIPath.RESET_CUSTOMER_PASSWORD(user_id));
+        newTab.location.href = `https://wa.me/${phone}?text=${encodeURIComponent(
+            `ສະບາຍດີ ${username},\n\nລະຫັດຜ່ານຂອງທ່ານຖືກຣີເຊັດແລ້ວ\n\n ເບີໂທ: ${phoneNumber}\n ລະຫັດໃໝ່: ${data?.temporaryPassword}\n\nກະລຸນາປ່ຽນລະຫັດຫຼັງເຂົ້າລະບົບ `
+        )}`;
+    } catch (error) {
+        console.error("Error:", error);
+        newTab.close();
+    }
+};
 
     useEffect(() => {
         fetchData();
