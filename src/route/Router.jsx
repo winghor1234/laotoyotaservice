@@ -57,6 +57,10 @@ import FixBillDetail from "../pages/workshopRepair/FixBillDetail";
 import WorkShopFixDetail from "../pages/workshopRepair/WorkShopFixDetail";
 import ExchangeGiftHistoryList from "../pages/gift/exchangeGiftHistoy/ExchangeGiftHistoryList";
 import CanceledGiftHistoryList from "../pages/gift/canceledGiftHistory/CanceledGiftHistoryList";
+import StoreList from "../pages/store/StoreList";
+import DetailStore from "../pages/store/DetailStore";
+import TransactionList from "../pages/store/TransactionList";
+import DetailTransaction from "../pages/store/DetailTransaction";
 
 
 const router = createBrowserRouter([
@@ -303,7 +307,23 @@ const router = createBrowserRouter([
       {
         path: "card-detail/:id",
         element: <CardDetail/>
-      }
+      },
+      {
+        path: "store",
+        element: <StoreList />,
+      },
+      {
+        path: "transaction",
+        element: <TransactionList />,
+      },
+      {
+        path: "store-detail/:id",
+        element: <DetailStore />,
+      },
+      {
+        path: "transaction-detail/:id",
+        element: <DetailTransaction />,
+      },
     ],
   },
 ]);

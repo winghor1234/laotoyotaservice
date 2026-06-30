@@ -1,4 +1,4 @@
-import { Home, Users, Gift, Car, Settings, Clock, MapPin, ShieldUser, MapPinHouse, CalendarCog, MapPinPlus, IdCard, House, Wrench } from "lucide-react";
+import { Home, Users, Gift, Car, Settings, Clock, MapPin, ShieldUser, MapPinHouse, CalendarCog, MapPinPlus, IdCard, House, Wrench, Store, ArrowLeftRight } from "lucide-react";
 import { LiaGiftsSolid } from "react-icons/lia";
 import { FaPeopleArrows } from "react-icons/fa";
 import { TbReportAnalytics } from "react-icons/tb";
@@ -107,6 +107,18 @@ export const getSidebarItems = (t, role) => [
                         icon: MapPin,
                         label: t("branch_info"),
                         path: "/user/branch",
+                    },
+                    {
+                        id: "store",
+                        icon: Store,
+                        label: t("store_info"),
+                        path: "/user/store",
+                    },
+                    {
+                        id: "transaction",
+                        icon: ArrowLeftRight,
+                        label: t("transaction_info"),
+                        path: "/user/transaction",
                     },
                 ]
                 : []),

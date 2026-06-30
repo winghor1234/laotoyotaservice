@@ -24,7 +24,7 @@
   "card_info": "Card",
   "car_repair": "Car Repair",
   "time_point_setting": "Point Setting",
-  "fix_management": "Fix Management"
-
-
+  "fix_management": "Fix Management",
+  "store_info": "Store",
+  "transaction_info": "Transaction"
 }

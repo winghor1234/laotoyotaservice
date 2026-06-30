@@ -183,7 +183,24 @@ export default class APIPath {
     static DELETE_TIME_FIX(id) { return `${this.BASE_URL}/timefix/delete/${id}` }
 
 
-    // notification 
+    // Store API
+    static SELECT_ALL_STORE = `${this.BASE_URL}/store/selAll`;
+    static SELECT_ONE_STORE(id) { return `${this.BASE_URL}/store/selOne/${id}` }
+    static GET_ALL_STORE = `${this.BASE_URL}/store/getAll`;
+    static CREATE_STORE = `${this.BASE_URL}/store/insert`;
+    static UPDATE_STORE(id) { return `${this.BASE_URL}/store/update/${id}` }
+    static UPDATE_STORE_STATUS(id) { return `${this.BASE_URL}/store/updateStatus/${id}` }
+    static DELETE_STORE(id) { return `${this.BASE_URL}/store/delete/${id}` }
+
+    // Transaction API
+    static SELECT_ALL_TRANSACTION = `${this.BASE_URL}/transaction/selAll`;
+    static SELECT_ONE_TRANSACTION(id) { return `${this.BASE_URL}/transaction/selOne/${id}` }
+    static GET_ALL_TRANSACTION = `${this.BASE_URL}/transaction/getAll`;
+    static SELECT_TRANSACTION_BY_USER = `${this.BASE_URL}/transaction/selByUser`;
+    static CREATE_TRANSACTION = `${this.BASE_URL}/transaction/insert`;
+    static DELETE_TRANSACTION(id) { return `${this.BASE_URL}/transaction/delete/${id}` }
+
+    // notification
     static SEND_NOTIFICATION = `${this.BASE_URL}/noti/send`;
 
 
