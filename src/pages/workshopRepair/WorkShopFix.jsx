@@ -22,7 +22,7 @@ const WorkShopFix = ({ show, onClose }) => {
         showDropdown,
         setShowDropdown,
         cardDropdownRef,
-        calculated,
+        // calculated,
     } = useWorkShopRepair();
 
     const [selectedCard, setSelectedCard] = useState(null);
@@ -35,7 +35,7 @@ const WorkShopFix = ({ show, onClose }) => {
                 ? "$"
                 : t("kip_text");
 
-    const totalPrice = calculated?.total || 0;
+    // const totalPrice = calculated?.total || 0;
 
     if (!show) return null;
 
@@ -326,21 +326,6 @@ const WorkShopFix = ({ show, onClose }) => {
                                     <div className="h-6">{errors.part_discount && <p className="text-red-500 text-sm">{errors.part_discount.message}</p>}</div>
                                 </div>
                             </div>
-                        </div>
-
-                        {/* totalPrice */}
-                        <div className="flex flex-col relative">
-                            <h2 className="text-xl text-gray-600">{t("totalPrice")}</h2>
-                            <CurrencyInput
-                                readOnly
-                                value={totalPrice}
-                                groupSeparator=","
-                                decimalsLimit={0}
-                                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm pr-12"
-                            />
-                            <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
-                                {t("kip_text")}
-                            </span>
                         </div>
 
                         {/* total Point */}

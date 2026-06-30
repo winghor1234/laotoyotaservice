@@ -25,7 +25,7 @@ const provinces = [
   "ໄຊສົມບູນ",
 ];
 
-const colors = ["ແດງ", "ດຳ", "ຂາວ", "ເທົາ"];
+
 
 const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
   const { t } = useTranslation("car");
@@ -281,18 +281,11 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
                 {t("color")}
               </label>
 
-              <select
+              <input
                 {...register("color")}
+                placeholder={t("color_placeholder")}
                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
-              >
-                <option value="">{t("color_placeholder")}</option>
-
-                {colors.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
+              />
 
               {errors?.color && (
                 <span className="text-red-500 text-xs sm:text-sm mt-1">
