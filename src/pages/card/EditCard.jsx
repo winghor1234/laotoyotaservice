@@ -93,18 +93,19 @@ const EditCard = ({ show, onClose, cardId, handleFetchCard }) => {
                                 <div className="absolute z-20 top-[75px] w-full bg-white border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto shadow-lg">
                                     {cars?.filter((car) => {
                                         const matchesSearch = `${car.engineNumber} ${car.frameNumber}`.toLowerCase().includes(search.toLowerCase());
-                                        const hasOwner = !!car.userId;
+                                        // const hasOwner = !!car.userId;
                                         const isCurrentCar = car.car_id === currentCarId;
                                         const isAvailable = !car.card || isCurrentCar;
 
-                                        return matchesSearch && hasOwner && isAvailable;
+                                        return matchesSearch && isAvailable;
                                     }).map((car) => (
                                         <div
                                             key={car.car_id}
                                             onClick={() => handleSelectCar(car)}
                                             className="px-3 py-3 text-sm cursor-pointer hover:bg-red-50 border-b last:border-none"
                                         >
-                                            {car.engineNumber} | {car.frameNumber}
+                                            {t("engine_number")} : {car.engineNumber} | {t("frame_number")} : {car.frameNumber}
+
                                         </div>
                                     ))}
 

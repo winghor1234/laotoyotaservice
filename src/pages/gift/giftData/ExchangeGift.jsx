@@ -66,7 +66,6 @@ const ExchangeGift = ({ show, onClose, handleFetch }) => {
                                     setSearch(e.target.value);
                                     setSelectedCard(null);
                                     setShowDropdown(true);
-                                    // reset gift warning when card changes
                                     setPointWarning("");
                                     setSelectedGiftCard(null);
                                     setGiftCardSearch("");
@@ -119,7 +118,7 @@ const ExchangeGift = ({ show, onClose, handleFetch }) => {
                                                 className="px-3 py-2 text-sm cursor-pointer hover:bg-red-600 hover:text-white truncate border-b border-gray-100 last:border-b-0 transition-colors"
                                                 title={`${card.card_number} ${card.card_type}`}
                                             >
-                                                {card.card_number} {card.card_type} : {card.total_point} {t("point")}
+                                                {card.card_number} {card.card_type} : {card.total_point === null ? 0 : card.total_point} {t("point")}
                                             </div>
                                         ))}
                                 </div>

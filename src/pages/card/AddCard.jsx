@@ -110,7 +110,7 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
                                                 }}
                                                 className="px-3 py-3 text-sm cursor-pointer hover:bg-red-50 border-b last:border-none"
                                             >
-                                                {car.engineNumber} | {car.frameNumber}
+                                                {t("engine_number")} : {car.engineNumber} | {t("frame_number")} : {car.frameNumber}
                                             </div>
                                         ))}
                                 </div>
