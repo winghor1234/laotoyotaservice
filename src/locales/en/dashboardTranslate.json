@@ -20,5 +20,6 @@
   "date": "Date",
   "time": "Time",
   "total_income": "Total Income",
-  "currency": "KIP"
+  "currency": "KIP",
+  "no_data": "No Data"
 }
