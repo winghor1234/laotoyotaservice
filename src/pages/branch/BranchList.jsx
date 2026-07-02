@@ -57,7 +57,6 @@ const BranchList = () => {
 
 
     const handleDeleteBranch = async (branch_id) => {
-        // console.log("Delete Branch ID:", branch_id);
         try {
             const confirmDelete = await DeleteAlert(t("delete_confirm"), t("delete_success"));
             if (confirmDelete) {

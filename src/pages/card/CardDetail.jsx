@@ -48,7 +48,6 @@ const CardDetail = () => {
         );
     }
 
-    console.log("Card Detail Data: ", cardData);
 
     return (
         <div className="min-h-screen bg-gray-50 p-2 sm:p-4">

@@ -104,7 +104,6 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose, }) => {
 
     // submit form
     const submitForm = async (data) => {
-        // console.log("submit data:", data);
 
         try {
             const res = await axiosInstance.put(APIPath.UPDATE_CAR(carId), data);

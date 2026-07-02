@@ -96,14 +96,14 @@ const Approve = () => {
 
       <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mt-4">
         {/* Desktop Header */}
-        <div className="hidden md:block w-full h-12 md:h-12 lg:h-14 bg-[#E52020] text-white">
-          <div className="grid grid-cols-6 gap-4 px-4 py-4 font-medium text-sm">
-            <div className="flex justify-center items-center">{t("appointment_info")}</div>
-            <div className="flex justify-center items-center">{t("customer_name")}</div>
-            <div className="flex justify-center items-center">{t("customer_phone")}</div>
-            <div className="flex justify-center items-center">{t("plate_number")}</div>
-            <div className="flex justify-center items-center">{t("date_label")}</div>
-            <div className="flex justify-center items-center">{t("time_label")}</div>
+        <div className="hidden md:block w-full h-12 md:h-14 lg:h-16 bg-[#E52020] text-white">
+          <div className="grid grid-cols-6 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
+            <div className="text-center">{t("appointment_info")}</div>
+            <div className="text-center">{t("customer_name")}</div>
+            <div className="text-center">{t("customer_phone")}</div>
+            <div className="text-center">{t("plate_number")}</div>
+            <div className="text-center">{t("date_label")}</div>
+            <div className="text-center">{t("time_label")}</div>
           </div>
         </div>
 

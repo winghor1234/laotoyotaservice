@@ -36,7 +36,6 @@ const AddCard = ({ show, onClose, handleFetchCard }) => {
         setValue("card_number", formattedCode, { shouldValidate: true });
     };
     if (!show) return null;
-    // console.log(cars);
     return (
         <>
             {/* Backdrop */}

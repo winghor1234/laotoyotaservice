@@ -13,13 +13,9 @@ const FixDetails = () => {
   const { id } = useParams();
   const [showPopup, setShowPopup] = useState(false);
   const [booking, setBooking] = useState([]);
-  // const [bookingId, setBookingId] = useState("");
-  // const [timeId, setTimeId] = useState("");
   const [service, setService] = useState([]);
-  // const [timeFix, setTimeFix] = useState([]);
   const navigate = useNavigate();
 
-  // console.log("id: ", id);
 
 
   const fetchBooking = async () => {
@@ -38,40 +34,12 @@ const FixDetails = () => {
       console.log(error);
     }
   };
-  // const fetchTimeFix = async () => {
-  //   try {
-  //     const timeFixRes = await axiosInstance.get(APIPath.SELECT_ALL_TIME_FIX);
-  //     setTimeFix(timeFixRes?.data?.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const timeIdInBooking = booking?.timeId;
-
-
-  // const selectedTimeFix = timeFix.find((time) => time?.timeId === timeIdInBooking);
-  // const zoneName = "zone"
-  // const zoneId = selectedTimeFix?.zoneId;
-
-  // console.log("booking: ", booking);
-
-
-
-
-  // const handleSubmit = (bookingId, timeId) => {
-  //   setShowPopup(true);
-  //   setBookingId(bookingId);
-  //   setTimeId(timeId);
-  // };
 
   useEffect(() => {
     fetchBooking();
     fetchBooingDetail();
-    // fetchTimeFix();
   }, []);
 
-// console.log("booking: ", booking);
   return (
     <div style={{ background: "#f3f4f6", padding: "30px 0", fontFamily: "Arial, sans-serif", fontSize: "15px", lineHeight: "1.6", color: "#111827" }}>
 

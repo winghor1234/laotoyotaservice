@@ -71,7 +71,6 @@ const ExchangeGiftHistoryList = () => {
     useEffect(() => {
         fetchData();
     }, []);
-    // console.log("giftCardHistory : ", giftCardHistory);
 
     return (
         <div>

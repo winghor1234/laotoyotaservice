@@ -209,7 +209,7 @@ const AdminList = () => {
                 <span className="text-gray-900">{item.role}</span>
               </div>
               <div className="flex justify-between py-1">
-                <span className="text-gray-500 font-medium">{t("action_label")}:</span>
+                <span className="text-gray-500 font-medium">{t("action")}:</span>
                 <span className="text-gray-900">
                   <Eye className={`cursor-pointer text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800`} onClick={() => { handleToDetailAdmin(item.user_id) }} />
                 </span>

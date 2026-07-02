@@ -6,6 +6,7 @@ import Spinner from "../../utils/Loading";
 import { BackButton } from "../../utils/BackButton";
 import APIPath from "../../api/APIPath";
 import axiosInstance from "../../utils/AxiosInstance";
+import { formatDates } from "../../utils/FormatDate";
 
 const DetailTransaction = () => {
     const { id } = useParams();
@@ -85,9 +86,7 @@ const DetailTransaction = () => {
                             <div className="bg-gray-50 p-4 rounded-lg">
                                 <p className="text-sm text-gray-500">{t("date_time")}</p>
                                 <p className="text-base text-gray-800 mt-1">
-                                    {new Date(txn.createdAt).toLocaleDateString("lo-LA", {
-                                        year: "numeric", month: "long", day: "numeric"
-                                    })}
+                                    {formatDates(txn.createdAt)}
                                 </p>
                                 <p className="text-sm text-gray-500">
                                     {new Date(txn.createdAt).toLocaleTimeString("lo-LA")}

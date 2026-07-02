@@ -52,8 +52,6 @@ const BookingSuccess = () => {
     // if (!booking) return null;
     const invoiceNumber = booking?.Fix?.map((fix) => fix.bookingId === booking?.booking_id && fix.invoice_number);
     const invoiceDate = booking?.Fix?.map((fix) => fix.bookingId === booking?.booking_id && fix.invoice_date);
-    // console.log("invoiceNumber", invoiceNumber);
-    // console.log("invoiceDate", invoiceDate);
 
     return (
         <div style={{ background: "#f3f4f6", padding: "40px 0" }}>

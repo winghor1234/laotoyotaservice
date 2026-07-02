@@ -180,31 +180,27 @@ const WorkShopFixList = () => {
                                 <div className="flex items-center gap-3 mb-3">
                                     <FaCheckCircle className="text-green-500 h-7 w-7 shrink-0" />
                                     <div className="flex-1">
-                                        <h3 className="font-semibold text-base text-gray-900">{item?.booking?.car?.model}</h3>
-                                        <p className="text-gray-600 text-sm">{item?.booking?.user?.username}</p>
+                                        <h3 className="font-semibold text-base text-gray-900">{item?.card?.car?.model}</h3>
+                                        <p className="text-gray-600 text-sm">{item?.card?.user?.username}</p>
                                     </div>
-                                </div>
-                                <div className="flex-1">
-                                    <h3 className="font-semibold text-base text-gray-900">{item?.booking?.car?.model}</h3>
-                                    <p className="text-gray-600 text-sm">{item?.booking?.user?.username}</p>
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 gap-2 text-sm">
                                 <div className="flex justify-between">
                                     <span className="text-gray-500 line-clamp-1">{t("phone")}:</span>
-                                    <span className="text-gray-900 line-clamp-1">{item?.booking?.user?.phoneNumber}</span>
+                                    <span className="text-gray-900 line-clamp-1">{item?.card?.user?.phoneNumber}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-gray-500 line-clamp-1">{t("plate")}:</span>
-                                    <span className="text-gray-900 line-clamp-1">{item?.booking?.car?.plateNumber}</span>
+                                    <span className="text-gray-900 line-clamp-1">{item?.card?.car?.plateNumber}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-gray-500 line-clamp-1">{t("date_label")}:</span>
-                                    <span className="text-gray-900 line-clamp-1">{item?.booking?.time?.date}</span>
+                                    <span className="text-gray-900 line-clamp-1">{formatDates(item?.createdAt)}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-gray-500 line-clamp-1">{t("time_label")}:</span>
-                                    <span className="text-gray-900 line-clamp-1">{item?.booking?.time?.time}</span>
+                                    <span className="text-gray-900 line-clamp-1">{item?.createdAt && new Date(item?.createdAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false })}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-gray-500 line-clamp-1">{t("action_label")}:</span>

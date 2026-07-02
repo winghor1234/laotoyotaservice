@@ -55,7 +55,6 @@ const GiftHistoryList = () => {
     useEffect(() => {
         fetchData();
     }, []);
-    // console.log("giftCardHistory : ", giftCardHistory);
 
     return (
         <div>

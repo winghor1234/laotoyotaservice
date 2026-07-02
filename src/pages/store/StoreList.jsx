@@ -94,7 +94,7 @@ const StoreList = () => {
                                     <h3 className="font-semibold text-gray-800">{item.name}</h3>
                                     <p className="text-sm text-gray-500">{item.address}</p>
                                     <p className="text-sm text-gray-500">{item.phone}</p>
-                                    <span className={`text-xs px-2 py-0.5 rounded-full mt-1 inline-block ${item.status ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+                                    <span className={` px-2 py-0.5 rounded-full mt-1 inline-block ${item.status ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
                                         {item.status ? t("open") : t("closed")}
                                     </span>
                                 </div>
@@ -121,7 +121,7 @@ const StoreList = () => {
             {/* Desktop Table */}
             <div className="hidden md:block bg-white rounded-lg shadow-sm overflow-hidden w-full">
                 <div className="w-full h-12 md:h-12 lg:h-14 bg-[#E52020] text-white">
-                    <div className="grid grid-cols-7 gap-3 px-4 lg:px-6 py-3 md:py-4 font-medium text-sm">
+                    <div className="grid grid-cols-7 gap-3 px-4 lg:px-6 py-3 md:py-4 font-medium">
                         <div className="text-center">{t("index")}</div>
                         <div className="text-center">{t("image")}</div>
                         <div className="text-center">{t("store_name")}</div>
@@ -140,7 +140,7 @@ const StoreList = () => {
                                 key={item.store_id || index}
                                 className="grid grid-cols-7 gap-3 px-3 lg:px-4 py-3 lg:py-4 items-center hover:bg-gray-50 transition-colors"
                             >
-                                <div className="text-sm text-center">{index + 1}</div>
+                                <div className=" text-center">{index + 1}</div>
                                 <div className="flex justify-center">
                                     {item.image ? (
                                         <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded-lg" />
@@ -148,10 +148,10 @@ const StoreList = () => {
                                         <div className="w-12 h-12 bg-gray-100 rounded-lg" />
                                     )}
                                 </div>
-                                <div className="text-sm text-center line-clamp-1">{item.name}</div>
-                                <div className="text-sm text-center line-clamp-2">{item.address}</div>
-                                <div className="text-sm text-center">{item.phone}</div>
-                                <div className="text-sm text-center">
+                                <div className=" text-center line-clamp-1">{item.name}</div>
+                                <div className=" text-center line-clamp-2">{item.address}</div>
+                                <div className=" text-center">{item.phone}</div>
+                                <div className=" text-center">
                                     <span className={`px-2 py-0.5 rounded-full text-xs ${item.status ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
                                         {item.status ? t("open") : t("closed")}
                                     </span>

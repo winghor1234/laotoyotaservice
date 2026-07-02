@@ -21,11 +21,7 @@ const TimeStatusButton = () => {
             path: '',
             isActive: currentPath === '/user/time-zone',
         },
-        // {
-        //     label: t("zoneLabel"),  // ໂຊນ
-        //     path: 'zone',
-        //     isActive: currentPath === '/user/time-zone/zone',
-        // },
+
     ];
 
     return (

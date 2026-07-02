@@ -31,14 +31,12 @@ export const useEditZoneForm = ({ zoneId, fetchZone, onClose }) => {
     useEffect(() => {
         handleFetchZone();
     }, [zoneId]);
-    // console.log(zoneId)
 
 
     const submitForm = async (data) => {
         setLoading(true);
         try {
             await axiosInstance.put(APIPath.UPDATE_ZONE(zoneId), data);
-            // console.log("Update gift successful:", res.data);
             SuccessAlert(t("update_success"));
             fetchZone();
             onClose();

@@ -7,6 +7,7 @@ import Spinner from "../../utils/Loading";
 import { BackButton } from "../../utils/BackButton";
 import APIPath from "../../api/APIPath";
 import axiosInstance from "../../utils/AxiosInstance";
+import { formatDates } from "../../utils/FormatDate";
 
 const DetailStore = () => {
     const { id } = useParams();
@@ -133,9 +134,7 @@ const DetailStore = () => {
                         <div className="bg-gray-50 p-4 rounded-lg">
                             <p className="text-sm text-gray-500">{t("created_at")}</p>
                             <p className="text-base text-gray-800 mt-1">
-                                {new Date(store.createdAt).toLocaleDateString("lo-LA", {
-                                    year: "numeric", month: "long", day: "numeric"
-                                })}
+                                {formatDates(store.createdAt)}
                             </p>
                         </div>
                     </div>

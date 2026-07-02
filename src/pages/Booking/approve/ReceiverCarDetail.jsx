@@ -50,8 +50,6 @@ const ReceiverCarDetail = () => {
   }, [loadAllData]);
 
   const cardId = booking?.user?.Card?.[0]?.card_id;
-  // console.log("cardId : ", cardId);
-  // console.log("booking : ", booking?.user);
 
 
 

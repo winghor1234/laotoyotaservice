@@ -27,7 +27,6 @@ const DetailGiftHistory = () => {
         };
         fetchData();
     }, [id]);
-    // console.log("giftHistoryData : ",giftHistoryData);
 
     if (loading) {
         return (

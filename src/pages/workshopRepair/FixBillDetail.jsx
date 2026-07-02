@@ -16,9 +16,7 @@ const FixBillDetail = () => {
     const { t } = useTranslation("booking");
     const billRef = useRef();
 
-    // เปลี่ยนค่าเริ่มต้นจาก {} เป็น null หรือ "" เพื่อป้องกัน bug
     const [data, setData] = useState(null);
-    // const [employeeId, setEmployeeId] = useState("");
     const [branch, setBranch] = useState(null);
 
     const fetchData = async () => {
@@ -51,21 +49,38 @@ const FixBillDetail = () => {
         }
     }, [id]);
 
-    console.log(data);
 
 
 
     const handleExportPDF = () => {
         const element = billRef.current;
         const filename = `Bill_${data?.card?.user?.username}_${data?.invoice_number}.pdf`;
+
+        // Patch oklch in real DOM before capture
+        const styleEls = document.querySelectorAll('style');
+        const backups = [];
+        styleEls.forEach((style) => {
+            backups.push(style.textContent);
+            style.textContent = style.textContent.replace(/oklch\([^)]*\)/g, 'unset');
+        });
+
+        // Disable external stylesheets temporarily
+        const linkEls = document.querySelectorAll('link[rel="stylesheet"]');
+        linkEls.forEach((link) => { link.disabled = true; });
+
         const opt = {
             margin: 0.5,
             filename,
             image: { type: "jpeg", quality: 0.98 },
-            html2canvas: { scale: 2 },
+            html2canvas: { scale: 2, useCORS: true },
             jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
         };
-        html2pdf().from(element).set(opt).save();
+
+        html2pdf().from(element).set(opt).save().finally(() => {
+            // Restore original styles
+            styleEls.forEach((style, i) => { style.textContent = backups[i]; });
+            linkEls.forEach((link) => { link.disabled = false; });
+        });
     };
     const totalPoint = Number(data?.labour_point || 0) + Number(data?.part_point || 0);
 
@@ -203,7 +218,7 @@ const FixBillDetail = () => {
                 {/* total price */}
                 <div className="mt-4 flex justify-end">
                     <div className="w-2/7" >
-                        <h3 style={{ fontSize: "1.25rem", fontWeight: "600", color: "#15803d" }}>
+                        <h3 style={{ fontSize: "1rem", fontWeight: "600", color: "#15803d" }}>
                             {t("totalPrice")}: {FormatNumber(data?.labour_total + data?.part_total)} {t("kip")}
                         </h3>
                     </div>

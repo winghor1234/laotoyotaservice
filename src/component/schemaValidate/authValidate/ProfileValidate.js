@@ -32,7 +32,6 @@ export const ProfileUpdateForm = () => {
     const fetchProfile = async () => {
         try {
             const res = await axiosInstance.get(APIPath.GET_PROFILE);
-            // console.log(res.data.data);
             setValue("username", res.data.data.username || "");
             setValue("email", res.data.data.email || "");
             setValue("province", res.data.data.province || "");

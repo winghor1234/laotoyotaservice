@@ -19,10 +19,14 @@ import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
 
 const formatPhoneForWhatsApp = (phone) => {
     if (!phone) return "";
-    return phone
+    let cleaned = String(phone)
         .replace(/\+/g, "")
         .replace(/\s/g, "")
         .replace(/-/g, "");
+
+    if (cleaned.startsWith('856')) return cleaned;       // +856XXXXXXXXX ✅
+    if (cleaned.startsWith('0')) return '856' + cleaned.slice(1); // 020XXXXXXX → 85620XXXXXXX
+    return '856' + cleaned;                              // 20XXXXXXX → 85620XXXXXXX
 };
 
 const UserList = () => {

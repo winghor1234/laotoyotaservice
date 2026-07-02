@@ -127,7 +127,6 @@ const EditForm = ({ setShowEdit, bookingId, fetchBooking }) => {
         day: booking?.day,
         zoneId: zoneId,
       };
-      console.log(payload);
 
       await axiosInstance.put(APIPath.UPDATE_BOOKING(bookingId, payload), payload);
       fetchBooking();

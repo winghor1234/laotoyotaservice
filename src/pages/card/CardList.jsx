@@ -76,7 +76,6 @@ const CardList = () => {
     };
 
 
-    // console.log("cards: ", cards);
 
     return (
         <div>

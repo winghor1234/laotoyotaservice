@@ -64,7 +64,6 @@ const Cancel = () => {
     }, [role, branch_id]);
 
     const CancelDetail = (id) => {
-        // console.log("id cancel  ",id);
         navigate(`/user/cancel-detail/${id}`);
     }
 
