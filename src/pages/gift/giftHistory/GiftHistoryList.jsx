@@ -13,8 +13,6 @@ import ReturnPoint from "./PopupReurnPoint";
 
 const GiftHistoryList = () => {
     const [open, setOpen] = useState(false);
-    const [giftHistoryId, setGiftHistoryId] = useState(null);
-    const [showReturnPoint, setShowReturnPoint] = useState(false);
     const { t } = useTranslation("gift");
     const navigate = useNavigate();
 
@@ -103,12 +101,6 @@ const GiftHistoryList = () => {
                             </div>
                             <div className="flex items-center gap-3">
                                 <Eye onClick={() => handleToDetailGiftHistory(item.gifthistory_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
-                                {
-                                    item?.status === "received" && (
-                                        <CircleX onClick={() => { setShowReturnPoint(true); setGiftHistoryId(item.gifthistory_id); }}
-                                            className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
-                                    )
-                                }
                             </div>
                         </div>
                     </div>
@@ -157,8 +149,6 @@ const GiftHistoryList = () => {
                             </div>
                             <div className="text-xs md:text-sm lg:text-base font-medium flex justify-center items-center gap-5">
                                 <Eye onClick={() => handleToDetailGiftHistory(item.gifthistory_id)} className="text-gray-600 -4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
-                                <HandCoins onClick={() => { setShowReturnPoint(true); setGiftHistoryId(item.gifthistory_id); }}
-                                    className="text-gray-600 w-4 h-4 md:w-5 md:h-5 hover:text-gray-800" />
                             </div>
                         </div>
                     ))}
@@ -240,15 +230,6 @@ const GiftHistoryList = () => {
 
                 </div>
             </div>
-            {/* Return the score */}
-            {showReturnPoint && (
-                <ReturnPoint
-                    show={showReturnPoint}
-                    onClose={() => setShowReturnPoint(false)}
-                    Id={giftHistoryId}
-                    handleFetch={fetchData}
-                />
-            )}
         </div>
     );
 };

@@ -34,5 +34,6 @@
     "item_range": "Item Range",
     "list": "List",
     "from": "From",
-    "to": "go to page"
+    "to": "go to page",
+    "add_success": "Employee added successfully"
 }
