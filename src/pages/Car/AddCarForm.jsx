@@ -29,7 +29,7 @@ const provinces = [
 
 
 export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
-  const { register, handleSubmit, formState: { errors }, users = [], onSubmit, handleBack, getValues, search, setSearch, showDropdown, setShowDropdown, reset, dropdownRef, setValue } = useAddCarForm({ handleFetchCar, onClose });
+  const { register, handleSubmit, formState: { errors }, users = [], colors = [], onSubmit, handleBack, getValues, search, setSearch, showDropdown, setShowDropdown, reset, dropdownRef, setValue } = useAddCarForm({ handleFetchCar, onClose });
   const { t } = useTranslation("car");
   const [selectedUser, setSelectedUser] = useState(null);
   const fields = [
@@ -254,11 +254,18 @@ export default function AddCarFormPopup({ show, onClose, handleFetchCar }) {
                 {t("color")}
               </label>
 
-              <input
+              <select
                 {...register("color")}
-                placeholder={t("color_placeholder")}
                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500 duration-200 transition-colors"
-              />
+              >
+                <option value="">{t("color_placeholder")}</option>
+
+                {colors.map((c) => (
+                  <option key={c.color_id} value={c.colorName}>
+                    {c.colorName}
+                  </option>
+                ))}
+              </select>
 
               {errors.color && (
                 <span className="text-red-500 text-xs sm:text-sm mt-1">

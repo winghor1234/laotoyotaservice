@@ -26,5 +26,6 @@
   "time_point_setting": "Point Setting",
   "fix_management": "Fix Management",
   "store_info": "Store",
-  "transaction_info": "Transaction"
+  "transaction_info": "Transaction",
+  "color_info": "Color"
 }

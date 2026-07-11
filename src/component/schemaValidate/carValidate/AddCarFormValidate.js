@@ -21,6 +21,7 @@ const addCarSchema = (t) => z.object({
 export const useAddCarForm = ({ handleFetchCar, onClose }) => {
     const { t } = useTranslation("auth");
     const [users, setUsers] = useState([]);
+    const [colors, setColors] = useState([]);
     const [search, setSearch] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
@@ -36,6 +37,18 @@ export const useAddCarForm = ({ handleFetchCar, onClose }) => {
             }
         };
         fetchUsers();
+    }, []);
+
+    useEffect(() => {
+        const fetchColors = async () => {
+            try {
+                const res = await axiosInstance.get(APIPath.SELECT_ALL_COLOR);
+                setColors(res?.data?.data || []);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchColors();
     }, []);
 
     useEffect(() => {
@@ -74,5 +87,5 @@ export const useAddCarForm = ({ handleFetchCar, onClose }) => {
     };
 
 
-    return { register, handleSubmit, formState: { errors }, users, onSubmit, handleBack, reset, search, setSearch, showDropdown, setShowDropdown, dropdownRef, setValue, getValues };
+    return { register, handleSubmit, formState: { errors }, users, colors, onSubmit, handleBack, reset, search, setSearch, showDropdown, setShowDropdown, dropdownRef, setValue, getValues };
 }

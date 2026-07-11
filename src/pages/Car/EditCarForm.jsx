@@ -35,6 +35,7 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
     handleSubmit,
     submitForm,
     users,
+    colors = [],
     search,
     setSearch,
     selectedUser,
@@ -281,11 +282,18 @@ const EditCarFormPopup = ({ show, onClose, carId, handleFetchCar }) => {
                 {t("color")}
               </label>
 
-              <input
+              <select
                 {...register("color")}
-                placeholder={t("color_placeholder")}
                 className="w-full h-[42px] sm:h-[45px] rounded-lg text-sm sm:text-base border border-gray-300 px-3 outline-none hover:border-red-500 focus:border-red-500"
-              />
+              >
+                <option value="">{t("color_placeholder")}</option>
+
+                {colors.map((c) => (
+                  <option key={c.color_id} value={c.colorName}>
+                    {c.colorName}
+                  </option>
+                ))}
+              </select>
 
               {errors?.color && (
                 <span className="text-red-500 text-xs sm:text-sm mt-1">

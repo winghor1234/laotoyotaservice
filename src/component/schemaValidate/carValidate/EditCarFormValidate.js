@@ -24,6 +24,7 @@ const editCarSchema = (t) =>
 export const useEditCarForm = ({ carId, handleFetchCar, onClose, }) => {
     const { t } = useTranslation("auth");
     const [users, setUsers] = useState([]);
+    const [colors, setColors] = useState([]);
     const [car, setCar] = useState(null);
     // search text for input display
     const [search, setSearch] = useState("");
@@ -77,6 +78,19 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose, }) => {
 
     }, [carId, reset]);
 
+    // fetch colors
+    useEffect(() => {
+        const fetchColors = async () => {
+            try {
+                const res = await axiosInstance.get(APIPath.SELECT_ALL_COLOR);
+                setColors(res?.data?.data || []);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchColors();
+    }, []);
+
     // close dropdown outside
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -126,6 +140,7 @@ export const useEditCarForm = ({ carId, handleFetchCar, onClose, }) => {
         handleSubmit,
         submitForm,
         users,
+        colors,
         reset,
         car,
         // search

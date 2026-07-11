@@ -65,18 +65,22 @@ import cardLo from "./locales/lo/cardTranslate.json";
 import storeEn from "./locales/en/storeTranslate.json";
 import storeLo from "./locales/lo/storeTranslate.json";
 
+// color
+import colorEn from "./locales/en/colorTranslate.json";
+import colorLo from "./locales/lo/colorTranslate.json";
+
 
 // โหลดค่าภาษาเก่าจาก localStorage
 const savedLang = localStorage.getItem("appLang") || "lo";
 
 i18n.use(initReactI18next).init({
     resources: {
-        en: { auth: authEn, booking: bookingEn, car: carEn, dashboard: dashboardEn, gift: giftEn, promotion: promotionEn, report: reportEn, service: serviceEn, timeZone: timeZoneEn, user: userEn, headerSidebar: headerSidebarEn, util: utilEn, branch: branchEn, employee: employeeEn, card: cardEn, store: storeEn },
-        lo: { auth: authLo, booking: bookingLo, car: carLo, dashboard: dashboardLo, gift: giftLo, promotion: promotionLo, report: reportLo, service: serviceLo, timeZone: timeZoneLo, user: userLo, headerSidebar: headerSidebarLo, util: utilLo, branch: branchLo, employee: employeeLo, card: cardLo, store: storeLo },
+        en: { auth: authEn, booking: bookingEn, car: carEn, dashboard: dashboardEn, gift: giftEn, promotion: promotionEn, report: reportEn, service: serviceEn, timeZone: timeZoneEn, user: userEn, headerSidebar: headerSidebarEn, util: utilEn, branch: branchEn, employee: employeeEn, card: cardEn, store: storeEn, color: colorEn },
+        lo: { auth: authLo, booking: bookingLo, car: carLo, dashboard: dashboardLo, gift: giftLo, promotion: promotionLo, report: reportLo, service: serviceLo, timeZone: timeZoneLo, user: userLo, headerSidebar: headerSidebarLo, util: utilLo, branch: branchLo, employee: employeeLo, card: cardLo, store: storeLo, color: colorLo },
     },
     lng: savedLang, // default จาก localStorage
     fallbackLng: "lo",
-    ns: ["auth", "booking", "car","dashboard", "gift", "promotion", "report", "service", "timeZone","user","headerSidebar","util","branch","employee","card","store"], // ระบุ namespace
+    ns: ["auth", "booking", "car","dashboard", "gift", "promotion", "report", "service", "timeZone","user","headerSidebar","util","branch","employee","card","store","color"], // ระบุ namespace
     defaultNS: "auth",       // namespace default
     interpolation: { escapeValue: false },
 });

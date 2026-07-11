@@ -61,6 +61,7 @@ import StoreList from "../pages/store/StoreList";
 import DetailStore from "../pages/store/DetailStore";
 import TransactionList from "../pages/store/TransactionList";
 import DetailTransaction from "../pages/store/DetailTransaction";
+import ColorList from "../pages/color/ColorList";
 
 
 const router = createBrowserRouter([
@@ -171,6 +172,10 @@ const router = createBrowserRouter([
       {
         path: "car",
         element: <CarList />,
+      },
+      {
+        path: "color",
+        element: <ColorList />,
       },
       {
         path: "gift",

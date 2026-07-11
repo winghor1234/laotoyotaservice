@@ -204,7 +204,16 @@ export default class APIPath {
     static SEND_NOTIFICATION = `${this.BASE_URL}/noti/send`;
 
 
-    // card 
+    // Color API
+    static SELECT_ALL_COLOR = `${this.BASE_URL}/color/selAll`;
+    static SELECT_ONE_COLOR(id) { return `${this.BASE_URL}/color/selOne/${id}` }
+    static GET_ALL_COLOR = `${this.BASE_URL}/color/getAll`;
+    static CREATE_COLOR = `${this.BASE_URL}/color/insert`;
+    static UPDATE_COLOR(id) { return `${this.BASE_URL}/color/update/${id}` }
+    static DELETE_COLOR(id) { return `${this.BASE_URL}/color/delete/${id}` }
+
+
+    // card
     static SELECT_ALL_CARD = `${this.BASE_URL}/card/selAll`;
     static SELECT_ONE_CARD(id) { return `${this.BASE_URL}/card/selOne/${id}` }
     static GET_ALL_CARD = `${this.BASE_URL}/card/getAll`;
