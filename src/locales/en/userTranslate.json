@@ -81,7 +81,10 @@
   "admin": "Admin",
   "superAdmin": "Super Admin",
   "selectRole": "Select Role",
-  "customer": "Customer"
+  "customer": "Customer",
+  "status_acount": "Status Account",
+  "active": "Active",
+  "inactive": "Inactive"
   
 
 }

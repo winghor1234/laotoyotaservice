@@ -81,6 +81,9 @@
   "admin": "ຜູ້ດູແລ",
   "superAdmin": "ຜູ້ດູແລສູງສຸດ",
   "selectRole": "ເລືອກຜູ້ດູແລ",
-  "customer": "ລູກຄ້າ"
+  "customer": "ລູກຄ້າ",
+  "status_acount": "ສະຖານະບັນຊີ",
+  "active": "ເປີດໃຊ້ງານ",
+  "inactive": "ປິດໃຊ້ງານ"
   
 }

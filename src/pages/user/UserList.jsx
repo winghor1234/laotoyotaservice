@@ -73,6 +73,22 @@ const UserList = () => {
         navigate(`/user/user-detail/${id}`);
     };
 
+    // ໃນ handleChangeStatus
+    const handleChangeStatus = async (customerId, currentActive) => {
+        console.log("handleChangeStatus called with:", customerId, currentActive);
+        const isActive = currentActive === true || currentActive === "true";
+        const newStatus = !isActive;
+
+        try {
+            await axiosInstance.put(APIPath.CHANGE_STATUS_USER(customerId), {
+                status: newStatus,
+            });
+            fetchData();
+        } catch (error) {
+            console.error("Failed to update user status:", error);
+        }
+    };
+
 
     const handleDeleteUser = async (customerId) => {
         try {
@@ -162,7 +178,7 @@ const UserList = () => {
             </div>
             {/* Table Header */}
             <div className="hidden md:block w-full h-12 md:h-12 lg:h-14 rounded-t-lg bg-[#E52020] text-white">
-                <div className="grid grid-cols-10 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
+                <div className="grid grid-cols-11 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 font-medium text-xs md:text-sm lg:text-base">
                     <div className="flex justify-center items-center">{t("index")}</div>
                     <div className="flex justify-center items-center">{t("code")}</div>
                     <div className="flex justify-center items-center">{t("username")}</div>
@@ -172,6 +188,7 @@ const UserList = () => {
                     <div className="flex justify-center items-center">{t("phone")}</div>
                     <div className="flex justify-center items-center">{t("email")}</div>
                     <div className="flex justify-center items-center">{t("status")}</div>
+                    <div className="flex justify-center items-center">{t("status_acount")}</div>
                     <div className="flex justify-center items-center">{t("action")}</div>
                 </div>
             </div>
@@ -181,7 +198,7 @@ const UserList = () => {
                 {customer.map((item, index) => (
                     <div
                         key={index}
-                        className="grid grid-cols-10 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors text-xs md:text-sm lg:text-base"
+                        className="grid grid-cols-11 gap-3 md:gap-4 lg:gap-6 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 cursor-pointer transition-colors text-xs md:text-sm lg:text-base"
                     >
                         <div className="text-center">{index + 1}</div>
                         <div className="text-center line-clamp-1">{item.customer_number}</div>
@@ -201,6 +218,18 @@ const UserList = () => {
                             )}
                         </div>
                         <div className="text-center">{item.role === "general" ? t("customer") : "-"}</div>
+                        <div className="text-center">
+                            <button
+                                // onClick={() => handleChangeStatus(item.user_id, !item.active)}
+                                onClick={() => handleChangeStatus(item.user_id, item.active)}
+                                className={`px-3 py-1 rounded text-white ${item.active
+                                    ? "bg-green-500 hover:bg-green-600"
+                                    : "bg-red-500 hover:bg-red-600"
+                                    }`}
+                            >
+                                {item.active ? t("active") : t("inactive")}
+                            </button>
+                        </div>
                         <div className="flex justify-center items-center">
                             <div className="flex items-center gap-1">
 
