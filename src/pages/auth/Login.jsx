@@ -5,7 +5,7 @@ import LanguageToggle from '../../utils/LanguageToggle';
 import logo from '../../assets/logo.jpg';
 
 const Login = () => {
-    const { showPassword, setShowPassword, loading, register, handleSubmit, formState: { errors }, submitForm } = useLoginForm();
+    const { showPassword, setShowPassword, loading, register, handleSubmit, formState: { errors }, submitForm,  rememberMe, setRememberMe } = useLoginForm();
     const { t } = useTranslation("auth");
 
     return (
@@ -91,6 +91,18 @@ const Login = () => {
                         </a>
                     </div>
                 </div> */}
+                {/* Remember me */}
+                <div className="flex items-center justify-start">
+                    <label className="flex items-center text-sm text-gray-700 gap-2 cursor-pointer">
+                        <input
+                            type="checkbox"
+                            checked={rememberMe}
+                            onChange={(e) => setRememberMe(e.target.checked)}
+                            className="h-4 w-4 text-red-600 border-gray-300 rounded focus:ring-red-500"
+                        />
+                        {t("remember_me")}
+                    </label>
+                </div>
 
                 {/* Submit Button */}
                 <div>
