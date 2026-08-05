@@ -103,7 +103,7 @@ export const useAddUserForm = ({ handleFetch, onClose, }) => {
                 ...data,
                 phoneNumber: `20${data.phoneNumber.replace(/\D/g, "")}`,
             };
-            const res = await axiosInstance.post(APIPath.REGISTER, payload);
+            const res = await axiosInstance.post(APIPath.INSERT_CUSTOMER, payload);
             const message = res.data.message == "Phone number already exists" ? t("phone_exist") : t("add_success");
             if (message == t("phone_exist")) { SuccessAlert(message, 1500, "warning") }
             else {

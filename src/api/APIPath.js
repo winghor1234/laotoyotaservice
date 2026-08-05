@@ -3,6 +3,7 @@ export default class APIPath {
 
     // Auth / User API
     static REGISTER = `${this.BASE_URL}/user/register`;
+    static INSERT_CUSTOMER = `${this.BASE_URL}/user/insertCustomer`;
     static LOGIN = `${this.BASE_URL}/user/login`;
     static LOGIN_ADMIN = `${this.BASE_URL}/user/loginAdmin`;
     static INSERT_ADMIN = `${this.BASE_URL}/user/registerAdmin`;
