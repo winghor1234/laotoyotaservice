@@ -58,11 +58,17 @@ const CardList = () => {
         try {
             const confirmDelete = await DeleteAlert(
                 t("delete_confirm"),
-                t("delete_success")
+                t("delete_success"),
+                false
             );
 
             if (confirmDelete) {
                 await axiosInstance.delete(APIPath.DELETE_CARD(cardId));
+                SuccessAlert(
+                    t("delete_success"),
+                    1500,
+                    "success"
+                );
                 fetchData();
             }
         } catch (error) {

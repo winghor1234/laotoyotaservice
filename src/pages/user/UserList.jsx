@@ -92,9 +92,14 @@ const UserList = () => {
 
     const handleDeleteUser = async (customerId) => {
         try {
-            const confirmDelete = await DeleteAlert(t("delete_confirm"), t("delete_success"));
+            const confirmDelete = await DeleteAlert(t("delete_confirm"), t("delete_success"), false);
             if (confirmDelete) {
                 await axiosInstance.delete(APIPath.DELETE_CUSTOMER(customerId));
+                SuccessAlert(
+                    t("delete_success"),
+                    1500,
+                    "success"
+                );
                 fetchData();
             }
         } catch (error) {
