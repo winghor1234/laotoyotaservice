@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+
+@font-face {
+    font-family: 'Noto Sans Lao';
+    src: url('/fonts/NotoSansLao-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     font-family: 'Noto Sans Lao', sans-serif;
 }
