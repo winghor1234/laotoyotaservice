@@ -159,7 +159,7 @@ const UserList = () => {
                         {t("add_user")}
                     </button>
                     <ImportExcel
-                        apiPath={APIPath.REGISTER}
+                        apiPath={APIPath.INSERT_CUSTOMER}
                         requiredFields={[
                             "Name",
                             "PhoneNumber",
