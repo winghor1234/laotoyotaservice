@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Trash, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -8,10 +8,13 @@ import axiosInstance from "../../utils/AxiosInstance";
 import APIPath from "../../api/APIPath";
 import SelectDate from "../../utils/SelectDate";
 import useServerFilterPagination from "../../utils/useServerFilterPagination";
+import DownloadButton from "../../utils/DownloadButton";
+import ExportExcelPopup from "../../utils/exportExelPopup";
 
 const TransactionList = () => {
     const { t } = useTranslation("store");
     const navigate = useNavigate();
+    const [open, setOpen] = useState(false);
     const {
         data: transactions,
         page,
@@ -65,6 +68,15 @@ const TransactionList = () => {
                     onSearchChange={handleSearch}
                     onDateChange={handleDateChange}
                 />
+                {/* download button */}
+                <DownloadButton open={open} setOpen={setOpen} />
+                {open && (
+                    <ExportExcelPopup
+                        apiUrl={APIPath.EXPORT_TRANSACTION}
+                        fileName="transaction-report.xlsx"
+                        onClose={() => setOpen(false)}
+                    />
+                )}
             </div>
 
             {/* Mobile Card */}

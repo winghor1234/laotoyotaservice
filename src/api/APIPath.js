@@ -46,16 +46,16 @@ export default class APIPath {
     static EXPORT_GIFT_HISTORY = `${this.BASE_URL}/gifthistory/export`;
     static CREATE_GIFT_HISTORY = `${this.BASE_URL}/gifthistory/insert`;
     // static UPDATE_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/update/${id}` }
-    static  RETURN_POINT_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/returnPoint/${id}` }
-    static  CONFIRM_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/confirm/${id}` }
-    static  CANCEL_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/cancel/${id}` }
+    static RETURN_POINT_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/returnPoint/${id}` }
+    static CONFIRM_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/confirm/${id}` }
+    static CANCEL_GIFT_HISTORY(id) { return `${this.BASE_URL}/gifthistory/cancel/${id}` }
 
 
     // Fix API
     static SELECT_ALL_FIX = `${this.BASE_URL}/fix/selAll`;
     static SEARCH_FIX = `${this.BASE_URL}/fix/search`;
     static SELECT_ONE_FIX(id) { return `${this.BASE_URL}/fix/selOne/${id}` }
-    static SELECT_FIX_BY_BOOKING(id) { return `${this.BASE_URL}/fix/selByBooking/${id}`}
+    static SELECT_FIX_BY_BOOKING(id) { return `${this.BASE_URL}/fix/selByBooking/${id}` }
     static SELECT_FIX_BY_STATUS = `${this.BASE_URL}/fix/selByStatus`;
     // static GET_ALL_FIX = `${this.BASE_URL}/fix/getAll`;
     static GET_ALL_FIX_FROM_WORKSHOP = `${this.BASE_URL}/fix/getAllByWorkshop`;
@@ -201,6 +201,8 @@ export default class APIPath {
     static SELECT_TRANSACTION_BY_USER = `${this.BASE_URL}/transaction/selByUser`;
     static CREATE_TRANSACTION = `${this.BASE_URL}/transaction/insert`;
     static DELETE_TRANSACTION(id) { return `${this.BASE_URL}/transaction/delete/${id}` }
+    static EXPORT_TRANSACTION = `${this.BASE_URL}/transaction/export`;
+
 
     // notification
     static SEND_NOTIFICATION = `${this.BASE_URL}/noti/send`;
