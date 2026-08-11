@@ -26,13 +26,13 @@
     "no_data": "ບໍ່ມີຂໍ້ມູນ",
     "store_not_found": "ບໍ່ພົບຂໍ້ມູນຮ້ານ",
     "delete_confirm": "ທ່ານຕ້ອງການລຶບຮ້ານຄ້ານີ້ບໍ?",
+    "delete_product_confirm": "ທ່ານຕ້ອງການລຶບສິນຄ້ານີ້ບໍ?",
     "delete_success": "ລຶບສຳເລັດ",
     "delete_error": "ລຶບຮ້ານຄ້າລົ້ມເຫລວ",
     "item_range": "ລາຍການ",
     "from": "ຈາກ",
     "to": "ໄປໜ້າ",
     "of": "ຈາກ",
-
     "transaction_title": "ປະຫວັດທຸລະກຳ",
     "transaction_detail": "ລາຍລະອຽດທຸລະກຳ",
     "transaction_code": "ລະຫັດທຸລະກຳ",
@@ -47,5 +47,14 @@
     "card_number": "ເລກບັດ",
     "delete_txn_confirm": "ທ່ານຕ້ອງການລຶບລາຍການນີ້ບໍ?",
     "delete_txn_success": "ລຶບສຳເລັດ",
-    "delete_txn_error": "ລຶບລາຍການລົ້ມເຫລວ"
+    "delete_txn_error": "ລຶບລາຍການລົ້ມເຫລວ",
+    "add_product": "ເພີ່ມສິນຄ້າ",
+    "edit_product": "ແກ້ໄຂສິນຄ້າ",
+    "product_name": "ຊື່ສິນຄ້າ",
+    "product_amount": "ຈຳນວນສິນຄ້າ",
+    "product_price": "ລາຄາສິນຄ້າ",
+    "product_discount": "ສ່ວນຫຼຸດສິນຄ້າ",
+    "product_status": "ສະຖານະ",
+    "product_image": "ຮູບສິນຄ້າ",
+    "product_list": "ລາຍການສິນຄ້າ"
 }

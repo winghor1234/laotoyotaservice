@@ -227,4 +227,14 @@ export default class APIPath {
     static DELETE_CARD(id) { return `${this.BASE_URL}/card/delete/${id}` }
 
 
+    // product
+    static SELECT_ALL_PRODUCTS = `${this.BASE_URL}/product/selAll`;
+    static SELECT_ONE_PRODUCT(id) { return `${this.BASE_URL}/product/selOne/${id}` }
+    static GET_ALL_PRODUCTS = `${this.BASE_URL}/product/getAll`;
+    static CREATE_PRODUCT = `${this.BASE_URL}/product/insert`;
+    static UPDATE_PRODUCT(id) { return `${this.BASE_URL}/product/update/${id}` }
+    static UPDATE_PRODUCT_STATUS(id) { return `${this.BASE_URL}/product/updateStatus/${id}` }
+    static DELETE_PRODUCT(id) { return `${this.BASE_URL}/product/delete/${id}` }
+
+
 }
