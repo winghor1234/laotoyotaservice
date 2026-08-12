@@ -57,5 +57,8 @@
     "product_discount": "Product Discount",
     "product_status": "Status",
     "product_image": "Product Image",
-    "product_list": "Product List"
+    "product_list": "Product List",
+    "product_detail": "Product Detail",
+    "product_not_found": "Product not found",
+    "kip": "Kip"
 }

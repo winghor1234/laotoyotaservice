@@ -10,7 +10,7 @@ const storeSchema = z.object({
   name: z.string().min(1, "ກະລຸນາໃສ່ຊື່ຮ້ານ").max(200),
   address: z.string().min(1, "ກະລຸນາໃສ່ທີ່ຢູ່").max(500),
   phone: z.string().min(8, "ເບີໂທຕ້ອງຢ່າງໜ້ອຍ 8 ຕົວເລກ").max(15),
-  discount: z.coerce.number().min(0, "ສ່ວນຫຼຸດຕ້ອງ >= 0").default(0),
+  // discount: z.coerce.number().min(0, "ສ່ວນຫຼຸດຕ້ອງ >= 0").default(0),
   status: z.boolean().optional(),
 });
 
@@ -18,13 +18,13 @@ export const useAddStoreForm = ({ onClose, handleFetchStore }) => {
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState(null);
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({
+  const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm({
     resolver: zodResolver(storeSchema),
     defaultValues: {
       name: "",
       address: "",
       phone: "",
-      discount: 0,
+      // discount: 0,
       status: true,
     }
   });
@@ -36,9 +36,9 @@ export const useAddStoreForm = ({ onClose, handleFetchStore }) => {
       formData.append("name", data.name.trim());
       formData.append("address", data.address.trim());
       formData.append("phone", data.phone.trim());
-      formData.append("discount", data.discount ?? 0);
+      // formData.append("discount", data.discount ?? 0);
       formData.append("status", data.status ? "true" : "false");
-      if (imageFile) formData.append("image", imageFile);
+      if (imageFile) formData.append("files", imageFile);
 
       const response = await axiosInstance.post(APIPath.CREATE_STORE, formData);
       if (response.data) {
@@ -56,5 +56,5 @@ export const useAddStoreForm = ({ onClose, handleFetchStore }) => {
     }
   };
 
-  return { register, handleSubmit, errors, loading, onSubmit, imageFile, setImageFile, reset };
+  return { register, handleSubmit, errors, loading, onSubmit, imageFile, setImageFile, reset, setValue };
 };

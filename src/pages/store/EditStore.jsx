@@ -52,7 +52,7 @@ const EditStore = ({ show, onClose, store_id, handleFetchStore }) => {
             {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
           </div>
 
-          <div>
+          {/* <div>
             <input
               type="number"
               min={0}
@@ -62,7 +62,7 @@ const EditStore = ({ show, onClose, store_id, handleFetchStore }) => {
             />
             <p className="text-xs text-gray-400 mt-1">{t("qr_regenerate")}</p>
             {errors.discount && <p className="text-red-500 text-xs mt-1">{errors.discount.message}</p>}
-          </div>
+          </div> */}
 
           <div>
             <label className="block text-sm text-gray-600 mb-1">{t("image")}</label>

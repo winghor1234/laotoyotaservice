@@ -19,7 +19,7 @@ export const useEditProductForm = ({ onClose, product_id, handleFetchProduct }) 
     const [imageFile, setImageFile] = useState(null);
     const [existingImage, setExistingImage] = useState(null);
 
-    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm({
+    const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm({
         resolver: zodResolver(productSchema),
         defaultValues: {
             name: "",
@@ -66,7 +66,7 @@ export const useEditProductForm = ({ onClose, product_id, handleFetchProduct }) 
             formData.append("amount", data.amount ?? 0);
             formData.append("discount", data.discount ?? 0);
             formData.append("status", data.status ? "true" : "false");
-            if (imageFile) formData.append("files", imageFile);
+            if (imageFile) formData.append("image", imageFile);
 
             const response = await axiosInstance.put(APIPath.UPDATE_PRODUCT(product_id), formData);
             if (response.data) {
@@ -82,5 +82,5 @@ export const useEditProductForm = ({ onClose, product_id, handleFetchProduct }) 
         }
     };
 
-    return { register, handleSubmit, submitForm, errors, loading, imageFile, setImageFile, existingImage, setValue };
+    return { register, handleSubmit, submitForm, errors, loading, imageFile, setImageFile, existingImage, setValue, watch };
 };

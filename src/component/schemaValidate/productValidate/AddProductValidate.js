@@ -18,13 +18,13 @@ export const useAddProductForm = ({ onClose, store_id, handleFetchProduct }) => 
     const [loading, setLoading] = useState(false);
     const [imageFile, setImageFile] = useState(null);
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({
+    const { register, handleSubmit, reset,watch,setValue, formState: { errors } } = useForm({
         resolver: zodResolver(productSchema),
         defaultValues: {
             name: "",
-            price: 0,
-            amount: 0,
-            discount: 0,
+            price: "",
+            amount: "",
+            discount: "",
             status: true,
         }
     });
@@ -41,7 +41,6 @@ export const useAddProductForm = ({ onClose, store_id, handleFetchProduct }) => 
             formData.append("discount", data.discount ?? 0);
             formData.append("status", data.status ? "true" : "false");
             formData.append("storeId", store_id);
-            // if (store_id) formData.append("store_id", store_id);
             if (imageFile) formData.append("files", imageFile);
             console.log("formData : ",formData);
 
@@ -61,5 +60,5 @@ export const useAddProductForm = ({ onClose, store_id, handleFetchProduct }) => 
         }
     };
 
-    return { register, handleSubmit, errors, loading, onSubmit, imageFile, setImageFile, reset };
+    return { register, handleSubmit, errors, loading, onSubmit, imageFile, setImageFile, reset,setValue,watch };
 };

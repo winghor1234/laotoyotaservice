@@ -10,7 +10,7 @@ const storeSchema = z.object({
   name: z.string().min(1, "ກະລຸນາໃສ່ຊື່ຮ້ານ").max(200),
   address: z.string().min(1, "ກະລຸນາໃສ່ທີ່ຢູ່").max(500),
   phone: z.string().min(8, "ເບີໂທຕ້ອງຢ່າງໜ້ອຍ 8 ຕົວເລກ").max(15),
-  discount: z.coerce.number().min(0).default(0),
+  // discount: z.coerce.number().min(0).default(0),
   status: z.boolean().optional(),
 });
 
@@ -25,7 +25,7 @@ export const useEditStoreForm = ({ onClose, store_id, handleFetchStore }) => {
       name: "",
       address: "",
       phone: "",
-      discount: 0,
+      // discount: 0,
       status: true,
     }
   });
@@ -39,13 +39,13 @@ export const useEditStoreForm = ({ onClose, store_id, handleFetchStore }) => {
         const data = res?.data?.data;
         if (data) {
           // parse discount ຈາກ qrCode JSON
-          let discount = 0;
-          try { discount = JSON.parse(data.qrCode)?.discount ?? 0; } catch (_) {}
+          // let discount = 0;
+          // try { discount = JSON.parse(data.qrCode)?.discount ?? 0; } catch (_) {}
           reset({
             name: data.name || "",
             address: data.address || "",
             phone: data.phone || "",
-            discount,
+            // discount,
             status: data.status ?? true,
           });
           setExistingImage(data.image || null);
@@ -69,7 +69,7 @@ export const useEditStoreForm = ({ onClose, store_id, handleFetchStore }) => {
       formData.append("phone", data.phone.trim());
       formData.append("discount", data.discount ?? 0);
       formData.append("status", data.status ? "true" : "false");
-      if (imageFile) formData.append("image", imageFile);
+      if (imageFile) formData.append("files", imageFile);
 
       const response = await axiosInstance.put(APIPath.UPDATE_STORE(store_id), formData);
       if (response.data) {

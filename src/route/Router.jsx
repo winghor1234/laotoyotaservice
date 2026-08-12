@@ -62,6 +62,7 @@ import DetailStore from "../pages/store/DetailStore";
 import TransactionList from "../pages/store/TransactionList";
 import DetailTransaction from "../pages/store/DetailTransaction";
 import ColorList from "../pages/color/ColorList";
+import ProductDetail from "../pages/store/Productdetail";
 
 
 const router = createBrowserRouter([
@@ -324,6 +325,10 @@ const router = createBrowserRouter([
       {
         path: "store-detail/:id",
         element: <DetailStore />,
+      },
+      {
+        path: "product-detail/:id",
+        element: <ProductDetail />,
       },
       {
         path: "transaction-detail/:id",

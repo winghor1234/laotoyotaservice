@@ -207,6 +207,7 @@ import AddProduct from "./Addproduct";
 import EditProduct from "./EditProduct";
 import { DeleteAlert } from "../../utils/handleAlert/DeleteAlert";
 import { SuccessAlert } from "../../utils/handleAlert/SuccessAlert";
+import { FormatNumber } from "../../utils/FormatNumber";
 
 const DetailStore = () => {
     const { id } = useParams();
@@ -267,7 +268,7 @@ const DetailStore = () => {
                     search: search || undefined,
                     startDate: startDate?.toISOString(),
                     endDate: endDate?.toISOString(),
-                    store_id: id,
+                    storeId: id,
                 },
             }),
     });
@@ -429,6 +430,17 @@ const DetailStore = () => {
                                             className="text-gray-600 w-4 h-4 hover:text-gray-800 cursor-pointer"
                                             onClick={() => navigate(`/user/product-detail/${item.product_id}`)}
                                         />
+                                        <Edit
+                                            className="text-gray-600 w-4 h-4 hover:text-gray-800 cursor-pointer"
+                                            onClick={() => {
+                                                setSelectedProduct(item.product_id);
+                                                setShowEditProduct(true);
+                                            }}
+                                        />
+                                        <Trash
+                                            className="text-gray-600 w-4 h-4 hover:text-red-600 cursor-pointer"
+                                            onClick={() => handleDelete(item.product_id)}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -457,7 +469,7 @@ const DetailStore = () => {
                                 <div
                                     key={item.product_id || index}
                                     className="grid grid-cols-7 gap-3 px-3 lg:px-4 py-3 lg:py-4 items-center hover:bg-gray-50 transition-colors cursor-pointer"
-                                    onClick={() => navigate(`/user/product-detail/${item.product_id}`)}
+                                    
                                 >
                                     <div className="text-center">{index + 1}</div>
                                     <div className="flex justify-center">
@@ -469,7 +481,7 @@ const DetailStore = () => {
                                     </div>
                                     <div className="text-center line-clamp-1">{item.name}</div>
                                     <div className="text-center">{item.amount}</div>
-                                    <div className="text-center">{item.price}</div>
+                                    <div className="text-center">{FormatNumber(item.price)} {t("kip")}</div>
                                     <div className="text-center">
                                         <span className={`px-2 py-0.5 rounded-full text-xs ${item.status ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
                                             {item.status ? t("active") : t("inactive")}

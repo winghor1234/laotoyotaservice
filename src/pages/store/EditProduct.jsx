@@ -2,10 +2,12 @@ import { X, Upload } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Spinner from "../../utils/Loading";
 import { useEditProductForm } from "../../component/schemaValidate/productValidate/EditProductValidate";
+import CurrencyInput from "react-currency-input-field";
+
 
 const EditProduct = ({ show, onClose, product_id, handleFetchProduct }) => {
     const { t } = useTranslation("store");
-    const { register, handleSubmit, submitForm, errors, loading, imageFile, setImageFile, existingImage } =
+    const { register, handleSubmit, submitForm, errors,setValue,watch, loading, imageFile, setImageFile, existingImage } =
         useEditProductForm({ onClose, product_id, handleFetchProduct });
 
     if (!show) return null;
@@ -32,13 +34,26 @@ const EditProduct = ({ show, onClose, product_id, handleFetchProduct }) => {
                         {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
                     </div>
 
-                    <div>
+                    {/* <div>
                         <input
                             type="number"
                             min={0}
                             step="0.01"
                             placeholder={t("price")}
                             {...register("price")}
+                            className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
+                        />
+                        {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price.message}</p>}
+                    </div> */}
+                    <div className="flex flex-col relative">
+                        <CurrencyInput
+                            placeholder={t("product_price")}
+                            value={watch("price") || ""}
+                            groupSeparator=","
+                            decimalsLimit={0}
+                            onValueChange={(value) => {
+                                setValue("price", value ? Number(value) : "", { shouldValidate: true });
+                            }}
                             className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
                         />
                         {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price.message}</p>}

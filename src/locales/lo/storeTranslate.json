@@ -56,5 +56,8 @@
     "product_discount": "ສ່ວນຫຼຸດສິນຄ້າ",
     "product_status": "ສະຖານະ",
     "product_image": "ຮູບສິນຄ້າ",
-    "product_list": "ລາຍການສິນຄ້າ"
+    "product_list": "ລາຍການສິນຄ້າ",
+    "product_detail": "ລາຍລະອຽດສິນຄ້າ",
+    "product_not_found": "ບໍ່ພົບຂໍ້ມູນສິນຄ້າ",
+    "kip": "ກີບ"
 }

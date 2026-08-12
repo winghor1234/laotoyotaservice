@@ -2,10 +2,12 @@ import { X, Upload } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Spinner from "../../utils/Loading";
 import { useAddProductForm } from "../../component/schemaValidate/productValidate/AddProductValidate";
+import CurrencyInput from "react-currency-input-field";
+
 
 const AddProduct = ({ show, onClose, store_id, handleFetchProduct }) => {
     const { t } = useTranslation("store");
-    const { register, handleSubmit, errors, loading, onSubmit, imageFile, setImageFile, reset } =
+    const { register, handleSubmit, errors, loading, setValue, watch, onSubmit, imageFile, setImageFile, reset } =
         useAddProductForm({ onClose, store_id, handleFetchProduct });
 
     if (!show) return null;
@@ -38,13 +40,26 @@ const AddProduct = ({ show, onClose, store_id, handleFetchProduct }) => {
                         {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
                     </div>
 
-                    <div>
+                    {/* <div>
                         <input
                             type="number"
                             min={0}
                             step="0.01"
-                            placeholder={t("price")}
+                            placeholder={t("product_price")}
                             {...register("price")}
+                            className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
+                        />
+                        {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price.message}</p>}
+                    </div> */}
+                    <div className="flex flex-col relative">
+                        <CurrencyInput
+                            placeholder={t("product_price")}
+                            value={watch("price") || ""}
+                            groupSeparator=","
+                            decimalsLimit={0}
+                            onValueChange={(value) => {
+                                setValue("price", value ? Number(value) : "", { shouldValidate: true });
+                            }}
                             className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
                         />
                         {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price.message}</p>}
@@ -54,7 +69,7 @@ const AddProduct = ({ show, onClose, store_id, handleFetchProduct }) => {
                         <input
                             type="number"
                             min={0}
-                            placeholder={t("amount")}
+                            placeholder={t("product_amount")}
                             {...register("amount")}
                             className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
                         />
@@ -64,13 +79,13 @@ const AddProduct = ({ show, onClose, store_id, handleFetchProduct }) => {
                         <input
                             type="number"
                             min={0}
-                            placeholder={t("discount")}
+                            placeholder={t("product_discount")}
                             {...register("discount")}
                             className="w-full py-2 sm:py-3 px-3 sm:px-4 border border-gray-300 rounded-lg text-sm outline-none hover:border-red-500 focus:border-red-600 shadow-sm transition-colors"
                         />
                         {errors.discount && <p className="text-red-500 text-xs mt-1">{errors.discount.message}</p>}
                     </div>
-                    
+
 
                     <div>
                         <label className="block text-sm text-gray-600 mb-1">{t("image")}</label>
