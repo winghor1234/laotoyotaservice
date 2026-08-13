@@ -60,5 +60,7 @@
     "product_list": "Product List",
     "product_detail": "Product Detail",
     "product_not_found": "Product not found",
-    "kip": "Kip"
+    "kip": "Kip",
+    "fix": "Fix",
+    "workshop": "Workshop"
 }

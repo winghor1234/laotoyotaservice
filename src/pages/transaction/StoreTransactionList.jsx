@@ -11,7 +11,7 @@ import useServerFilterPagination from "../../utils/useServerFilterPagination";
 import DownloadButton from "../../utils/DownloadButton";
 import ExportExcelPopup from "../../utils/exportExelPopup";
 
-const TransactionList = () => {
+const StoreTransactionList = () => {
     const { t } = useTranslation("store");
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
@@ -62,7 +62,7 @@ const TransactionList = () => {
 
     return (
         <div>
-            <div className="flex justify-end items-center mb-6 gap-3">
+            <div className="flex justify-end items-center mb-6 gap-3 ">
                 <SelectDate
                     searchValue={search}
                     onSearchChange={handleSearch}
@@ -77,6 +77,7 @@ const TransactionList = () => {
                         onClose={() => setOpen(false)}
                     />
                 )}
+
             </div>
 
             {/* Mobile Card */}
@@ -185,4 +186,4 @@ const TransactionList = () => {
     );
 };
 
-export default TransactionList;
+export default StoreTransactionList;

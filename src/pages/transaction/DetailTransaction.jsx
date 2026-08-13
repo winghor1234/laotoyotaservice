@@ -78,10 +78,10 @@ const DetailTransaction = () => {
                                 <p className="text-sm text-gray-500">{txn.store?.address || ""}</p>
                             </div>
 
-                            <div className="bg-green-50 p-4 rounded-lg">
+                            {/* <div className="bg-green-50 p-4 rounded-lg">
                                 <p className="text-sm text-gray-500">{t("discount_received")}</p>
                                 <p className="text-3xl font-bold text-green-600 mt-1">{txn.discount}%</p>
-                            </div>
+                            </div> */}
 
                             <div className="bg-gray-50 p-4 rounded-lg">
                                 <p className="text-sm text-gray-500">{t("date_time")}</p>

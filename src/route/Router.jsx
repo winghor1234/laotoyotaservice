@@ -59,10 +59,16 @@ import ExchangeGiftHistoryList from "../pages/gift/exchangeGiftHistoy/ExchangeGi
 import CanceledGiftHistoryList from "../pages/gift/canceledGiftHistory/CanceledGiftHistoryList";
 import StoreList from "../pages/store/StoreList";
 import DetailStore from "../pages/store/DetailStore";
-import TransactionList from "../pages/store/TransactionList";
-import DetailTransaction from "../pages/store/DetailTransaction";
+import TransactionList from "../pages/transaction/StoreTransactionList";
+import DetailTransaction from "../pages/transaction/DetailTransaction";
 import ColorList from "../pages/color/ColorList";
 import ProductDetail from "../pages/store/Productdetail";
+import Transaction from "../pages/transaction/Transaction";
+import StoreTransactionList from "../pages/transaction/StoreTransactionList";
+import FixTransactionList from "../pages/transaction/FixTransactionList";
+import WorkshopTransactionList from "../pages/transaction/WorkshopTransactionList";
+import WorkshopTransactionFixDetail from "../pages/transaction/WorkshopTransactionFixDetail";
+import FixTransactionDetail from "../pages/transaction/FixtransactionDetail";
 
 
 const router = createBrowserRouter([
@@ -132,15 +138,15 @@ const router = createBrowserRouter([
       },
       {
         path: "workshop-fix",
-        element: <WorkShopFixList/>
+        element: <WorkShopFixList />
       },
       {
         path: "workshop-fix-bill-detail/:id",
-        element: <FixBillDetail/>,
+        element: <FixBillDetail />,
       },
       {
         path: "WorkShopFixDetail/:id",
-        element: <WorkShopFixDetail/>,
+        element: <WorkShopFixDetail />,
       },
       {
         path: "setting-point",
@@ -276,7 +282,7 @@ const router = createBrowserRouter([
       },
       {
         path: "time-fix-detail/:id",
-        element: <TimeFixDerail/>,
+        element: <TimeFixDerail />,
       },
       {
         path: "branch-detail/:id",
@@ -308,11 +314,11 @@ const router = createBrowserRouter([
       },
       {
         path: "card",
-        element: <CardList/>
+        element: <CardList />
       },
       {
         path: "card-detail/:id",
-        element: <CardDetail/>
+        element: <CardDetail />
       },
       {
         path: "store",
@@ -320,8 +326,27 @@ const router = createBrowserRouter([
       },
       {
         path: "transaction",
-        element: <TransactionList />,
+        element: <Transaction />,
+        children: [
+          {
+            index: true,
+            element: <StoreTransactionList />,
+          },
+          {
+            path: "fix",
+            element: <FixTransactionList />,
+          },
+          {
+            path: "workshop",
+            element: <WorkshopTransactionList />,
+          },
+        ],
       },
+
+      // {
+      //   path: "transaction",
+      //   element: <TransactionList />,
+      // },
       {
         path: "store-detail/:id",
         element: <DetailStore />,
@@ -333,6 +358,14 @@ const router = createBrowserRouter([
       {
         path: "transaction-detail/:id",
         element: <DetailTransaction />,
+      },
+      {
+        path: "transaction-workshop-detail/:id",
+        element: <WorkshopTransactionFixDetail />,
+      },
+      {
+        path: "transaction-fix-detail/:id",
+        element: <FixTransactionDetail />,
       },
     ],
   },
