@@ -71,7 +71,7 @@ const WorkshopTransactionFixDetail = () => {
                         {/* Customer Info */}
                         <div className="space-y-3">
                             <h3 className="text-sm text-red-600 uppercase tracking-wider border-l-2 border-red-600 pl-2 mb-4 font-normal">
-                                {t("customer_info")}
+                                {t("customer_info_workshop")}
                             </h3>
                             <div className="text-sm space-y-2 text-gray-700">
                                 <p className="flex justify-between md:block">
@@ -114,7 +114,7 @@ const WorkshopTransactionFixDetail = () => {
                         {/* Appointment Info */}
                         <div className="space-y-3">
                             <h3 className="text-sm text-red-600 uppercase tracking-wider border-l-2 border-red-600 pl-2 mb-4 font-normal">
-                                {t("appointment_time")}
+                                {t("time")}
                             </h3>
                             <div className="text-sm space-y-2 text-gray-700">
                                 <p className="flex justify-between md:block">

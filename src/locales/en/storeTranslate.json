@@ -61,6 +61,7 @@
     "product_detail": "Product Detail",
     "product_not_found": "Product not found",
     "kip": "Kip",
-    "fix": "Fix",
-    "workshop": "Workshop"
+    "store_transaction": "TRC",
+    "fix": "LTS",
+    "workshop": "LTS"
 }
