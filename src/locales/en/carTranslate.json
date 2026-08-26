@@ -67,7 +67,10 @@
   "item_range": "Item Range",
   "list": "List",
   "from": "From",
-  "to": "go to page"
+  "to": "go to page",
+  "no_card": "No card linked yet",
+  "card_type": "Card Type",
+  "card_number": "Card Number"
 
 
 

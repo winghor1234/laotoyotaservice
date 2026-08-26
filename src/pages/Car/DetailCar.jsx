@@ -45,6 +45,7 @@ const DetailCar = () => {
             </div>
         );
     }
+    console.log("carData:", carData);
 
     return (
         <div className="min-h-screen bg-gray-50 p-2 sm:p-4">
@@ -141,6 +142,28 @@ const DetailCar = () => {
                                     </p>
                                 </div>
 
+                                {carData?.card ? (
+                                    <>
+                                        <div>
+                                            <p className="text-sm text-gray-500">{t("card_type")}</p>
+                                            <p className="font-semibold text-gray-900">
+                                                {carData.card.card_type || "-"}
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <p className="text-sm text-gray-500">{t("card_number")}</p>
+                                            <p className="text-gray-800">
+                                                {carData.card.card_number || "-"}
+                                            </p>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="col-span-2 text-center text-gray-500 italic py-4">
+                                        {t("no_card")}
+                                    </div>
+                                )}
+
                             </div>
                         </div>
                     </div>
@@ -202,6 +225,27 @@ const DetailCar = () => {
                                     <span className="text-base font-medium text-gray-800">{carData?.user?.village}</span>
                                 </div>
 
+                            </div>
+                        )}
+
+                        {carData?.card ? (
+                            <div className="bg-gray-50 p-4 rounded-md shadow-inner space-y-3">
+                                <div>
+                                    <span className="text-base text-gray-500 block">{t("card_type")}:</span>
+                                    <span className="text-base font-medium text-gray-900">
+                                        {carData.card.card_type || "-"}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span className="text-base text-gray-500 block">{t("card_number")}:</span>
+                                    <span className="text-base font-medium text-gray-800">
+                                        {carData.card.card_number || "-"}
+                                    </span>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="bg-gray-50 p-4 rounded-md shadow-inner text-center text-gray-500 italic">
+                                {t("no_card")}
                             </div>
                         )}
                     </div>
