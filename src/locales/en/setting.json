@@ -1,0 +1,14 @@
+{
+    "setting": "Setting",
+    "setting_description": "Manage Laos Toyota Service information",
+    "logo": "Logo",
+    "change_logo": "Change Logo",
+    "service_information": "Service Information",
+    "name": "Service Name",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "website": "Website",
+    "save": "Save Changes",
+    "saving": "Saving..."
+}

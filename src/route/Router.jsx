@@ -69,6 +69,7 @@ import FixTransactionList from "../pages/transaction/FixTransactionList";
 import WorkshopTransactionList from "../pages/transaction/WorkshopTransactionList";
 import WorkshopTransactionFixDetail from "../pages/transaction/WorkshopTransactionFixDetail";
 import FixTransactionDetail from "../pages/transaction/FixtransactionDetail";
+import Setting from "../pages/setting/Setting";
 
 
 const router = createBrowserRouter([
@@ -343,10 +344,10 @@ const router = createBrowserRouter([
         ],
       },
 
-      // {
-      //   path: "transaction",
-      //   element: <TransactionList />,
-      // },
+      {
+        path: "setting",
+        element: <Setting />,
+      },
       {
         path: "store-detail/:id",
         element: <DetailStore />,

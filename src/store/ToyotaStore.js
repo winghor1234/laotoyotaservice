@@ -11,6 +11,8 @@ const useToyotaStore = create((set, get) => ({
   refreshToken: savedRefreshToken || null,
   tokenExpire: savedTokenExpire ? parseInt(savedTokenExpire) : null,
   userId: savedUserId || null,
+  setting: null,
+  logo: null,
 
   setToken: (token, refreshToken, tokenExpire) => {
     localStorage.setItem("token", token);
@@ -45,9 +47,9 @@ const useToyotaStore = create((set, get) => ({
 
     if (tokenExpire && now > tokenExpire - threshold && refreshToken) {
       try {
-         const response = await axiosInstance.post('/user/refresh', {
-    refreshToken,
-  });
+        const response = await axiosInstance.post('/user/refresh', {
+          refreshToken,
+        });
 
         const { token: newToken, refreshToken: newRefresh } = response.data;
         const newExpire = Date.now() + 60 * 60 * 1000; // 1 ชั่วโมงหลัง refresh
@@ -63,7 +65,33 @@ const useToyotaStore = create((set, get) => ({
 
     return get().token;
   },
+
+  setSetting: (setting) =>
+    set({
+      setting,
+      logo: setting?.logo || null,
+    }),
+
+  setLogo: (logo) =>
+    set((state) => ({
+      logo,
+      setting: state.setting
+        ? {
+          ...state.setting,
+          logo,
+        }
+        : state.setting,
+    })),
+
+  clearSetting: () =>
+    set({
+      setting: null,
+      logo: null,
+    }),
 }));
+
+
+
 
 export default useToyotaStore;
 

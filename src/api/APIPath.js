@@ -237,4 +237,11 @@ export default class APIPath {
     static DELETE_PRODUCT(id) { return `${this.BASE_URL}/product/delete/${id}` }
 
 
+
+    // setting
+    static SELECT_SETTING = `${this.BASE_URL}/setting/sel` 
+    static CREATE_SETTING = `${this.BASE_URL}/setting/insert`;
+    static UPDATE_SETTING = `${this.BASE_URL}/setting/update` 
+
+
 }
