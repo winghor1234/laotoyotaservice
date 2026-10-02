@@ -63,5 +63,13 @@
     "kip": "Kip",
     "store_transaction": "TRC",
     "fix": "LTS",
-    "workshop": "LTS"
+    "workshop": "LTS",
+    "location": "Location",
+    "open_google_maps": "Open Google Maps",
+    "view_location": "View Location",
+    "location_not_available": "Location not available",
+    "map_hint": "Click on the map to select the store location",
+    "Latitude": "Latitude",
+    "Longitude": "Longitude",
+    "map_click_hint": "Click anywhere on the map to automatically set the latitude and longitude."
 }

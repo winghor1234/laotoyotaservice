@@ -36,5 +36,11 @@
     "item_range": "Item Range",
     "list": "List",
     "from": "From",
-    "to": "go to page"
+    "to": "go to page",
+    "map_hint": "Click on the map to select the branch location",
+    "Latitude": "Latitude",
+    "Longitude": "Longitude",
+    "map_click_hint": "Click anywhere on the map to automatically set the latitude and longitude.",
+    "open_google_maps": "Open Google Maps",
+    "Coordinates": "Coordinates"
 }

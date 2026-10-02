@@ -27,5 +27,6 @@
   "fix_management": "Fix Management",
   "store_info": "Store",
   "transaction_info": "Transaction",
-  "color_info": "Color"
+  "color_info": "Color",
+  "setting": "Setting"
 }

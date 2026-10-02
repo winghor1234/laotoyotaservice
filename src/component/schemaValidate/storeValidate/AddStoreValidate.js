@@ -60,6 +60,176 @@
 // };
 
 
+// import { useState } from "react";
+// import { useForm } from "react-hook-form";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { z } from "zod";
+// import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
+// import APIPath from "../../../api/APIPath";
+// import axiosInstance from "../../../utils/AxiosInstance";
+
+// const storeSchema = z.object({
+//   name: z
+//     .string()
+//     .min(1, "ກະລຸນາໃສ່ຊື່ຮ້ານ")
+//     .max(200),
+
+//   address: z
+//     .string()
+//     .min(1, "ກະລຸນາໃສ່ທີ່ຢູ່")
+//     .max(500),
+
+//   phone: z
+//     .string()
+//     .min(8, "ເບີໂທຕ້ອງຢ່າງໜ້ອຍ 8 ຕົວເລກ")
+//     .max(15),
+
+//   latitude: z
+//     .string()
+//     .optional()
+//     .refine(
+//       (value) =>
+//         value === undefined ||
+//         value === "" ||
+//         (!isNaN(Number(value)) &&
+//           Number(value) >= -90 &&
+//           Number(value) <= 90),
+//       {
+//         message: "Latitude ຕ້ອງຢູ່ລະຫວ່າງ -90 ຫາ 90",
+//       }
+//     ),
+
+//   longitude: z
+//     .string()
+//     .optional()
+//     .refine(
+//       (value) =>
+//         value === undefined ||
+//         value === "" ||
+//         (!isNaN(Number(value)) &&
+//           Number(value) >= -180 &&
+//           Number(value) <= 180),
+//       {
+//         message: "Longitude ຕ້ອງຢູ່ລະຫວ່າງ -180 ຫາ 180",
+//       }
+//     ),
+
+//   status: z.boolean().optional(),
+// });
+
+// export const useAddStoreForm = ({
+//   onClose,
+//   handleFetchStore,
+// }) => {
+//   const [loading, setLoading] = useState(false);
+//   const [imageFile, setImageFile] = useState(null);
+
+//   const {
+//     register,
+//     handleSubmit,
+//     reset,
+//     setValue,
+//     formState: { errors },
+//   } = useForm({
+//     resolver: zodResolver(storeSchema),
+
+//     defaultValues: {
+//       name: "",
+//       address: "",
+//       phone: "",
+//       latitude: "",
+//       longitude: "",
+//       status: true,
+//     },
+//   });
+
+//   const onSubmit = async (data) => {
+//     try {
+//       setLoading(true);
+
+//       const formData = new FormData();
+
+//       // Basic information
+//       formData.append("name", data.name.trim());
+//       formData.append("address", data.address.trim());
+//       formData.append("phone", data.phone.trim());
+
+//       // Location
+//       if (data.latitude !== undefined && data.latitude !== "") {
+//         formData.append(
+//           "latitude",
+//           data.latitude
+//         );
+//       }
+
+//       if (data.longitude !== undefined && data.longitude !== "") {
+//         formData.append(
+//           "longitude",
+//           data.longitude
+//         );
+//       }
+
+//       // Status
+//       formData.append(
+//         "status",
+//         data.status ? "true" : "false"
+//       );
+
+//       // Image
+//       if (imageFile) {
+//         formData.append("files", imageFile);
+//       }
+
+//       const response = await axiosInstance.post(
+//         APIPath.CREATE_STORE,
+//         formData
+//       );
+
+//       if (response.data) {
+//         await handleFetchStore();
+
+//         SuccessAlert(
+//           "ເພີ່ມຮ້ານຄ້າສຳເລັດ",
+//           1500,
+//           "success"
+//         );
+
+//         reset();
+
+//         setImageFile(null);
+
+//         onClose();
+//       }
+//     } catch (error) {
+//       console.error(
+//         "Create Store failed:",
+//         error
+//       );
+
+//       SuccessAlert(
+//         error.response?.data?.message ||
+//         "ເພີ່ມຮ້ານຄ້າລົ້ມເຫລວ",
+//         2000,
+//         "error"
+//       );
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return {
+//     register,
+//     handleSubmit,
+//     errors,
+//     loading,
+//     onSubmit,
+//     imageFile,
+//     setImageFile,
+//     reset,
+//     setValue,
+//   };
+// };
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -68,21 +238,20 @@ import { SuccessAlert } from "../../../utils/handleAlert/SuccessAlert";
 import APIPath from "../../../api/APIPath";
 import axiosInstance from "../../../utils/AxiosInstance";
 
+/* =========================================================
+   Store Schema
+========================================================= */
+
 const storeSchema = z.object({
-  name: z
-    .string()
-    .min(1, "ກະລຸນາໃສ່ຊື່ຮ້ານ")
-    .max(200),
+  name: z.string().min(1, "ກະລຸນາໃສ່ຊື່ຮ້ານ").max(200),
 
-  address: z
-    .string()
-    .min(1, "ກະລຸນາໃສ່ທີ່ຢູ່")
-    .max(500),
+  address: z.string().min(1, "ກະລຸນາໃສ່ທີ່ຢູ່").max(500),
 
-  phone: z
-    .string()
-    .min(8, "ເບີໂທຕ້ອງຢ່າງໜ້ອຍ 8 ຕົວເລກ")
-    .max(15),
+  phone: z.string().min(8, "ເບີໂທຕ້ອງຢ່າງໜ້ອຍ 8 ຕົວເລກ").max(15),
+
+  /* -----------------------------------------------------
+     Latitude (optional) : -90 to 90
+  ----------------------------------------------------- */
 
   latitude: z
     .string()
@@ -91,13 +260,15 @@ const storeSchema = z.object({
       (value) =>
         value === undefined ||
         value === "" ||
-        (!isNaN(Number(value)) &&
+        (Number.isFinite(Number(value)) &&
           Number(value) >= -90 &&
           Number(value) <= 90),
-      {
-        message: "Latitude ຕ້ອງຢູ່ລະຫວ່າງ -90 ຫາ 90",
-      }
+      { message: "Latitude ຕ້ອງຢູ່ລະຫວ່າງ -90 ຫາ 90" }
     ),
+
+  /* -----------------------------------------------------
+     Longitude (optional) : -180 to 180
+  ----------------------------------------------------- */
 
   longitude: z
     .string()
@@ -106,21 +277,20 @@ const storeSchema = z.object({
       (value) =>
         value === undefined ||
         value === "" ||
-        (!isNaN(Number(value)) &&
+        (Number.isFinite(Number(value)) &&
           Number(value) >= -180 &&
           Number(value) <= 180),
-      {
-        message: "Longitude ຕ້ອງຢູ່ລະຫວ່າງ -180 ຫາ 180",
-      }
+      { message: "Longitude ຕ້ອງຢູ່ລະຫວ່າງ -180 ຫາ 180" }
     ),
 
   status: z.boolean().optional(),
 });
 
-export const useAddStoreForm = ({
-  onClose,
-  handleFetchStore,
-}) => {
+/* =========================================================
+   useAddStoreForm
+========================================================= */
+
+export const useAddStoreForm = ({ onClose, handleFetchStore }) => {
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState(null);
 
@@ -129,6 +299,8 @@ export const useAddStoreForm = ({
     handleSubmit,
     reset,
     setValue,
+    getValues,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(storeSchema),
@@ -143,6 +315,10 @@ export const useAddStoreForm = ({
     },
   });
 
+  /* =======================================================
+     Submit
+  ======================================================= */
+
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -154,26 +330,17 @@ export const useAddStoreForm = ({
       formData.append("address", data.address.trim());
       formData.append("phone", data.phone.trim());
 
-      // Location
+      // Location (optional)
       if (data.latitude !== undefined && data.latitude !== "") {
-        formData.append(
-          "latitude",
-          data.latitude
-        );
+        formData.append("latitude", String(data.latitude).trim());
       }
 
       if (data.longitude !== undefined && data.longitude !== "") {
-        formData.append(
-          "longitude",
-          data.longitude
-        );
+        formData.append("longitude", String(data.longitude).trim());
       }
 
       // Status
-      formData.append(
-        "status",
-        data.status ? "true" : "false"
-      );
+      formData.append("status", data.status ? "true" : "false");
 
       // Image
       if (imageFile) {
@@ -188,27 +355,17 @@ export const useAddStoreForm = ({
       if (response.data) {
         await handleFetchStore();
 
-        SuccessAlert(
-          "ເພີ່ມຮ້ານຄ້າສຳເລັດ",
-          1500,
-          "success"
-        );
+        SuccessAlert("ເພີ່ມຮ້ານຄ້າສຳເລັດ", 1500, "success");
 
         reset();
-
         setImageFile(null);
-
         onClose();
       }
     } catch (error) {
-      console.error(
-        "Create Store failed:",
-        error
-      );
+      console.error("Create Store failed:", error);
 
       SuccessAlert(
-        error.response?.data?.message ||
-        "ເພີ່ມຮ້ານຄ້າລົ້ມເຫລວ",
+        error.response?.data?.message || "ເພີ່ມຮ້ານຄ້າລົ້ມເຫລວ",
         2000,
         "error"
       );
@@ -227,5 +384,7 @@ export const useAddStoreForm = ({
     setImageFile,
     reset,
     setValue,
+    getValues,
+    watch,
   };
 };
