@@ -67,7 +67,7 @@ const Setting = () => {
         register,
         handleSubmit,
         reset,
-        watch,
+        // watch,
         formState: { errors },
     } = useForm({
         resolver: zodResolver(settingSchema),
@@ -164,32 +164,32 @@ const Setting = () => {
         fileInputRef.current?.click();
     };
 
-    const latitude = watch("latitude");
-    const longitude = watch("longitude");
+    // const latitude = watch("latitude");
+    // const longitude = watch("longitude");
 
-    const openGoogleMaps = () => {
-        if (!latitude || !longitude) {
-            window.open(
-                "https://www.google.com/maps",
-                "_blank",
-                "noopener,noreferrer"
-            );
+    // const openGoogleMaps = () => {
+    //     if (!latitude || !longitude) {
+    //         window.open(
+    //             "https://www.google.com/maps",
+    //             "_blank",
+    //             "noopener,noreferrer"
+    //         );
 
-            return;
-        }
+    //         return;
+    //     }
 
-        const url =
-            `https://www.google.com/maps/search/?api=1` +
-            `&query=${encodeURIComponent(
-                `${latitude},${longitude}`
-            )}`;
+    //     const url =
+    //         `https://www.google.com/maps/search/?api=1` +
+    //         `&query=${encodeURIComponent(
+    //             `${latitude},${longitude}`
+    //         )}`;
 
-        window.open(
-            url,
-            "_blank",
-            "noopener,noreferrer"
-        );
-    };
+    //     window.open(
+    //         url,
+    //         "_blank",
+    //         "noopener,noreferrer"
+    //     );
+    // };
 
     const onSubmit = async (formData) => {
         try {

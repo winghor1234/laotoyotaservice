@@ -28,19 +28,24 @@ export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
     const form = useForm({ resolver: zodResolver(cardSchema()), });
     const { register, handleSubmit, setValue, control, formState: { errors }, } = form;
 
+    // Fetch cars function
+    const fetchCars = async () => {
+        try {
+            const res = await axiosInstance.get(
+                APIPath.SELECT_ALL_CAR
+            );
 
+            const carData = res?.data?.data || [];
+            setCars(carData);
+
+        } catch (error) {
+            console.error("Error fetching car:", error);
+        }
+    };
+
+    // Fetch when component mounts
     useEffect(() => {
-        Promise.all([
-            axiosInstance.get(APIPath.SELECT_ALL_CAR),
-        ])
-            .then(([carRes]) => {
-                const carData = carRes?.data?.data || [];
-                setCars(carData);
-            })
-            .catch((error) => {
-                console.error("Error fetching car:", error);
-            })
-
+        fetchCars();
     }, []);
 
     useEffect(() => {
@@ -76,6 +81,7 @@ export const useAddCardForm = ({ onClose, handleFetchCard, }) => {
             if (message == t("card_exist")) { SuccessAlert(message, 1500, "warning") }
             else {
                 handleFetchCard();
+                fetchCars()
                 SuccessAlert(t("add_success"));
                 onClose();
                 setValue("carId", "");
