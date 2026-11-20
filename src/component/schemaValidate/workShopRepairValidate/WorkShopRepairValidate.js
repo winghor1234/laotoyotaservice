@@ -504,18 +504,17 @@ export const useWorkShopRepair = () => {
 
       // console.log("payload : ",payload);
 
-      const res = await axiosInstance.post(
-        APIPath.WORKSHOP_FIX,
-        payload
-      );
-
-      const FixId = res.data.data.fix_id;
-
-      SuccessAlert(t("fix_success"));
-
-      navigate(`/user/workshop-fix-bill-detail/${FixId}`);
-
-      reset();
+      const res = await axiosInstance.post(APIPath.WORKSHOP_FIX, payload);
+      const message = res.data.message == "invoice already exist" ? t("invoice_exist") : t("fix_success");
+      if (message == t("invoice_exist")) { SuccessAlert(message, 1500, "warning") }
+      else {
+        SuccessAlert(message)
+        reset();
+        const FixId = res.data.data.fix_id;
+        SuccessAlert(t("fix_success"));
+        navigate(`/user/workshop-fix-bill-detail/${FixId}`);
+        reset();
+      }
     } catch (error) {
       console.log(error);
     }
