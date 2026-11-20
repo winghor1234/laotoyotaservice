@@ -124,6 +124,10 @@ const WorkShopFixDetail = () => {
                                     <span className="text-gray-400 block md:mb-1">{t("branch_label")}:</span>
                                     <span className="text-gray-800">{branch?.branch?.branch_name || "-"}</span>
                                 </p>
+                                <p className="flex justify-between md:block">
+                                    <span className="text-gray-400 block md:mb-1">{t("taxInvoiceCode")}:</span>
+                                    <span className="text-gray-800">{data?.tax_invoice_code || "-"}</span>
+                                </p>
                             </div>
                         </div>
                     </div>

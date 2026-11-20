@@ -107,12 +107,14 @@ const WorkShopFixList = () => {
                     requiredFields={[
                         "frameNumber",
                         "price",
-                        "point"
+                        "point",
+                        "taxInvoiceCode"
                     ]}
                     transformData={(item) => ({
                         frameNumber: toSafeString(item["frameNumber"]),
                         price: toSafeInt(item["price"]),
                         point: toSafeInt(item["point"]),
+                        tax_invoice_code: toSafeString(item["taxInvoiceCode"]),
                     })}
                     onUploadSuccess={() =>
                         fetchData()
