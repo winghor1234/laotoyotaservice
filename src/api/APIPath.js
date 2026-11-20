@@ -68,6 +68,7 @@ export default class APIPath {
     static CREATE_FIX = `${this.BASE_URL}/fix/insert`;
     static CREATE_SETTING_POINT = `${this.BASE_URL}/fix/setting`;
     static WORKSHOP_FIX = `${this.BASE_URL}/fix/workshop`;
+    static WORKSHOP_FIX_IMPORT = `${this.BASE_URL}/fix/workshopImport`;
     static UPDATE_FIX(id) { return `${this.BASE_URL}/fix/update/${id}` }
     static UPDATE_FIX_STATUS(id) { return `${this.BASE_URL}/fix/updateStatus/${id}` }
     static DELETE_FIX(id) { return `${this.BASE_URL}/fix/delete/${id}` }

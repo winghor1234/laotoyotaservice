@@ -1,6 +1,4 @@
 
-
-
 import { useTranslation } from "react-i18next";
 import CurrencyInput from "react-currency-input-field";
 import { useWorkShopRepair } from "../../component/schemaValidate/workShopRepairValidate/WorkShopRepairValidate";
@@ -218,7 +216,7 @@ const WorkShopFix = ({ show, onClose }) => {
                         </div>
 
                         {/* Labour */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                        {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                             <div className="flex flex-col relative">
                                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("labour_text")}</label>
                                 <CurrencyInput
@@ -271,10 +269,10 @@ const WorkShopFix = ({ show, onClose }) => {
                                     <div className="h-6">{errors.labour_discount && <p className="text-red-500 text-sm">{errors.labour_discount.message}</p>}</div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
                         {/* Part */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                        {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                             <div className="flex flex-col relative">
                                 <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_total_text")}</label>
                                 <CurrencyInput
@@ -326,10 +324,100 @@ const WorkShopFix = ({ show, onClose }) => {
                                     <div className="h-6">{errors.part_discount && <p className="text-red-500 text-sm">{errors.part_discount.message}</p>}</div>
                                 </div>
                             </div>
+                        </div> */}
+
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                            <div className="flex flex-col relative">
+                                <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_total_text")}</label>
+                                <CurrencyInput
+                                    placeholder={t("part_total_placholder")}
+                                    groupSeparator=","
+                                    decimalsLimit={0}
+                                    className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-500 shadow-sm transition-colors pr-12"
+                                    // onValueChange={(value) => setValue("total_price", Number(value) || 0)}
+                                    onValueChange={(value) =>
+                                        setValue("total_price", Number(value) || 0, {
+                                            shouldDirty: true,
+                                            shouldValidate: true,
+                                        })
+                                    }
+                                />
+                                <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
+                                    {currencyText}
+                                </span>
+                                <div className="h-6">{errors.total_price && <p className="text-red-500 text-sm">{errors.total_price.message}</p>}</div>
+                            </div>
+
+                            <div className="flex items-center justify-center gap-4">
+                                <div className="flex flex-col relative">
+                                    <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_point_text")}</label>
+                                    <CurrencyInput
+                                        readOnly
+                                        value={Number(watch("total_point") || 0)}
+                                        groupSeparator=","
+                                        decimalsLimit={0}
+                                        className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none shadow-sm pr-12"
+                                    />
+                                    <span className="absolute right-4 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">
+                                        {t("point_text")}
+                                    </span>
+                                    <div className="h-6">{errors.total_point && <p className="text-red-500 text-sm">{errors.total_point.message}</p>}</div>
+                                </div>
+                                <div className="flex flex-col relative">
+                                    <label className="mb-1 text-gray-600 text-sm sm:text-base">{t("part_discount_text")}</label>
+                                    <CurrencyInput
+                                        value={watch("discount")}
+                                        placeholder={t("part_discount_placholder")}
+                                        decimalsLimit={0}
+                                        className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 rounded-lg text-base sm:text-lg outline-none hover:border-red-500 focus:border-red-500 shadow-sm transition-colors pr-12"
+                                        onKeyDown={(e) => {
+                                            const input = e.currentTarget;
+                                            if (["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(e.key)) return;
+                                            const selected = input.value.substring(input.selectionStart, input.selectionEnd);
+                                            if (selected.length > 0) return;
+                                            const rawValue = input.value.replace(/,/g, "");
+                                            if (rawValue.length >= 2) e.preventDefault();
+                                        }}
+                                        // onValueChange={(value) => setValue("discount", value ? Number(value) : 0)}
+                                        onValueChange={(value) =>
+                                            setValue("discount", value ? Number(value) : 0, {
+                                                shouldDirty: true,
+                                                shouldValidate: true,
+                                            })
+                                        }
+                                    />
+                                    <span className="absolute right-2 inset-y-0 translate-y-1 flex items-center text-gray-500 text-base sm:text-lg">%</span>
+                                    <div className="h-6">{errors.discount && <p className="text-red-500 text-sm">{errors.discount.message}</p>}</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {/* Total LAK */}
+                        <div className="flex flex-col relative">
+                            <h2 className="text-xl text-gray-600">{t("total_price_lak")}</h2>
+                            {/* <CurrencyInput
+                                readOnly
+                                value={watch("total_price_lak")}
+                                groupSeparator=","
+                                decimalsLimit={0}
+                                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none"
+                            /> */}
+                            <CurrencyInput
+                                readOnly
+                                value={watch("total_price_lak") || 0}
+                                groupSeparator=","
+                                decimalsLimit={0}
+                                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none"
+                            />
+                            <span className="absolute right-4 inset-y-0 flex items-center text-gray-500 text-base sm:text-lg">
+                                {t("kip_text")}
+                            </span>
                         </div>
 
                         {/* total Point */}
-                        <div className="flex flex-col relative">
+                        {/* <div className="flex flex-col relative">
                             <h2 className="text-xl text-gray-600">{t("totalPoint")}</h2>
                             <CurrencyInput
                                 readOnly
@@ -341,22 +429,7 @@ const WorkShopFix = ({ show, onClose }) => {
                             <span className="absolute right-4 inset-y-0 translate-y-3 flex items-center text-gray-500 text-base sm:text-lg">
                                 {t("point_text")}
                             </span>
-                        </div>
-
-                        {/* Total LAK */}
-                        <div className="flex flex-col relative">
-                            <h2 className="text-xl text-gray-600">{t("total_price_lak")}</h2>
-                            <CurrencyInput
-                                readOnly
-                                value={watch("total_price_lak")}
-                                groupSeparator=","
-                                decimalsLimit={0}
-                                className="w-full py-3 sm:py-4 px-4 sm:px-6 border border-gray-300 bg-gray-100 cursor-not-allowed rounded-lg text-base sm:text-lg outline-none"
-                            />
-                            <span className="absolute right-4 inset-y-0 flex items-center text-gray-500 text-base sm:text-lg">
-                                {t("kip_text")}
-                            </span>
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Buttons */}

@@ -103,22 +103,16 @@ const WorkShopFixList = () => {
                     </button>
                 </div>
                 <ImportExcel
-                    apiPath={APIPath.WORKSHOP_FIX}
+                    apiPath={APIPath.WORKSHOP_FIX_IMPORT}
                     requiredFields={[
                         "frameNumber",
-                        "kmLast",
-                        "kmNext",
-                        "labourTotal",
-                        "partTotal",
-                        "taxInvoiceCode",
+                        "price",
+                        "point"
                     ]}
                     transformData={(item) => ({
                         frameNumber: toSafeString(item["frameNumber"]),
-                        kmLast: toSafeInt(item["kmLast"]),
-                        kmNext: toSafeInt(item["kmNext"]),
-                        labour_total: toSafeInt(item["labourTotal"]),
-                        part_total: toSafeInt(item["partTotal"]),
-                        tax_invoice_code: toSafeString(item["taxInvoiceCode"]),
+                        price: toSafeInt(item["price"]),
+                        point: toSafeInt(item["point"]),
                     })}
                     onUploadSuccess={() =>
                         fetchData()
@@ -141,7 +135,7 @@ const WorkShopFixList = () => {
                 </div>
 
                 {/* Desktop/Tablet Body */}
-                <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[400px]">
+                <div className="hidden md:block divide-y divide-gray-200 overflow-auto max-h-[600px]">
                     {fix?.filter((item) => item.bookingId === null).map((item, index) => (
                         <div key={index} className="grid grid-cols-7 gap-2 md:gap-4 px-3 md:px-4 lg:px-6 py-3 md:py-4 items-center hover:bg-gray-50 transition-colors cursor-pointer text-xs md:text-sm lg:text-base">
                             <div className="flex items-center gap-2 md:gap-3">

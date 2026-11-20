@@ -44,8 +44,7 @@ const WorkShopFixDetail = () => {
 
     // if (loading) return <div className="flex justify-center p-10 text-red-600">{t("loading")}...</div>;
 
-    const totalPrice = (data?.labour_total || 0) + (data?.part_total || 0);
-    const totalPoint = Number(data?.labour_point || 0) + Number(data?.part_point || 0);
+
 
     return (
         <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -154,40 +153,18 @@ const WorkShopFixDetail = () => {
                         <table className="w-full text-sm border-collapse">
 
                             <tbody className="text-gray-700">
-
-                                {/* ================= PRICE ================= */}
-                                <tr className="border-b border-gray-100">
-                                    <td className="py-2">{t("fixCarPrice")}</td>
-                                    <td className="py-2 w-24 text-left font-mono">
-                                        {FormatNumber(data?.labour_total)} {t("kip")}
-                                    </td>
-                                </tr>
-
-                                <tr className="border-b border-gray-100 ">
-                                    <td className="py-2 ">{t("carPartPrice")}</td>
-                                    <td className="py-2 w-24 text-left font-mono ">
-                                        {FormatNumber(data?.part_total)} {t("kip")}
-                                    </td>
-                                </tr>
-
-                                {/* spacer */}
+                                {/* ================= TOTAL PRICE ================= */}
                                 <tr>
-                                    <td colSpan={2} className="h-2"></td>
-                                </tr>
-
-                                {/* ================= POINT ================= */}
-                                <tr>
-                                    <td className="py-2">{t("labour_point-placholder")}</td>
-                                    <td className="py-2 w-24 text-left font-mono">
-                                        {Number(data?.labour_point || 0)
-                                    } {t("point_text")}
+                                    <td className="pt-3 text-green-600 uppercase tracking-tight text-lg font-medium">
+                                        {t("totalPrice")}
                                     </td>
-                                </tr>
-
-                                <tr className="border-b border-gray-100">
-                                    <td className="py-2">{t("part_point-placholder")}</td>
-                                    <td className="py-2 w-24 text-left font-mono">
-                                        {Number(data?.part_point || 0)} {t("point_text")}
+                                    <td className="pt-3 w-24 text-left">
+                                        <span className="text-xl text-green-600 font-mono font-semibold">
+                                            {FormatNumber(data?.totalPrice || 0)}
+                                        </span>
+                                        <span className="ml-1 text-green-600 font-medium">
+                                            {t("kip")}
+                                        </span>
                                     </td>
                                 </tr>
 
@@ -200,24 +177,10 @@ const WorkShopFixDetail = () => {
                                     </td>
                                     <td className="pt-3 w-24 text-left">
                                         <span className="text-md text-green-600 font-mono font-semibold">
-                                            {totalPoint}
+                                            {data?.part_point || 0}
                                         </span>
                                         <span className="ml-1 text-green-600 font-medium">
                                             {t("point_text")}
-                                        </span>
-                                    </td>
-                                </tr>
-                                {/* ================= TOTAL PRICE ================= */}
-                                <tr>
-                                    <td className="pt-3 text-green-600 uppercase tracking-tight text-lg font-medium">
-                                        {t("totalPrice")}
-                                    </td>
-                                    <td className="pt-3 w-24 text-left">
-                                        <span className="text-xl text-green-600 font-mono font-semibold">
-                                            {FormatNumber(totalPrice)}
-                                        </span>
-                                        <span className="ml-1 text-green-600 font-medium">
-                                            {t("kip")}
                                         </span>
                                     </td>
                                 </tr>

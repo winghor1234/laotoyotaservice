@@ -43,6 +43,7 @@ const FixBillDetail = () => {
         }
     };
 
+
     useEffect(() => {
         if (id) {
             fetchData();
@@ -85,171 +86,217 @@ const FixBillDetail = () => {
     const totalPoint = Number(data?.labour_point || 0) + Number(data?.part_point || 0);
 
 
+
     return (
-        <div
-            className=" relative h-auto px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8 max-w-4xl mx-auto rounded-2xl shadow-md"
-            style={{ backgroundColor: "#f9fafb" }}
-        >
-            {/* ปุ่มย้อนกลับ */}
-            <div className="flex justify-between items-center mb-4">
-                <button
-                    onClick={() => navigate('/user/workshop-fix')}
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl text-gray-700 transition-colors"
-                    style={{ backgroundColor: "#e5e7eb" }}
-                    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#d1d5db")}
-                    onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#e5e7eb")}
-                >
-                    <FaArrowLeft />
-                    {t("back")}
-                </button>
-                <button
-                    onClick={handleExportPDF}
-                    className="flex items-center gap-2 text-white px-4 py-2 rounded-xl transition-colors"
-                    style={{ backgroundColor: "#16a34a" }}
-                    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#15803d")}
-                    onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#16a34a")}
-                >
-                    <FaFileInvoiceDollar />
-                    {t("exportPDF")}
-                </button>
-            </div>
+        <div className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-4xl">
 
-            <hr className="border-gray-300 border mb-4" />
-
-            {/* เนื้อหาบิล */}
-            <div ref={billRef} className="p-6 rounded-xl" style={{ backgroundColor: "#ffffff", boxShadow: "0 1px 2px rgba(0,0,0,0.1)" }}>
-                <div className="flex justify-center mb-2">
-                    {/* <img src={logo} alt="logo" style={{ width: "80px" }} /> */}
-                    <FaCheckCircle className="text-green-500 h-7 w-7 shrink-0" />
-                </div>
-
-                <h2 className="text-center text-2xl font-semibold mb-4">
-                    {t("billTitle")}
-                </h2>
-
-
-                <div className="mb-4 text-sm flex justify-between items-start" style={{ color: "#4b5563" }}>
-                    <div>
-                        {/* <div><strong>{t("branch_label")}</strong>: {data?.branch?.branch_name}</div> */}
-                        <div><strong>{t("branch_label")}</strong>: {branch?.branch?.branch_name}</div>
-                    </div>
-                    <div>
-                        <p>{t("date_bill")}: {formatDates(data?.invoice_date)}</p>
-                        <p>{t("billId")}: {data?.invoice_number}</p>
-                        <p>{t("tax_invoice")}: {data?.tax_invoice_code}</p>
-
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm" style={{ color: "#374151" }}>
-                    <div><strong>{t("customerName")}</strong>: {data?.card?.user?.username}</div>
-                    <div><strong>{t("phone")}</strong>: {data?.card?.user?.phoneNumber}</div>
-                    <div><strong>{t("plateNumber")}</strong>: {data?.card?.car?.plateNumber}</div>
-                    <div><strong>{t("carModel")}</strong>: {data?.card?.car?.model}</div>
-                    <div><strong>{t("zone_label")}</strong>: {data?.card?.car?.engineNumber}</div>
-                    {/* <div><strong>{t("zone_label")}</strong>: kkkk</div> */}
-                    <div><strong>{t("date_label")}</strong>: {formatDates(data?.createdAt)}</div>
-                </div>
-
-                <div className="mt-6">
-                    <h3 className="font-semibold mb-2" style={{ color: "#374151" }}>{t("fixDetail")}</h3>
-                    <table style={{ width: "100%", borderCollapse: "collapse", border: "1px solid #d1d5db", fontSize: "0.875rem" }}>
-                        <thead style={{ backgroundColor: "#f3f4f6" }}>
-                            <tr>
-                                <th style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "left" }}>{t("ID")}</th>
-                                <th style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "left" }}>{t("list_bill")}</th>
-                                <th style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>{t("price")}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>1</td>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>
-                                    {t("fixCarPrice")}
-                                </td>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>
-                                    {data?.labour_total?.toLocaleString()}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>2</td>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>
-                                    {t("carPartPrice")}
-                                </td>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>
-                                    {data?.part_total?.toLocaleString()}
-                                </td>
-                            </tr>
-
-                            {/* 🔥 LABOUR POINT */}
-                            <tr>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>3</td>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>
-                                    {t("labour_point-placholder")}
-                                </td>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>
-                                    {Number(data?.labour_point || 0)}
-                                </td>
-                            </tr>
-
-                            {/* 🔥 PART POINT */}
-                            <tr>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>4</td>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem" }}>
-                                    {t("part_point-placholder")}
-                                </td>
-                                <td style={{ border: "1px solid #d1d5db", padding: "0.5rem", textAlign: "right" }}>
-                                    {Number(data?.part_point || 0)}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                {/* total point */}
-                <div className="mt-4 flex justify-end ">
-                    <div className=" w-2/7 " >
-                        <h3 style={{ fontSize: "1rem", fontWeight: "600", color: "#15803d" }}>
-                            {t("totalPoint")}: {totalPoint} {t("point_text")}
-                        </h3>
-                    </div>
-                </div>
-                {/* total price */}
-                <div className="mt-4 flex justify-end">
-                    <div className="w-2/7" >
-                        <h3 style={{ fontSize: "1rem", fontWeight: "600", color: "#15803d" }}>
-                            {t("totalPrice")}: {FormatNumber(data?.labour_total + data?.part_total)} {t("kip")}
-                        </h3>
-                    </div>
-                </div>
-
-                <p className="text-center text-sm mt-6" style={{ color: "#6b7280" }}>
-                    {t("thanks_message")} 🙏
-                </p>
-                {/* Action Button */}
-                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                {/* Action Header */}
+                <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
                     <button
                         onClick={() => navigate("/user/workshop-fix")}
-                        style={btnGreen}
+                        className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 hover:border-slate-300"
                     >
-                        {t("complete_fix")}
+                        <FaArrowLeft />
+                        {t("back")}
                     </button>
+
+                    <button
+                        onClick={handleExportPDF}
+                        className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700 active:scale-95"
+                    >
+                        <FaFileInvoiceDollar />
+                        {t("exportPDF")}
+                    </button>
+                </div>
+
+                {/* Invoice Card */}
+                <div
+                    ref={billRef}
+                    className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+                >
+                    {/* Success Header */}
+                    <div className="border-b border-slate-100 px-6 py-8 text-center sm:px-10">
+                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-green-50">
+                            <FaCheckCircle className="h-8 w-8 text-green-600" />
+                        </div>
+
+                        <h2 className="text-2xl font-bold tracking-tight text-slate-800 sm:text-3xl">
+                            {t("billTitle")}
+                        </h2>
+
+                        <p className="mt-2 text-sm text-green-600 font-medium">
+                            {t("complete_fix")}
+                        </p>
+                    </div>
+
+                    <div className="space-y-8 p-6 sm:p-10">
+
+                        {/* Invoice Information */}
+                        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                            <div className="space-y-2">
+                                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                                    {t("branch_label")}
+                                </p>
+                                <p className="text-base font-semibold text-slate-800">
+                                    {branch?.branch?.branch_name || "-"}
+                                </p>
+                            </div>
+
+                            <div className="grid grid-cols-1 gap-3 text-sm sm:text-right">
+                                <div className="flex justify-between gap-4 sm:justify-end">
+                                    <span className="text-slate-500">{t("date_bill")}</span>
+                                    <span className="font-medium text-slate-800">
+                                        {formatDates(data?.invoice_date)}
+                                    </span>
+                                </div>
+
+                                <div className="flex justify-between gap-4 sm:justify-end">
+                                    <span className="text-slate-500">{t("billId")}</span>
+                                    <span className="font-semibold text-slate-800">
+                                        {data?.invoice_number || "-"}
+                                    </span>
+                                </div>
+
+                                <div className="flex justify-between gap-4 sm:justify-end">
+                                    <span className="text-slate-500">{t("tax_invoice")}</span>
+                                    <span className="font-medium text-slate-800">
+                                        {data?.tax_invoice_code || "-"}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Divider */}
+                        <div className="border-t border-dashed border-slate-200" />
+
+                        {/* Customer & Vehicle Information */}
+                        <div>
+                            <div className="mb-4 flex items-center gap-2">
+                                <div className="h-5 w-1 rounded-full bg-green-500" />
+                                <h3 className="text-base font-bold text-slate-800">
+                                    {t("customerName")}
+                                </h3>
+                            </div>
+
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                                {[
+                                    {
+                                        label: t("customerName"),
+                                        value: data?.card?.user?.username,
+                                    },
+                                    {
+                                        label: t("phone"),
+                                        value: data?.card?.user?.phoneNumber,
+                                    },
+                                    {
+                                        label: t("plateNumber"),
+                                        value: data?.card?.car?.plateNumber,
+                                    },
+                                    {
+                                        label: t("carModel"),
+                                        value: data?.card?.car?.model,
+                                    },
+                                    {
+                                        label: t("zone_label"),
+                                        value: data?.card?.car?.engineNumber,
+                                    },
+                                    {
+                                        label: t("date_label"),
+                                        value: formatDates(data?.createdAt),
+                                    },
+                                ].map((item, index) => (
+                                    <div
+                                        key={index}
+                                        className="rounded-xl border border-slate-100 bg-slate-50 p-4"
+                                    >
+                                        <p className="mb-1 text-xs font-medium text-slate-400">
+                                            {item.label}
+                                        </p>
+                                        <p className="break-words text-sm font-semibold text-slate-800">
+                                            {item.value || "-"}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Payment Summary */}
+                        <div className="rounded-2xl border border-green-100 bg-green-50/50 p-5 sm:p-6">
+                            {/* <h3 className="mb-5 text-base font-bold text-slate-800">
+                                {t("totalPrice")}
+                            </h3> */}
+
+                            <div className="space-y-4">
+
+
+
+                                {/* Total Price */}
+                                <div className="flex items-center justify-between gap-4">
+                                    <span className="text-sm font-semibold text-slate-700">
+                                        {t("totalPrice")}
+                                    </span>
+
+                                    <div className="text-right">
+                                        <p className="text-2xl font-bold tracking-tight text-green-700 sm:text-3xl">
+                                            {FormatNumber(
+                                                Number(data?.labour_total || 0) +
+                                                Number(data?.part_total || 0)
+                                            )}
+                                             {" "}{t("kip")}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="border-t border-dashed border-green-200" />
+
+
+                                {/* Total Point */}
+                                <div className="flex items-center justify-between gap-4">
+                                    <span className="text-sm text-slate-600">
+                                        {t("totalPoint")}
+                                    </span>
+
+                                    <span className="text-lg font-bold text-green-700">
+                                        {FormatNumber(totalPoint)} {t("point_text")}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Thank You */}
+                        <div className="border-t border-slate-100 pt-6 text-center">
+                            <p className="text-sm text-slate-500">
+                                {t("thanks_message")} 🙏
+                            </p>
+                        </div>
+
+                        {/* Complete Button */}
+                        <div className="flex justify-center sm:justify-end">
+                            <button
+                                onClick={() => navigate("/user/workshop-fix")}
+                                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-green-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700 active:scale-95 sm:w-auto"
+                            >
+                                <FaCheckCircle />
+                                {t("complete_fix")}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     );
+
 };
 
-const btnGreen = {
-    background: "#16a34a",
-    color: "#fff",
-    padding: "8px 16px",
-    borderRadius: "8px",
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    cursor: "pointer",
-};
+// const btnGreen = {
+//     background: "#16a34a",
+//     color: "#fff",
+//     padding: "8px 16px",
+//     borderRadius: "8px",
+//     display: "flex",
+//     alignItems: "center",
+//     gap: "8px",
+//     cursor: "pointer",
+// };
 
 export default FixBillDetail;
